@@ -36,7 +36,7 @@ public class DataConfig {
         LocalContainerEntityManagerFactoryBean lfb = new LocalContainerEntityManagerFactoryBean();
         lfb.setDataSource(dataSource());
         lfb.setPersistenceProviderClass(HibernatePersistenceProvider.class);
-        lfb.setPackagesToScan("edu.sjsu.cmpe275.rest.pojos");
+        lfb.setPackagesToScan("edu.sjsu.cmpe275.cartpool.pojos");
         lfb.setJpaProperties(hibernateProps());
         return lfb;
     }
