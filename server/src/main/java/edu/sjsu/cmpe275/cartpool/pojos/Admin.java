@@ -1,13 +1,10 @@
 package edu.sjsu.cmpe275.cartpool.pojos;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import javax.persistence.*;
-import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
-@Table(name = "pooler")
-public class Pooler {
+@Table(name = "admin")
+public class Admin {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -21,9 +18,6 @@ public class Pooler {
     @Column(name = "email")
     private String email;
 
-    @Column(name = "password")
-    private String password;
-
     @Column(name = "screenname")
     private String screenname;
 
@@ -33,14 +27,13 @@ public class Pooler {
     @Embedded
     private Address address;
 
-    public Pooler() {
+    public Admin() {
     }
 
-    public Pooler(PoolerBuilder builder) {
+    public Admin(AdminBuilder builder) {
         this.firstname = builder.firstname;
         this.lastname = builder.lastname;
         this.email = builder.email;
-        this.password = builder.password;
         this.screenname = builder.screenname;
         this.nickname = builder.nickname;
         this.address = builder.address;
@@ -78,22 +71,6 @@ public class Pooler {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Address getAddress() {
-        return address;
-    }
-
-    public void setAddress(Address address) {
-        this.address = address;
-    }
-
     public String getScreenname() {
         return screenname;
     }
@@ -110,52 +87,46 @@ public class Pooler {
         this.nickname = nickname;
     }
 
-    public static class PoolerBuilder {
+    public static class AdminBuilder {
         private String firstname;
         private String lastname;
         private String email;
-        private String password;
         private String screenname;
         private String nickname;
         private Address address;
 
-        public PoolerBuilder firstname(String firstname) {
+        public AdminBuilder firstname(String firstname) {
             this.firstname = firstname;
             return this;
         }
 
-        public PoolerBuilder lastname(String lastname) {
+        public AdminBuilder lastname(String lastname) {
             this.lastname = lastname;
             return this;
         }
 
-        public PoolerBuilder email(String email) {
+        public AdminBuilder email(String email) {
             this.email = email;
             return this;
         }
 
-        public PoolerBuilder password(String password) {
-            this.password = password;
-            return this;
-        }
-
-        public PoolerBuilder nickname(String nickname) {
+        public AdminBuilder nickname(String nickname) {
             this.nickname = nickname;
             return this;
         }
 
-        public PoolerBuilder screenname(String screenname) {
-            this.screenname = screenname;
+        public AdminBuilder screenname(String screenname) {
+            this.nickname = screenname;
             return this;
         }
 
-        public PoolerBuilder address(Address address) {
+        public AdminBuilder address(Address address) {
             this.address = address;
             return this;
         }
 
-        public Pooler build() {
-            return new Pooler(this);
+        public Admin build() {
+            return new Admin(this);
         }
     }
 }
