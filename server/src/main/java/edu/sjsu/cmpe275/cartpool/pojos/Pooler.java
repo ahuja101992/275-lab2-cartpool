@@ -27,8 +27,12 @@ public class Pooler {
     @Column(name = "nickname")
     private String nickname;
 
+    @Column(name = "is_verified")
+    private boolean is_verified;
+
     @Embedded
     private Address address;
+
 
     public Pooler() {
     }
@@ -105,6 +109,14 @@ public class Pooler {
 
     public void setNickname(String nickname) {
         this.nickname = nickname;
+    }
+
+    public boolean getIs_verified() {
+        return is_verified;
+    }
+
+    public void setIs_verified(boolean is_verified) {
+        this.is_verified = is_verified;
     }
 
     public static class PoolerBuilder {

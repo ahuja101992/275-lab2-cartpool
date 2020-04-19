@@ -21,6 +21,8 @@ public class WebConfig implements WebMvcConfigurer {
                 ignoreAcceptHeader(true).
                 favorParameter(true).
                 parameterName("format").
+                favorParameter(false).
+                favorPathExtension(false).
                 defaultContentType(MediaType.APPLICATION_JSON).
                 mediaType("xml", MediaType.APPLICATION_XML).
                 mediaType("json", MediaType.APPLICATION_JSON);
@@ -39,7 +41,6 @@ public class WebConfig implements WebMvcConfigurer {
         props.put("mail.transport.protocol", "smtp");
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.debug", "true");
 
         return mailSender;
     }

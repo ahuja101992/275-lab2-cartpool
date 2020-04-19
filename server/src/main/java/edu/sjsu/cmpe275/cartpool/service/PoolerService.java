@@ -33,4 +33,11 @@ public class PoolerService {
     public Pooler save(Pooler pooler) {
         return poolerRepository.save(pooler);
     }
+
+    @Transactional
+    public Pooler verify(String email) {
+        Pooler pooler = poolerRepository.findByEmail(email);
+        pooler.setIs_verified(true);
+        return poolerRepository.save(pooler);
+    }
 }
