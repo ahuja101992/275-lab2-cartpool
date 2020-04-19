@@ -35,28 +35,28 @@ public class AccountController {
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             method = RequestMethod.POST)
     public @ResponseBody
-    ResponseEntity<Pooler> signUp(@RequestParam String screenname,
-                                  @RequestParam String nickname,
+    ResponseEntity<Pooler> signUp(@RequestParam String screenName,
+                                  @RequestParam String nickName,
                                   @RequestParam String email,
                                   @RequestParam(required = false) String password) {
 
-        if (screenname != null) screenname = screenname.trim();
-        if (nickname != null) nickname = nickname.trim();
+        if (screenName != null) screenName = screenName.trim();
+        if (nickName != null) nickName = nickName.trim();
         if (email != null) email = email.trim();
 
         if (UtilFunctions.isAdmin(email)) {
             //Create admin
             Admin admin = new Admin.AdminBuilder()
-                    .screenname(screenname)
-                    .nickname(nickname)
+                    .screenname(screenName)
+                    .nickname(nickName)
                     .email(email)
                     .build();
             return ResponseEntity.status(HttpStatus.OK).body(null);
         } else {
             //Create pooler
             Pooler pooler = new Pooler.PoolerBuilder()
-                    .screenname(screenname)
-                    .nickname(nickname)
+                    .screenname(screenName)
+                    .nickname(nickName)
                     .email(email)
                     .password(password)
                     .build();
