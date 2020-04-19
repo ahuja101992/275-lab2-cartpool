@@ -1,6 +1,5 @@
 package edu.sjsu.cmpe275.cartpool.controller;
 
-import edu.sjsu.cmpe275.cartpool.pojos.Address;
 import edu.sjsu.cmpe275.cartpool.pojos.Admin;
 import edu.sjsu.cmpe275.cartpool.pojos.Pooler;
 import edu.sjsu.cmpe275.cartpool.service.PoolerService;

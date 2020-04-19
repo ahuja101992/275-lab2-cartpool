@@ -1,9 +1,6 @@
 package edu.sjsu.cmpe275.cartpool.pojos;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import javax.persistence.*;
-import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @Table(name = "pooler")
