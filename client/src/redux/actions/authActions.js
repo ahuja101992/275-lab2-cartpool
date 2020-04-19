@@ -8,7 +8,7 @@ export function signIn(payload) {
     console.log(payload);
 
     return (dispatch) => {
-        axios.post(`http://${HOSTNAME}:8080/api/v1/user/login`, payload)
+        axios.post(`http://${HOSTNAME}:8080/account/login`, null, {params: payload})
             .then((response) => dispatch(signInDispatch(response.data)))
             .catch((err) => dispatch(signInErrorDispatch(err)));
     }
@@ -32,7 +32,7 @@ export function signUp(payload) {
     console.log(payload);
 
     return (dispatch) => {
-        axios.post(`http://${HOSTNAME}:8080/api/v1/user/register`, payload)
+        axios.post(`http://${HOSTNAME}:8080/account/signup`, null, {params: payload})
             .then((response) => dispatch(signUpDispatch(response.data)));
     }
 }

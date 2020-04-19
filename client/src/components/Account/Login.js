@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import logo from '../../static/images/login_twitter_logo.png';
+//import logo from '../../static/images/login_twitter_logo.png';
+import logo from '../../images/cart.png';
 import { signIn } from "../../redux/actions/authActions";
 import { connect } from "react-redux";
 import { Button, Form, Toast } from "react-bootstrap";
@@ -47,13 +48,10 @@ class Login extends Component {
                 {this.state.redirectVar === true && <Redirect to={{
                     pathname: "/signup"
                 }} />}
-                {this.props.signinSuccess === true && localStorage.getItem('userActive') !== 'false' && <Redirect to={{
-                    pathname: "/home"
+                {this.props.signinSuccess === true  && <Redirect to={{
+                        pathname: "/home"
                 }} />}
-                {
-                    this.props.signinSuccess === true && localStorage.getItem('userActive') === 'false' && <Redirect to={{
-                        pathname: "/reactivate"
-                    }} />}
+
                 {this.props.signinSuccess === false &&
                     <Toast>
                         <Toast.Header>
@@ -66,12 +64,12 @@ class Login extends Component {
                 <div>
                     <img style={styles.logo} src={logo} alt="Quora" />
                 </div>
-                <h3 style={styles.message}>Log in to Twitter</h3>
+                <h3 style={styles.message}>Log in to CartPool</h3>
                 <Form onSubmit={this.signIn}>
                     <div style={styles.email}>
-                        <Form.Group controlId="username">
-                            <Form.Label>Username</Form.Label>
-                            <Form.Control placeholder="Enter your username" required />
+                        <Form.Group controlId="email">
+                            <Form.Label>Email</Form.Label>
+                            <Form.Control placeholder="Enter your email" required />
                         </Form.Group>
                     </div>
 
@@ -89,7 +87,7 @@ class Login extends Component {
 
                     <div style={styles.signUpBox}>
                         <Form.Row>
-                            <Form.Label style={{ paddingTop: 10, paddingRight: 5 }}>New to Twitter?</Form.Label>
+                            <Form.Label style={{ paddingTop: 10, paddingRight: 5 }}>New to CartPool?</Form.Label>
 
                             <Button style={styles.signUpButton} variant="primary" onClick={() => this.setState({ redirectVar: true })}>
                                 Sign up
