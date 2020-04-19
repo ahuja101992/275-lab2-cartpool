@@ -8,13 +8,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
+@Component
 @RestController
 public class AccountController {
     @Autowired
     PoolerService poolerService;
 
+    public String test() {
+        return "Hello Test";
+    }
+
+    @RequestMapping(value = "/ok", method = RequestMethod.GET)
+    public @ResponseBody
+    String ok() {
+        System.out.println("Inside ok");
+        return test();
+    }
 
     @RequestMapping(value = "/account/signup",
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
