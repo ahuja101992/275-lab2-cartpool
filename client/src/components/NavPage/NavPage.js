@@ -4,7 +4,15 @@ import { Redirect } from 'react-router';
 class NavPage extends Component {
     render() {
         return (
-            <Redirect to="/home"/>
+            <div>
+                {localStorage.getItem("id") === null &&
+                <Redirect to={{
+                    pathname: "/login"
+                }} />}
+                {localStorage.getItem("type") === "admin" ? <Redirect to="/homeAdmin"/> : <Redirect to="/homePooler"/>}
+
+            </div>
+
         );
     };
 }

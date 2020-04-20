@@ -14,12 +14,13 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-class HelpPage extends Component {
+class Stores extends Component {
     constructor(props) {
         super(props);
         this.state = {
             redirectVar: null,
             selectedOrder: null,
+            currentStoreEditIndex: null,
             show: false,
             allOrders: [{_id: 1, name: "foo", street: "1SM", city: "SJ", state: "CA", zip: "95113"},
                 {_id: 2, name: "bar", street: "2SM", city: "SF", state: "CA", zip: "98122"}]
@@ -29,7 +30,10 @@ class HelpPage extends Component {
     }
 
     handleClose = () => this.setState({show: false});
-    handleShow = () => this.setState({show: true});
+    handleShow = (index) => {
+        console.log("handleShow index: " + index);
+        this.setState({show: true, currentStoreEditIndex: index})
+    };
 
     goToChat = (order) => {
         console.log("goToChat")
@@ -68,7 +72,7 @@ class HelpPage extends Component {
                             <b>Store Address</b> - {order.street + " " + order.city + " " + order.state + " " + order.zip}
 
                         </Card.Text>
-                        <Button onClick={() => this.handleShow()} type="button" variant="primary">Edit</Button>
+                        <Button onClick={() => this.handleShow(index)} type="button" variant="primary">Edit</Button>
                         <br/>
                         <br/>
                         <Button onClick={() => this.goToChat(order)} type="button" variant="primary">Delete</Button>
@@ -100,26 +104,22 @@ class HelpPage extends Component {
 
                         <Form.Group controlId="name">
                             <Form.Label>Name</Form.Label>
-                            <Form.Control defaultValue="v" placeholder="Enter a cool screen name" required />
-                        </Form.Group>
-
-                        <Form.Group controlId="nickName" >
-                            <Form.Label>Nickname</Form.Label>
-                            <Form.Control placeholder="Enter a cool nickname" required />
+                            <Form.Control defaultValue={this.state.currentStoreEditIndex !== null ? this.state.allOrders[this.state.currentStoreEditIndex].name : ""}
+                                          placeholder="Enter a cool screen name" required />
                         </Form.Group>
 
                         <Form.Row>
                             <Form.Group as={Col} controlId="city">
                                 <Form.Label>City</Form.Label>
-                                <Form.Control placeholder="City name" required />
+                                <Form.Control defaultValue={this.state.currentStoreEditIndex !== null ? this.state.allOrders[this.state.currentStoreEditIndex].city : ""} placeholder="City name" required />
                             </Form.Group>
                             <Form.Group as={Col} controlId="state">
                                 <Form.Label>State</Form.Label>
-                                <Form.Control placeholder="State name or code" required />
+                                <Form.Control defaultValue={this.state.currentStoreEditIndex !== null ? this.state.allOrders[this.state.currentStoreEditIndex].state : ""} placeholder="State name or code" required />
                             </Form.Group>
                             <Form.Group as={Col} controlId="zipcode">
                                 <Form.Label>Zipcode</Form.Label>
-                                <Form.Control placeholder="12345 or 12345-6789" required />
+                                <Form.Control defaultValue={this.state.currentStoreEditIndex !== null ? this.state.allOrders[this.state.currentStoreEditIndex].zip : ""} placeholder="12345 or 12345-6789" required />
                             </Form.Group>
                         </Form.Row>
                     </Form>
@@ -166,4 +166,4 @@ const styles = {
     },
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(HelpPage);
+export default connect(mapStateToProps, mapDispatchToProps)(Stores);

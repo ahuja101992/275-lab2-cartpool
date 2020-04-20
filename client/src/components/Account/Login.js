@@ -49,7 +49,7 @@ class Login extends Component {
                     pathname: "/signup"
                 }} />}
                 {this.props.signinSuccess === true  && <Redirect to={{
-                        pathname: "/home"
+                        pathname: "/Home"
                 }} />}
 
                 {this.props.signinSuccess === false &&
