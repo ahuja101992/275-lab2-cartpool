@@ -4,6 +4,7 @@ import NavPage from "./NavPage/NavPage";
 import HomePage from "./HomePage";
 import SignUp from "./Account/SignUp";
 import Login from "./Account/Login";
+import Stores from "./InventoryManagement/Stores";
 
 class Main extends Component {
     render() {
@@ -13,6 +14,7 @@ class Main extends Component {
                 <Route exact path="/home" component={HomePage} />
                 <Route exact path="/signup" component={SignUp} />
                 <Route exact path="/login" component={Login}/>
+                <Route exact path="/store" component={Stores} />
             </div>
         );
     }
