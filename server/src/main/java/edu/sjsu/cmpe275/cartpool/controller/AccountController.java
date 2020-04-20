@@ -2,7 +2,7 @@ package edu.sjsu.cmpe275.cartpool.controller;
 
 import edu.sjsu.cmpe275.cartpool.pojos.Admin;
 import edu.sjsu.cmpe275.cartpool.pojos.Pooler;
-import edu.sjsu.cmpe275.cartpool.service.PoolerService;
+import edu.sjsu.cmpe275.cartpool.service.PoolerServiceImpl;
 import edu.sjsu.cmpe275.cartpool.util.UtilFunctions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,7 +18,7 @@ import java.net.URLDecoder;
 @RestController
 public class AccountController {
     @Autowired
-    PoolerService poolerService;
+    PoolerServiceImpl poolerServiceImpl;
 
     public String test() {
         return "Hello Test";
@@ -60,7 +60,7 @@ public class AccountController {
                     .email(email)
                     .password(password)
                     .build();
-            return ResponseEntity.status(HttpStatus.OK).body(poolerService.save(pooler));
+            return ResponseEntity.status(HttpStatus.OK).body(poolerServiceImpl.save(pooler));
         }
     }
 
@@ -74,7 +74,7 @@ public class AccountController {
         if (UtilFunctions.isAdmin(email)) {
             return ResponseEntity.status(HttpStatus.OK).body(null);
         } else {
-            return ResponseEntity.status(HttpStatus.OK).body(poolerService.login(email, password));
+            return ResponseEntity.status(HttpStatus.OK).body(poolerServiceImpl.login(email, password));
         }
 
     }
@@ -93,7 +93,7 @@ public class AccountController {
             if (UtilFunctions.isAdmin(email)) {
                 return ResponseEntity.status(HttpStatus.OK).body(null);
             } else {
-                return ResponseEntity.status(HttpStatus.OK).body(poolerService.verify(email));
+                return ResponseEntity.status(HttpStatus.OK).body(poolerServiceImpl.verify(email));
             }
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
