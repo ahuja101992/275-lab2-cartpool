@@ -1,26 +1,10 @@
 package edu.sjsu.cmpe275.cartpool.controller;
 
-import edu.sjsu.cmpe275.cartpool.exceptions.StoreNotFoundException;
-import edu.sjsu.cmpe275.cartpool.pojos.*;
-import edu.sjsu.cmpe275.cartpool.service.AdminService;
-import edu.sjsu.cmpe275.cartpool.service.PoolerService;
-import edu.sjsu.cmpe275.cartpool.service.StoreService;
-import edu.sjsu.cmpe275.cartpool.util.UtilFunctions;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.*;
-
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-
-
+import edu.sjsu.cmpe275.cartpool.pojos.Address;
 import edu.sjsu.cmpe275.cartpool.pojos.Admin;
-import edu.sjsu.cmpe275.cartpool.pojos.Pooler;
-import edu.sjsu.cmpe275.cartpool.service.PoolerService;
-import edu.sjsu.cmpe275.cartpool.util.UtilFunctions;
+import edu.sjsu.cmpe275.cartpool.pojos.Store;
+import edu.sjsu.cmpe275.cartpool.service.AdminService;
+import edu.sjsu.cmpe275.cartpool.service.StoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -28,8 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.util.List;
 
 @Component
@@ -51,7 +33,7 @@ public class InventoryController {
                                             @RequestParam String state,
                                             @RequestParam String zip,
                                             @RequestParam(required = false) Long storeId,
-                                      @RequestParam Long adminId) {
+                                            @RequestParam Long adminId) {
         Address address = new Address.AddressBuilder()
                 .street(street)
                 .city(city)
@@ -70,7 +52,7 @@ public class InventoryController {
         storeService.createStore(store, adminId);
 
         Admin admin = adminService.findById(adminId);
-        return admin != null ? ResponseEntity.status(HttpStatus.OK).body(admin.getStores())  : null;
+        return admin != null ? ResponseEntity.status(HttpStatus.OK).body(admin.getStores()) : null;
     }
 
     @RequestMapping(value = "/inventory/store/getByAdmin/{adminId}",
@@ -79,7 +61,7 @@ public class InventoryController {
     @ResponseBody
     public ResponseEntity<List<Store>> getStoreByAdmin(@PathVariable Long adminId) {
         Admin admin = adminService.findById(adminId);
-        return admin != null ? ResponseEntity.status(HttpStatus.OK).body(admin.getStores())  : null;
+        return admin != null ? ResponseEntity.status(HttpStatus.OK).body(admin.getStores()) : null;
     }
 
     @RequestMapping(value = "/inventory/store/{storeId}/{adminId}",
@@ -120,8 +102,6 @@ public class InventoryController {
 
         return ResponseEntity.status(HttpStatus.OK).body(storeService.updateStore(store, adminId));
     }
-
-
 
 
 }

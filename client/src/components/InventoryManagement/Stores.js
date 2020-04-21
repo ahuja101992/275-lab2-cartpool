@@ -1,8 +1,7 @@
 import React, {Component} from "react";
-import {Button, Col, Card, Form, Modal} from "react-bootstrap";
+import {Button, Card, Col, Form, Modal} from "react-bootstrap";
 import {connect} from "react-redux";
-import {Redirect} from "react-router";
-import {getStoresByAdmin, createStore, deleteStore} from "../../redux/actions/inventoryActions";
+import {createStore, deleteStore, getStoresByAdmin} from "../../redux/actions/inventoryActions";
 
 function mapStateToProps(store) {
     return {
@@ -106,7 +105,8 @@ class Stores extends Component {
                         <Card.Text>
                             <b>Store Name</b> - {store.name}
                             <br/>
-                            <b>Store Address</b> - {store.address.street + " " + store.address.city + " " + store.address.state + " " + store.address.zip}
+                            <b>Store
+                                Address</b> - {store.address.street + " " + store.address.city + " " + store.address.state + " " + store.address.zip}
 
                         </Card.Text>
                         <Button onClick={() => this.handleShow(index)} type="button" variant="primary">Edit</Button>
@@ -139,31 +139,36 @@ class Stores extends Component {
 
                         <Form.Group controlId="name">
                             <Form.Label>Name</Form.Label>
-                            <Form.Control defaultValue={this.state.currentStoreEditIndex !== null ? this.props.stores[this.state.currentStoreEditIndex].name : ""}
-                                          placeholder="Enter store name" required />
+                            <Form.Control
+                                defaultValue={this.state.currentStoreEditIndex !== null ? this.props.stores[this.state.currentStoreEditIndex].name : ""}
+                                placeholder="Enter store name" required/>
                         </Form.Group>
 
                         <Form.Group controlId="street">
                             <Form.Label>Street</Form.Label>
-                            <Form.Control defaultValue={this.state.currentStoreEditIndex !== null ? this.props.stores[this.state.currentStoreEditIndex].address.street : ""}
-                                          placeholder="Enter store street" required/>
+                            <Form.Control
+                                defaultValue={this.state.currentStoreEditIndex !== null ? this.props.stores[this.state.currentStoreEditIndex].address.street : ""}
+                                placeholder="Enter store street" required/>
                         </Form.Group>
 
                         <Form.Row>
                             <Form.Group as={Col} controlId="city">
                                 <Form.Label>City</Form.Label>
-                                <Form.Control defaultValue={this.state.currentStoreEditIndex !== null ? this.props.stores[this.state.currentStoreEditIndex].address.city : ""}
-                                              placeholder="Enter store city" required />
+                                <Form.Control
+                                    defaultValue={this.state.currentStoreEditIndex !== null ? this.props.stores[this.state.currentStoreEditIndex].address.city : ""}
+                                    placeholder="Enter store city" required/>
                             </Form.Group>
                             <Form.Group as={Col} controlId="state">
                                 <Form.Label>State</Form.Label>
-                                <Form.Control defaultValue={this.state.currentStoreEditIndex !== null ? this.props.stores[this.state.currentStoreEditIndex].address.state : ""}
-                                              placeholder="Enter store state" required />
+                                <Form.Control
+                                    defaultValue={this.state.currentStoreEditIndex !== null ? this.props.stores[this.state.currentStoreEditIndex].address.state : ""}
+                                    placeholder="Enter store state" required/>
                             </Form.Group>
                             <Form.Group as={Col} controlId="zip">
                                 <Form.Label>Zipcode</Form.Label>
-                                <Form.Control defaultValue={this.state.currentStoreEditIndex !== null ? this.props.stores[this.state.currentStoreEditIndex].address.zip : ""}
-                                              placeholder="Enter store zipcode" required />
+                                <Form.Control
+                                    defaultValue={this.state.currentStoreEditIndex !== null ? this.props.stores[this.state.currentStoreEditIndex].address.zip : ""}
+                                    placeholder="Enter store zipcode" required/>
                             </Form.Group>
                         </Form.Row>
 

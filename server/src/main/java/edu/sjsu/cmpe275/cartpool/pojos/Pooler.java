@@ -25,10 +25,13 @@ public class Pooler extends User {
     }
 
     public static class Builder extends User.Builder<Builder> {
-        private boolean sauceInside = false; // Default
+        private final boolean sauceInside = false; // Default
 
-        public Builder() {}
+        public Builder() {
+        }
 
-        public Pooler build() { return new Pooler(this); }
+        public Pooler build() {
+            return new Pooler(this);
+        }
     }
 }

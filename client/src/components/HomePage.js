@@ -1,8 +1,7 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {Nav, Navbar} from "react-bootstrap";
-import {Link, NavLink, Route} from "react-router-dom";
-import { Redirect } from "react-router";
-import logo from "../images/cart.png";
+import {NavLink} from "react-router-dom";
+import {Redirect} from "react-router";
 
 class HomePage extends Component {
     constructor(props) {
@@ -25,7 +24,7 @@ class HomePage extends Component {
                 {localStorage.getItem("id") === null &&
                 <Redirect to={{
                     pathname: "/login"
-                }} />}
+                }}/>}
                 <div>
                     <Navbar>
                         <Nav>

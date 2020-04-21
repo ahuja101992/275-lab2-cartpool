@@ -43,8 +43,11 @@ public class Admin extends User {
     }
 
     public static class Builder extends User.Builder<Admin.Builder> {
-        public Builder() {}
+        public Builder() {
+        }
 
-        public Admin build() { return new Admin(this); }
+        public Admin build() {
+            return new Admin(this);
+        }
     }
 }

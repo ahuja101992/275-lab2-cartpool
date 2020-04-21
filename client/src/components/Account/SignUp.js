@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
-import { Redirect } from 'react-router';
+import React, {Component} from 'react';
+import {Redirect} from 'react-router';
 
 import logo from '../../images/cart.png';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Button, Col, Form, Toast } from "react-bootstrap";
-import { signUp } from "../../redux/actions/authActions";
+import {Button, Form, Toast} from "react-bootstrap";
+import {signUp} from "../../redux/actions/authActions";
 import Expire from "./Expire";
-import { connect } from "react-redux";
+import {connect} from "react-redux";
 
 function mapStateToProps(store) {
     return {
@@ -53,7 +53,7 @@ class SignUp extends Component {
 
 
     callbackFunction = (val) => {
-        this.setState({ redirectVar: val })
+        this.setState({redirectVar: val})
     };
 
     render() {
@@ -61,31 +61,32 @@ class SignUp extends Component {
             <div style={styles.container}>
                 {this.state.redirectVar === true && <Redirect to={{
                     pathname: "/login"
-                }} />}
+                }}/>}
 
-                {this.props.signupSuccess === true && <Expire delay={5000} parentCallback={this.callbackFunction}  >
+                {this.props.signupSuccess === true && <Expire delay={5000} parentCallback={this.callbackFunction}>
                     <Toast>
                         <Toast.Header>
-                            <img src="holder.js/20x20?text=%20" className="rounded mr-2" alt="" />
+                            <img src="holder.js/20x20?text=%20" className="rounded mr-2" alt=""/>
                             <strong className="mr-auto">Notification</strong>
                         </Toast.Header>
-                        <Toast.Body>You have successfully signed-up! You are being redirected to the login page in 5 seconds.</Toast.Body>
+                        <Toast.Body>You have successfully signed-up! You are being redirected to the login page in 5
+                            seconds.</Toast.Body>
                     </Toast>
                 </Expire>}
 
                 {this.state.isAddressCorrect !== null && this.state.isAddressCorrect === false &&
-                    <Toast>
-                        <Toast.Header>
-                            <img src="holder.js/20x20?text=%20" className="rounded mr-2" alt="" />
-                            <strong className="mr-auto">Notification</strong>
-                        </Toast.Header>
-                        <Toast.Body>{this.state.isAddressCorrectMessage}</Toast.Body>
-                    </Toast>
+                <Toast>
+                    <Toast.Header>
+                        <img src="holder.js/20x20?text=%20" className="rounded mr-2" alt=""/>
+                        <strong className="mr-auto">Notification</strong>
+                    </Toast.Header>
+                    <Toast.Body>{this.state.isAddressCorrectMessage}</Toast.Body>
+                </Toast>
                 }
 
 
                 <div>
-                    <img style={styles.logo} src={logo} alt="Quora" />
+                    <img style={styles.logo} src={logo} alt="Quora"/>
                 </div>
 
                 <h3 style={styles.message}>SignUp</h3>
@@ -93,22 +94,22 @@ class SignUp extends Component {
 
                     <Form.Group controlId="screenName">
                         <Form.Label>Screen name</Form.Label>
-                        <Form.Control placeholder="Enter a cool screen name" required />
+                        <Form.Control placeholder="Enter a cool screen name" required/>
                     </Form.Group>
 
                     <Form.Group controlId="nickName">
                         <Form.Label>Nickname</Form.Label>
-                        <Form.Control placeholder="Enter a cool nickname" required />
+                        <Form.Control placeholder="Enter a cool nickname" required/>
                     </Form.Group>
 
                     <Form.Group controlId="email">
                         <Form.Label>Email</Form.Label>
-                        <Form.Control placeholder="What's your email?" required />
+                        <Form.Control placeholder="What's your email?" required/>
                     </Form.Group>
 
                     <Form.Group controlId="password">
                         <Form.Label>Password</Form.Label>
-                        <Form.Control type="password" placeholder="Enter a strong password" required />
+                        <Form.Control type="password" placeholder="Enter a strong password" required/>
                     </Form.Group>
 
                     <Button style={styles.signUpButton} variant="primary" type="submit">

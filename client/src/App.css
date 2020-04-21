@@ -22,23 +22,23 @@
 }
 
 
-#root > div > div > div > div > div.col-lg-3 > div > div > div > button:nth-child(11)
-{
+#root > div > div > div > div > div.col-lg-3 > div > div > div > button:nth-child(11) {
     display: none;
 }
-#root > div > div > div > div > div.col-lg-3 > div > div > div > button:nth-child(8)
-{
+
+#root > div > div > div > div > div.col-lg-3 > div > div > div > button:nth-child(8) {
     display: none;
 }
-#root > div > div > div > div > div.col-lg-3 > div > div > div > button:nth-child(12)
-{
+
+#root > div > div > div > div > div.col-lg-3 > div > div > div > button:nth-child(12) {
     display: none;
 }
-.list-group-item-action:focus, .list-group-item-action:hover{
+
+.list-group-item-action:focus, .list-group-item-action:hover {
     background: transparent !important;
 }
 
-.sc-chat-window{
+.sc-chat-window {
     z-index: 9999 !important;
 }
 
@@ -52,7 +52,7 @@
     overflow: scroll;
 } */
 
-.spinner{
+.spinner {
     height: 100px;
     display: block;
     width: 150px;

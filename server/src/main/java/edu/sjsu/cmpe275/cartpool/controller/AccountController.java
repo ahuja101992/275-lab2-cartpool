@@ -4,7 +4,6 @@ import edu.sjsu.cmpe275.cartpool.pojos.Admin;
 import edu.sjsu.cmpe275.cartpool.pojos.Pooler;
 import edu.sjsu.cmpe275.cartpool.pojos.User;
 import edu.sjsu.cmpe275.cartpool.service.AdminService;
-import edu.sjsu.cmpe275.cartpool.service.PoolerService;
 import edu.sjsu.cmpe275.cartpool.service.PoolerServiceImpl;
 import edu.sjsu.cmpe275.cartpool.util.UtilFunctions;
 import org.springframework.beans.factory.annotation.Autowired;

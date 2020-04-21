@@ -1,6 +1,8 @@
 package edu.sjsu.cmpe275.cartpool.pojos;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Embedded;
+import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
 public class User {
@@ -114,7 +116,8 @@ public class User {
         private String nickname;
         private Address address;
 
-        public Builder() {}
+        public Builder() {
+        }
 
         public T firstname(String firstname) {
             this.firstname = firstname;
@@ -151,6 +154,8 @@ public class User {
             return (T) this;
         }
 
-        public User build() { return new User(this); }
+        public User build() {
+            return new User(this);
+        }
     }
 }

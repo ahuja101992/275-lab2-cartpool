@@ -1,4 +1,4 @@
-import { GET_STORES_BY_ADMIN, CREATE_STORE, DELETE_STORE } from "../../redux/constants/actionTypes";
+import {CREATE_STORE, DELETE_STORE, GET_STORES_BY_ADMIN} from "../../redux/constants/actionTypes";
 
 
 const initialState = {

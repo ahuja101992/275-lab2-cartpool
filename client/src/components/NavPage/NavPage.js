@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { Redirect } from 'react-router';
+import React, {Component} from 'react';
+import {Redirect} from 'react-router';
 
 class NavPage extends Component {
     render() {
@@ -8,7 +8,7 @@ class NavPage extends Component {
                 {localStorage.getItem("id") === null &&
                 <Redirect to={{
                     pathname: "/login"
-                }} />}
+                }}/>}
                 {localStorage.getItem("type") === "admin" ? <Redirect to="/homeAdmin"/> : <Redirect to="/homePooler"/>}
 
             </div>

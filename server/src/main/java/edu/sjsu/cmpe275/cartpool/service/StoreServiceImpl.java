@@ -8,8 +8,6 @@ import edu.sjsu.cmpe275.cartpool.pojos.Store;
 import edu.sjsu.cmpe275.cartpool.repository.AdminRepository;
 import edu.sjsu.cmpe275.cartpool.repository.StoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

@@ -1,11 +1,10 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 //import logo from '../../static/images/login_twitter_logo.png';
 import logo from '../../images/cart.png';
-import { signIn } from "../../redux/actions/authActions";
-import { connect } from "react-redux";
-import { Button, Form, Toast } from "react-bootstrap";
-import { Redirect } from "react-router";
-import Expire from "./Expire";
+import {signIn} from "../../redux/actions/authActions";
+import {connect} from "react-redux";
+import {Button, Form, Toast} from "react-bootstrap";
+import {Redirect} from "react-router";
 
 function mapStateToProps(store) {
     return {
@@ -37,7 +36,7 @@ class Login extends Component {
                 data[e.target[i].id] = e.target[i].value;
             }
         }
-        this.setState({ date: new Date().getTime() })
+        this.setState({date: new Date().getTime()})
         this.props.signIn(data);
     };
 
@@ -47,36 +46,36 @@ class Login extends Component {
             <div style={styles.container}>
                 {this.state.redirectVar === true && <Redirect to={{
                     pathname: "/signup"
-                }} />}
-                {this.props.signinSuccess === true  && <Redirect to={{
-                        pathname: "/Home"
-                }} />}
+                }}/>}
+                {this.props.signinSuccess === true && <Redirect to={{
+                    pathname: "/Home"
+                }}/>}
 
                 {this.props.signinSuccess === false &&
-                    <Toast>
-                        <Toast.Header>
-                            <img src="holder.js/20x20?text=%20" className="rounded mr-2" alt="" />
-                            <strong className="mr-auto">Notification</strong>
-                        </Toast.Header>
-                        <Toast.Body>{this.props.signinMessage}</Toast.Body>
-                    </Toast>}
+                <Toast>
+                    <Toast.Header>
+                        <img src="holder.js/20x20?text=%20" className="rounded mr-2" alt=""/>
+                        <strong className="mr-auto">Notification</strong>
+                    </Toast.Header>
+                    <Toast.Body>{this.props.signinMessage}</Toast.Body>
+                </Toast>}
 
                 <div>
-                    <img style={styles.logo} src={logo} alt="Quora" />
+                    <img style={styles.logo} src={logo} alt="Quora"/>
                 </div>
                 <h3 style={styles.message}>Log in to CartPool</h3>
                 <Form onSubmit={this.signIn}>
                     <div style={styles.email}>
                         <Form.Group controlId="email">
                             <Form.Label>Email</Form.Label>
-                            <Form.Control placeholder="Enter your email" required />
+                            <Form.Control placeholder="Enter your email" required/>
                         </Form.Group>
                     </div>
 
                     <div style={styles.email}>
                         <Form.Group controlId="password">
                             <Form.Label>Password</Form.Label>
-                            <Form.Control type="password" placeholder="Enter your password" required />
+                            <Form.Control type="password" placeholder="Enter your password" required/>
                         </Form.Group>
                     </div>
                     <div>
@@ -87,9 +86,10 @@ class Login extends Component {
 
                     <div style={styles.signUpBox}>
                         <Form.Row>
-                            <Form.Label style={{ paddingTop: 10, paddingRight: 5 }}>New to CartPool?</Form.Label>
+                            <Form.Label style={{paddingTop: 10, paddingRight: 5}}>New to CartPool?</Form.Label>
 
-                            <Button style={styles.signUpButton} variant="primary" onClick={() => this.setState({ redirectVar: true })}>
+                            <Button style={styles.signUpButton} variant="primary"
+                                    onClick={() => this.setState({redirectVar: true})}>
                                 Sign up
                             </Button>
                         </Form.Row>

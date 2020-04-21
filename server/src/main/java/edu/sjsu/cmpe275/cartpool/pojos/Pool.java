@@ -5,11 +5,12 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 
 @Entity
-@Table(name="pool")
+@Table(name = "pool")
 public class Pool {
 
-    @Id @GeneratedValue(generator = "system-uuid")
-    @GenericGenerator(name="system-uuid", strategy = "uuid")
+    @Id
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
     private String id;
 
     @Column(name = "name")
@@ -25,7 +26,7 @@ public class Pool {
     private String zip;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH})
-    @JoinColumn(name="id")
+    @JoinColumn(name = "id")
     private Pooler poolLeader;
 
     public Pool() {

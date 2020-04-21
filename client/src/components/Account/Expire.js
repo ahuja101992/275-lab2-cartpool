@@ -33,7 +33,7 @@ class Expire extends Component {
         }
 
         // hide after `delay` milliseconds
-        this._timer = setTimeout(function() {
+        this._timer = setTimeout(function () {
             this.setState({visible: false});
             this.sendData(true)
             this._timer = null;
@@ -47,8 +47,8 @@ class Expire extends Component {
     render() {
         return (
             this.state.visible
-            ? <div>{this.props.children}</div>
-            : <span />
+                ? <div>{this.props.children}</div>
+                : <span/>
         );
     }
 }

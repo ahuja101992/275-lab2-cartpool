@@ -1,20 +1,24 @@
-.message-row{
+.message-row {
     font-size: 18px;
     font-weight: bold;
     margin-bottom: 20px;
-    margin-top:10px;
+    margin-top: 10px;
 }
-.reactivate-container{
+
+.reactivate-container {
     display: flex;
     align-items: center;
     flex-direction: column;
 }
-.img-logo{
+
+.img-logo {
     padding-top: 10px
 }
-.message-row-text{
+
+.message-row-text {
     margin-bottom: 10px;
 }
-.reactivate-btn-container{
+
+.reactivate-btn-container {
     width: 42%;
 }

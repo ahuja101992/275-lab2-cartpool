@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 
 @Service
-public class PoolServiceImpl implements PoolService{
+public class PoolServiceImpl implements PoolService {
 
     @Autowired
     private PoolRepository poolRepository;
