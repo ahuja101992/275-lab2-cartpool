@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import {Button, Col, Card, Form, Modal} from "react-bootstrap";
 import {connect} from "react-redux";
 import {Redirect} from "react-router";
-import {getStoresByAdmin} from "../../redux/actions/inventoryActions";
+import {getStoresByAdmin, createStore} from "../../redux/actions/inventoryActions";
 
 function mapStateToProps(store) {
     return {
@@ -13,6 +13,7 @@ function mapStateToProps(store) {
 function mapDispatchToProps(dispatch) {
     return {
         getStoresByAdmin: (payload) => dispatch(getStoresByAdmin(payload)),
+        createStore: (payload) => dispatch(createStore(payload)),
     };
 }
 
@@ -36,12 +37,36 @@ class Stores extends Component {
     };
 
     getStoresByAdmin = (order) => {
-        console.log("goToChat")
-        console.log("order")
+        console.log("getStoresByAdmin")
         console.log(order)
         this.setState({redirectVar: true, selectedOrder: order})
     }
 
+    createStore = (e) => {
+        e.preventDefault();
+
+        console.log("Inside createStore")
+
+        const data = {};
+        for (let i = 0; i < e.target.length; i++) {
+            if (e.target[i].id !== "") {
+                data[e.target[i].id] = e.target[i].value;
+            }
+        }
+
+        let updatedData = {
+            name: data.name,
+            street: data.street,
+            city: data.city,
+            state: data.state,
+            zip: data.zip,
+            adminId: localStorage.getItem('id'),
+        }
+
+        console.log(updatedData)
+
+        this.props.createStore(updatedData)
+    }
 
     componentDidMount() {
         const payload = {};
@@ -96,37 +121,56 @@ class Stores extends Component {
                         <Modal.Title>Modal heading</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
-                    <Form onSubmit={() => this.saveStoreEdit()}>
+                    <Form onSubmit={this.createStore}>
 
                         <Form.Group controlId="name">
                             <Form.Label>Name</Form.Label>
                             <Form.Control defaultValue={this.state.currentStoreEditIndex !== null ? this.props.stores[this.state.currentStoreEditIndex].name : ""}
-                                          placeholder="Enter a cool screen name" required />
+                                          placeholder="Enter store name" required />
+                        </Form.Group>
+
+                        <Form.Group controlId="street">
+                            <Form.Label>Street</Form.Label>
+                            <Form.Control defaultValue={this.state.currentStoreEditIndex !== null ? this.props.stores[this.state.currentStoreEditIndex].address.street : ""}
+                                          placeholder="Enter store street" required/>
                         </Form.Group>
 
                         <Form.Row>
                             <Form.Group as={Col} controlId="city">
                                 <Form.Label>City</Form.Label>
-                                <Form.Control defaultValue={this.state.currentStoreEditIndex !== null ? this.props.stores[this.state.currentStoreEditIndex].city : ""} placeholder="City name" required />
+                                <Form.Control defaultValue={this.state.currentStoreEditIndex !== null ? this.props.stores[this.state.currentStoreEditIndex].address.city : ""}
+                                              placeholder="Enter store city" required />
                             </Form.Group>
                             <Form.Group as={Col} controlId="state">
                                 <Form.Label>State</Form.Label>
-                                <Form.Control defaultValue={this.state.currentStoreEditIndex !== null ? this.props.stores[this.state.currentStoreEditIndex].state : ""} placeholder="State name or code" required />
+                                <Form.Control defaultValue={this.state.currentStoreEditIndex !== null ? this.props.stores[this.state.currentStoreEditIndex].address.state : ""}
+                                              placeholder="Enter store state" required />
                             </Form.Group>
-                            <Form.Group as={Col} controlId="zipcode">
+                            <Form.Group as={Col} controlId="zip">
                                 <Form.Label>Zipcode</Form.Label>
-                                <Form.Control defaultValue={this.state.currentStoreEditIndex !== null ? this.props.stores[this.state.currentStoreEditIndex].zip : ""} placeholder="12345 or 12345-6789" required />
+                                <Form.Control defaultValue={this.state.currentStoreEditIndex !== null ? this.props.stores[this.state.currentStoreEditIndex].address.zip : ""}
+                                              placeholder="Enter store zipcode" required />
                             </Form.Group>
                         </Form.Row>
+
+
+
+
+
+                        <Modal.Footer>
+                            <Button variant="secondary" onClick={this.handleClose}>
+                                Close
+                            </Button>
+                            <Button variant="primary" type="submit">
+                                Save changes
+                            </Button>
+                            {/*<Button variant="primary" onClick={this.createStore}>*/}
+                            {/*    Save Changes*/}
+                            {/*</Button>*/}
+
+                        </Modal.Footer>
                     </Form>
-                    <Modal.Footer>
-                        <Button variant="secondary" onClick={this.handleClose}>
-                            Close
-                        </Button>
-                        <Button variant="primary" onClick={this.saveStoreEdit}>
-                            Save Changes
-                        </Button>
-                    </Modal.Footer>
+
                 </Modal>
 
                 {this.populateSection()}

@@ -1,4 +1,4 @@
-import {GET_STORES_BY_ADMIN, SIGN_IN_ERROR, SIGN_UP} from "../../redux/constants/actionTypes";
+import {GET_STORES_BY_ADMIN, CREATE_STORE} from "../../redux/constants/actionTypes";
 import {HOSTNAME} from "../../constants/appConstants";
 
 import axios from 'axios';
@@ -20,3 +20,22 @@ export const getStoresByAdminDispatch = (returnData) => {
 
     return {type: GET_STORES_BY_ADMIN, payload: returnData}
 };
+
+export function createStore(payload) {
+    console.log("signIn payload");
+    console.log(payload);
+
+    return (dispatch) => {
+        axios.post(`http://${HOSTNAME}:8080/inventory/store`, null, {params: payload})
+            .then((response) => dispatch(createStoreDispatch(response.data)))
+            .catch((err) => console.log(err));
+    }
+}
+
+export const createStoreDispatch = (returnData) => {
+    console.log("Inside signInDispatch");
+    console.log(returnData);
+
+    return {type: CREATE_STORE, payload: returnData}
+};
+
