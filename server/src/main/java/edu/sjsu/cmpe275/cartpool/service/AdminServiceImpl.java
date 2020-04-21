@@ -8,9 +8,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
 @Service
-public interface AdminService {
-    public Admin findById(Long id) throws Exception;
-    public Admin save(Admin admin);
+public class AdminServiceImpl implements AdminService {
+    @Autowired
+    AdminRepository<Pooler> adminRepository;
+
+    @Transactional
+    public Admin findById(Long id) throws Exception {
+        return adminRepository.findById(id).orElseThrow(() -> new Exception(""));
+    }
+
+    @Transactional
+    public Admin save(Admin admin) {
+        return adminRepository.save(admin);
+    }
 }

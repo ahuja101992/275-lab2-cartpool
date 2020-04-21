@@ -94,6 +94,9 @@ class Stores extends Component {
                     pathname: "/homeBuyer/chat",
                     state: {selectedOrder: this.state.selectedOrder}
                 }}/>}
+                <Button variant="primary" onClick={() => this.handleShow(null)}>
+                    Create new store
+                </Button>
 
                 <Modal show={this.state.show} onHide={this.handleClose}>
                     <Modal.Header closeButton>
@@ -132,6 +135,7 @@ class Stores extends Component {
                         </Button>
                     </Modal.Footer>
                 </Modal>
+
                 {this.populateSection()}
             </div>
         );
