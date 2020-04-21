@@ -10,6 +10,7 @@ export const GET_LIKED_TWEETS = "GET_LIKED_TWEETS";
 export const SIGN_UP = "SIGN_UP";
 export const SIGN_IN = "SIGN_IN";
 export const SIGN_IN_ERROR = "SIGN_IN_ERROR";
+export const GET_STORES_BY_ADMIN = "GET_STORES_BY_ADMIN";
 export const FETCH_LOGIN = "FETCH_LOGIN";//sample constant
 export const GET_TOP_TEN_TWEETS_BY_VIEWS = "GET_TOP_TEN_TWEETS_BY_VIEWS";
 export const GET_TOP_TEN_TWEETS_BY_LIKES = "GET_TOP_TEN_TWEETS_BY_LIKES";

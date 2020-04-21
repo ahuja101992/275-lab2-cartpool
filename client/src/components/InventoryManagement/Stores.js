@@ -2,15 +2,17 @@ import React, {Component} from "react";
 import {Button, Col, Card, Form, Modal} from "react-bootstrap";
 import {connect} from "react-redux";
 import {Redirect} from "react-router";
+import {getStoresByAdmin} from "../../redux/actions/inventoryActions";
 
 function mapStateToProps(store) {
     return {
-        //allOrders: store.restaurant.allOrders,
+        stores: store.inventory.stores,
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
+        getStoresByAdmin: (payload) => dispatch(getStoresByAdmin(payload)),
     };
 }
 
@@ -25,8 +27,6 @@ class Stores extends Component {
             allOrders: [{_id: 1, name: "foo", street: "1SM", city: "SJ", state: "CA", zip: "95113"},
                 {_id: 2, name: "bar", street: "2SM", city: "SF", state: "CA", zip: "98122"}]
         };
-
-        this.goToChat = this.goToChat.bind(this);
     }
 
     handleClose = () => this.setState({show: false});
@@ -35,28 +35,25 @@ class Stores extends Component {
         this.setState({show: true, currentStoreEditIndex: index})
     };
 
-    goToChat = (order) => {
+    getStoresByAdmin = (order) => {
         console.log("goToChat")
         console.log("order")
         console.log(order)
         this.setState({redirectVar: true, selectedOrder: order})
     }
 
-    saveStoreEdit = () => {
-        console.log("saveStoreEdit")
-    }
 
     componentDidMount() {
         const payload = {};
-        payload.userId = localStorage.getItem('_id');
-        payload.statusCode = "All";
+        payload.adminId = localStorage.getItem('id');
 
+        this.props.getStoresByAdmin(payload)
     }
 
     populateSection = () => {
         console.log("populateSection");
 
-        const renderTodos = this.state.allOrders.map((order, index) => {
+        const renderTodos = this.props.stores.map((order, index) => {
             // const items = JSON.parse(order.items);
             console.log("order")
             console.log(order)
@@ -69,7 +66,7 @@ class Stores extends Component {
                         <Card.Text>
                             <b>Store Name</b> - {order.name}
                             <br/>
-                            <b>Store Address</b> - {order.street + " " + order.city + " " + order.state + " " + order.zip}
+                            <b>Store Address</b> - {order.address.street + " " + order.address.city + " " + order.address.state + " " + order.address.zip}
 
                         </Card.Text>
                         <Button onClick={() => this.handleShow(index)} type="button" variant="primary">Edit</Button>
@@ -90,10 +87,6 @@ class Stores extends Component {
     render() {
         return (
             <div>
-                {this.state.redirectVar !== null && <Redirect to={{
-                    pathname: "/homeBuyer/chat",
-                    state: {selectedOrder: this.state.selectedOrder}
-                }}/>}
                 <Button variant="primary" onClick={() => this.handleShow(null)}>
                     Create new store
                 </Button>
@@ -107,22 +100,22 @@ class Stores extends Component {
 
                         <Form.Group controlId="name">
                             <Form.Label>Name</Form.Label>
-                            <Form.Control defaultValue={this.state.currentStoreEditIndex !== null ? this.state.allOrders[this.state.currentStoreEditIndex].name : ""}
+                            <Form.Control defaultValue={this.state.currentStoreEditIndex !== null ? this.props.stores[this.state.currentStoreEditIndex].name : ""}
                                           placeholder="Enter a cool screen name" required />
                         </Form.Group>
 
                         <Form.Row>
                             <Form.Group as={Col} controlId="city">
                                 <Form.Label>City</Form.Label>
-                                <Form.Control defaultValue={this.state.currentStoreEditIndex !== null ? this.state.allOrders[this.state.currentStoreEditIndex].city : ""} placeholder="City name" required />
+                                <Form.Control defaultValue={this.state.currentStoreEditIndex !== null ? this.props.stores[this.state.currentStoreEditIndex].city : ""} placeholder="City name" required />
                             </Form.Group>
                             <Form.Group as={Col} controlId="state">
                                 <Form.Label>State</Form.Label>
-                                <Form.Control defaultValue={this.state.currentStoreEditIndex !== null ? this.state.allOrders[this.state.currentStoreEditIndex].state : ""} placeholder="State name or code" required />
+                                <Form.Control defaultValue={this.state.currentStoreEditIndex !== null ? this.props.stores[this.state.currentStoreEditIndex].state : ""} placeholder="State name or code" required />
                             </Form.Group>
                             <Form.Group as={Col} controlId="zipcode">
                                 <Form.Label>Zipcode</Form.Label>
-                                <Form.Control defaultValue={this.state.currentStoreEditIndex !== null ? this.state.allOrders[this.state.currentStoreEditIndex].zip : ""} placeholder="12345 or 12345-6789" required />
+                                <Form.Control defaultValue={this.state.currentStoreEditIndex !== null ? this.props.stores[this.state.currentStoreEditIndex].zip : ""} placeholder="12345 or 12345-6789" required />
                             </Form.Group>
                         </Form.Row>
                     </Form>

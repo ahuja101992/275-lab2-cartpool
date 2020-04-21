@@ -65,7 +65,7 @@ public class InventoryController {
         return ResponseEntity.status(HttpStatus.OK).body(storeService.createStore(store, adminId));
     }
 
-    @RequestMapping(value = "/inventory/getByAdmin/{adminId}",
+    @RequestMapping(value = "/inventory/store/getByAdmin/{adminId}",
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             method = RequestMethod.GET)
     @ResponseBody
