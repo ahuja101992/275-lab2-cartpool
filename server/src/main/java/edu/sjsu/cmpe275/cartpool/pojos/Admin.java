@@ -1,42 +1,28 @@
 package edu.sjsu.cmpe275.cartpool.pojos;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlTransient;
+import java.util.List;
 
 @Entity
 @Table(name = "admin")
-public class Admin {
+public class Admin extends User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "firstname")
-    private String firstname;
-
-    @Column(name = "lastname")
-    private String lastname;
-
-    @Column(name = "email")
-    private String email;
-
-    @Column(name = "screenname")
-    private String screenname;
-
-    @Column(name = "nickname")
-    private String nickname;
-
-    @Embedded
-    private Address address;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "admin")
+    @JsonIgnoreProperties({"admin"})
+    @XmlTransient
+    private List<Store> stores;
 
     public Admin() {
     }
 
-    public Admin(AdminBuilder builder) {
-        this.firstname = builder.firstname;
-        this.lastname = builder.lastname;
-        this.email = builder.email;
-        this.screenname = builder.screenname;
-        this.nickname = builder.nickname;
-        this.address = builder.address;
+    protected Admin(Builder builder) {
+        super(builder);
     }
 
     public long getId() {
@@ -47,86 +33,9 @@ public class Admin {
         this.id = id;
     }
 
-    public String getFirstname() {
-        return firstname;
-    }
+    public static class Builder extends User.Builder<Admin.Builder> {
+        public Builder() {}
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getScreenname() {
-        return screenname;
-    }
-
-    public void setScreenname(String screenname) {
-        this.screenname = screenname;
-    }
-
-    public String getNickname() {
-        return nickname;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
-
-    public static class AdminBuilder {
-        private String firstname;
-        private String lastname;
-        private String email;
-        private String screenname;
-        private String nickname;
-        private Address address;
-
-        public AdminBuilder firstname(String firstname) {
-            this.firstname = firstname;
-            return this;
-        }
-
-        public AdminBuilder lastname(String lastname) {
-            this.lastname = lastname;
-            return this;
-        }
-
-        public AdminBuilder email(String email) {
-            this.email = email;
-            return this;
-        }
-
-        public AdminBuilder nickname(String nickname) {
-            this.nickname = nickname;
-            return this;
-        }
-
-        public AdminBuilder screenname(String screenname) {
-            this.nickname = screenname;
-            return this;
-        }
-
-        public AdminBuilder address(Address address) {
-            this.address = address;
-            return this;
-        }
-
-        public Admin build() {
-            return new Admin(this);
-        }
+        public Admin build() { return new Admin(this); }
     }
 }

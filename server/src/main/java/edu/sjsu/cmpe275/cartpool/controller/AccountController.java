@@ -2,6 +2,8 @@ package edu.sjsu.cmpe275.cartpool.controller;
 
 import edu.sjsu.cmpe275.cartpool.pojos.Admin;
 import edu.sjsu.cmpe275.cartpool.pojos.Pooler;
+import edu.sjsu.cmpe275.cartpool.pojos.User;
+import edu.sjsu.cmpe275.cartpool.service.AdminService;
 import edu.sjsu.cmpe275.cartpool.service.PoolerService;
 import edu.sjsu.cmpe275.cartpool.util.UtilFunctions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,25 +22,17 @@ public class AccountController {
     @Autowired
     PoolerService poolerService;
 
-    public String test() {
-        return "Hello Test";
-    }
-
-    @RequestMapping(value = "/ok", method = RequestMethod.GET)
-    public @ResponseBody
-    String ok() {
-        System.out.println("Inside ok");
-        return test();
-    }
+    @Autowired
+    AdminService adminService;
 
     @RequestMapping(value = "/account/signup",
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             method = RequestMethod.POST)
     public @ResponseBody
-    ResponseEntity<Pooler> signUp(@RequestParam String screenName,
-                                  @RequestParam String nickName,
-                                  @RequestParam String email,
-                                  @RequestParam(required = false) String password) {
+    ResponseEntity<User> signUp(@RequestParam String screenName,
+                                @RequestParam String nickName,
+                                @RequestParam String email,
+                                @RequestParam(required = false) String password) {
 
         if (screenName != null) screenName = screenName.trim();
         if (nickName != null) nickName = nickName.trim();
@@ -46,15 +40,15 @@ public class AccountController {
 
         if (UtilFunctions.isAdmin(email)) {
             //Create admin
-            Admin admin = new Admin.AdminBuilder()
+            Admin admin = new Admin.Builder()
                     .screenname(screenName)
                     .nickname(nickName)
                     .email(email)
                     .build();
-            return ResponseEntity.status(HttpStatus.OK).body(null);
+            return ResponseEntity.status(HttpStatus.OK).body(adminService.save(admin));
         } else {
             //Create pooler
-            Pooler pooler = new Pooler.PoolerBuilder()
+            Pooler pooler = new Pooler.Builder()
                     .screenname(screenName)
                     .nickname(nickName)
                     .email(email)
@@ -99,8 +93,6 @@ public class AccountController {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.OK).body(null);
         }
-
-
     }
 
 }

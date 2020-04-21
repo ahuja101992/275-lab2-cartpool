@@ -1,8 +1,8 @@
 package edu.sjsu.cmpe275.cartpool.repository;
 
-import edu.sjsu.cmpe275.cartpool.pojos.Admin;
 import edu.sjsu.cmpe275.cartpool.pojos.Pooler;
+import edu.sjsu.cmpe275.cartpool.pojos.Store;
 import org.springframework.data.repository.CrudRepository;
 
-public interface AdminRepository<T> extends CrudRepository<Admin, Long> {
+public interface StoreRepository<T> extends CrudRepository<Store, Long> {
 }
