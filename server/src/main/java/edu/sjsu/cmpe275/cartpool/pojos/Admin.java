@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlTransient;
 import java.util.List;
 
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Table(name = "admin")
 public class Admin extends User {
     @Id

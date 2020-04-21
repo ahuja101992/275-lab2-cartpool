@@ -69,8 +69,20 @@ public class InventoryController {
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<List<Store>> getSponsor(@PathVariable Long adminId) {
+    public ResponseEntity<List<Store>> getStoreByAdmin(@PathVariable Long adminId) {
         Admin admin = adminService.findById(adminId);
         return admin != null ? ResponseEntity.status(HttpStatus.OK).body(admin.getStores())  : null;
+    }
+
+    @RequestMapping(value = "/inventory/store/{storeId}/{adminId}",
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+            method = RequestMethod.DELETE)
+    @ResponseBody
+    public ResponseEntity<List<Store>> deleteStore(@PathVariable Long storeId,
+                                                   @PathVariable Long adminId) {
+        List<Store> stores = storeService.deleteStore(storeId, adminId);
+        System.out.println(stores.size());
+        System.out.println(stores);
+        return ResponseEntity.status(HttpStatus.OK).body(stores);
     }
 }

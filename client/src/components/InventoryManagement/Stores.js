@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import {Button, Col, Card, Form, Modal} from "react-bootstrap";
 import {connect} from "react-redux";
 import {Redirect} from "react-router";
-import {getStoresByAdmin, createStore} from "../../redux/actions/inventoryActions";
+import {getStoresByAdmin, createStore, deleteStore} from "../../redux/actions/inventoryActions";
 
 function mapStateToProps(store) {
     return {
@@ -14,6 +14,7 @@ function mapDispatchToProps(dispatch) {
     return {
         getStoresByAdmin: (payload) => dispatch(getStoresByAdmin(payload)),
         createStore: (payload) => dispatch(createStore(payload)),
+        deleteStore: (payload) => dispatch(deleteStore(payload)),
     };
 }
 
@@ -40,6 +41,15 @@ class Stores extends Component {
         console.log("getStoresByAdmin")
         console.log(order)
         this.setState({redirectVar: true, selectedOrder: order})
+    }
+
+
+    deleteStore = (store) => {
+        const payload = {};
+        payload.storeId = store.id;
+        payload.adminId = localStorage.getItem('id');
+
+        this.props.deleteStore(payload)
     }
 
     createStore = (e) => {
@@ -78,26 +88,22 @@ class Stores extends Component {
     populateSection = () => {
         console.log("populateSection");
 
-        const renderTodos = this.props.stores.map((order, index) => {
-            // const items = JSON.parse(order.items);
-            console.log("order")
-            console.log(order)
-
+        const renderTodos = this.props.stores.map((store, index) => {
             return <li key={index}>
                 <Card style={{width: '22rem'}}>
                     {/*<Card.Img variant="top" src={require("../../images/restaurant-logo.png")}/>*/}
                     <Card.Body>
                         <Card.Title>Store</Card.Title>
                         <Card.Text>
-                            <b>Store Name</b> - {order.name}
+                            <b>Store Name</b> - {store.name}
                             <br/>
-                            <b>Store Address</b> - {order.address.street + " " + order.address.city + " " + order.address.state + " " + order.address.zip}
+                            <b>Store Address</b> - {store.address.street + " " + store.address.city + " " + store.address.state + " " + store.address.zip}
 
                         </Card.Text>
                         <Button onClick={() => this.handleShow(index)} type="button" variant="primary">Edit</Button>
                         <br/>
                         <br/>
-                        <Button onClick={() => this.goToChat(order)} type="button" variant="primary">Delete</Button>
+                        <Button onClick={() => this.deleteStore(store)} type="button" variant="primary">Delete</Button>
                     </Card.Body>
                 </Card>
             </li>;
@@ -153,10 +159,6 @@ class Stores extends Component {
                             </Form.Group>
                         </Form.Row>
 
-
-
-
-
                         <Modal.Footer>
                             <Button variant="secondary" onClick={this.handleClose}>
                                 Close
@@ -164,10 +166,6 @@ class Stores extends Component {
                             <Button variant="primary" type="submit">
                                 Save changes
                             </Button>
-                            {/*<Button variant="primary" onClick={this.createStore}>*/}
-                            {/*    Save Changes*/}
-                            {/*</Button>*/}
-
                         </Modal.Footer>
                     </Form>
 

@@ -11,23 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service
-public class StoreService {
-    @Autowired
-    StoreRepository<Pooler> storeRepository;
+import java.util.List;
 
-    @Autowired
-    AdminRepository<Admin> adminRepository;
 
-    @Transactional
-    public Store createStore(Store store, Long adminId) {
-        Admin admin = adminRepository.findById(adminId).orElseThrow(() -> new UserNotFoundException());
-        store.setAdmin(admin);
-        return storeRepository.save(store);
-    }
+public interface StoreService {
+    public Store createStore(Store store, Long adminId);
+    public List<Store> deleteStore(Long storeId, Long adminId);
 
-    @Transactional
-    public Store save(Store store) {
-        return storeRepository.save(store);
-    }
 }

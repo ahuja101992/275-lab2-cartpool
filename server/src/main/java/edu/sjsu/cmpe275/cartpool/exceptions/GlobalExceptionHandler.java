@@ -34,8 +34,10 @@ public class GlobalExceptionHandler {
 
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR, reason = "Entity Not Found")
     @ExceptionHandler(IOException.class)
-    public void handleAllException() {
+    public void handleAllException(Exception ex) {
         logger.error("IO Exception occurred!!");
+        logger.error(ex.getStackTrace().toString());
+        ex.printStackTrace();
         //returning 404 error code
     }
 
