@@ -16,13 +16,11 @@ public class PoolerServiceImpl implements PoolerService {
 
 
     @Transactional
-    @Override
     public Pooler findById(Long id) throws Exception {
         return poolerRepository.findById(id).orElseThrow(() -> new Exception(""));
     }
 
     @Transactional
-    @Override
     public Pooler login(String email, String password) {
         List<Pooler> result = poolerRepository.findByEmailAndPassword(email, password);
         if (result.size() >= 1) {
@@ -33,13 +31,11 @@ public class PoolerServiceImpl implements PoolerService {
     }
 
     @Transactional
-    @Override
     public Pooler save(Pooler pooler) {
         return poolerRepository.save(pooler);
     }
 
     @Transactional
-    @Override
     public Pooler verify(String email) {
         Pooler pooler = poolerRepository.findByEmail(email);
         pooler.setIs_verified(true);
