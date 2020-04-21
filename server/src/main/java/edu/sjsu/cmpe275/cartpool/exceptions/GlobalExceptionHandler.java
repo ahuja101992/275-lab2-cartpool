@@ -27,6 +27,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(IllegalArgumentException.class)
     public String handleIllegalArgumentException(Exception ex) {
         logger.error(ex.getLocalizedMessage());
+        ex.printStackTrace();
         return ex.getMessage();
         //returning 404 error code
     }

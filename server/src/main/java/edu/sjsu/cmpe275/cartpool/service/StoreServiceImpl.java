@@ -38,4 +38,21 @@ public class StoreServiceImpl implements StoreService {
         Admin admin = adminRepository.findById(adminId).orElseThrow(() -> new UserNotFoundException());
         return admin != null ? admin.getStores() : null;
     }
+
+    @Transactional
+    public List<Store> updateStore(Store store, Long adminId) {
+        storeRepository.save(store);
+        Admin admin = adminRepository.findById(adminId).orElseThrow(() -> new UserNotFoundException());
+        return admin != null ? admin.getStores() : null;
+    }
+
+    @Transactional
+    public Store findStore(Long storeId, Long adminId) {
+        List<Store> result = storeRepository.findByIdAndAdmin_id(storeId, adminId);
+        if (result.size() >= 1) {
+            return result.get(0);
+        }
+
+        throw new UserNotFoundException();
+    }
 }

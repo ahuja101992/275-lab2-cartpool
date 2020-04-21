@@ -17,5 +17,6 @@ import java.util.List;
 public interface StoreService {
     public Store createStore(Store store, Long adminId);
     public List<Store> deleteStore(Long storeId, Long adminId);
-
+    public List<Store> updateStore(Store store, Long adminId);
+    public Store findStore(Long storeId, Long adminId);
 }

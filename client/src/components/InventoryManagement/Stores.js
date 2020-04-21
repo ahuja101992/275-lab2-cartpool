@@ -52,6 +52,14 @@ class Stores extends Component {
         this.props.deleteStore(payload)
     }
 
+    deleteStore = (store) => {
+        const payload = {};
+        payload.storeId = store.id;
+        payload.adminId = localStorage.getItem('id');
+
+        this.props.deleteStore(payload)
+    }
+
     createStore = (e) => {
         e.preventDefault();
 
@@ -70,6 +78,7 @@ class Stores extends Component {
             city: data.city,
             state: data.state,
             zip: data.zip,
+            storeId: this.state.currentStoreEditIndex !== null ? this.props.stores[this.state.currentStoreEditIndex].id : null,
             adminId: localStorage.getItem('id'),
         }
 
@@ -112,7 +121,6 @@ class Stores extends Component {
         return <div>
             <ul className="ul li">{renderTodos}</ul>
         </div>;
-
     }
 
     render() {

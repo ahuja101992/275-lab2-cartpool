@@ -1,5 +1,6 @@
 package edu.sjsu.cmpe275.cartpool.controller;
 
+import edu.sjsu.cmpe275.cartpool.exceptions.StoreNotFoundException;
 import edu.sjsu.cmpe275.cartpool.pojos.*;
 import edu.sjsu.cmpe275.cartpool.service.AdminService;
 import edu.sjsu.cmpe275.cartpool.service.PoolerService;
@@ -44,11 +45,12 @@ public class InventoryController {
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             method = RequestMethod.POST)
     public @ResponseBody
-    ResponseEntity<Store> createStore(@RequestParam String name,
-                                       @RequestParam String street,
-                                       @RequestParam String city,
-                                       @RequestParam String state,
-                                       @RequestParam String zip,
+    ResponseEntity<List<Store>> createStore(@RequestParam String name,
+                                            @RequestParam String street,
+                                            @RequestParam String city,
+                                            @RequestParam String state,
+                                            @RequestParam String zip,
+                                            @RequestParam(required = false) Long storeId,
                                       @RequestParam Long adminId) {
         Address address = new Address.AddressBuilder()
                 .street(street)
@@ -62,7 +64,13 @@ public class InventoryController {
                 .address(address)
                 .build();
 
-        return ResponseEntity.status(HttpStatus.OK).body(storeService.createStore(store, adminId));
+        System.out.println("storeId class: " + storeId.getClass());
+        if (storeId != null) store.setId(storeId.longValue());
+
+        storeService.createStore(store, adminId);
+
+        Admin admin = adminService.findById(adminId);
+        return admin != null ? ResponseEntity.status(HttpStatus.OK).body(admin.getStores())  : null;
     }
 
     @RequestMapping(value = "/inventory/store/getByAdmin/{adminId}",
@@ -85,4 +93,35 @@ public class InventoryController {
         System.out.println(stores);
         return ResponseEntity.status(HttpStatus.OK).body(stores);
     }
+
+    @RequestMapping(value = "/inventory/store/{storeId}/{adminId}",
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+            method = RequestMethod.PUT)
+    @ResponseBody
+    public ResponseEntity<List<Store>> updateStore(@PathVariable Long storeId,
+                                                   @PathVariable Long adminId,
+                                                   @RequestParam String name,
+                                                   @RequestParam String street,
+                                                   @RequestParam String city,
+                                                   @RequestParam String state,
+                                                   @RequestParam String zip) {
+        Store store = storeService.findStore(storeId, adminId);
+        if (store != null) {
+            Address address = new Address.AddressBuilder()
+                    .street(street)
+                    .city(city)
+                    .state(state)
+                    .zip(zip)
+                    .build();
+
+            store.setAddress(address);
+            store.setName(name);
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(storeService.updateStore(store, adminId));
+    }
+
+
+
+
 }

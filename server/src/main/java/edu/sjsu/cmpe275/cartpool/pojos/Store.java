@@ -45,6 +45,10 @@ public class Store {
         return id;
     }
 
+    public void setId(long id) {
+        this.id = id;
+    }
+
     public Address getAddress() {
         return address;
     }
