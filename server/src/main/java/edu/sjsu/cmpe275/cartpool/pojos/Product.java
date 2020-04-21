@@ -1,4 +1,93 @@
 package edu.sjsu.cmpe275.cartpool.pojos;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+@Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
+@Table(name="product")
 public class Product {
+
+    @EmbeddedId
+    private ProductId id;
+
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "description")
+    private String description;
+
+    @Column(name = "imageURL")
+    private String imageURL;
+
+    @Column(name = "brandName")
+    private String brandName;
+
+    @Column(name = "unit")
+    private String unit;
+
+    @Column(name = "price")
+    private long price;
+
+    public ProductId getId() {
+        return id;
+    }
+
+    public void setId(ProductId id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
+    }
+
+    public String getBrandName() {
+        return brandName;
+    }
+
+    public void setBrandName(String brandName) {
+        this.brandName = brandName;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    public long getPrice() {
+        return price;
+    }
+
+    public void setPrice(long price) {
+        this.price = price;
+    }
+
+
 }
