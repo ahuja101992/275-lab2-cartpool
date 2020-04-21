@@ -33,6 +33,14 @@ public class Admin extends User {
         this.id = id;
     }
 
+    public List<Store> getStores() {
+        return stores;
+    }
+
+    public void setStores(List<Store> stores) {
+        this.stores = stores;
+    }
+
     public static class Builder extends User.Builder<Admin.Builder> {
         public Builder() {}
 

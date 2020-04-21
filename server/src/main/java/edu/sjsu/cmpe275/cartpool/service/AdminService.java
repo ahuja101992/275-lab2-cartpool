@@ -11,6 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public interface AdminService {
-    public Admin findById(Long id) throws Exception;
+    public Admin findById(Long id);
     public Admin save(Admin admin);
 }
