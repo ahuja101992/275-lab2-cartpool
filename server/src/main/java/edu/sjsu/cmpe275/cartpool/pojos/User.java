@@ -24,9 +24,18 @@ public class User {
     @Column(name = "nickname")
     private String nickname;
 
-    @Column(name = "is_verified")
+	@Column(name = "is_verified")
     private boolean is_verified;
-
+    
+    @Column(name = "access_token")
+    private String accessToken;
+    
+    @Column(name = "provider")
+    private String provider;
+    
+    @Column(name = "provider_id")
+    private String provider_id;
+    
     @Embedded
     private Address address;
 
@@ -41,9 +50,36 @@ public class User {
         this.screenname = builder.screenname;
         this.nickname = builder.nickname;
         this.address = builder.address;
+        this.accessToken = builder.accessToken;
+        this.provider = builder.provider;
+        this.provider_id = builder.provider_id;
     }
 
-    public String getFirstname() {
+    public String getProvider_id() {
+		return provider_id;
+	}
+
+	public void setProvider_id(String provider_id) {
+		this.provider_id = provider_id;
+	}
+	
+    public String getAccessToken() {
+		return accessToken;
+	}
+
+	public void setAccessToken(String accessToken) {
+		this.accessToken = accessToken;
+	}
+
+	public String getProvider() {
+		return provider;
+	}
+
+	public void setProvider(String provider) {
+		this.provider = provider;
+	}
+
+	public String getFirstname() {
         return firstname;
     }
 
@@ -115,15 +151,32 @@ public class User {
         private String screenname;
         private String nickname;
         private Address address;
+        private String provider;
+        private String accessToken;
+        private String provider_id;
 
         public Builder() {
         }
 
+        public T provider_id(String provider_id) {
+            this.provider_id = provider_id;
+            return (T) this;
+        }
+        
         public T firstname(String firstname) {
             this.firstname = firstname;
             return (T) this;
         }
-
+        
+        public T accessToken(String accessToken) {
+            this.accessToken = accessToken;
+            return (T) this;
+        }
+        public T provider(String provider) {
+        	this.provider = provider;
+            return (T) this;
+        }
+        
         public T lastname(String lastname) {
             this.lastname = lastname;
             return (T) this;

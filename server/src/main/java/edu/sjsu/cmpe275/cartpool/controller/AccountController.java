@@ -32,7 +32,11 @@ public class AccountController {
     ResponseEntity<User> signUp(@RequestParam String screenName,
                                 @RequestParam String nickName,
                                 @RequestParam String email,
-                                @RequestParam(required = false) String password) {
+                                @RequestParam(required = false) String password,
+                                @RequestParam(required = false) String img_url,
+                                @RequestParam(required = false) String accessToken,
+                                @RequestParam(required = false) String provider,
+                                @RequestParam(required = false) String provider_id) {
 
         if (screenName != null) screenName = screenName.trim();
         if (nickName != null) nickName = nickName.trim();
@@ -49,12 +53,24 @@ public class AccountController {
             return ResponseEntity.status(HttpStatus.OK).body(adminService.save(admin));
         } else {
             //Create pooler
-            Pooler pooler = new Pooler.Builder()
-                    .screenname(screenName)
-                    .nickname(nickName)
-                    .email(email)
-                    .password(password)
-                    .build();
+        	Pooler pooler = null;
+        	if(provider!=""&& provider !=null) {
+        		pooler = new Pooler.Builder()
+                        .screenname(screenName)
+                        .nickname(nickName)
+                        .email(email)
+                        .accessToken(accessToken)
+                        .provider(provider)
+                        .build();
+        	}else {
+        		pooler = new Pooler.Builder()
+                        .screenname(screenName)
+                        .nickname(nickName)
+                        .email(email)
+                        .password(password)
+                        .build();
+        	}
+            
             return ResponseEntity.status(HttpStatus.OK).body(poolerServiceImpl.save(pooler));
         }
     }
@@ -64,12 +80,17 @@ public class AccountController {
             method = RequestMethod.POST)
     public @ResponseBody
     ResponseEntity<User> login(@RequestParam String email,
-                                 @RequestParam(required = false) String password) {
+                                 @RequestParam(required = false) String password,
+                                 @RequestParam(required = false) String provider_id,
+                                 @RequestParam(required = false) String provider) {
 
         if (UtilFunctions.isAdmin(email)) {
             return ResponseEntity.status(HttpStatus.OK).body(adminService.login(email, password));
         } else {
-            return ResponseEntity.status(HttpStatus.OK).body(poolerServiceImpl.login(email, password));
+        	if(provider!=null && provider !="") 
+        		return ResponseEntity.status(HttpStatus.OK).body(poolerServiceImpl.loginOAuth(email, provider));
+        	else
+        		return ResponseEntity.status(HttpStatus.OK).body(poolerServiceImpl.login(email, password));
         }
 
     }
