@@ -1,17 +1,13 @@
 package edu.sjsu.cmpe275.cartpool.pojos;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
 @Embeddable
 public class ProductId implements Serializable {
 
-    @Column
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(nullable = false,name="store_id")
     private long storeId;
 
     @Column

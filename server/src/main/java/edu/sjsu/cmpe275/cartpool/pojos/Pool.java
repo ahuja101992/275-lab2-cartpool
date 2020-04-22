@@ -1,8 +1,11 @@
 package edu.sjsu.cmpe275.cartpool.pojos;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlTransient;
+import java.util.Set;
 
 @Entity
 @Table(name = "pool")
@@ -28,6 +31,12 @@ public class Pool {
     @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn(name = "id")
     private Pooler poolLeader;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ORDER_ID", referencedColumnName = "id")
+    @JsonIgnoreProperties("orders")
+    @XmlTransient
+    private Set<Order> order;
 
     public Pool() {
     }

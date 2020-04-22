@@ -2,10 +2,7 @@ package edu.sjsu.cmpe275.cartpool.pojos;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
@@ -32,6 +29,10 @@ public class Product {
 
     @Column(name = "price")
     private long price;
+
+    @MapsId("storeId")
+    @ManyToOne
+    private Store store;
 
     public ProductId getId() {
         return id;

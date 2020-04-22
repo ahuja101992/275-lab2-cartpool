@@ -3,7 +3,10 @@ package edu.sjsu.cmpe275.cartpool.pojos;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import javax.persistence.criteria.Order;
 import javax.xml.bind.annotation.XmlTransient;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -19,11 +22,25 @@ public class Store {
     @Embedded
     private Address address;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "admin_id", referencedColumnName = "id")
     @JsonIgnoreProperties("stores")
     @XmlTransient
     private Admin admin;
+
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_id", referencedColumnName = "id")
+    @JsonIgnoreProperties("orders")
+    @XmlTransient
+    private Set<Order> order;
+
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name="product_id")
+    @JsonIgnoreProperties({"store"})
+    @XmlTransient
+    private Set<Product> products;
 
     public Store() {
     }
