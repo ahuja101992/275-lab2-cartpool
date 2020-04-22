@@ -44,6 +44,7 @@ public class AccountController {
                     .screenname(screenName)
                     .nickname(nickName)
                     .email(email)
+                    .password(password)
                     .build();
             return ResponseEntity.status(HttpStatus.OK).body(adminService.save(admin));
         } else {
@@ -62,11 +63,11 @@ public class AccountController {
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             method = RequestMethod.POST)
     public @ResponseBody
-    ResponseEntity<Pooler> login(@RequestParam String email,
+    ResponseEntity<User> login(@RequestParam String email,
                                  @RequestParam(required = false) String password) {
 
         if (UtilFunctions.isAdmin(email)) {
-            return ResponseEntity.status(HttpStatus.OK).body(null);
+            return ResponseEntity.status(HttpStatus.OK).body(adminService.login(email, password));
         } else {
             return ResponseEntity.status(HttpStatus.OK).body(poolerServiceImpl.login(email, password));
         }
@@ -77,7 +78,7 @@ public class AccountController {
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             method = RequestMethod.GET)
     public @ResponseBody
-    ResponseEntity<Pooler> verify(@PathVariable String email) {
+    ResponseEntity<User> verify(@PathVariable String email) {
         System.out.println("Verify");
 
         try {
@@ -85,7 +86,7 @@ public class AccountController {
             if (email != null) email = URLDecoder.decode(email, "UTF-8");
             System.out.println("email: " + email);
             if (UtilFunctions.isAdmin(email)) {
-                return ResponseEntity.status(HttpStatus.OK).body(null);
+                return ResponseEntity.status(HttpStatus.OK).body(adminService.verify(email));
             } else {
                 return ResponseEntity.status(HttpStatus.OK).body(poolerServiceImpl.verify(email));
             }
