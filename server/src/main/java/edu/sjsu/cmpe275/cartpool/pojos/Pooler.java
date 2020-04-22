@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-@Table(name = "pooler")
+@Table(name = "pooler", uniqueConstraints = {@UniqueConstraint(columnNames = {"screenname", "nickname"})})
 public class Pooler extends User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
