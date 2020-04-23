@@ -52,7 +52,7 @@ class Login extends Component {
                 provider_id: res.id,
                 provider:'facebook'
             };
-        }else if(type === 'google' && res.w3.U3){
+        }else if(type === 'google' && res.Qt.zu){
             data = {
                 email: res.Qt.zu,
                 accessToken: res.accessToken,
@@ -75,7 +75,7 @@ class Login extends Component {
                 provider:'facebook',
                 OAuthRedirect: true
             });
-        }else if(type === 'google' && res.w3.U3){
+        }else if(type === 'google' && res.Qt.zu){
             this.setState({
                 email: res.Qt.zu,
                 accessToken: res.accessToken,
