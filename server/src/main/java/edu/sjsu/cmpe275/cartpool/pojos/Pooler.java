@@ -12,6 +12,9 @@ public class Pooler extends User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    public Pooler() {
+    }
+
     protected Pooler(Builder builder) {
         super(builder);
     }

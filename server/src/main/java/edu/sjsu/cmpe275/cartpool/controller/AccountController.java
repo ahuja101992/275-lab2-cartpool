@@ -4,6 +4,7 @@ import edu.sjsu.cmpe275.cartpool.pojos.Admin;
 import edu.sjsu.cmpe275.cartpool.pojos.Pooler;
 import edu.sjsu.cmpe275.cartpool.pojos.User;
 import edu.sjsu.cmpe275.cartpool.service.AdminService;
+import edu.sjsu.cmpe275.cartpool.service.PoolerService;
 import edu.sjsu.cmpe275.cartpool.service.PoolerServiceImpl;
 import edu.sjsu.cmpe275.cartpool.util.UtilFunctions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ import java.net.URLDecoder;
 @RestController
 public class AccountController {
     @Autowired
-    PoolerServiceImpl poolerServiceImpl;
+    PoolerService poolerService;
 
     @Autowired
     AdminService adminService;
@@ -72,7 +73,7 @@ public class AccountController {
                         .build();
         	}
             
-            return ResponseEntity.status(HttpStatus.OK).body(poolerServiceImpl.save(pooler));
+            return ResponseEntity.status(HttpStatus.OK).body(poolerService.save(pooler));
         }
     }
 
@@ -89,9 +90,9 @@ public class AccountController {
             return ResponseEntity.status(HttpStatus.OK).body(adminService.login(email, password));
         } else {
         	if(provider!=null && provider !="") 
-        		return ResponseEntity.status(HttpStatus.OK).body(poolerServiceImpl.loginOAuth(email, provider));
+        		return ResponseEntity.status(HttpStatus.OK).body(poolerService.loginOAuth(email, provider));
         	else
-        		return ResponseEntity.status(HttpStatus.OK).body(poolerServiceImpl.login(email, password));
+        		return ResponseEntity.status(HttpStatus.OK).body(poolerService.login(email, password));
         }
 
     }
@@ -110,7 +111,7 @@ public class AccountController {
             if (UtilFunctions.isAdmin(email)) {
                 return ResponseEntity.status(HttpStatus.OK).body(adminService.verify(email));
             } else {
-                return ResponseEntity.status(HttpStatus.OK).body(poolerServiceImpl.verify(email));
+                return ResponseEntity.status(HttpStatus.OK).body(poolerService.verify(email));
             }
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();

@@ -47,6 +47,7 @@ public class PoolerServiceImpl implements PoolerService {
     public Pooler verify(String email) {
         Pooler pooler = poolerRepository.findByEmail(email);
         pooler.setIs_verified(true);
+
         return poolerRepository.save(pooler);
     }
 }
