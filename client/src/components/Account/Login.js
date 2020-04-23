@@ -102,7 +102,6 @@ class Login extends Component {
         const loginFaceook = (response) => {
             console.log("", response);
             this.login(response, 'facebook');
-            console.log(this.state);
         }
         const LoginGoogle = (response) => {
             console.log(response);
@@ -119,7 +118,7 @@ class Login extends Component {
                 {this.state.OAuthRedirect === true && <Redirect to={{
                     pathname: "/signup",
                     props: {
-                        email_id: this.state.email_id,
+                        email: this.state.email,
                         accessToken: this.state.accessToken,
                         name: this.state.name,
                         img_url: this.state.img_url,

@@ -61,6 +61,7 @@ public class AccountController {
                         .email(email)
                         .accessToken(accessToken)
                         .provider(provider)
+                        .provider_id(provider_id)
                         .build();
         	}else {
         		pooler = new Pooler.Builder()

@@ -124,7 +124,7 @@ class SignUp extends Component {
 
                     <Form.Group controlId="email">
                         <Form.Label>Email</Form.Label>
-                        <Form.Control placeholder={this.props.location.props && this.props.location.props.provider!==""?this.props.location.props.email_id:"What's your email?"} required/>
+                        <Form.Control placeholder={this.props.location.props && this.props.location.props.provider!==""?this.props.location.props.email:"What's your email?"} required/>
                     </Form.Group>
 
                     <Form.Group controlId="password" className ={this.props.location.props && this.props.location.props.provider!==""?"d-none":""}>
