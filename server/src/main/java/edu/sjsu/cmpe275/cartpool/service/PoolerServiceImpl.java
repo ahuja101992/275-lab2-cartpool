@@ -1,6 +1,7 @@
 package edu.sjsu.cmpe275.cartpool.service;
 
 import edu.sjsu.cmpe275.cartpool.exceptions.UserNotFoundException;
+import edu.sjsu.cmpe275.cartpool.exceptions.UserNotVerifiedException;
 import edu.sjsu.cmpe275.cartpool.pojos.Pooler;
 import edu.sjsu.cmpe275.cartpool.repository.PoolerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +27,19 @@ public class PoolerServiceImpl implements PoolerService {
         if (result.size() >= 1) {
             return result.get(0);
         }
-
         throw new UserNotFoundException();
     }
-
+    @Transactional
+    public Pooler loginOAuth(String email, String provider_id) {
+    	
+        List<Pooler> result = poolerRepository.findByEmailAndProvider(email, provider_id);
+            if (result.size() >= 1) {
+            	if(!result.get(0).getIs_verified())
+            		throw new UserNotVerifiedException();
+    		return result.get(0);
+            }
+        throw new UserNotFoundException();///
+    }
     @Transactional
     public Pooler save(Pooler pooler) {
         return poolerRepository.save(pooler);
@@ -39,6 +49,7 @@ public class PoolerServiceImpl implements PoolerService {
     public Pooler verify(String email) {
         Pooler pooler = poolerRepository.findByEmail(email);
         pooler.setIs_verified(true);
+
         return poolerRepository.save(pooler);
     }
 }

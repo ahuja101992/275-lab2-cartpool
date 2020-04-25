@@ -10,4 +10,6 @@ public interface PoolerService {
     Pooler save(Pooler pooler);
 
     Pooler verify(String email);
+
+    Pooler loginOAuth(String email, String provider_id);
 }

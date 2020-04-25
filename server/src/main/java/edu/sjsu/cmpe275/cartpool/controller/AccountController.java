@@ -4,6 +4,7 @@ import edu.sjsu.cmpe275.cartpool.pojos.Admin;
 import edu.sjsu.cmpe275.cartpool.pojos.Pooler;
 import edu.sjsu.cmpe275.cartpool.pojos.User;
 import edu.sjsu.cmpe275.cartpool.service.AdminService;
+import edu.sjsu.cmpe275.cartpool.service.PoolerService;
 import edu.sjsu.cmpe275.cartpool.service.PoolerServiceImpl;
 import edu.sjsu.cmpe275.cartpool.util.UtilFunctions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ import java.net.URLDecoder;
 @RestController
 public class AccountController {
     @Autowired
-    PoolerServiceImpl poolerServiceImpl;
+    PoolerService poolerService;
 
     @Autowired
     AdminService adminService;
@@ -32,7 +33,11 @@ public class AccountController {
     ResponseEntity<User> signUp(@RequestParam String screenName,
                                 @RequestParam String nickName,
                                 @RequestParam String email,
-                                @RequestParam(required = false) String password) {
+                                @RequestParam(required = false) String password,
+                                @RequestParam(required = false) String img_url,
+                                @RequestParam(required = false) String accessToken,
+                                @RequestParam(required = false) String provider,
+                                @RequestParam(required = false) String provider_id) {
 
         if (screenName != null) screenName = screenName.trim();
         if (nickName != null) nickName = nickName.trim();
@@ -49,13 +54,26 @@ public class AccountController {
             return ResponseEntity.status(HttpStatus.OK).body(adminService.save(admin));
         } else {
             //Create pooler
-            Pooler pooler = new Pooler.Builder()
-                    .screenname(screenName)
-                    .nickname(nickName)
-                    .email(email)
-                    .password(password)
-                    .build();
-            return ResponseEntity.status(HttpStatus.OK).body(poolerServiceImpl.save(pooler));
+        	Pooler pooler = null;
+        	if(provider!=""&& provider !=null) {
+        		pooler = new Pooler.Builder()
+                        .screenname(screenName)
+                        .nickname(nickName)
+                        .email(email)
+                        .accessToken(accessToken)
+                        .provider(provider)
+                        .provider_id(provider_id)
+                        .build();
+        	}else {
+        		pooler = new Pooler.Builder()
+                        .screenname(screenName)
+                        .nickname(nickName)
+                        .email(email)
+                        .password(password)
+                        .build();
+        	}
+            
+            return ResponseEntity.status(HttpStatus.OK).body(poolerService.save(pooler));
         }
     }
 
@@ -64,12 +82,17 @@ public class AccountController {
             method = RequestMethod.POST)
     public @ResponseBody
     ResponseEntity<User> login(@RequestParam String email,
-                                 @RequestParam(required = false) String password) {
+                                 @RequestParam(required = false) String password,
+                                 @RequestParam(required = false) String provider_id,
+                                 @RequestParam(required = false) String provider) {
 
         if (UtilFunctions.isAdmin(email)) {
             return ResponseEntity.status(HttpStatus.OK).body(adminService.login(email, password));
         } else {
-            return ResponseEntity.status(HttpStatus.OK).body(poolerServiceImpl.login(email, password));
+        	if(provider!=null && provider !="") 
+        		return ResponseEntity.status(HttpStatus.OK).body(poolerService.loginOAuth(email, provider));
+        	else
+        		return ResponseEntity.status(HttpStatus.OK).body(poolerService.login(email, password));
         }
 
     }
@@ -88,7 +111,7 @@ public class AccountController {
             if (UtilFunctions.isAdmin(email)) {
                 return ResponseEntity.status(HttpStatus.OK).body(adminService.verify(email));
             } else {
-                return ResponseEntity.status(HttpStatus.OK).body(poolerServiceImpl.verify(email));
+                return ResponseEntity.status(HttpStatus.OK).body(poolerService.verify(email));
             }
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();

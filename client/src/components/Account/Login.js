@@ -5,7 +5,8 @@ import {signIn} from "../../redux/actions/authActions";
 import {connect} from "react-redux";
 import {Button, Form, Toast} from "react-bootstrap";
 import {Redirect} from "react-router";
-
+import FacebookLogin from 'react-facebook-login';
+import GoogleLogin from 'react-google-login';
 function mapStateToProps(store) {
     return {
         signinSuccess: store.auth.signinSuccess,
@@ -24,7 +25,8 @@ class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            redirectVar: false, date: null
+            redirectVar: false, date: null,email:null, accessToken:null, name: null, img_url: null, provider: null, provider_id:null,
+            OAuthRedirect:false
         }
     }
 
@@ -39,9 +41,72 @@ class Login extends Component {
         this.setState({date: new Date().getTime()})
         this.props.signIn(data);
     };
-
+    login =(res, type)=>{
+        let data ={};
+        if(type ==='facebook' && res.email){
+            data = {
+                email: res.email,
+                accessToken: res.accessToken,
+                name: res.name,
+                img_url: res.picture.data.url,
+                provider_id: res.id,
+                provider:'facebook'
+            };
+        }else if(type === 'google' && res.Qt.zu){
+            data = {
+                email: res.Qt.zu,
+                accessToken: res.accessToken,
+                name: res.Qt.Ad,
+                img_url: res.Qt.gL,
+                provider_id: res.Qt.ZU,
+                provider:'google'
+            };
+        }
+        this.props.signIn(data);
+    }
+    signup =(res, type)=>{
+        if(type ==='facebook' && res.email){
+            this.setState({
+                email: res.email,
+                accessToken: res.accessToken,
+                name: res.name,
+                img_url: res.picture.data.url,
+                provider_id: res.id,
+                provider:'facebook',
+                OAuthRedirect: true
+            });
+        }else if(type === 'google' && res.Qt.zu){
+            this.setState({
+                email: res.Qt.zu,
+                accessToken: res.accessToken,
+                name: res.Qt.Ad,
+                img_url: res.Qt.gL,
+                provider_id: res.Qt.ZU,
+                provider:'google',
+                OAuthRedirect: true
+            });
+            
+        }
+    }
 
     render() {
+        const responseFacebook = (response) => {
+            console.log(" facebook",response);
+            this.signup(response, 'facebook');
+            console.log(this.state);
+        }
+        const responseGoogle = (response) => {
+            console.log(response);
+            this.signup(response, 'google');
+        }
+        const loginFaceook = (response) => {
+            console.log("", response);
+            this.login(response, 'facebook');
+        }
+        const LoginGoogle = (response) => {
+            console.log(response);
+            this.login(response, 'google');
+        }
         return (
             <div style={styles.container}>
                 {this.state.redirectVar === true && <Redirect to={{
@@ -49,6 +114,17 @@ class Login extends Component {
                 }}/>}
                 {this.props.signinSuccess === true && <Redirect to={{
                     pathname: "/Home"
+                }}/>}
+                {this.state.OAuthRedirect === true && <Redirect to={{
+                    pathname: "/signup",
+                    props: {
+                        email: this.state.email,
+                        accessToken: this.state.accessToken,
+                        name: this.state.name,
+                        img_url: this.state.img_url,
+                        provider_id: this.state.provider_id,
+                        provider: this.state.provider
+                    }
                 }}/>}
 
                 {this.props.signinSuccess === false &&
@@ -79,9 +155,29 @@ class Login extends Component {
                         </Form.Group>
                     </div>
                     <div>
+                        <div>
                         <Button style={styles.loginButton} variant="primary" type="submit">
                             Log in
                         </Button>
+                        </div>
+                        <div>
+                            <FacebookLogin
+                                appId="648035059374184"
+                                autoLoad={false}
+                                size="small"
+                                textButton="Login with FaceBook"
+                                fields="name,email,picture"
+                                onClick={loginFaceook}
+                                callback={loginFaceook} />
+                        </div>
+                        <div>
+                            <GoogleLogin
+                                clientId="332159711982-5stv96v0qenutt5p3lrv0jtbo9lst47e.apps.googleusercontent.com"
+                                buttonText="Login with Google "
+                                onSuccess={LoginGoogle}
+                                onFailure={LoginGoogle}
+                                cookiePolicy={'single_host_origin'}/>
+                        </div>
                     </div>
 
                     <div style={styles.signUpBox}>
@@ -92,6 +188,21 @@ class Login extends Component {
                                     onClick={() => this.setState({redirectVar: true})}>
                                 Sign up
                             </Button>
+                <FacebookLogin
+                    appId="648035059374184"
+                    autoLoad={false}
+                    size="small"
+                    textButton="Signup with Facebook"
+                    fields="name,email,picture"
+                    onClick={responseFacebook}
+                    callback={responseFacebook} />
+                <GoogleLogin
+                    clientId="332159711982-5stv96v0qenutt5p3lrv0jtbo9lst47e.apps.googleusercontent.com"
+                    buttonText="Signup with Google "
+                    onSuccess={responseGoogle}
+                    onFailure={responseGoogle}
+                    cookiePolicy={'single_host_origin'}/>
+                <Form onSubmit={this.signUp}></Form>
                         </Form.Row>
                     </div>
                 </Form>

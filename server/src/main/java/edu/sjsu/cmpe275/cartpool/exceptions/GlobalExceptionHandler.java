@@ -48,8 +48,10 @@ public class GlobalExceptionHandler {
             DataIntegrityViolationException.class,
             SQLIntegrityConstraintViolationException.class,
             org.hibernate.exception.ConstraintViolationException.class})
-    public void handleDuplicateEntity() {
+    public void handleDuplicateEntity(Exception ex) {
         logger.error("Duplicate Entry!!");
+        logger.error(ex.getStackTrace().toString());
+        ex.printStackTrace();
         //returning 409 error code
     }
 }
