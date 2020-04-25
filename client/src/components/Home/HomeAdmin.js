@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Redirect, Switch} from 'react-router';
 import {Link, NavLink, Route} from "react-router-dom";
 import {Nav, Navbar} from "react-bootstrap";
-import Stores from '../InventoryManagement/Stores';
+import Stores from '../PoolerPages/Stores';
 
 class HomeAdmin extends Component {
     constructor(props) {

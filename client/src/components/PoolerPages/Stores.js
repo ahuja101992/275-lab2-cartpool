@@ -42,15 +42,6 @@ class Stores extends Component {
         this.setState({redirectVar: true, selectedOrder: order})
     }
 
-
-    deleteStore = (store) => {
-        const payload = {};
-        payload.storeId = store.id;
-        payload.adminId = localStorage.getItem('id');
-
-        this.props.deleteStore(payload)
-    }
-
     deleteStore = (store) => {
         const payload = {};
         payload.storeId = store.id;

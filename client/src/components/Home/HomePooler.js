@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Redirect, Switch} from 'react-router';
 import {Link, NavLink, Route} from "react-router-dom";
 import {Nav, Navbar} from "react-bootstrap";
-import Stores from '../InventoryManagement/Stores';
+import Pickup from '../AdminPages/Pickup';
 
 class HomePooler extends Component {
     constructor(props) {
@@ -43,7 +43,7 @@ class HomePooler extends Component {
                             <Nav.Link as={NavLink} to='/homePooler/menu/'>homePooler</Nav.Link>
                         </Nav>
                         <Nav className="ml-auto">
-                            <Nav.Link as={NavLink} to='/homePooler/store/'>Do not click</Nav.Link>
+                            <Nav.Link as={NavLink} to='/homePooler/pickup/'>Pickup</Nav.Link>
                         </Nav>
                     </Navbar>
                 </div>
@@ -51,7 +51,7 @@ class HomePooler extends Component {
 
                 <div>
                     <Switch>
-                        <Route exact path='/homeAdmin/store/' component={Stores}/>
+                        <Route exact path='/homePooler/pickup/' component={Pickup}/>
                     </Switch>
                 </div>
             </div>
