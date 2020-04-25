@@ -27,13 +27,23 @@ public class Pool {
     @Column(name = "zip")
     private String zip;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH})
+    @OneToOne(fetch = FetchType.LAZY,
+            cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH})
     private Pooler poolLeader;
 
+    public Pooler getPoolLeader() {
+        return poolLeader;
+    }
+
+    public void setPoolLeader(Pooler poolLeader) {
+        this.poolLeader = poolLeader;
+    }
+
     @OneToMany(fetch = FetchType.LAZY,
-            cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH}
+            cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH},
+            mappedBy = "pool"
     )
-    @JoinColumn(name = "id")
+
     private List<Pooler> members;
 
 
@@ -87,13 +97,13 @@ public class Pool {
         this.zip = zip;
     }
 
-    public Pooler getPoolLeader() {
-        return poolLeader;
-    }
-
-    public void setPoolLeader(Pooler poolLeader) {
-        this.poolLeader = poolLeader;
-    }
+//    public Pooler getPoolLeader() {
+//        return poolLeader;
+//    }
+//
+//    public void setPoolLeader(Pooler poolLeader) {
+//        this.poolLeader = poolLeader;
+//    }
 
     public List<Pooler> getMembers() {
         return members;

@@ -12,9 +12,12 @@ public class Pooler extends User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne(fetch = FetchType.LAZY,
+    @ManyToOne(
+
+            fetch = FetchType.LAZY,
             cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH}
     )
+    @JoinColumn(name = "pool_id", referencedColumnName = "id")
     private Pool pool;
 
     public Pooler() {

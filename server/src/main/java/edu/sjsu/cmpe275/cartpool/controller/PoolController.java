@@ -43,15 +43,15 @@ public class PoolController {
         return ResponseEntity.status(HttpStatus.OK).body(poolService.delete(id));
     }
 
-    @RequestMapping(value = "/pool/delete",
-            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
-            method = RequestMethod.DELETE)
-    public @ResponseBody
-    ResponseEntity<Pool> joinPool(@RequestParam String id,
-                                  @RequestParam Pooler pooler){
-        //return ResponseEntity.status(HttpStatus.OK).body(poolService.delete(id));
-        return null;
-    }
+//    @RequestMapping(value = "/pool/delete",
+//            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+//            method = RequestMethod.DELETE)
+//    public @ResponseBody
+//    ResponseEntity<Pool> joinPool(@RequestParam String id,
+//                                  @RequestParam Pooler pooler){
+//        //return ResponseEntity.status(HttpStatus.OK).body(poolService.delete(id));
+//        return null;
+//    }
 
 
 }
