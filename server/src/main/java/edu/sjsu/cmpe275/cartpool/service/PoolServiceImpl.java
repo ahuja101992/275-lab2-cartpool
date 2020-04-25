@@ -4,18 +4,24 @@ import edu.sjsu.cmpe275.cartpool.pojos.Pool;
 import edu.sjsu.cmpe275.cartpool.repository.PoolRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class PoolServiceImpl implements PoolService {
 
     @Autowired
-    private PoolRepository poolRepository;
+    private PoolRepository<Pool> poolRepository;
 
     @Transactional
     @Override
-    public void save(Pool pool) {
-        poolRepository.save(pool);
+    public Pool save(Pool pool) {
+        return poolRepository.save(pool);
+    }
+
+    @Transactional
+    @Override
+    public Pool delete(String id) {
+        //return poolRepository.delete();
+        return null;
     }
 }
