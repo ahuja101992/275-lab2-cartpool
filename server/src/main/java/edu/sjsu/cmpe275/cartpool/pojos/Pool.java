@@ -1,11 +1,10 @@
 package edu.sjsu.cmpe275.cartpool.pojos;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import javax.xml.bind.annotation.XmlTransient;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "pool")
@@ -29,23 +28,23 @@ public class Pool {
     private String zip;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH})
-    @JoinColumn(name = "id")
     private Pooler poolLeader;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "order_id")
-    @JsonIgnoreProperties("orders")
-    @XmlTransient
-    private Set<Orders> order;
+    @OneToMany(fetch = FetchType.LAZY,
+            cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH}
+    )
+    @JoinColumn(name = "id")
+    private List<Pooler> members;
+
 
     public Pool() {
     }
 
-    public Pool(String name, String neighborhoodName, String description, String zip) {
-        this.name = name;
-        this.neighborhoodName = neighborhoodName;
-        this.description = description;
-        this.zip = zip;
+    public Pool(PoolBuilder builder) {
+        this.name = builder.name;
+        this.neighborhoodName = builder.neighborhoodName;
+        this.description = builder.description;
+        this.zip = builder.zip;
     }
 
     public String getId() {
@@ -96,6 +95,14 @@ public class Pool {
         this.poolLeader = poolLeader;
     }
 
+    public List<Pooler> getMembers() {
+        return members;
+    }
+
+    public void setMembers(List<Pooler> members) {
+        this.members = members;
+    }
+
     @Override
     public String toString() {
         return "Pool{" +
@@ -104,7 +111,44 @@ public class Pool {
                 ", neighborhoodName='" + neighborhoodName + '\'' +
                 ", description='" + description + '\'' +
                 ", zip='" + zip + '\'' +
-                ", poolLeader=" + poolLeader +
                 '}';
+    }
+
+    public void addPooler(Pooler pooler){
+        if(members == null)
+            members = new ArrayList<>();
+
+        members.add(pooler);
+    }
+
+    public static class PoolBuilder {
+        private String name;
+        private String neighborhoodName;
+        private String description;
+        private String zip;
+
+        public PoolBuilder name(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public PoolBuilder neighborhoodName(String neighborhoodName) {
+            this.neighborhoodName = neighborhoodName;
+            return this;
+        }
+
+        public PoolBuilder description(String description) {
+            this.description = description;
+            return this;
+        }
+
+        public PoolBuilder zip(String zip) {
+            this.zip = zip;
+            return this;
+        }
+
+        public Pool build() {
+            return new Pool(this);
+        }
     }
 }
