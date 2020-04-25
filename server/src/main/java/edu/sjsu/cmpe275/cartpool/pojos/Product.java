@@ -90,5 +90,11 @@ public class Product {
         this.price = price;
     }
 
+    public Store getStore() {
+        return store;
+    }
 
+    public void setStore(Store store) {
+        this.store = store;
+    }
 }

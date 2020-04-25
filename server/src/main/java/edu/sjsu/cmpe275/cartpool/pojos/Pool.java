@@ -32,11 +32,11 @@ public class Pool {
     @JoinColumn(name = "id")
     private Pooler poolLeader;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ORDER_ID", referencedColumnName = "id")
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_id")
     @JsonIgnoreProperties("orders")
     @XmlTransient
-    private Set<Order> order;
+    private Set<Orders> order;
 
     public Pool() {
     }
