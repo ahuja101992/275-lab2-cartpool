@@ -31,7 +31,63 @@ public class Orders {
     @Column
     private long price;
 
-    public long getId() {
+    @Column
+    private long finalPrice;
+    
+    @Column
+    private boolean available;
+    
+    @Column
+    private boolean forDelivery;
+    
+    @OneToOne(fetch = FetchType.LAZY)
+    private Pooler orderOwner;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pooler_id", referencedColumnName = "id")
+    private Pooler deliveryBy;
+    
+    public long getFinalPrice() {
+		return finalPrice;
+	}
+
+	public void setFinalPrice(long finalPrice) {
+		this.finalPrice = finalPrice;
+	}
+
+	public boolean isAvailable() {
+		return available;
+	}
+
+	public void setAvailable(boolean available) {
+		this.available = available;
+	}
+
+	public boolean isForDelivery() {
+		return forDelivery;
+	}
+
+	public void setForDelivery(boolean forDelivery) {
+		this.forDelivery = forDelivery;
+	}
+
+	public Pooler getOrderOwner() {
+		return orderOwner;
+	}
+
+	public void setOrderOwner(Pooler orderOwner) {
+		this.orderOwner = orderOwner;
+	}
+
+	public Pooler getDeliveryBy() {
+		return deliveryBy;
+	}
+
+	public void setDeliveryBy(Pooler deliveryBy) {
+		this.deliveryBy = deliveryBy;
+	}
+
+	public long getId() {
         return id;
     }
 
