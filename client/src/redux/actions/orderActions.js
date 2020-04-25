@@ -20,3 +20,22 @@ export const checkoutDispatch = (returnData) => {
 
     return {type: CHECKOUT, payload: returnData}
 };
+
+export function markDeliveryNotReceived(payload) {
+    console.log("markDeliveryNotReceived payload");
+    console.log(payload);
+
+    return (dispatch) => {
+        axios.post(`http://${HOSTNAME}:8080/order/markDeliveryNotReceived/`, null, {params: payload} )
+            .then((response) => dispatch(markDeliveryNotReceivedDispatch(response.data)))
+            .catch((err) => console.log(err));
+    }
+}
+
+export const markDeliveryNotReceivedDispatch = (returnData) => {
+    console.log("markDeliveryNotReceivedDispatch returnData");
+    console.log(returnData);
+
+    return {type: CHECKOUT, payload: returnData}
+};
+

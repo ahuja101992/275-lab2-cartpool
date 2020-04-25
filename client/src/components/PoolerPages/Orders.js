@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import {Button, Card, Badge} from "react-bootstrap";
 import {connect} from "react-redux";
 import {Redirect} from "react-router";
+import {markDeliveryNotReceived} from "../../redux/actions/orderActions";
 
 function mapStateToProps(store) {
     return {
@@ -10,6 +11,7 @@ function mapStateToProps(store) {
 
 function mapDispatchToProps(dispatch) {
     return {
+        markDeliveryNotReceived: (payload) => dispatch(markDeliveryNotReceived(payload))
     };
 }
 
@@ -69,7 +71,7 @@ class Orders extends Component {
     }
 
     markDeliveryNotReceived = (order) => {
-
+        this.props.markDeliveryNotReceived({orderId: order.orderId})
     }
 
     populateSection = () => {
@@ -90,7 +92,7 @@ class Orders extends Component {
                             <br/>
                             <b>Order Status</b> - {this.getOrderStatusBadge(order.status)}
                             <br/><br/>
-                            {order.status === "Delivered" && <Button onClick={() => this.markDeliveryNotReceived(order)} type="button" variant="primary">Mark Delivery Not Received</Button>}
+                            {order.status === "Delivered" && <Button onClick={() => this.markDeliveryNotReceived(order)} type="button" variant="danger">Mark Delivery Not Received</Button>}
                         </Card.Text>
                     </Card.Body>
                 </Card>
