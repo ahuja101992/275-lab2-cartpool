@@ -31,4 +31,12 @@ public class OrderController {
 		return ResponseEntity.status(HttpStatus.OK).body(null);
 	}
 
+	@RequestMapping(value = "/order/markDeliveryNotReceived",
+			produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+			method = RequestMethod.POST)
+	public @ResponseBody
+	ResponseEntity<Orders> markDeliveryNotReceived(@RequestParam String orderId) {
+		return ResponseEntity.status(HttpStatus.OK).body(null);
+	}
+
 }

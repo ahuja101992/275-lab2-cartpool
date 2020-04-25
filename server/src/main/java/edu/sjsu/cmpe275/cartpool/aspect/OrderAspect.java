@@ -1,5 +1,6 @@
 package edu.sjsu.cmpe275.cartpool.aspect;
 
+import edu.sjsu.cmpe275.cartpool.service.EmailService;
 import edu.sjsu.cmpe275.cartpool.service.EmailServiceImpl;
 import edu.sjsu.cmpe275.cartpool.util.Constants;
 import org.aspectj.lang.JoinPoint;
@@ -15,9 +16,9 @@ import java.util.Arrays;
 
 @Component
 @Aspect
-public class OrderCheckoutAspect {
+public class OrderAspect {
     @Autowired
-    public EmailServiceImpl emailServiceImpl;
+    public EmailService emailService;
 
     @AfterReturning(pointcut = "execution(public * edu.sjsu.cmpe275.cartpool.controller.OrderController.checkout(..))", returning = "result")
     public void sendCheckoutSuccessEmail(JoinPoint joinPoint, Object result) {

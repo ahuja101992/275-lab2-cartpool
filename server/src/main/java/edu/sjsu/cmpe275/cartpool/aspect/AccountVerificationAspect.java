@@ -1,5 +1,6 @@
 package edu.sjsu.cmpe275.cartpool.aspect;
 
+import edu.sjsu.cmpe275.cartpool.service.EmailService;
 import edu.sjsu.cmpe275.cartpool.service.EmailServiceImpl;
 import edu.sjsu.cmpe275.cartpool.util.Constants;
 import org.aspectj.lang.JoinPoint;
@@ -17,7 +18,7 @@ import java.util.Arrays;
 @Aspect
 public class AccountVerificationAspect {
     @Autowired
-    public EmailServiceImpl emailServiceImpl;
+    public EmailService emailService;
 
     @AfterReturning(pointcut = "execution(public * edu.sjsu.cmpe275.cartpool.controller.AccountController.signUp(..))", returning = "result")
     public void sendVerificationEmail(JoinPoint joinPoint, Object result) {
@@ -46,7 +47,7 @@ public class AccountVerificationAspect {
             e.printStackTrace();
         }
 
-        emailServiceImpl.sendVerificationEmail(email,
+        emailService.sendVerificationEmail(email,
                 "CartPoll account verification ",
                 String.format("Please verify your account by" +
                         " clicking on the following link - %s", url));

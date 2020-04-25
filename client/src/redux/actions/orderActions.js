@@ -1,4 +1,4 @@
-import {CHECKOUT} from "../../redux/constants/actionTypes";
+import {CHECKOUT, DELIVERY_NOT_RECEIVED} from "../../redux/constants/actionTypes";
 import {HOSTNAME} from "../../constants/appConstants";
 
 import axios from 'axios';
@@ -36,6 +36,6 @@ export const markDeliveryNotReceivedDispatch = (returnData) => {
     console.log("markDeliveryNotReceivedDispatch returnData");
     console.log(returnData);
 
-    return {type: CHECKOUT, payload: returnData}
+    return {type: DELIVERY_NOT_RECEIVED, payload: returnData}
 };
 

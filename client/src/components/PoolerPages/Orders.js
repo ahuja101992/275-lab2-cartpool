@@ -6,6 +6,7 @@ import {markDeliveryNotReceived} from "../../redux/actions/orderActions";
 
 function mapStateToProps(store) {
     return {
+        orderByPooler: store.orders.orderByPooler,
     }
 }
 
@@ -21,9 +22,6 @@ class Orders extends Component {
         this.state = {
             redirectVar: null,
             selectedOrder: null,
-            orders: [{"orderId": "1", "customerName": "xyz", "customerAddress": "1SM", "status": "Placed"},
-                {"orderId": "2", "customerName": "abc", "customerAddress": "2SM", "status": "Picked-up by oneself"},
-                {"orderId": "3", "customerName": "pqr", "customerAddress": "3SM", "status": "Delivered"}]
         };
     }
 
@@ -77,14 +75,13 @@ class Orders extends Component {
     populateSection = () => {
         console.log("populateSection");
 
-        const renderTodos = this.state.orders.map((order, index) => {
-            // const items = JSON.parse(order.items);
+        const renderTodos = this.props.orderByPooler.map((order, index) => {
             console.log("order")
             console.log(order)
 
             return <lu key={index}>
                 <Card style={{width: '22rem'}}>
-                    {/*<Card.Img variant="top" src={require("../../images/restaurant-logo.png")}/>*/}
+                    <Card.Img variant="top" src={require("../../images/restaurant-logo.png")}/>
                     <Card.Body>
                         <Card.Title><b>Order Id</b> - {order.orderId}</Card.Title>
                         <Card.Text>
