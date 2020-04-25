@@ -1,7 +1,7 @@
 import {CHECKOUT} from "../../redux/constants/actionTypes";
 
 const initialState = {
-    stores: []
+    ordersReadyForCheckout: [{"orderId": "1", "customerName": "xyz", "customerAddress": "1SM", "status": "OK"}]
 };
 
 export default function orderReducer(state = initialState, action) {
@@ -10,7 +10,7 @@ export default function orderReducer(state = initialState, action) {
 
     if (action.type === CHECKOUT) {
         return Object.assign({}, state, {
-            stores: action.payload
+            ordersReadyForCheckout: [...state.ordersReadyForCheckout]
         });
     }
 

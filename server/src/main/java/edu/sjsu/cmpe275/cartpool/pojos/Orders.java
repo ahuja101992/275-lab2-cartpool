@@ -39,6 +39,9 @@ public class Orders {
     
     @Column
     private boolean forDelivery;
+
+    @Column
+    private String status;
     
     @OneToOne(fetch = FetchType.LAZY)
     private Pooler orderOwner;
@@ -125,5 +128,13 @@ public class Orders {
 
     public void setPrice(long price) {
         this.price = price;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

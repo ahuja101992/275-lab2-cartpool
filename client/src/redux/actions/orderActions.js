@@ -8,7 +8,7 @@ export function checkout(payload) {
     console.log(payload);
 
     return (dispatch) => {
-        axios.get(`http://${HOSTNAME}:8080/order/checkout/${payload.adminId}`)
+        axios.post(`http://${HOSTNAME}:8080/order/checkout/`, null, {params: payload} )
             .then((response) => dispatch(checkoutDispatch(response.data)))
             .catch((err) => console.log(err));
     }
