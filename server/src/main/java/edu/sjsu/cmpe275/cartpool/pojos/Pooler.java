@@ -19,7 +19,7 @@ public class Pooler extends User {
             fetch = FetchType.LAZY,
             cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH}
     )
-    @JoinColumn(name = "pool_id", referencedColumnName = "id")
+    @JoinColumn(name = "pool_id_fk", referencedColumnName = "id")
     private Pool pool;
     
 //    @OneToMany(fetch = FetchType.LAZY, mappedBy="pooler")
@@ -27,6 +27,14 @@ public class Pooler extends User {
     private Set<Orders> orders;
 
     public Pooler() {
+    }
+
+    public Pool getPool() {
+        return pool;
+    }
+
+    public void setPool(Pool pool) {
+        this.pool = pool;
     }
 
     protected Pooler(Builder builder) {
