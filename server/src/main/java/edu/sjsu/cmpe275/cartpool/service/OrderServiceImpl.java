@@ -32,4 +32,9 @@ public class OrderServiceImpl implements OrderService{
 		order.setStore(store);
 		return orderRepository.save(order);
 	}
+	@Override
+	public Orders getOrderDetails(long id) {
+		Orders orderDetails = orderRepository.findById(id).orElseThrow(() -> new UserNotFoundException());
+		return orderDetails;
+	}
 }
