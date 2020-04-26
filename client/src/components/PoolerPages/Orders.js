@@ -2,14 +2,17 @@ import React, {Component} from "react";
 import {Button, Card, Badge} from "react-bootstrap";
 import {connect} from "react-redux";
 import {Redirect} from "react-router";
+import {markDeliveryNotReceived} from "../../redux/actions/orderActions";
 
 function mapStateToProps(store) {
     return {
+        orderByPooler: store.orders.orderByPooler,
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
+        markDeliveryNotReceived: (payload) => dispatch(markDeliveryNotReceived(payload))
     };
 }
 
@@ -19,9 +22,6 @@ class Orders extends Component {
         this.state = {
             redirectVar: null,
             selectedOrder: null,
-            orders: [{"orderId": "1", "customerName": "xyz", "customerAddress": "1SM", "status": "Placed"},
-                {"orderId": "2", "customerName": "abc", "customerAddress": "2SM", "status": "Picked-up by oneself"},
-                {"orderId": "3", "customerName": "pqr", "customerAddress": "3SM", "status": "Delivered"}]
         };
     }
 
@@ -69,20 +69,19 @@ class Orders extends Component {
     }
 
     markDeliveryNotReceived = (order) => {
-
+        this.props.markDeliveryNotReceived({orderId: order.orderId})
     }
 
     populateSection = () => {
         console.log("populateSection");
 
-        const renderTodos = this.state.orders.map((order, index) => {
-            // const items = JSON.parse(order.items);
+        const renderTodos = this.props.orderByPooler.map((order, index) => {
             console.log("order")
             console.log(order)
 
             return <lu key={index}>
                 <Card style={{width: '22rem'}}>
-                    {/*<Card.Img variant="top" src={require("../../images/restaurant-logo.png")}/>*/}
+                    <Card.Img variant="top" src={require("../../images/restaurant-logo.png")}/>
                     <Card.Body>
                         <Card.Title><b>Order Id</b> - {order.orderId}</Card.Title>
                         <Card.Text>
@@ -90,7 +89,7 @@ class Orders extends Component {
                             <br/>
                             <b>Order Status</b> - {this.getOrderStatusBadge(order.status)}
                             <br/><br/>
-                            {order.status === "Delivered" && <Button onClick={() => this.markDeliveryNotReceived(order)} type="button" variant="primary">Mark Delivery Not Received</Button>}
+                            {order.status === "Delivered" && <Button onClick={() => this.markDeliveryNotReceived(order)} type="button" variant="danger">Mark Delivery Not Received</Button>}
                         </Card.Text>
                     </Card.Body>
                 </Card>

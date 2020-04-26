@@ -2,6 +2,10 @@ package edu.sjsu.cmpe275.cartpool.pojos;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import edu.sjsu.cmpe275.cartpool.pojos.Pooler.Builder;
+import edu.sjsu.cmpe275.cartpool.pojos.Store.StoreBuilder;
+import net.bytebuddy.asm.Advice.This;
+
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -136,5 +140,75 @@ public class Orders {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+    
+    public Orders() {
+    }
+
+    protected Orders(OrderBuilder orderBuilder) {
+    	this.available= orderBuilder.available;
+    	this.qty= orderBuilder.qty;
+    	this.price= orderBuilder.price;
+    	this.finalPrice= orderBuilder.finalPrice;
+    	this.forDelivery= orderBuilder.forDelivery;
+    	this.status= orderBuilder.status;
+    }
+
+    
+    public static class OrderBuilder {
+        private long store_id;
+        private int qty;
+        private long price;
+        private long finalPrice;
+        private boolean forDelivery;
+        private boolean available;
+        private String status;
+        private Pooler orderOwner;
+
+        public OrderBuilder store_id(long store_id) {
+            this.store_id = store_id;
+            return this;
+        }
+        
+        public OrderBuilder qty(int qty) {
+            this.qty = qty;
+            return this;
+        }
+        
+        public OrderBuilder price(long price) {
+            this.price = price;
+            return this;
+        }
+        
+        public OrderBuilder finalPrice(long finalPrice) {
+            this.finalPrice = finalPrice;
+            return this;
+        }
+        
+        public OrderBuilder forDelivery(boolean forDelivery) {
+            this.forDelivery = forDelivery;
+            return this;
+        }
+        
+        
+        public OrderBuilder available(boolean available) {
+            this.available = available;
+            return this;
+        }
+        
+        
+        public OrderBuilder status(String status) {
+            this.status = status;
+            return this;
+        }
+        
+        public OrderBuilder orderOwner(Pooler orderOwner) {
+            this.orderOwner = orderOwner;
+            return this;
+        }
+        
+        public Orders build() {
+            return new Orders(this);
+        }
     }
 }
