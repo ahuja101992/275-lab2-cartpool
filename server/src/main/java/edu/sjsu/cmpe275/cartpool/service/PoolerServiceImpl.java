@@ -17,8 +17,8 @@ public class PoolerServiceImpl implements PoolerService {
 
 
     @Transactional
-    public Pooler findById(Long id) throws Exception {
-        return poolerRepository.findById(id).orElseThrow(() -> new Exception(""));
+    public Pooler findById(Long id) {
+        return poolerRepository.findById(id).orElseThrow(() -> new UserNotFoundException());
     }
 
     @Transactional

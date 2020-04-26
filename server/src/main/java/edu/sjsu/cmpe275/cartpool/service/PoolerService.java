@@ -3,7 +3,7 @@ package edu.sjsu.cmpe275.cartpool.service;
 import edu.sjsu.cmpe275.cartpool.pojos.Pooler;
 
 public interface PoolerService {
-    Pooler findById(Long id) throws Exception;
+    Pooler findById(Long id);
 
     Pooler login(String email, String password);
 

@@ -1,5 +1,6 @@
 package edu.sjsu.cmpe275.cartpool.pojos;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -7,14 +8,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Table(name = "pool")
 public class Pool {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
-    @Column(name="pool_id")
+    @Column(name = "pool_id")
     private String poolId;
 
     @Column(name = "name")
@@ -31,6 +33,7 @@ public class Pool {
 
     @OneToOne(fetch = FetchType.LAZY,
             cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH})
+    @JsonIgnoreProperties({"pool"})
     private Pooler poolLeader;
 
 
@@ -38,6 +41,7 @@ public class Pool {
             cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH},
             mappedBy = "pool"
     )
+    @JsonIgnoreProperties({"pool"})
     private List<Pooler> members;
 
 
@@ -56,8 +60,16 @@ public class Pool {
         return id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getPoolId() {
         return poolId;
+    }
+
+    public void setPoolId(String poolId) {
+        this.poolId = poolId;
     }
 
     public String getName() {
@@ -106,17 +118,6 @@ public class Pool {
 
     public void setMembers(List<Pooler> members) {
         this.members = members;
-    }
-
-    @Override
-    public String toString() {
-        return "Pool{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", neighborhoodName='" + neighborhoodName + '\'' +
-                ", description='" + description + '\'' +
-                ", zip='" + zip + '\'' +
-                '}';
     }
 
     public void addPooler(Pooler pooler){

@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class PoolServiceImpl implements PoolService {
 
@@ -43,5 +45,12 @@ public class PoolServiceImpl implements PoolService {
     public boolean chceckMembership(Long poolerId){
         Pooler pooler = poolerRepository.findById(poolerId).orElseThrow(() -> new MembershipException());
         return pooler.getPool() == null;
+    }
+
+    @Transactional
+    @Override
+    public List<Pool> searchPool(String searchParam) {
+        poolRepository.findByNameOrNeighborhoodNameOrZip(searchParam, searchParam, searchParam);
+        return null;
     }
 }

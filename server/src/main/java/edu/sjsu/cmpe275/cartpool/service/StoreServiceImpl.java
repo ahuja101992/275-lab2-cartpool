@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-public class StoreServiceImpl implements StoreService {
+public class  StoreServiceImpl implements StoreService {
     @Autowired
     StoreRepository<Pooler> storeRepository;
 
