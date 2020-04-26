@@ -45,7 +45,7 @@ public class PoolController {
         //// check if pooler creating pool is member of other pool or not /////
         if(!poolService.chceckMembership(poolerId)){
             //// pooler is already a member of other pool
-            throw new MembershipException();
+            throw new MembershipException("pooler is already a member of other pool");
         }
 
         Pool pool = new Pool.PoolBuilder()
@@ -63,12 +63,14 @@ public class PoolController {
         return ResponseEntity.status(HttpStatus.OK).body(poolService.save(pool));
     }
 
-    @RequestMapping(value = "/pool/delete",
+    @RequestMapping(value = "/pool/delete/{id}",
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             method = RequestMethod.DELETE)
     public @ResponseBody
-    ResponseEntity<String> deletePool(@RequestParam Long id){
-        return ResponseEntity.status(HttpStatus.OK).body(poolService.delete(id));
+    ResponseEntity<Object> deletePool(@PathVariable Long id){
+        poolService.delete(id);
+        //return ResponseEntity.status(HttpStatus.OK).body(poolService.delete(id));
+        return new ResponseEntity<>("{\"success\": \"Deleted store successfully\"}", HttpStatus.OK);
     }
 
     @RequestMapping(value = "/pool/search/{searchParam}",
