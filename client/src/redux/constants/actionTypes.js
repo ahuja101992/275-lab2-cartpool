@@ -6,6 +6,7 @@ export const GET_STORES_BY_ADMIN = "GET_STORES_BY_ADMIN";
 export const CREATE_STORE = "CREATE_STORE";
 export const DELETE_STORE = "DELETE_STORE";
 export const CHECKOUT = "CHECKOUT";
+export const DELIVERY_NOT_RECEIVED = "DELIVERY_NOT_RECEIVED";
 
 
 
