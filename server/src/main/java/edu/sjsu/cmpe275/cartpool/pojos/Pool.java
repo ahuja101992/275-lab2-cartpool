@@ -11,9 +11,11 @@ import java.util.List;
 public class Pool {
 
     @Id
-    @GeneratedValue(generator = "system-uuid")
-    @GenericGenerator(name = "system-uuid", strategy = "uuid")
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name="pool_id")
+    private String poolId;
 
     @Column(name = "name")
     private String name;
@@ -31,19 +33,11 @@ public class Pool {
             cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH})
     private Pooler poolLeader;
 
-    public Pooler getPoolLeader() {
-        return poolLeader;
-    }
-
-    public void setPoolLeader(Pooler poolLeader) {
-        this.poolLeader = poolLeader;
-    }
 
     @OneToMany(fetch = FetchType.LAZY,
             cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH},
             mappedBy = "pool"
     )
-
     private List<Pooler> members;
 
 
@@ -51,18 +45,19 @@ public class Pool {
     }
 
     public Pool(PoolBuilder builder) {
+        this.poolId = builder.poolId;
         this.name = builder.name;
         this.neighborhoodName = builder.neighborhoodName;
         this.description = builder.description;
         this.zip = builder.zip;
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public String getPoolId() {
+        return poolId;
     }
 
     public String getName() {
@@ -97,13 +92,13 @@ public class Pool {
         this.zip = zip;
     }
 
-//    public Pooler getPoolLeader() {
-//        return poolLeader;
-//    }
-//
-//    public void setPoolLeader(Pooler poolLeader) {
-//        this.poolLeader = poolLeader;
-//    }
+    public Pooler getPoolLeader() {
+        return poolLeader;
+    }
+
+    public void setPoolLeader(Pooler poolLeader) {
+        this.poolLeader = poolLeader;
+    }
 
     public List<Pooler> getMembers() {
         return members;
@@ -132,10 +127,16 @@ public class Pool {
     }
 
     public static class PoolBuilder {
+        private String poolId;
         private String name;
         private String neighborhoodName;
         private String description;
         private String zip;
+
+        public PoolBuilder poolId(String poolId) {
+            this.poolId = poolId;
+            return this;
+        }
 
         public PoolBuilder name(String name) {
             this.name = name;

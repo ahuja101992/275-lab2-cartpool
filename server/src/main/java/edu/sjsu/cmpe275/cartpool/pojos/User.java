@@ -4,6 +4,8 @@ import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.MappedSuperclass;
 
+import org.springframework.beans.factory.annotation.Value;
+
 @MappedSuperclass
 public class User {
     @Column(name = "firstname")
@@ -36,6 +38,9 @@ public class User {
     @Column(name = "provider_id")
     private String provider_id;
     
+    @Column(name = "contribution", columnDefinition = "integer default 0" )
+    private int contribution;
+    
     @Embedded
     private Address address;
 
@@ -53,9 +58,18 @@ public class User {
         this.accessToken = builder.accessToken;
         this.provider = builder.provider;
         this.provider_id = builder.provider_id;
+        this.contribution = builder.contribution;
     }
 
-    public String getProvider_id() {
+    public int getContribution() {
+		return contribution;
+	}
+
+	public void setContribution(int contribution) {
+		this.contribution = contribution;
+	}
+
+	public String getProvider_id() {
 		return provider_id;
 	}
 
@@ -154,10 +168,15 @@ public class User {
         private String provider;
         private String accessToken;
         private String provider_id;
+        private int contribution;
 
         public Builder() {
         }
-
+        public T contribution(int contribution) {
+            this.contribution = contribution;
+            return (T) this;
+        }
+        
         public T provider_id(String provider_id) {
             this.provider_id = provider_id;
             return (T) this;

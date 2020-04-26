@@ -29,6 +29,14 @@ public class Pooler extends User {
     public Pooler() {
     }
 
+    public Pool getPool() {
+        return pool;
+    }
+
+    public void setPool(Pool pool) {
+        this.pool = pool;
+    }
+
     protected Pooler(Builder builder) {
         super(builder);
     }

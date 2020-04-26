@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 import edu.sjsu.cmpe275.cartpool.service.OrderService;
+import edu.sjsu.cmpe275.cartpool.service.PoolerService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +22,9 @@ import java.util.List;
 public class OrderController {
 	@Autowired
 	OrderService orderService;
-
+	
+	@Autowired
+	PoolerService poolerService;
 	@RequestMapping(value = "/order/checkout",
 			produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
 			method = RequestMethod.POST)
@@ -34,7 +37,10 @@ public class OrderController {
 									@RequestParam String ownerId,		
 									@RequestParam long price) {
 		long finalPrice= (long) (price+(.975*price));
-		
+		if(forDelivery) 
+			poolerService.subtractContribution(ownerId);
+		else 
+			poolerService.addContribution(ownerId);
         Orders order = new Orders.OrderBuilder()
         		.available(true)
         		.qty(qty)
