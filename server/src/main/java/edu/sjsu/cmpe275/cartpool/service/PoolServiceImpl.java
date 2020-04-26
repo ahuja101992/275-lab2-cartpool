@@ -49,7 +49,7 @@ public class PoolServiceImpl implements PoolService {
     @Transactional
     @Override
     public List<Pool> searchPool(String searchParam) {
-        poolRepository.findByNameOrNeighborhoodNameOrZip(searchParam, searchParam, searchParam);
-        return null;
+        List<Pool> poolList = poolRepository.findByNameOrNeighborhoodNameOrZipAllIgnoreCase(searchParam, searchParam, searchParam);
+        return poolList;
     }
 }
