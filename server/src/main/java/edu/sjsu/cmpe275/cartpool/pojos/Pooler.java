@@ -19,7 +19,7 @@ public class Pooler extends User {
             fetch = FetchType.LAZY,
             cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH}
     )
-    @JoinColumn(name = "pool_id_fk", referencedColumnName = "id")
+    @JoinColumn(name = "pool_id", referencedColumnName = "id")
     private Pool pool;
     
 //    @OneToMany(fetch = FetchType.LAZY, mappedBy="pooler")
