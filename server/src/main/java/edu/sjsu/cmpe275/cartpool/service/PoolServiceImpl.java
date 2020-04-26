@@ -29,21 +29,22 @@ public class PoolServiceImpl implements PoolService {
 
     @Transactional
     @Override
-    public String delete(Long poolId) {
+    public void delete(Long poolId) {
         Pool pool = poolRepository.findById(poolId).orElseThrow(() -> new PoolNotFoundException());
-
-        if(pool.getMembers().size() == 0) {
+        Pooler poolLeader = pool.getPoolLeader();
+        if(pool.getMembers().size() == 1 && pool.getMembers().get(0) == poolLeader) {
+            poolLeader.setPool(null);
             poolRepository.delete(pool);
-            return "deleted store successfully";
         }
 
-        return "Unable to delete pool!! :: Members exist in pool";
+        else
+            throw new MembershipException("Unable to delete pool!! :: Members exist in pool");
     }
 
     @Transactional
     @Override
     public boolean chceckMembership(Long poolerId){
-        Pooler pooler = poolerRepository.findById(poolerId).orElseThrow(() -> new MembershipException());
+        Pooler pooler = poolerRepository.findById(poolerId).orElseThrow(() -> new MembershipException(""));
         return pooler.getPool() == null;
     }
 
