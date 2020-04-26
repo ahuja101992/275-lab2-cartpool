@@ -52,4 +52,35 @@ public class PoolerServiceImpl implements PoolerService {
 
         return poolerRepository.save(pooler);
     }
+
+	@Override
+	public void addContribution(String email) {
+		Pooler users= poolerRepository.findByEmail(email);
+		if(users!= null)
+			users.setContribution(users.getContribution()+1);
+		else
+			throw new UserNotFoundException();
+	}
+
+	@Override
+	public void subtractContribution(String email) {
+		Pooler users= poolerRepository.findByEmail(email);
+		if(users!= null)
+			users.setContribution(users.getContribution()-1);
+		else
+			throw new UserNotFoundException();
+	}
+////// need to check this service 
+	@Override
+	public int getContribution(String email) {
+		int contribution=0;
+		Pooler users= poolerRepository.findByEmail(email);
+		if(users!= null) {
+			contribution = users.getContribution();
+		}
+		else {
+			throw new UserNotFoundException();
+		}
+		return contribution;
+	}
 }

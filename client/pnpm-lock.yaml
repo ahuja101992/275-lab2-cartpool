@@ -13,12 +13,15 @@ dependencies:
   mdbreact: 4.25.6
   react: 16.13.1
   react-bootstrap: 1.0.0_react-dom@16.13.1+react@16.13.1
+  react-bootstrap-table-next: 4.0.1_react-dom@16.13.1+react@16.13.1
   react-chat-window: 1.2.1_react-dom@16.13.1+react@16.13.1
   react-dom: 16.13.1_react@16.13.1
+  react-facebook-login: 4.1.1_react@16.13.1
+  react-google-login: 5.1.10_react-dom@16.13.1+react@16.13.1
   react-grid-layout: 0.17.1_react-dom@16.13.1+react@16.13.1
   react-infinite-scroller: 1.2.4_react@16.13.1
   react-js-pull-to-refresh: 1.2.2_react-dom@16.13.1+react@16.13.1
-  react-redux: 7.2.0_react@16.13.1+redux@4.0.5
+  react-redux: 7.2.0_49f644e2f7de4182503f8b93abece808
   react-router: 5.1.2_react@16.13.1
   react-router-dom: 5.1.2_react@16.13.1
   react-scripts: 3.4.1
@@ -1942,6 +1945,7 @@ packages:
     peerDependencies:
       '@typescript-eslint/parser': ^2.0.0
       eslint: ^5.0.0 || ^6.0.0
+      typescript: '*'
     peerDependenciesMeta:
       typescript:
         optional: true
@@ -1973,6 +1977,7 @@ packages:
       node: ^8.10.0 || ^10.13.0 || >=11.10.1
     peerDependencies:
       eslint: ^5.0.0 || ^6.0.0
+      typescript: '*'
     peerDependenciesMeta:
       typescript:
         optional: true
@@ -1990,6 +1995,8 @@ packages:
     dev: false
     engines:
       node: ^8.10.0 || ^10.13.0 || >=11.10.1
+    peerDependencies:
+      typescript: '*'
     peerDependenciesMeta:
       typescript:
         optional: true
@@ -9837,6 +9844,20 @@ packages:
       node: '>=6'
     resolution:
       integrity: sha512-OfBnObtnGgLGfweORmdZbyEz+3dgVePQBb3zipiaDsMHV1NpWm0rDFYIVXFV/AK+x4VIIfWHhrdMIeoTLyRr2g==
+  /react-bootstrap-table-next/4.0.1_react-dom@16.13.1+react@16.13.1:
+    dependencies:
+      classnames: 2.2.6
+      react: 16.13.1
+      react-dom: 16.13.1_react@16.13.1
+      react-transition-group: 4.3.0_react-dom@16.13.1+react@16.13.1
+      underscore: 1.9.1
+    dev: false
+    peerDependencies:
+      prop-types: ^15.0.0
+      react: ^16.3.0
+      react-dom: ^16.3.0
+    resolution:
+      integrity: sha512-TOSk4zOyuLQr020KRlKeUOfi8lvtAwMyC4803FjNVMGWwUveYijmhlnJ4ASqlNpdmDvvEYZThGRp5QfoNYpTjQ==
   /react-bootstrap/1.0.0_react-dom@16.13.1+react@16.13.1:
     dependencies:
       '@babel/runtime': 7.9.2
@@ -9954,6 +9975,26 @@ packages:
       react: ^16.3.0
     resolution:
       integrity: sha512-+hCNqfy7o9wvO6UgjqFmBzARJS7qrNoda0VqzvOuioEpoEXKutiKuv92dSz6kP7rYLmyHPyYNLesi5t/aH1gfw==
+  /react-facebook-login/4.1.1_react@16.13.1:
+    dependencies:
+      react: 16.13.1
+    dev: false
+    peerDependencies:
+      react: ^16.0.0
+    resolution:
+      integrity: sha512-COnHEHlYGTKipz4963safFAK9PaNTcCiXfPXMS/yxo8El+/AJL5ye8kMJf23lKSSGGPgqFQuInskIHVqGqTvSw==
+  /react-google-login/5.1.10_react-dom@16.13.1+react@16.13.1:
+    dependencies:
+      '@types/react': 16.9.34
+      prop-types: 15.7.2
+      react: 16.13.1
+      react-dom: 16.13.1_react@16.13.1
+    dev: false
+    peerDependencies:
+      react: ^16.0.0
+      react-dom: ^16.0.0
+    resolution:
+      integrity: sha512-dEmfMGlh9EmFhSNLKG5qzUlVmbUH5E0FmgSM36LfrBg/omr4fHGuNELb+iVqig/I+UgRvhv0hD22m8KTcEjHDA==
   /react-grid-layout/0.17.1_react-dom@16.13.1+react@16.13.1:
     dependencies:
       classnames: 2.2.6
@@ -10078,18 +10119,21 @@ packages:
       react: 0.14.x || ^15.0.0 || ^16.0.0
     resolution:
       integrity: sha512-nmqYTx7QVjCm3WUZLeuOomna138R1luC4EqkW3hxJUrAe+3eNz3oFCLYdnPwILfn0mX1Ew2c3wctrjlUMYYUww==
-  /react-redux/7.2.0_react@16.13.1+redux@4.0.5:
+  /react-redux/7.2.0_49f644e2f7de4182503f8b93abece808:
     dependencies:
       '@babel/runtime': 7.9.2
       hoist-non-react-statics: 3.3.2
       loose-envify: 1.4.0
       prop-types: 15.7.2
       react: 16.13.1
+      react-dom: 16.13.1_react@16.13.1
       react-is: 16.13.1
       redux: 4.0.5
     dev: false
     peerDependencies:
       react: ^16.8.3
+      react-dom: '*'
+      react-native: '*'
       redux: ^2.0.0 || ^3.0.0 || ^4.0.0-0
     peerDependenciesMeta:
       react-dom:
@@ -11877,6 +11921,8 @@ packages:
     dev: false
     engines:
       node: '>=6'
+    peerDependencies:
+      typescript: '*'
     peerDependenciesMeta:
       typescript:
         optional: true
@@ -11886,6 +11932,8 @@ packages:
     dev: false
     engines:
       node: '>=6'
+    peerDependencies:
+      typescript: '*'
     peerDependenciesMeta:
       typescript:
         optional: true
@@ -11984,6 +12032,10 @@ packages:
       react: '>=15.0.0'
     resolution:
       integrity: sha512-EcPYhot3uWTS3w00R32R2+vS8Vr53tttrvMj/yA1uYRhf8hbTG2GyugGqWDY0qIskxn0uTTojVd6wPYW9ZEf8Q==
+  /underscore/1.9.1:
+    dev: false
+    resolution:
+      integrity: sha512-5/4etnCkd9c8gwgowi5/om/mYO5ajCaOgdzj/oW+0eQV9WxKBDZw5+ycmKmeaTXjInS/W0BzpGLo2xR2aBwZdg==
   /unicode-canonical-property-names-ecmascript/1.0.4:
     dev: false
     engines:
@@ -12312,6 +12364,7 @@ packages:
     hasBin: true
     peerDependencies:
       webpack: ^4.0.0 || ^5.0.0
+      webpack-cli: '*'
     peerDependenciesMeta:
       webpack-cli:
         optional: true
@@ -12767,8 +12820,11 @@ specifiers:
   mdbreact: ^4.22.1
   react: ^16.11.0
   react-bootstrap: ^1.0.0-beta.16
+  react-bootstrap-table-next: ^4.0.1
   react-chat-window: ^1.2.1
   react-dom: ^16.11.0
+  react-facebook-login: ^4.1.1
+  react-google-login: ^5.1.3
   react-grid-layout: ^0.17.1
   react-infinite-scroller: ^1.2.4
   react-js-pull-to-refresh: ^1.2.2
