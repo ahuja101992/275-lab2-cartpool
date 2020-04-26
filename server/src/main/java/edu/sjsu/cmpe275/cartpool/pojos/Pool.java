@@ -161,4 +161,18 @@ public class Pool {
             return new Pool(this);
         }
     }
+
+    @Override
+    public String toString() {
+        return "Pool{" +
+                "id=" + id +
+                ", poolId='" + poolId + '\'' +
+                ", name='" + name + '\'' +
+                ", neighborhoodName='" + neighborhoodName + '\'' +
+                ", description='" + description + '\'' +
+                ", zip='" + zip + '\'' +
+                ", poolLeader=" + poolLeader +
+                ", members=" + members +
+                '}';
+    }
 }
