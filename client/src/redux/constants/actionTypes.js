@@ -7,6 +7,7 @@ export const CREATE_STORE = "CREATE_STORE";
 export const DELETE_STORE = "DELETE_STORE";
 export const CHECKOUT = "CHECKOUT";
 export const DELIVERY_NOT_RECEIVED = "DELIVERY_NOT_RECEIVED";
+export const GET_PLACED_ORDERS = "GET_PLACED_ORDERS";
 
 
 

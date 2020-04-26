@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import {Button, Card, Badge} from "react-bootstrap";
 import {connect} from "react-redux";
 import {Redirect} from "react-router";
-import {markDeliveryNotReceived} from "../../redux/actions/orderActions";
+import {markDeliveryNotReceived, getOrdersPlaced} from "../../redux/actions/orderActions";
 
 function mapStateToProps(store) {
     return {
@@ -12,7 +12,9 @@ function mapStateToProps(store) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        markDeliveryNotReceived: (payload) => dispatch(markDeliveryNotReceived(payload))
+        markDeliveryNotReceived: (payload) => dispatch(markDeliveryNotReceived(payload)),
+        getOrdersPlaced: (payload) => dispatch(getOrdersPlaced(payload)),
+
     };
 }
 
@@ -62,10 +64,9 @@ class Orders extends Component {
 
     componentDidMount() {
         const payload = {};
-        payload.userId = localStorage.getItem('_id');
-        payload.statusCode = "All";
+        payload.userId = localStorage.getItem('id');
 
-        //this.props.getOrdersByStatus(payload);
+        this.props.getOrdersPlaced(payload);
     }
 
     markDeliveryNotReceived = (order) => {
@@ -79,7 +80,7 @@ class Orders extends Component {
             console.log("order")
             console.log(order)
 
-            return <lu key={index}>
+            return <ul key={index}>
                 <Card style={{width: '22rem'}}>
                     <Card.Img variant="top" src={require("../../images/restaurant-logo.png")}/>
                     <Card.Body>
@@ -93,7 +94,7 @@ class Orders extends Component {
                         </Card.Text>
                     </Card.Body>
                 </Card>
-            </lu>;
+            </ul>;
         });
 
         return <div>
