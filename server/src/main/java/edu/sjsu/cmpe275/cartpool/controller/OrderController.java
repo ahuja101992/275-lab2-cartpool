@@ -95,5 +95,22 @@ public class OrderController {
     ResponseEntity<List<Orders>> getOrdersByUserId(@PathVariable long id) {
         return ResponseEntity.status(HttpStatus.OK).body(orderService.getOrdersByUserId(id));
     }
+    
+    @RequestMapping(value = "/order/submitorder/",
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+            method = RequestMethod.POST)
+    public @ResponseBody
+    ResponseEntity<Orders> submitOrder(@RequestBody Orders order) {
+//    	POM DEPENDENCY
+//    	<dependency>
+//    	<groupId>org.codehaus.jackson</groupId>
+//    	<artifactId>jackson-mapper-asl</artifactId>
+//    	<version>1.9.13</version>
+//    </dependency>
+    	//import org.codehaus.jackson.map.ObjectMapper; import needed
+//    	ObjectMapper mapper = new ObjectMapper();
+//    	Orders testOrder = mapper.readValue(order, Orders.class);
+    	return ResponseEntity.status(HttpStatus.OK).body(order);
+    }
 
 }
