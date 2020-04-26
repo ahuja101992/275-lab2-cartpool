@@ -7,18 +7,17 @@ import java.util.Objects;
 @Embeddable
 public class ProductId implements Serializable {
 
-    @Column(nullable = false,name="store_id")
-    private long storeId;
+    @Column(nullable = false,name="storeId")
+    private Long storeId;
 
-    @Column
+    @Column(name="sku")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long sku;
+    private Long sku;
 
-    public ProductId(long storeId,long sku){
+    public ProductId(Long storeId,Long sku){
         this.sku=sku;
         this.storeId=storeId;
     }
-
 
     @Override
     public boolean equals(Object o) {
@@ -40,5 +39,13 @@ public class ProductId implements Serializable {
 
     public long getSku() {
         return sku;
+    }
+
+    public void setStoreId(Long storeId) {
+        this.storeId = storeId;
+    }
+
+    public void setSku(Long sku) {
+        this.sku = sku;
     }
 }

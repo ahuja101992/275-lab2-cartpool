@@ -24,7 +24,7 @@ public class ProductServiceImpl implements ProductService {
     AdminRepository<Admin> adminRepository;
 
     @Autowired
-    ProductRepository<Product> productRepository;
+    ProductRepository productRepository;
 
     @Autowired
     StoreRepository<Store> storeRepository;
@@ -62,16 +62,17 @@ public class ProductServiceImpl implements ProductService {
         return (Set<Product>) productRepository.findByStoreId(storeId);
     }
 
-    @Override
-    @Transactional
-    public Product ffindByStoreId_SKU(Long storeId, Long sku) {
-        return productRepository.findByStoreId_SKU(storeId,sku).orElseThrow(() -> new UserNotFoundException());
-    }
-
-    @Transactional
-    public List<Product> searchProductBySKU(Long sku) {
-        return  productRepository.findBySKU(sku);
-    }
+//    @Override
+//    @Transactional
+//    public Product ffindByStoreId_SKU(Long storeId, Long sku) {
+//        Product product = productRepository.findByStoreId_sku(storeId,sku);
+//        return product;
+//    }
+//
+//    @Transactional
+//    public List<Product> searchProductBySKU(Long sku) {
+//        return  productRepository.findBysku(sku);
+//    }
 
     @Transactional
     public List<Product> searchProductByName(String name) {
