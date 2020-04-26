@@ -6,17 +6,16 @@ import java.util.Objects;
 
 @Embeddable
 public class ProductId implements Serializable {
-
-    @Column(nullable = false,name="storeId")
     private Long storeId;
-
-    @Column(name="sku")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long sku;
 
     public ProductId(Long storeId,Long sku){
         this.sku=sku;
         this.storeId=storeId;
+    }
+
+    public ProductId(Long sku){
+        this.sku=sku;
     }
 
     @Override

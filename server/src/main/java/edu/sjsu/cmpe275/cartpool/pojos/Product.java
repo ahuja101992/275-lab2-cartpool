@@ -30,7 +30,9 @@ public class Product {
     @Column(name = "price")
     private Long price;
 
+    @MapsId("StoreId")
     @ManyToOne
+    @JoinColumn(name = "storeId", referencedColumnName = "id")
     private Store store;
 
     public ProductId getId() {
@@ -81,6 +83,10 @@ public class Product {
         this.unit = unit;
     }
 
+    public Product(ProductId id) {
+        this.id = id;
+    }
+
     public Product(ProductId id, String name, String description, String imageURL, String unit, long price) {
         this.id = id;
         this.name = name;
@@ -119,7 +125,7 @@ public class Product {
     @Override
     public String toString() {
         return "Product{" +
-                "id=" + id +
+                "id=" + id.toString() +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", imageURL='" + imageURL + '\'' +

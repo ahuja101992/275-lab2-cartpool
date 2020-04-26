@@ -17,6 +17,6 @@ public interface ProductService {
 
     Set<Product> searchProductByStoreId(Long storeId);
 
-//    Product ffindByStoreId_SKU(Long storeId, Long sku);
+    Product ffindByStoreId_SKU(Long storeId, Long sku);
 
 }

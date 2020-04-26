@@ -65,42 +65,42 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.OK).body(products);
     }
 
-//    @RequestMapping(value = "/inventory/store/{storeId}/{adminId}",
-//            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
-//            method = RequestMethod.PUT)
-//    @ResponseBody
-//    public ResponseEntity<Product> updateStore(@PathVariable Long storeId,
-//                                                   @PathVariable Long sku,
-//                                                   @RequestParam String name,
-//                                                   @RequestParam String desc,
-//                                                   @RequestParam String image_url,
-//                                                   @RequestParam String brand,
-//                                                   @RequestParam String unit,
-//                                                   @RequestParam Long price,
-//                                                   @RequestParam Long adminId) {
-//        adminService.findById(adminId);
-//        Product product = productService.ffindByStoreId_SKU(storeId,sku);
-//        if(name!=null){
-//            product.setName(name);
-//        }
-//        if(desc!=null){
-//            product.setDescription(desc);
-//        }
-//        if(image_url!=null){
-//            product.setImageURL(image_url);
-//        }
-//        if(brand!=null){
-//            product.setBrandName(brand);
-//        }
-//        if(unit!=null){
-//            product.setUnit(unit);
-//        }
-//        if(price!=null){
-//            product.setPrice(price);
-//        }
-//
-//        return product != null ? ResponseEntity.status(HttpStatus.OK).body(product) : null;
-//    }
+    @RequestMapping(value = "/product/{storeId}/{sku}/{adminId}",
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+            method = RequestMethod.PUT)
+    @ResponseBody
+    public ResponseEntity<Product> updateStore(@PathVariable Long storeId,
+                                                   @PathVariable Long sku,
+                                                   @RequestParam String name,
+                                                   @RequestParam String desc,
+                                                   @RequestParam String image_url,
+                                                   @RequestParam String brand,
+                                                   @RequestParam String unit,
+                                                   @RequestParam Long price,
+                                                   @RequestParam Long adminId) {
+        adminService.findById(adminId);
+        Product product = productService.ffindByStoreId_SKU(storeId,sku);
+        if(name!=null){
+            product.setName(name);
+        }
+        if(desc!=null){
+            product.setDescription(desc);
+        }
+        if(image_url!=null){
+            product.setImageURL(image_url);
+        }
+        if(brand!=null){
+            product.setBrandName(brand);
+        }
+        if(unit!=null){
+            product.setUnit(unit);
+        }
+        if(price!=null){
+            product.setPrice(price);
+        }
+
+        return product != null ? ResponseEntity.status(HttpStatus.OK).body(product) : null;
+    }
 
 
 

@@ -10,6 +10,7 @@ import edu.sjsu.cmpe275.cartpool.repository.AdminRepository;
 import edu.sjsu.cmpe275.cartpool.repository.ProductRepository;
 import edu.sjsu.cmpe275.cartpool.repository.StoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -62,17 +63,19 @@ public class ProductServiceImpl implements ProductService {
         return (Set<Product>) productRepository.findByStoreId(storeId);
     }
 
-//    @Override
-//    @Transactional
-//    public Product ffindByStoreId_SKU(Long storeId, Long sku) {
-//        Product product = productRepository.findByStoreId_sku(storeId,sku);
-//        return product;
-//    }
-//
-//    @Transactional
-//    public List<Product> searchProductBySKU(Long sku) {
-//        return  productRepository.findBysku(sku);
-//    }
+    @Override
+    @Transactional
+    public Product ffindByStoreId_SKU(Long storeId, Long sku) {
+        Product product = productRepository.findById(new ProductId(storeId,sku)).orElseThrow(()->new UserNotFoundException());
+        return product;
+    }
+
+    @Transactional
+    public List<Product> searchProductBySKU(Long sku) {
+        ProductId productId = new ProductId(sku);
+        Example<Product> productExample = Example.of(new Product(productId));
+        return productRepository.findAll(productExample);
+    }
 
     @Transactional
     public List<Product> searchProductByName(String name) {
