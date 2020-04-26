@@ -1,5 +1,6 @@
 package edu.sjsu.cmpe275.cartpool.controller;
 
+import edu.sjsu.cmpe275.cartpool.exceptions.MembershipException;
 import edu.sjsu.cmpe275.cartpool.pojos.Pool;
 import edu.sjsu.cmpe275.cartpool.pojos.Pooler;
 import edu.sjsu.cmpe275.cartpool.service.PoolService;
@@ -8,8 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
+@Component
 @RestController
 public class PoolController {
 
@@ -18,6 +24,12 @@ public class PoolController {
 
     @Autowired
     private PoolerService poolerService;
+
+    @RequestMapping(value = "/pool/test",
+            method = RequestMethod.GET)
+    public void test(){
+        System.out.println("testing");
+    }
 
     @RequestMapping(value = "/pool/create",
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
@@ -31,10 +43,9 @@ public class PoolController {
                                     @RequestParam Long poolerId){
 
         //// check if pooler creating pool is member of other pool or not /////
-
-        if(poolService.chceckMembership(poolerId)){
+        if(!poolService.chceckMembership(poolerId)){
             //// pooler is already a member of other pool
-            return null;
+            throw new MembershipException("pooler is already a member of other pool");
         }
 
         Pool pool = new Pool.PoolBuilder()
@@ -45,23 +56,40 @@ public class PoolController {
                 .zip(zip)
                 .build();
 
+        Pooler poolLeader = poolerService.findById(poolerId);
+        pool.setPoolLeader(poolLeader);
+        pool.addPooler(poolLeader);
+        poolLeader.setPool(pool);
         return ResponseEntity.status(HttpStatus.OK).body(poolService.save(pool));
     }
 
-    @RequestMapping(value = "/pool/delete",
+    @RequestMapping(value = "/pool/delete/{id}",
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             method = RequestMethod.DELETE)
     public @ResponseBody
-    ResponseEntity<String> deletePool(@RequestParam Long id){
-        return ResponseEntity.status(HttpStatus.OK).body(poolService.delete(id));
+    ResponseEntity<Object> deletePool(@PathVariable Long id){
+        poolService.delete(id);
+        //return ResponseEntity.status(HttpStatus.OK).body(poolService.delete(id));
+        return new ResponseEntity<>("{\"success\": \"Deleted store successfully\"}", HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/pool/search/{searchParam}",
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+            method = RequestMethod.GET)
+    public @ResponseBody
+    ResponseEntity<List<Pool>> searchPool(@PathVariable String searchParam){
+        List<Pool> poolList = poolService.searchPool(searchParam);
+        return ResponseEntity.status(HttpStatus.OK).body(poolList);
     }
 
     @RequestMapping(value = "/pool/join",
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             method = RequestMethod.PUT)
     public @ResponseBody
-    ResponseEntity<Pool> joinPool(@RequestParam String id,
+    ResponseEntity<Pool> joinPool(@RequestParam Long id,
                                   @RequestParam Pooler pooler){
+
+
         //return ResponseEntity.status(HttpStatus.OK).body(poolService.delete(id));
         return null;
     }
