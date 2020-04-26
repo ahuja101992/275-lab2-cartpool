@@ -47,7 +47,24 @@ public class OrderController {
 		return ResponseEntity.status(HttpStatus.OK).body(null);
 	}
 
-	@RequestMapping(value = "/order/markDeliveryNotReceived",
+	@RequestMapping(value = "/order/delivery/checkout",
+			produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+			method = RequestMethod.POST)
+	public @ResponseBody
+	ResponseEntity<Orders> deliveryCheckout(@RequestParam(required = false) String deliveryPersonId,
+									@RequestParam String orderId) {
+		return ResponseEntity.status(HttpStatus.OK).body(null);
+	}
+
+	@RequestMapping(value = "/order/delivery/markDelivered",
+			produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+			method = RequestMethod.POST)
+	public @ResponseBody
+	ResponseEntity<Orders> markDelivered(@RequestParam String orderId) {
+		return ResponseEntity.status(HttpStatus.OK).body(null);
+	}
+
+	@RequestMapping(value = "/order/delivery/markDeliveryNotReceived",
 			produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
 			method = RequestMethod.POST)
 	public @ResponseBody
