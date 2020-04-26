@@ -2,11 +2,8 @@ package edu.sjsu.cmpe275.cartpool.pojos;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import java.util.List;
-import java.util.Set;
-
 import javax.persistence.*;
-import javax.xml.bind.annotation.XmlTransient;
+import java.util.List;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -22,12 +19,16 @@ public class Pooler extends User {
     @JoinColumn(name = "pool_id", referencedColumnName = "id")
     @JsonIgnoreProperties({"poolLeader"})
     private Pool pool;
-    
-    @OneToMany(fetch = FetchType.LAZY, mappedBy="deliveryBy")
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "deliveryBy")
     @JsonIgnoreProperties({"orderOwner", "deliveryBy"})
     private List<Orders> orders;
 
     public Pooler() {
+    }
+
+    protected Pooler(Builder builder) {
+        super(builder);
     }
 
     public Pool getPool() {
@@ -38,10 +39,6 @@ public class Pooler extends User {
         this.pool = pool;
     }
 
-    protected Pooler(Builder builder) {
-        super(builder);
-    }
-
     public long getId() {
         return id;
     }
@@ -49,14 +46,14 @@ public class Pooler extends User {
     public void setId(long id) {
         this.id = id;
     }
-    
-    public List<Orders> getOrders() {
-		return orders;
-	}
 
-	public void setOrders(List<Orders> orders) {
-		this.orders = orders;
-	}
+    public List<Orders> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Orders> orders) {
+        this.orders = orders;
+    }
 
     public static class Builder extends User.Builder<Builder> {
         private final boolean sauceInside = false; // Default

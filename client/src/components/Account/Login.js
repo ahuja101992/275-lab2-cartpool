@@ -7,6 +7,7 @@ import {Button, Form, Toast} from "react-bootstrap";
 import {Redirect} from "react-router";
 import FacebookLogin from 'react-facebook-login';
 import GoogleLogin from 'react-google-login';
+
 function mapStateToProps(store) {
     return {
         signinSuccess: store.auth.signinSuccess,
@@ -25,8 +26,15 @@ class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            redirectVar: false, date: null,email:null, accessToken:null, name: null, img_url: null, provider: null, provider_id:null,
-            OAuthRedirect:false
+            redirectVar: false,
+            date: null,
+            email: null,
+            accessToken: null,
+            name: null,
+            img_url: null,
+            provider: null,
+            provider_id: null,
+            OAuthRedirect: false
         }
     }
 
@@ -41,57 +49,57 @@ class Login extends Component {
         this.setState({date: new Date().getTime()})
         this.props.signIn(data);
     };
-    login =(res, type)=>{
-        let data ={};
-        if(type ==='facebook' && res.email){
+    login = (res, type) => {
+        let data = {};
+        if (type === 'facebook' && res.email) {
             data = {
                 email: res.email,
                 accessToken: res.accessToken,
                 name: res.name,
                 img_url: res.picture.data.url,
                 provider_id: res.id,
-                provider:'facebook'
+                provider: 'facebook'
             };
-        }else if(type === 'google' && res.Qt.zu){
+        } else if (type === 'google' && res.Qt.zu) {
             data = {
                 email: res.Qt.zu,
                 accessToken: res.accessToken,
                 name: res.Qt.Ad,
                 img_url: res.Qt.gL,
                 provider_id: res.Qt.ZU,
-                provider:'google'
+                provider: 'google'
             };
         }
         this.props.signIn(data);
     }
-    signup =(res, type)=>{
-        if(type ==='facebook' && res.email){
+    signup = (res, type) => {
+        if (type === 'facebook' && res.email) {
             this.setState({
                 email: res.email,
                 accessToken: res.accessToken,
                 name: res.name,
                 img_url: res.picture.data.url,
                 provider_id: res.id,
-                provider:'facebook',
+                provider: 'facebook',
                 OAuthRedirect: true
             });
-        }else if(type === 'google' && res.Qt.zu){
+        } else if (type === 'google' && res.Qt.zu) {
             this.setState({
                 email: res.Qt.zu,
                 accessToken: res.accessToken,
                 name: res.Qt.Ad,
                 img_url: res.Qt.gL,
                 provider_id: res.Qt.ZU,
-                provider:'google',
+                provider: 'google',
                 OAuthRedirect: true
             });
-            
+
         }
     }
 
     render() {
         const responseFacebook = (response) => {
-            console.log(" facebook",response);
+            console.log(" facebook", response);
             this.signup(response, 'facebook');
             console.log(this.state);
         }
@@ -156,9 +164,9 @@ class Login extends Component {
                     </div>
                     <div>
                         <div>
-                        <Button style={styles.loginButton} variant="primary" type="submit">
-                            Log in
-                        </Button>
+                            <Button style={styles.loginButton} variant="primary" type="submit">
+                                Log in
+                            </Button>
                         </div>
                         <div>
                             <FacebookLogin
@@ -168,7 +176,7 @@ class Login extends Component {
                                 textButton="Login with FaceBook"
                                 fields="name,email,picture"
                                 onClick={loginFaceook}
-                                callback={loginFaceook} />
+                                callback={loginFaceook}/>
                         </div>
                         <div>
                             <GoogleLogin
@@ -188,21 +196,21 @@ class Login extends Component {
                                     onClick={() => this.setState({redirectVar: true})}>
                                 Sign up
                             </Button>
-                <FacebookLogin
-                    appId="648035059374184"
-                    autoLoad={false}
-                    size="small"
-                    textButton="Signup with Facebook"
-                    fields="name,email,picture"
-                    onClick={responseFacebook}
-                    callback={responseFacebook} />
-                <GoogleLogin
-                    clientId="332159711982-5stv96v0qenutt5p3lrv0jtbo9lst47e.apps.googleusercontent.com"
-                    buttonText="Signup with Google "
-                    onSuccess={responseGoogle}
-                    onFailure={responseGoogle}
-                    cookiePolicy={'single_host_origin'}/>
-                <Form onSubmit={this.signUp}></Form>
+                            <FacebookLogin
+                                appId="648035059374184"
+                                autoLoad={false}
+                                size="small"
+                                textButton="Signup with Facebook"
+                                fields="name,email,picture"
+                                onClick={responseFacebook}
+                                callback={responseFacebook}/>
+                            <GoogleLogin
+                                clientId="332159711982-5stv96v0qenutt5p3lrv0jtbo9lst47e.apps.googleusercontent.com"
+                                buttonText="Signup with Google "
+                                onSuccess={responseGoogle}
+                                onFailure={responseGoogle}
+                                cookiePolicy={'single_host_origin'}/>
+                            <Form onSubmit={this.signUp}></Form>
                         </Form.Row>
                     </div>
                 </Form>

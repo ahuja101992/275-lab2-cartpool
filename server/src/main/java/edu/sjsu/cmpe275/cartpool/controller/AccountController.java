@@ -5,7 +5,6 @@ import edu.sjsu.cmpe275.cartpool.pojos.Pooler;
 import edu.sjsu.cmpe275.cartpool.pojos.User;
 import edu.sjsu.cmpe275.cartpool.service.AdminService;
 import edu.sjsu.cmpe275.cartpool.service.PoolerService;
-import edu.sjsu.cmpe275.cartpool.service.PoolerServiceImpl;
 import edu.sjsu.cmpe275.cartpool.util.UtilFunctions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -54,9 +53,9 @@ public class AccountController {
             return ResponseEntity.status(HttpStatus.OK).body(adminService.save(admin));
         } else {
             //Create pooler
-        	Pooler pooler = null;
-        	if(provider!=""&& provider !=null) {
-        		pooler = new Pooler.Builder()
+            Pooler pooler = null;
+            if (provider != "" && provider != null) {
+                pooler = new Pooler.Builder()
                         .screenname(screenName)
                         .nickname(nickName)
                         .email(email)
@@ -64,15 +63,15 @@ public class AccountController {
                         .provider(provider)
                         .provider_id(provider_id)
                         .build();
-        	}else {
-        		pooler = new Pooler.Builder()
+            } else {
+                pooler = new Pooler.Builder()
                         .screenname(screenName)
                         .nickname(nickName)
                         .email(email)
                         .password(password)
                         .build();
-        	}
-            
+            }
+
             return ResponseEntity.status(HttpStatus.OK).body(poolerService.save(pooler));
         }
     }
@@ -82,17 +81,17 @@ public class AccountController {
             method = RequestMethod.POST)
     public @ResponseBody
     ResponseEntity<User> login(@RequestParam String email,
-                                 @RequestParam(required = false) String password,
-                                 @RequestParam(required = false) String provider_id,
-                                 @RequestParam(required = false) String provider) {
+                               @RequestParam(required = false) String password,
+                               @RequestParam(required = false) String provider_id,
+                               @RequestParam(required = false) String provider) {
 
         if (UtilFunctions.isAdmin(email)) {
             return ResponseEntity.status(HttpStatus.OK).body(adminService.login(email, password));
         } else {
-        	if(provider!=null && provider !="") 
-        		return ResponseEntity.status(HttpStatus.OK).body(poolerService.loginOAuth(email, provider));
-        	else
-        		return ResponseEntity.status(HttpStatus.OK).body(poolerService.login(email, password));
+            if (provider != null && provider != "")
+                return ResponseEntity.status(HttpStatus.OK).body(poolerService.loginOAuth(email, provider));
+            else
+                return ResponseEntity.status(HttpStatus.OK).body(poolerService.login(email, password));
         }
 
     }

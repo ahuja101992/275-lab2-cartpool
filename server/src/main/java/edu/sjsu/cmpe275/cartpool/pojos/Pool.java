@@ -1,7 +1,6 @@
 package edu.sjsu.cmpe275.cartpool.pojos;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -118,8 +117,8 @@ public class Pool {
         this.members = members;
     }
 
-    public void addPooler(Pooler pooler){
-        if(members == null)
+    public void addPooler(Pooler pooler) {
+        if (members == null)
             members = new ArrayList<>();
 
         members.add(pooler);

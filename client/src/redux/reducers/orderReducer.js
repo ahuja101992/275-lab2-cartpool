@@ -27,6 +27,5 @@ export default function orderReducer(state = initialState, action) {
     }
 
 
-
     return state;
 }

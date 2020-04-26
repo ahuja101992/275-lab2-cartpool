@@ -5,8 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.persistence.*;
 
 @Entity
-@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
-@Table(name="product")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@Table(name = "product")
 public class Product {
 
     @EmbeddedId
@@ -32,6 +32,25 @@ public class Product {
 
     @ManyToOne
     private Store store;
+
+    public Product(ProductId id, String name, String description, String imageURL, String unit, long price) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.imageURL = imageURL;
+        this.unit = unit;
+        this.price = price;
+    }
+
+    public Product(ProductId id, String name, String description, String imageURL, String brandName, String unit, long price) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.imageURL = imageURL;
+        this.brandName = brandName;
+        this.unit = unit;
+        this.price = price;
+    }
 
     public ProductId getId() {
         return id;
@@ -79,25 +98,6 @@ public class Product {
 
     public void setUnit(String unit) {
         this.unit = unit;
-    }
-
-    public Product(ProductId id, String name, String description, String imageURL, String unit, long price) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.imageURL = imageURL;
-        this.unit = unit;
-        this.price = price;
-    }
-
-    public Product(ProductId id, String name, String description, String imageURL, String brandName, String unit, long price) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.imageURL = imageURL;
-        this.brandName = brandName;
-        this.unit = unit;
-        this.price = price;
     }
 
     public long getPrice() {

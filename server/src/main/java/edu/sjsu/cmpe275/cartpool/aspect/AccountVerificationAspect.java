@@ -1,7 +1,6 @@
 package edu.sjsu.cmpe275.cartpool.aspect;
 
 import edu.sjsu.cmpe275.cartpool.service.EmailService;
-import edu.sjsu.cmpe275.cartpool.service.EmailServiceImpl;
 import edu.sjsu.cmpe275.cartpool.util.Constants;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;

@@ -4,8 +4,6 @@ import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.MappedSuperclass;
 
-import org.springframework.beans.factory.annotation.Value;
-
 @MappedSuperclass
 public class User {
     @Column(name = "firstname")
@@ -26,21 +24,21 @@ public class User {
     @Column(name = "nickname")
     private String nickname;
 
-	@Column(name = "is_verified")
+    @Column(name = "is_verified")
     private boolean is_verified;
-    
+
     @Column(name = "access_token")
     private String accessToken;
-    
+
     @Column(name = "provider")
     private String provider;
-    
+
     @Column(name = "provider_id")
     private String provider_id;
-    
-    @Column(name = "contribution", columnDefinition = "integer default 0" )
+
+    @Column(name = "contribution", columnDefinition = "integer default 0")
     private int contribution;
-    
+
     @Embedded
     private Address address;
 
@@ -62,38 +60,38 @@ public class User {
     }
 
     public int getContribution() {
-		return contribution;
-	}
+        return contribution;
+    }
 
-	public void setContribution(int contribution) {
-		this.contribution = contribution;
-	}
+    public void setContribution(int contribution) {
+        this.contribution = contribution;
+    }
 
-	public String getProvider_id() {
-		return provider_id;
-	}
+    public String getProvider_id() {
+        return provider_id;
+    }
 
-	public void setProvider_id(String provider_id) {
-		this.provider_id = provider_id;
-	}
-	
+    public void setProvider_id(String provider_id) {
+        this.provider_id = provider_id;
+    }
+
     public String getAccessToken() {
-		return accessToken;
-	}
+        return accessToken;
+    }
 
-	public void setAccessToken(String accessToken) {
-		this.accessToken = accessToken;
-	}
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
+    }
 
-	public String getProvider() {
-		return provider;
-	}
+    public String getProvider() {
+        return provider;
+    }
 
-	public void setProvider(String provider) {
-		this.provider = provider;
-	}
+    public void setProvider(String provider) {
+        this.provider = provider;
+    }
 
-	public String getFirstname() {
+    public String getFirstname() {
         return firstname;
     }
 
@@ -176,26 +174,27 @@ public class User {
 //            this.contribution = contribution;
 //            return (T) this;
 //        }
-        
+
         public T provider_id(String provider_id) {
             this.provider_id = provider_id;
             return (T) this;
         }
-        
+
         public T firstname(String firstname) {
             this.firstname = firstname;
             return (T) this;
         }
-        
+
         public T accessToken(String accessToken) {
             this.accessToken = accessToken;
             return (T) this;
         }
+
         public T provider(String provider) {
-        	this.provider = provider;
+            this.provider = provider;
             return (T) this;
         }
-        
+
         public T lastname(String lastname) {
             this.lastname = lastname;
             return (T) this;

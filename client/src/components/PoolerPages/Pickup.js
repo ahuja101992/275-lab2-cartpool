@@ -1,5 +1,4 @@
 import React, {Component} from "react";
-import {Button, Card, Col, Form, Modal} from "react-bootstrap";
 import {connect} from "react-redux";
 import BootstrapTable from "react-bootstrap-table-next";
 import {checkout} from "../../redux/actions/orderActions";

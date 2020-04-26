@@ -1,8 +1,6 @@
 package edu.sjsu.cmpe275.cartpool.controller;
 
 
-
-
 import edu.sjsu.cmpe275.cartpool.pojos.Product;
 import edu.sjsu.cmpe275.cartpool.pojos.ProductId;
 import edu.sjsu.cmpe275.cartpool.service.AdminService;
@@ -14,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Set;
 
 @Component
@@ -42,15 +39,15 @@ public class ProductController {
                                         @RequestParam Long adminId) {
 
         adminService.findById(adminId);
-        ProductId productId = new ProductId(store_id,sku);
-        Product product=null;
-        if(brand==null) {
-           product = new Product(productId, name, desc, image_url,unit,price);
-        }else{
-           product = new Product(productId, name, desc, image_url,brand,unit,price);
+        ProductId productId = new ProductId(store_id, sku);
+        Product product = null;
+        if (brand == null) {
+            product = new Product(productId, name, desc, image_url, unit, price);
+        } else {
+            product = new Product(productId, name, desc, image_url, brand, unit, price);
         }
 
-        Product newProduct = productService.createProduct(product,adminId);
+        Product newProduct = productService.createProduct(product, adminId);
         return newProduct != null ? ResponseEntity.status(HttpStatus.OK).body(product) : null;
     }
 
@@ -59,9 +56,9 @@ public class ProductController {
             method = RequestMethod.DELETE)
     @ResponseBody
     public ResponseEntity<Set<Product>> deleteStore(@PathVariable Long storeId,
-                                                     @PathVariable Long sku,
-                                                   @PathVariable Long adminId) {
-        Set<Product> products = productService.deleteProduct(storeId, sku,adminId);
+                                                    @PathVariable Long sku,
+                                                    @PathVariable Long adminId) {
+        Set<Product> products = productService.deleteProduct(storeId, sku, adminId);
         return ResponseEntity.status(HttpStatus.OK).body(products);
     }
 
@@ -101,7 +98,6 @@ public class ProductController {
 //
 //        return product != null ? ResponseEntity.status(HttpStatus.OK).body(product) : null;
 //    }
-
 
 
 }

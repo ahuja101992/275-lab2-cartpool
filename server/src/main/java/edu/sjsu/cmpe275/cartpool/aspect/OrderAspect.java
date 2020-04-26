@@ -1,17 +1,12 @@
 package edu.sjsu.cmpe275.cartpool.aspect;
 
 import edu.sjsu.cmpe275.cartpool.service.EmailService;
-import edu.sjsu.cmpe275.cartpool.service.EmailServiceImpl;
-import edu.sjsu.cmpe275.cartpool.util.Constants;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.net.URI;
-import java.net.URL;
-import java.net.URLEncoder;
 import java.util.Arrays;
 
 @Component

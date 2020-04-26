@@ -10,7 +10,8 @@ import java.util.List;
 @Repository
 public interface ProductRepository extends CrudRepository<Product, ProductId> {
     List<Product> findByStoreId(Long storeId);
-//    List<Product> findBysku(Long sku);
+
+    //    List<Product> findBysku(Long sku);
     List<Product> findByName(String name);
 //    Product findByStoreId_sku(Long storeId, Long sku);
 }

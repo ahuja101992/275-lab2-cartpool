@@ -12,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -27,7 +26,7 @@ public class PoolController {
 
     @RequestMapping(value = "/pool/test",
             method = RequestMethod.GET)
-    public void test(){
+    public void test() {
         System.out.println("testing");
     }
 
@@ -40,10 +39,10 @@ public class PoolController {
                                     @RequestParam String neighborhoodName,
                                     @RequestParam String description,
                                     @RequestParam String zip,
-                                    @RequestParam Long poolerId){
+                                    @RequestParam Long poolerId) {
 
         //// check if pooler creating pool is member of other pool or not /////
-        if(!poolService.chceckMembership(poolerId)){
+        if (!poolService.chceckMembership(poolerId)) {
             //// pooler is already a member of other pool
             throw new MembershipException("pooler is already a member of other pool");
         }
@@ -67,7 +66,7 @@ public class PoolController {
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             method = RequestMethod.DELETE)
     public @ResponseBody
-    ResponseEntity<Object> deletePool(@PathVariable Long id){
+    ResponseEntity<Object> deletePool(@PathVariable Long id) {
         poolService.delete(id);
         //return ResponseEntity.status(HttpStatus.OK).body(poolService.delete(id));
         return new ResponseEntity<>("{\"success\": \"Deleted store successfully\"}", HttpStatus.OK);
@@ -77,7 +76,7 @@ public class PoolController {
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             method = RequestMethod.GET)
     public @ResponseBody
-    ResponseEntity<List<Pool>> searchPool(@PathVariable String searchParam){
+    ResponseEntity<List<Pool>> searchPool(@PathVariable String searchParam) {
         List<Pool> poolList = poolService.searchPool(searchParam);
         return ResponseEntity.status(HttpStatus.OK).body(poolList);
     }
@@ -87,7 +86,7 @@ public class PoolController {
             method = RequestMethod.PUT)
     public @ResponseBody
     ResponseEntity<Pool> joinPool(@RequestParam Long id,
-                                  @RequestParam Pooler pooler){
+                                  @RequestParam Pooler pooler) {
 
 
         //return ResponseEntity.status(HttpStatus.OK).body(poolService.delete(id));
