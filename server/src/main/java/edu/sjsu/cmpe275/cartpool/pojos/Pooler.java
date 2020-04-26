@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.Set;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlTransient;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -15,11 +16,10 @@ public class Pooler extends User {
     private long id;
 
     @ManyToOne(
-
-            fetch = FetchType.LAZY,
-            cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH}
+            fetch = FetchType.LAZY
     )
     @JoinColumn(name = "pool_id", referencedColumnName = "id")
+    @JsonIgnoreProperties({"poolLeader"})
     private Pool pool;
     
 //    @OneToMany(fetch = FetchType.LAZY, mappedBy="pooler")
