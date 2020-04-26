@@ -16,4 +16,6 @@ public interface PoolerService {
     void addContribution(String email);
     
     void subtractContribution(String email);
+    
+    int getContribution(String email);
 }

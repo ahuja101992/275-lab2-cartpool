@@ -70,4 +70,17 @@ public class PoolerServiceImpl implements PoolerService {
 		else
 			throw new UserNotFoundException();
 	}
+////// need to check this service 
+	@Override
+	public int getContribution(String email) {
+		int contribution=0;
+		Pooler users= poolerRepository.findByEmail(email);
+		if(users!= null) {
+			contribution = users.getContribution();
+		}
+		else {
+			throw new UserNotFoundException();
+		}
+		return contribution;
+	}
 }
