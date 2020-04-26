@@ -58,7 +58,7 @@ public class User {
         this.accessToken = builder.accessToken;
         this.provider = builder.provider;
         this.provider_id = builder.provider_id;
-        this.contribution = builder.contribution;
+//        this.contribution = builder.contribution;
     }
 
     public int getContribution() {
@@ -168,14 +168,14 @@ public class User {
         private String provider;
         private String accessToken;
         private String provider_id;
-        private int contribution;
+//        private int contribution;
 
         public Builder() {
         }
-        public T contribution(int contribution) {
-            this.contribution = contribution;
-            return (T) this;
-        }
+//        public T contribution(int contribution) {
+//            this.contribution = contribution;
+//            return (T) this;
+//        }
         
         public T provider_id(String provider_id) {
             this.provider_id = provider_id;
