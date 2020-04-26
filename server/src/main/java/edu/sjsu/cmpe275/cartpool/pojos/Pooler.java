@@ -22,8 +22,8 @@ public class Pooler extends User {
     @JsonIgnoreProperties({"poolLeader"})
     private Pool pool;
     
-//    @OneToMany(fetch = FetchType.LAZY, mappedBy="pooler")
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy="deliveryBy")
+//    @OneToMany(fetch = FetchType.LAZY)
     private Set<Orders> orders;
 
     public Pooler() {
