@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import {Button, Card, Badge} from "react-bootstrap";
 import {connect} from "react-redux";
 import {Redirect} from "react-router";
-import {markDeliveryNotReceived, getOrdersPlaced} from "../../redux/actions/orderActions";
+import {markDeliveryNotReceived, getOrdersByUserId} from "../../redux/actions/orderActions";
 
 function mapStateToProps(store) {
     return {
@@ -13,7 +13,7 @@ function mapStateToProps(store) {
 function mapDispatchToProps(dispatch) {
     return {
         markDeliveryNotReceived: (payload) => dispatch(markDeliveryNotReceived(payload)),
-        getOrdersPlaced: (payload) => dispatch(getOrdersPlaced(payload)),
+        getOrdersByUserId: (payload) => dispatch(getOrdersByUserId(payload)),
 
     };
 }
@@ -66,7 +66,7 @@ class Orders extends Component {
         const payload = {};
         payload.userId = localStorage.getItem('id');
 
-        this.props.getOrdersPlaced(payload);
+        this.props.getOrdersByUserId(payload);
     }
 
     markDeliveryNotReceived = (order) => {

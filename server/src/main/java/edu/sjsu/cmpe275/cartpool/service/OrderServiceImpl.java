@@ -22,7 +22,7 @@ public class OrderServiceImpl implements OrderService{
 	PoolerRepository<Pooler> poolerRepository;
 	@Autowired
     StoreRepository<Pooler> storeRepository;
-	@Override
+
 	public Orders createOrder(Orders order, String deliveryPersonId, String ownerId, long storeId) {
 		Pooler deliveryPerson= poolerRepository.findByEmail(deliveryPersonId); //.orElseThrow(() -> new UserNotFoundException());
 		Pooler owner= poolerRepository.findByEmail(ownerId);//.orElseThrow(() -> new UserNotFoundException());
@@ -32,9 +32,14 @@ public class OrderServiceImpl implements OrderService{
 		order.setStore(store);
 		return orderRepository.save(order);
 	}
-	@Override
+
 	public Orders getOrderDetails(long id) {
 		Orders orderDetails = orderRepository.findById(id).orElseThrow(() -> new UserNotFoundException());
 		return orderDetails;
+	}
+
+	public List<Orders> getOrdersByUserId(long id) {
+		Pooler pooler = poolerRepository.findById(id).orElseThrow(() -> new UserNotFoundException());
+		return pooler.getOrders();
 	}
 }

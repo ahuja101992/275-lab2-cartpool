@@ -2,6 +2,7 @@ package edu.sjsu.cmpe275.cartpool.pojos;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.*;
@@ -23,8 +24,8 @@ public class Pooler extends User {
     private Pool pool;
     
     @OneToMany(fetch = FetchType.LAZY, mappedBy="deliveryBy")
-//    @OneToMany(fetch = FetchType.LAZY)
-    private Set<Orders> orders;
+    @JsonIgnoreProperties({"orderOwner", "deliveryBy"})
+    private List<Orders> orders;
 
     public Pooler() {
     }
@@ -49,11 +50,11 @@ public class Pooler extends User {
         this.id = id;
     }
     
-    public Set<Orders> getOrders() {
+    public List<Orders> getOrders() {
 		return orders;
 	}
 
-	public void setOrders(Set<Orders> orders) {
+	public void setOrders(List<Orders> orders) {
 		this.orders = orders;
 	}
 

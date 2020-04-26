@@ -21,6 +21,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Component
 @RestController
@@ -83,7 +84,7 @@ public class OrderController {
 		return ResponseEntity.status(HttpStatus.OK).body(null);
 	}
 	
-    @RequestMapping(value = "/ordes/getorderdetails/{id}/",
+    @RequestMapping(value = "/order/getOrderDetails/{id}/",
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             method = RequestMethod.GET)
     public @ResponseBody
@@ -91,5 +92,18 @@ public class OrderController {
     	orderService.getOrderDetails(id);
     	return ResponseEntity.status(HttpStatus.OK).body(orderService.getOrderDetails(id));
     }
+
+	/***
+	 *
+	 * @param id - Long poolerId
+	 * @return Returns all orders placed by the user
+	 */
+	@RequestMapping(value = "/order/getOrdersByUserId/{id}",
+			produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+			method = RequestMethod.GET)
+	public @ResponseBody
+	ResponseEntity<List<Orders>> getOrdersByUserId(@PathVariable long id) {
+		return ResponseEntity.status(HttpStatus.OK).body(orderService.getOrdersByUserId(id));
+	}
 
 }

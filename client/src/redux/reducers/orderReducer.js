@@ -1,10 +1,11 @@
-import {CHECKOUT, DELIVERY_NOT_RECEIVED} from "../../redux/constants/actionTypes";
+import {CHECKOUT, DELIVERY_NOT_RECEIVED, GET_ORDERS_BY_USER_ID} from "../../redux/constants/actionTypes";
 
 const initialState = {
     ordersReadyForCheckout: [{"orderId": "1", "customerName": "xyz", "customerAddress": "1SM", "status": "OK"}],
-    orderByPooler: [{"orderId": "1", "customerName": "xyz", "customerAddress": "1SM", "status": "Placed"},
-        {"orderId": "2", "customerName": "abc", "customerAddress": "2SM", "status": "Picked-up by oneself"},
-        {"orderId": "3", "customerName": "pqr", "customerAddress": "3SM", "status": "Delivered"}]
+    orderByPooler: []
+    // orderByPooler: [{"orderId": "1", "customerName": "xyz", "customerAddress": "1SM", "status": "Placed"},
+    //     {"orderId": "2", "customerName": "abc", "customerAddress": "2SM", "status": "Picked-up by oneself"},
+    //     {"orderId": "3", "customerName": "pqr", "customerAddress": "3SM", "status": "Delivered"}]
 };
 
 export default function orderReducer(state = initialState, action) {
@@ -19,7 +20,13 @@ export default function orderReducer(state = initialState, action) {
         return Object.assign({}, state, {
             orderByPooler: [...state.orderByPooler]
         });
+    } else if (action.type === GET_ORDERS_BY_USER_ID) {
+        return Object.assign({}, state, {
+            orderByPooler: []
+        });
     }
+
+
 
     return state;
 }

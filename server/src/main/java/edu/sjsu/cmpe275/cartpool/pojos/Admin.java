@@ -15,7 +15,7 @@ public class Admin extends User {
     private long id;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "admin")
-    @JsonIgnoreProperties({"admin"})
+    @JsonIgnoreProperties({"orderOwner"})
     @XmlTransient
     private List<Store> stores;
 
