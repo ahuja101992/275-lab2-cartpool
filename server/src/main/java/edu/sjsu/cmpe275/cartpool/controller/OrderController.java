@@ -26,8 +26,24 @@ public class OrderController {
 			produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
 			method = RequestMethod.POST)
 	public @ResponseBody
-	ResponseEntity<Orders> checkout(@RequestParam String deliveryPersonId,
-									@RequestParam String orderId) {
+	ResponseEntity<Orders> checkout(@RequestParam(required = false) String deliveryPersonId,
+									@RequestParam String orderId,
+									@RequestParam long storeId,
+									@RequestParam int qty,
+									@RequestParam boolean forDelivery,
+									@RequestParam String ownerId,		
+									@RequestParam long price) {
+		long finalPrice= (long) (price+(.975*price));
+		
+        Orders order = new Orders.OrderBuilder()
+        		.available(true)
+        		.qty(qty)
+        		.price(price)
+        		.finalPrice(finalPrice)
+        		.forDelivery(forDelivery)
+        		.status("Placed")
+                .build();
+		orderService.createOrder(order, deliveryPersonId, ownerId, storeId);
 		return ResponseEntity.status(HttpStatus.OK).body(null);
 	}
 
