@@ -28,7 +28,7 @@ public class Product {
     private String unit;
 
     @Column(name = "price")
-    private long price;
+    private Long price;
 
     @MapsId("storeId")
     @ManyToOne
@@ -82,6 +82,25 @@ public class Product {
         this.unit = unit;
     }
 
+    public Product(ProductId id, String name, String description, String imageURL, String unit, long price) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.imageURL = imageURL;
+        this.unit = unit;
+        this.price = price;
+    }
+
+    public Product(ProductId id, String name, String description, String imageURL, String brandName, String unit, long price) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.imageURL = imageURL;
+        this.brandName = brandName;
+        this.unit = unit;
+        this.price = price;
+    }
+
     public long getPrice() {
         return price;
     }
@@ -97,4 +116,19 @@ public class Product {
     public void setStore(Store store) {
         this.store = store;
     }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", imageURL='" + imageURL + '\'' +
+                ", brandName='" + brandName + '\'' +
+                ", unit='" + unit + '\'' +
+                ", price=" + price +
+                ", store=" + store +
+                '}';
+    }
+
 }

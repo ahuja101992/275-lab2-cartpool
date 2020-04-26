@@ -10,19 +10,21 @@ import edu.sjsu.cmpe275.cartpool.repository.AdminRepository;
 import edu.sjsu.cmpe275.cartpool.repository.ProductRepository;
 import edu.sjsu.cmpe275.cartpool.repository.StoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Set;
 
+@Service
 public class ProductServiceImpl implements ProductService {
 
     @Autowired
     AdminRepository<Admin> adminRepository;
 
     @Autowired
-    ProductRepository productRepository;
+    ProductRepository<Product> productRepository;
 
     @Autowired
     StoreRepository<Store> storeRepository;
@@ -36,11 +38,11 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public Set<Product> deleteProduct(Long storeId, Long productId, Long adminId) {
+    public Set<Product> deleteProduct(Long storeId, Long sku, Long adminId) {
         Admin admin = adminRepository.findById(adminId).orElseThrow(() -> new UserNotFoundException());
         Store store = storeRepository.findById(storeId).orElseThrow(() -> new StoreNotFoundException());
         System.out.println("Deleting product: " );
-        productRepository.deleteById(new ProductId(storeId,productId));
+        productRepository.deleteById(new ProductId(storeId,sku));
         return store.getProducts();
     }
 
@@ -57,7 +59,23 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     public Set<Product> searchProductByStoreId(Long storeId) {
         Store store = storeRepository.findById(storeId).orElseThrow(() -> new StoreNotFoundException());
-        return store.getProducts();
+        return (Set<Product>) productRepository.findByStoreId(storeId);
+    }
+
+    @Override
+    @Transactional
+    public Product ffindByStoreId_SKU(Long storeId, Long sku) {
+        return productRepository.findByStoreId_SKU(storeId,sku).orElseThrow(() -> new UserNotFoundException());
+    }
+
+    @Transactional
+    public List<Product> searchProductBySKU(Long sku) {
+        return  productRepository.findBySKU(sku);
+    }
+
+    @Transactional
+    public List<Product> searchProductByName(String name) {
+        return productRepository.findByName(name);
     }
 
 }
