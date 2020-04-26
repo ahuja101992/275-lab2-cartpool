@@ -6,6 +6,8 @@ import edu.sjsu.cmpe275.cartpool.pojos.Pooler.Builder;
 import edu.sjsu.cmpe275.cartpool.pojos.Store.StoreBuilder;
 import net.bytebuddy.asm.Advice.This;
 
+import java.util.List;
+
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -22,11 +24,13 @@ public class Orders {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="store_id")
     @XmlTransient
+    @JsonIgnoreProperties({"admin", "orders","products", "address" })
     private Store store;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="pool_id")
     @XmlTransient
+    @JsonIgnoreProperties("pool")
     private Pool pool;
 
     @Column
@@ -52,7 +56,11 @@ public class Orders {
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pooler_id", referencedColumnName = "id")
+    @JsonIgnoreProperties({"deliveryBy"})///// to be done 
     private Pooler deliveryBy;
+    
+    @OneToMany(fetch = FetchType.LAZY,mappedBy = "order")
+    private List<OrderDetails> orderItems;
     
     public long getFinalPrice() {
 		return finalPrice;
