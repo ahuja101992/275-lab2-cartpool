@@ -16,10 +16,10 @@ public class Pool {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "pool_id")
+    @Column(name = "pool_id", unique = true)
     private String poolId;
 
-    @Column(name = "name")
+    @Column(name = "name", unique = true)
     private String name;
 
     @Column(name = "neighborhoodName")
@@ -31,14 +31,12 @@ public class Pool {
     @Column(name = "zip")
     private String zip;
 
-    @OneToOne(fetch = FetchType.LAZY,
-            cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH})
+    @OneToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties({"pool"})
     private Pooler poolLeader;
 
 
     @OneToMany(fetch = FetchType.LAZY,
-            cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH},
             mappedBy = "pool"
     )
     @JsonIgnoreProperties({"pool"})
