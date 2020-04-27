@@ -3,6 +3,7 @@ package edu.sjsu.cmpe275.cartpool.service;
 import edu.sjsu.cmpe275.cartpool.exceptions.OrderNotFoundException;
 import edu.sjsu.cmpe275.cartpool.exceptions.UserNotFoundException;
 import edu.sjsu.cmpe275.cartpool.pojos.Orders;
+import edu.sjsu.cmpe275.cartpool.pojos.Pool;
 import edu.sjsu.cmpe275.cartpool.pojos.Pooler;
 import edu.sjsu.cmpe275.cartpool.pojos.Store;
 import edu.sjsu.cmpe275.cartpool.repository.OrderRepository;
@@ -45,6 +46,16 @@ public class OrderServiceImpl implements OrderService {
 		List<Orders> ownerOrders = orderRepository.findByOrderOwner(owner);
 		if(ownerOrders.size()<1) throw new OrderNotFoundException();
 		return ownerOrders;
+	}
+
+	@Override
+	public List<Orders> getOrdersForPickUp(long id, long storeId) {
+		Store store = storeRepository.findById(storeId).orElseThrow(() -> new UserNotFoundException());
+		Pooler pooler = poolerRepository.findById(id).orElseThrow(() -> new UserNotFoundException());
+		Pool poolerPool = pooler.getPool();
+		List<Orders> orders = orderRepository.findByPoolAndStoreAndAvailableAndForDelivery(poolerPool, store, true, true);
+		if(orders.size()<1) throw new OrderNotFoundException();
+		return orders;
 	}
 
 }
