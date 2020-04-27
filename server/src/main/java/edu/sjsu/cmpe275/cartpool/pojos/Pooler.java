@@ -24,6 +24,8 @@ public class Pooler extends User {
     @JsonIgnoreProperties({"orderOwner", "deliveryBy"})
     private List<Orders> orders;
 
+    @Column(name = "isVerifiedForPoolMembership")
+    private boolean isVerifiedForPoolMembership;
     public Pooler() {
     }
 
@@ -45,6 +47,14 @@ public class Pooler extends User {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public boolean isVerifiedForPoolMembership() {
+        return isVerifiedForPoolMembership;
+    }
+
+    public void setVerifiedForPoolMembership(boolean verifiedForPoolMembership) {
+        isVerifiedForPoolMembership = verifiedForPoolMembership;
     }
 
     public List<Orders> getOrders() {
