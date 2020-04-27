@@ -4,6 +4,7 @@ import edu.sjsu.cmpe275.cartpool.pojos.Admin;
 import edu.sjsu.cmpe275.cartpool.pojos.Pooler;
 import edu.sjsu.cmpe275.cartpool.pojos.User;
 import edu.sjsu.cmpe275.cartpool.service.AdminService;
+import edu.sjsu.cmpe275.cartpool.service.EncryptionService;
 import edu.sjsu.cmpe275.cartpool.service.PoolerService;
 import edu.sjsu.cmpe275.cartpool.util.UtilFunctions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,9 @@ public class AccountController {
     @Autowired
     AdminService adminService;
 
+    @Autowired
+    EncryptionService encryptionService;
+
     @RequestMapping(value = "/account/signup",
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             method = RequestMethod.POST)
@@ -36,11 +40,18 @@ public class AccountController {
                                 @RequestParam(required = false) String img_url,
                                 @RequestParam(required = false) String accessToken,
                                 @RequestParam(required = false) String provider,
-                                @RequestParam(required = false) String provider_id) {
+                                @RequestParam(required = false) String provider_id) throws Exception {
 
         if (screenName != null) screenName = screenName.trim();
         if (nickName != null) nickName = nickName.trim();
         if (email != null) email = email.trim();
+
+
+        System.out.println("password: " + password);
+        String encryptedPassword = encryptionService.encrypt(password);
+        System.out.println("encryptedPassword: " + encryptedPassword);
+        String decryptedPassword = encryptionService.decrypt(encryptedPassword);
+        System.out.println("decryptedPassword: " + decryptedPassword);
 
         if (UtilFunctions.isAdmin(email)) {
             //Create admin
@@ -48,7 +59,7 @@ public class AccountController {
                     .screenname(screenName)
                     .nickname(nickName)
                     .email(email)
-                    .password(password)
+                    .password(encryptionService.encrypt(password))
                     .build();
             return ResponseEntity.status(HttpStatus.OK).body(adminService.save(admin));
         } else {
@@ -68,7 +79,7 @@ public class AccountController {
                         .screenname(screenName)
                         .nickname(nickName)
                         .email(email)
-                        .password(password)
+                        .password(encryptionService.encrypt(password))
                         .build();
             }
 
@@ -83,15 +94,15 @@ public class AccountController {
     ResponseEntity<User> login(@RequestParam String email,
                                @RequestParam(required = false) String password,
                                @RequestParam(required = false) String provider_id,
-                               @RequestParam(required = false) String provider) {
+                               @RequestParam(required = false) String provider) throws Exception {
 
         if (UtilFunctions.isAdmin(email)) {
-            return ResponseEntity.status(HttpStatus.OK).body(adminService.login(email, password));
+            return ResponseEntity.status(HttpStatus.OK).body(adminService.login(email, encryptionService.encrypt(password)));
         } else {
             if (provider != null && provider != "")
                 return ResponseEntity.status(HttpStatus.OK).body(poolerService.loginOAuth(email, provider));
             else
-                return ResponseEntity.status(HttpStatus.OK).body(poolerService.login(email, password));
+                return ResponseEntity.status(HttpStatus.OK).body(poolerService.login(email, encryptionService.encrypt(password)));
         }
 
     }
