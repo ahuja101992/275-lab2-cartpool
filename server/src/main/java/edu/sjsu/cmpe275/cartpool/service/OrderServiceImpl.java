@@ -28,7 +28,7 @@ public class OrderServiceImpl implements OrderService {
     public Orders createOrder(Orders order, String deliveryPersonId, String ownerId, long storeId) {
         Pooler deliveryPerson = poolerRepository.findByEmail(deliveryPersonId); //.orElseThrow(() -> new UserNotFoundException());
         Pooler owner = poolerRepository.findByEmail(ownerId);//.orElseThrow(() -> new UserNotFoundException());
-        Store store = storeRepository.findById(storeId).orElseThrow(() -> new UserNotFoundException());
+        Store store = storeRepository.findById(storeId).orElseThrow(() -> new StoreNotFoundException());
         order.setDeliveryBy(deliveryPerson);
         order.setOrderOwner(owner);
         order.setStore(store);
@@ -55,6 +55,7 @@ public class OrderServiceImpl implements OrderService {
 		Pooler pooler = poolerRepository.findById(poolerId).orElseThrow(() -> new UserNotFoundException());
 		Pool poolerPool = pooler.getPool();
 		List<Orders> orders = orderRepository.findByPoolAndStoreAndAvailableAndForDelivery(poolerPool, store, true, true);
+		orders.addAll(orderRepository.findByOrderOwnerAndAvailable(pooler, true));
 		if (orders.size() < 1) throw new OrderNotFoundException();
 		return orders;
 	}

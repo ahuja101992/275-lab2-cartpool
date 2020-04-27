@@ -72,6 +72,10 @@ class Orders extends Component {
         this.props.markDeliveryNotReceived({orderId: order.orderId})
     }
 
+    extractAddress = (address) => {
+        return address.street + " " + address.city + " " + address.state + " " + address.zip
+    }
+
     populateSection = () => {
         console.log("populateSection");
 
@@ -87,7 +91,7 @@ class Orders extends Component {
                         <Card.Text>
                             <b>Order Id</b> - {order.id}
                             <br/>
-                            <b>Customer Address</b> - {order.customerAddress}
+                            <b>Customer Address</b> - {this.extractAddress(order.orderOwner.address)}
                             <br/>
                             <b>Price</b> - ${order.finalPrice}
                             <br/>
