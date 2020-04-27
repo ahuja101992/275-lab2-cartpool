@@ -81,7 +81,7 @@ public class PoolController {
         return ResponseEntity.status(HttpStatus.OK).body(poolList);
     }
 
-    @RequestMapping(value = "/pool/join{poolId}",
+    @RequestMapping(value = "/pool/join/{poolId}",
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             method = RequestMethod.PUT)
     public @ResponseBody
