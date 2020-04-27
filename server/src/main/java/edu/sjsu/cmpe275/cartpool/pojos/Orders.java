@@ -25,7 +25,7 @@ public class Orders {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pool_id")
     @XmlTransient
-    @JsonIgnoreProperties("pool")
+    @JsonIgnoreProperties({"pool", "poolLeader", "members"})
     private Pool pool;
 
     @Column
@@ -47,11 +47,12 @@ public class Orders {
     private String status;
 
     @OneToOne(fetch = FetchType.LAZY)
+    @JsonIgnoreProperties({"pool", "orders"})
     private Pooler orderOwner;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pooler_id", referencedColumnName = "id")
-    @JsonIgnoreProperties({"deliveryBy"})///// to be done 
+    @JsonIgnoreProperties({"pool", "orders"})///// to be done 
     private Pooler deliveryBy;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "order")
