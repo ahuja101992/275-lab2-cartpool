@@ -11,4 +11,5 @@ public interface OrderService {
     Orders getOrderDetails(long id);
 
     List<Orders> getOrdersByOwnerId(long id);
+    List<Orders> getOrdersForPickUp(long id, long storeId);
 }
