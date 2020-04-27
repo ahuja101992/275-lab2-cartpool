@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class PoolServiceImpl implements PoolService {
 
@@ -27,21 +29,27 @@ public class PoolServiceImpl implements PoolService {
 
     @Transactional
     @Override
-    public String delete(Long poolId) {
+    public void delete(Long poolId) {
         Pool pool = poolRepository.findById(poolId).orElseThrow(() -> new PoolNotFoundException());
-
-        if(pool.getMembers().size() == 0) {
+        Pooler poolLeader = pool.getPoolLeader();
+        if (pool.getMembers().size() == 1 && pool.getMembers().get(0) == poolLeader) {
+            poolLeader.setPool(null);
             poolRepository.delete(pool);
-            return "deleted store successfully";
-        }
-
-        return "Unable to delete pool!! :: Members exist in pool";
+        } else
+            throw new MembershipException("Unable to delete pool!! :: Members exist in pool");
     }
 
     @Transactional
     @Override
-    public boolean chceckMembership(Long poolerId){
-        Pooler pooler = poolerRepository.findById(poolerId).orElseThrow(() -> new MembershipException());
+    public boolean chceckMembership(Long poolerId) {
+        Pooler pooler = poolerRepository.findById(poolerId).orElseThrow(() -> new MembershipException(""));
         return pooler.getPool() == null;
+    }
+
+    @Transactional
+    @Override
+    public List<Pool> searchPool(String searchParam) {
+        List<Pool> poolList = poolRepository.findByNameOrNeighborhoodNameOrZipAllIgnoreCase(searchParam, searchParam, searchParam);
+        return poolList;
     }
 }

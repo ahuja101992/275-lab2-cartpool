@@ -41,8 +41,8 @@ class SignUp extends Component {
             }
         }
 
-        let updatedData =null
-        if(this.props.location.props && this.props.location.props.provider!==""){
+        let updatedData = null
+        if (this.props.location.props && this.props.location.props.provider !== "") {
             updatedData = {
                 screenName: data.screenName,
                 nickName: data.nickName,
@@ -53,7 +53,7 @@ class SignUp extends Component {
                 provider: this.props.location.props.provider,
                 provider_id: this.props.location.props.provider_id
             }
-        }else{
+        } else {
             updatedData = {
                 screenName: data.screenName,
                 nickName: data.nickName,
@@ -72,8 +72,8 @@ class SignUp extends Component {
     };
 
     render() {
-        let OAuthRedirect=false;
-        if(this.props.location.props && this.props.location.props.provider!==""){
+        let OAuthRedirect = false;
+        if (this.props.location.props && this.props.location.props.provider !== "") {
             OAuthRedirect = true;
         }
         return (
@@ -85,7 +85,7 @@ class SignUp extends Component {
                 {this.props.signupSuccess === true && <Expire delay={5000} parentCallback={this.callbackFunction}>
                     <Toast>
                         <Toast.Header>
-                            
+
                             <img src="holder.js/20x20?text=%20" className="rounded mr-2" alt=""/>
                             <strong className="mr-auto">Notification</strong>
                         </Toast.Header>
@@ -124,15 +124,18 @@ class SignUp extends Component {
 
                     <Form.Group controlId="email">
                         <Form.Label>Email</Form.Label>
-                        <Form.Control placeholder={this.props.location.props && this.props.location.props.provider!==""?this.props.location.props.email:"What's your email?"} required/>
+                        <Form.Control
+                            placeholder={this.props.location.props && this.props.location.props.provider !== "" ? this.props.location.props.email : "What's your email?"}
+                            required/>
                     </Form.Group>
 
-                    <Form.Group controlId="password" className ={this.props.location.props && this.props.location.props.provider!==""?"d-none":""}>
+                    <Form.Group controlId="password"
+                                className={this.props.location.props && this.props.location.props.provider !== "" ? "d-none" : ""}>
                         <Form.Label>Password</Form.Label>
                         <Form.Control type="password" placeholder="Enter a strong password"/>
                     </Form.Group>
                     {OAuthRedirect}
-                    <Button  style={styles.signUpButton} variant="primary" type="submit">
+                    <Button style={styles.signUpButton} variant="primary" type="submit">
                         Sign up
                     </Button>
                 </Form>

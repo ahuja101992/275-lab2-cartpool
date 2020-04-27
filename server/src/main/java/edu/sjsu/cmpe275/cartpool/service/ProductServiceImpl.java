@@ -14,7 +14,6 @@ import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Set;
 
@@ -42,8 +41,8 @@ public class ProductServiceImpl implements ProductService {
     public Set<Product> deleteProduct(Long storeId, Long sku, Long adminId) {
         Admin admin = adminRepository.findById(adminId).orElseThrow(() -> new UserNotFoundException());
         Store store = storeRepository.findById(storeId).orElseThrow(() -> new StoreNotFoundException());
-        System.out.println("Deleting product: " );
-        productRepository.deleteById(new ProductId(storeId,sku));
+        System.out.println("Deleting product: ");
+        productRepository.deleteById(new ProductId(storeId, sku));
         return store.getProducts();
     }
 

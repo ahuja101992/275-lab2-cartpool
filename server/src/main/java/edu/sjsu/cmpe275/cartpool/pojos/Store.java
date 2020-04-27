@@ -26,6 +26,17 @@ public class Store {
     @JsonIgnoreProperties("stores")
     @XmlTransient
     private Admin admin;
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_id")
+    @JsonIgnoreProperties("orders")
+    @XmlTransient
+    private Set<Orders> orders = new HashSet<>();
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id")
+    @JsonIgnoreProperties({"stores"})
+    @XmlTransient
+    private Set<Product> products = new HashSet<>();
+
 
     public Store() {
     }
@@ -34,7 +45,6 @@ public class Store {
         this.name = storeBuilder.name;
         this.address = storeBuilder.address;
     }
-
 
     public long getId() {
         return id;
@@ -83,19 +93,6 @@ public class Store {
     public void setProducts(Set<Product> products) {
         this.products = products;
     }
-
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "order_id")
-    @JsonIgnoreProperties("orders")
-    @XmlTransient
-    private Set<Orders> orders= new HashSet<>();
-
-
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name="product_id")
-    @JsonIgnoreProperties({"stores"})
-    @XmlTransient
-    private Set<Product> products= new HashSet<>();
 
     public static class StoreBuilder {
         private String name;
