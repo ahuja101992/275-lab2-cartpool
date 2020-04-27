@@ -6,12 +6,6 @@ import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
 public class User {
-    @Column(name = "firstname")
-    private String firstname;
-
-    @Column(name = "lastname")
-    private String lastname;
-
     @Column(name = "email")
     private String email;
 
@@ -46,8 +40,6 @@ public class User {
     }
 
     public User(Builder<?> builder) {
-        this.firstname = builder.firstname;
-        this.lastname = builder.lastname;
         this.email = builder.email;
         this.password = builder.password;
         this.screenname = builder.screenname;
@@ -89,22 +81,6 @@ public class User {
 
     public void setProvider(String provider) {
         this.provider = provider;
-    }
-
-    public String getFirstname() {
-        return firstname;
-    }
-
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
     }
 
     public String getEmail() {
@@ -156,8 +132,6 @@ public class User {
     }
 
     public static class Builder<T extends Builder<T>> {
-        private String firstname;
-        private String lastname;
         private String email;
         private String password;
         private String screenname;
@@ -180,11 +154,6 @@ public class User {
             return (T) this;
         }
 
-        public T firstname(String firstname) {
-            this.firstname = firstname;
-            return (T) this;
-        }
-
         public T accessToken(String accessToken) {
             this.accessToken = accessToken;
             return (T) this;
@@ -192,11 +161,6 @@ public class User {
 
         public T provider(String provider) {
             this.provider = provider;
-            return (T) this;
-        }
-
-        public T lastname(String lastname) {
-            this.lastname = lastname;
             return (T) this;
         }
 

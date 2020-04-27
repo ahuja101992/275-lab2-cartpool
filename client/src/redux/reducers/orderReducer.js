@@ -2,6 +2,7 @@ import {CHECKOUT, DELIVERY_NOT_RECEIVED, GET_ORDERS_BY_USER_ID, GET_ORDERS_READY
 
 const initialState = {
     ordersReadyForPickup: [],
+    ordersReadyForDelivery: [],
     orderByPooler: [],
     //ordersReadyForPickup: [{"orderId": "1", "customerName": "xyz", "customerAddress": "1SM", "status": "OK"}],
     // orderByPooler: [{"orderId": "1", "customerName": "xyz", "customerAddress": "1SM", "status": "Placed"},

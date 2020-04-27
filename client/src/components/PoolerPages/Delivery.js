@@ -1,17 +1,17 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
 import BootstrapTable from "react-bootstrap-table-next";
-//import {checkout} from "../../redux/actions/orderActions";
+import {getOrdersReadyForDelivery} from "../../redux/actions/orderActions";
 
 function mapStateToProps(store) {
     return {
-        ordersReadyForCheckout: store.orders.ordersReadyForCheckout,
+        ordersReadyForDelivery: store.orders.ordersReadyForDelivery,
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        //checkoutOrder: (payload) => dispatch(checkout(payload)),
+        getOrdersReadyForDelivery: (payload) => dispatch(getOrdersReadyForDelivery(payload)),
     };
 }
 
@@ -44,6 +44,10 @@ class Delivery extends Component {
     }
 
     componentDidMount() {
+        const payload = {};
+        payload.poolerId = localStorage.getItem("id");
+
+        this.props.getOrdersReadyForDelivery(payload);
     }
 
     addCheckoutButton = (cell, row) => {
@@ -73,7 +77,7 @@ class Delivery extends Component {
             <div>
                 <h1>Delivery</h1>
                 <BootstrapTable keyField='orderId'
-                                data={this.props.ordersReadyForCheckout}
+                                data={this.props.ordersReadyForDelivery}
                                 columns={this.state.basicColumns}
                 />
             </div>

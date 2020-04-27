@@ -40,6 +40,26 @@ export const getOrdersReadyForPickupDispatch = (returnData) => {
     return {type: GET_ORDERS_READY_FOR_PICKUP, payload: returnData}
 };
 
+export function getOrdersReadyForDelivery(payload) {
+    console.log("getOrdersReadyForPickup payload");
+    console.log(payload);
+
+    return (dispatch) => {
+        axios.get(`http://${HOSTNAME}:8080/order/getDeliveryOrders/${payload.poolerId}`)
+            .then((response) => dispatch(getOrdersReadyForDeliveryDispatch(response.data)))
+            .catch((err) => console.log(err));
+    }
+}
+
+export const getOrdersReadyForDeliveryDispatch = (returnData) => {
+    console.log("getOrdersReadyForPickupDispatch returnData");
+    console.log(returnData);
+
+    return {type: GET_ORDERS_READY_FOR_PICKUP, payload: returnData}
+};
+
+
+
 
 export function markDeliveryNotReceived(payload) {
     console.log("markDeliveryNotReceived payload");
