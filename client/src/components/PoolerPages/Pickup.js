@@ -1,17 +1,18 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
 import BootstrapTable from "react-bootstrap-table-next";
-import {checkout} from "../../redux/actions/orderActions";
+import {pickUpOrder, getOrdersReadyForPickup} from "../../redux/actions/orderActions";
 
 function mapStateToProps(store) {
     return {
-        ordersReadyForCheckout: store.orders.ordersReadyForCheckout,
+        ordersReadyForPickup: store.orders.ordersReadyForPickup,
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        checkoutOrder: (payload) => dispatch(checkout(payload)),
+        pickUpOrder: (payload) => dispatch(pickUpOrder(payload)),
+        getOrdersReadyForPickup: (payload) => dispatch(getOrdersReadyForPickup(payload)),
     };
 }
 
@@ -32,6 +33,9 @@ class Pickup extends Component {
             }, {
                 dataField: 'customerAddress',
                 text: 'Customer Address'
+            },{
+                dataField: 'finalPrice',
+                text: 'Final price'
             }, {
                 dataField: 'status',
                 text: 'status'
@@ -44,6 +48,11 @@ class Pickup extends Component {
     }
 
     componentDidMount() {
+        const payload = {};
+        payload.poolerId = localStorage.getItem("id");
+        payload.storeId = localStorage.getItem("storeId");
+
+        this.props.getOrdersReadyForPickup(payload);
     }
 
     addCheckoutButton = (cell, row) => {
@@ -65,7 +74,7 @@ class Pickup extends Component {
         payload.deliveryPersonId = localStorage.getItem('id');
         payload.orderId = "";
 
-        this.props.checkoutOrder(payload);
+        this.props.pickUpOrder(payload);
     }
 
     render() {
@@ -73,7 +82,7 @@ class Pickup extends Component {
             <div>
                 <h1>Pickup</h1>
                 <BootstrapTable keyField='orderId'
-                                data={this.props.ordersReadyForCheckout}
+                                data={this.props.ordersReadyForPickup}
                                 columns={this.state.basicColumns}
                 />
             </div>

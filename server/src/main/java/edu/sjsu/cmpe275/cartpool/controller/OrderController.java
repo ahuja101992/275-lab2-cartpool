@@ -59,7 +59,7 @@ public class OrderController {
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
-    @RequestMapping(value = "/order/delivery/checkout",
+    @RequestMapping(value = "/order/delivery/pickUpOrder",
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             method = RequestMethod.POST)
     public @ResponseBody
@@ -135,12 +135,12 @@ public class OrderController {
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
     
-    @RequestMapping(value = "/order/getordersforpickup",
+    @RequestMapping(value = "/order/getOrdersForPickup/{poolerId}/{storeId}",
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             method = RequestMethod.GET)
     public @ResponseBody
-    ResponseEntity<List<Orders>> getOrdersForPickup(@RequestParam long id, @RequestParam long storeId) {
-        return ResponseEntity.status(HttpStatus.OK).body(orderService.getOrdersForPickUp(id, storeId));
+    ResponseEntity<List<Orders>> getOrdersForPickup(@PathVariable long poolerId, @PathVariable long storeId) {
+        return ResponseEntity.status(HttpStatus.OK).body(orderService.getOrdersForPickUp(poolerId, storeId));
     }
 
 }

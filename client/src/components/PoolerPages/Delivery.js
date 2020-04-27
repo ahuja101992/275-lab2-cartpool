@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
 import BootstrapTable from "react-bootstrap-table-next";
-import {checkout} from "../../redux/actions/orderActions";
+//import {checkout} from "../../redux/actions/orderActions";
 
 function mapStateToProps(store) {
     return {
@@ -11,7 +11,7 @@ function mapStateToProps(store) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        checkoutOrder: (payload) => dispatch(checkout(payload)),
+        //checkoutOrder: (payload) => dispatch(checkout(payload)),
     };
 }
 
@@ -65,7 +65,7 @@ class Delivery extends Component {
         payload.deliveryPersonId = localStorage.getItem('id');
         payload.orderId = "";
 
-        this.props.checkoutOrder(payload);
+        //this.props.checkoutOrder(payload);
     }
 
     render() {
