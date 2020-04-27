@@ -83,9 +83,13 @@ class Orders extends Component {
                 <Card style={{width: '22rem'}}>
                     <Card.Img variant="top" src={require("../../images/restaurant-logo.png")}/>
                     <Card.Body>
-                        <Card.Title><b>Order Id</b> - {order.orderId}</Card.Title>
+                        <Card.Title><b>Store</b> - {order.store.name}</Card.Title>
                         <Card.Text>
+                            <b>Order Id</b> - {order.id}
+                            <br/>
                             <b>Customer Address</b> - {order.customerAddress}
+                            <br/>
+                            <b>Price</b> - ${order.finalPrice}
                             <br/>
                             <b>Order Status</b> - {this.getOrderStatusBadge(order.status)}
                             <br/><br/>
