@@ -69,7 +69,7 @@ public class PoolController {
     ResponseEntity<Object> deletePool(@PathVariable Long id) {
         poolService.delete(id);
         //return ResponseEntity.status(HttpStatus.OK).body(poolService.delete(id));
-        return new ResponseEntity<>("{\"success\": \"Deleted store successfully\"}", HttpStatus.OK);
+        return new ResponseEntity<>("{\"success\": \"Deleted pool successfully\"}", HttpStatus.OK);
     }
 
     @RequestMapping(value = "/pool/search/{searchParam}",
@@ -85,13 +85,24 @@ public class PoolController {
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             method = RequestMethod.PUT)
     public @ResponseBody
-    ResponseEntity<Pool> joinPool(@PathVariable Long poolId,
+    void joinPool(@PathVariable Long poolId,
                                   @RequestParam Long poolerId,
                                   @RequestParam String screenName) {
 
 
+        poolService.joinPool(poolId, poolerId, screenName);
         //return ResponseEntity.status(HttpStatus.OK).body(poolService.joinPool(poolId, poolerId, screenName));
-        return null;
+        //return null;
     }
 
+
+    @RequestMapping(value = "/pool/verify/{poolerId}/{poolId}",
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+            method = RequestMethod.GET)
+    public @ResponseBody
+    ResponseEntity<Pool> verify(@PathVariable Long poolerId,
+                                @PathVariable Long poolId) {
+
+        return ResponseEntity.status(HttpStatus.OK).body(poolService.verify(poolerId, poolId));
+    }
 }

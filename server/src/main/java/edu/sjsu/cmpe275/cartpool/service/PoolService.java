@@ -13,5 +13,7 @@ public interface PoolService {
 
     List<Pool> searchPool(String searchParam);
 
-    Pool joinPool(Long poolId, Long poolerId, String screenName);
+    void joinPool(Long poolId, Long poolerId, String screenName);
+
+    Pool verify(Long poolerId, Long poolId);
 }
