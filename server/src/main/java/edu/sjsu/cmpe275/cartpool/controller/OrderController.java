@@ -106,6 +106,13 @@ public class OrderController {
         return ResponseEntity.status(HttpStatus.OK).body(orderService.getOrdersByOwnerId(id));
     }
     
+    @RequestMapping(value = "/order/getdeliveryorders/{id}",
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+            method = RequestMethod.GET)
+    public @ResponseBody
+    ResponseEntity<List<Orders>> getDeliveryOrders(@PathVariable long id) {
+        return ResponseEntity.status(HttpStatus.OK).body(orderService.getOrdersByOwnerId(id));
+    }
     
     @RequestMapping(value = "/order/submitorder",
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},

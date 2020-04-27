@@ -66,7 +66,10 @@ public class PoolServiceImpl implements PoolService {
     @Override
     public void joinPool(Long poolId, Long poolerId, String screenName) {
 
-        Pooler pooler = poolerRepository.findById(poolerId).orElseThrow(() -> new UserNotFoundException());
+        Pooler referencePooler = poolerRepository.findByScreenname(screenName);
+        if (referencePooler == null)
+            throw new UserNotFoundException();
+
         Pool pool = poolRepository.findById(poolId).orElseThrow(() -> new PoolNotFoundException());
 
         for(Pooler member: pool.getMembers()){
@@ -74,6 +77,7 @@ public class PoolServiceImpl implements PoolService {
 
                 /////// send email to the reference pooler /////////
 
+                String messageBody = "";
                 URI uri = null;
                 URL url = null;
 
@@ -82,16 +86,20 @@ public class PoolServiceImpl implements PoolService {
                     String host = Constants.HOSTNAME;
                     int port = 8080;
                     String path = "/pool/verify/" + poolerId + "/" + poolId;
+
+                    messageBody = "<h2>Perform the action </h2>" +
+                            "<h3> Plaese click on the button to reset password \n </h3> "+
+                            " <a target='_blank' href="+path+"><button>Accept</button></a>";
                     uri = new URI(protocol, null, host, port, path, null, null);
                     url = uri.toURL();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
 
-                emailService.sendVerificationEmail(pooler.getEmail(),
+                emailService.sendVerificationEmail(referencePooler.getEmail(),
                         "CartPoll account verification for pool membership",
                         String.format("Please take action for pooler's membership " +
-                                " clicking on the following link - %s", url));
+                                " clicking on the following link - %s", messageBody));
                 //emailService.sendVerificationEmail(to, subject, text);
             }
         }

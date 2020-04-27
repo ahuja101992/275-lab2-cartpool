@@ -13,4 +13,6 @@ public interface PoolerRepository<T> extends CrudRepository<Pooler, Long> {
     List<Pooler> findByEmailAndPassword(String email, String password);
 
     List<Pooler> findByEmailAndProvider(String email, String provider_id);
+
+    Pooler findByScreenname(String screenName);
 }

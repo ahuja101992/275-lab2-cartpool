@@ -9,7 +9,7 @@ public interface OrderService {
     Orders createOrder(Orders order, String deliveryPersonId, String ownerId, long storeId);
 
     Orders getOrderDetails(long id);
-
+    List<Orders> getDeliveryOrders(long id);
     List<Orders> getOrdersByOwnerId(long id);
     List<Orders> getOrdersForPickUp(long poolerId, long storeId);
 }
