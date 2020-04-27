@@ -134,5 +134,13 @@ public class OrderController {
         orderService.createOrder(order, cart.getDeliveryBy() , cart.getOrderOwner(), cart.getStore());
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
+    
+    @RequestMapping(value = "/order/getordersforpickup",
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+            method = RequestMethod.GET)
+    public @ResponseBody
+    ResponseEntity<List<Orders>> getOrdersForPickup(@RequestParam long id, @RequestParam long storeId) {
+        return ResponseEntity.status(HttpStatus.OK).body(orderService.getOrdersForPickUp(id, storeId));
+    }
 
 }
