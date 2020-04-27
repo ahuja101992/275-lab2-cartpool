@@ -59,4 +59,12 @@ public class OrderServiceImpl implements OrderService {
 		return orders;
 	}
 
+	@Override
+	public List<Orders> getDeliveryOrders(long id) {
+		Pooler owner = poolerRepository.findById(id).orElseThrow(() -> new UserNotFoundException());
+		List<Orders> orders = owner.getOrders();
+		if(orders.size()<1) throw new OrderNotFoundException();
+		return orders;
+	}
+
 }
