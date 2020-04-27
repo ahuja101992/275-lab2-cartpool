@@ -44,7 +44,7 @@ export function getOrdersByUserId(payload) {
     console.log(payload);
 
     return (dispatch) => {
-        axios.get(`http://${HOSTNAME}:8080/order/getOrdersByUserId/${payload.userId}`)
+        axios.get(`http://${HOSTNAME}:8080/order/getOrdersByOwnerId/${payload.userId}`)
             .then((response) => dispatch(getOrdersByUserIdDispatch(response.data)))
             .catch((err) => console.log(err));
     }

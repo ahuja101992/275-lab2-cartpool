@@ -87,17 +87,8 @@ public class OrderController {
     /***
      *
      * @param id - Long poolerId
-     * @return Returns all orders placed by the user
+     * @return Returns all orders placed by the order owner
      */
-    @RequestMapping(value = "/order/getOrdersByUserId/{id}",
-            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
-            method = RequestMethod.GET)
-    public @ResponseBody
-    ResponseEntity<List<Orders>> getOrdersByUserId(@PathVariable long id) {
-        return ResponseEntity.status(HttpStatus.OK).body(orderService.getOrdersByUserId(id));
-    }
-    
-    
     @RequestMapping(value = "/order/getOrdersByOwnerId/{id}",
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             method = RequestMethod.GET)

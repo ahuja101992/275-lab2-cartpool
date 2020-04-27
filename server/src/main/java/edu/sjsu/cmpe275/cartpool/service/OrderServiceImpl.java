@@ -38,11 +38,6 @@ public class OrderServiceImpl implements OrderService {
         return orderDetails;
     }
 
-    public List<Orders> getOrdersByUserId(long id) {
-        Pooler pooler = poolerRepository.findById(id).orElseThrow(() -> new UserNotFoundException());
-        return pooler.getOrders();
-    }
-
 	@Override
 	public List<Orders> getOrdersByOwnerId(long id) {
 		Pooler owner = poolerRepository.findById(id).orElseThrow(() -> new UserNotFoundException());
