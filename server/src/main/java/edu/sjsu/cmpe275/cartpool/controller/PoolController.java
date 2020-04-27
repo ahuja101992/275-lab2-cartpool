@@ -81,15 +81,16 @@ public class PoolController {
         return ResponseEntity.status(HttpStatus.OK).body(poolList);
     }
 
-    @RequestMapping(value = "/pool/join",
+    @RequestMapping(value = "/pool/join{poolId}",
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             method = RequestMethod.PUT)
     public @ResponseBody
-    ResponseEntity<Pool> joinPool(@RequestParam Long id,
-                                  @RequestParam Pooler pooler) {
+    ResponseEntity<Pool> joinPool(@PathVariable Long poolId,
+                                  @RequestParam Long poolerId,
+                                  @RequestParam String screenName) {
 
 
-        //return ResponseEntity.status(HttpStatus.OK).body(poolService.delete(id));
+        //return ResponseEntity.status(HttpStatus.OK).body(poolService.joinPool(poolId, poolerId, screenName));
         return null;
     }
 

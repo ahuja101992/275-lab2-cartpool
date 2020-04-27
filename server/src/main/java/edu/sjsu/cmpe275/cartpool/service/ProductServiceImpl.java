@@ -14,6 +14,7 @@ import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -31,15 +32,13 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public Product createProduct(Product product, Long adminId) {
-        Admin admin = adminRepository.findById(adminId).orElseThrow(() -> new UserNotFoundException());
+    public Product createProduct(Product product) {
         return productRepository.save(product);
     }
 
     @Override
     @Transactional
-    public Set<Product> deleteProduct(Long storeId, Long sku, Long adminId) {
-        Admin admin = adminRepository.findById(adminId).orElseThrow(() -> new UserNotFoundException());
+    public Set<Product> deleteProduct(Long storeId, Long sku) {
         Store store = storeRepository.findById(storeId).orElseThrow(() -> new StoreNotFoundException());
         System.out.println("Deleting product: ");
         productRepository.deleteById(new ProductId(storeId, sku));
@@ -48,8 +47,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public Set<Product> updateProduct(Product product, Long adminId) {
-        Admin admin = adminRepository.findById(adminId).orElseThrow(() -> new UserNotFoundException());
+    public Set<Product> updateProduct(Product product) {
         productRepository.save(product);
         return product.getStore().getProducts();
 
@@ -59,7 +57,8 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     public Set<Product> searchProductByStoreId(Long storeId) {
         Store store = storeRepository.findById(storeId).orElseThrow(() -> new StoreNotFoundException());
-        return (Set<Product>) productRepository.findByStoreId(storeId);
+        List<Product> list= productRepository.findByStoreId(storeId);
+        return new HashSet<Product>(list);
     }
 
     @Override
@@ -69,6 +68,7 @@ public class ProductServiceImpl implements ProductService {
         return product;
     }
 
+    @Override
     @Transactional
     public List<Product> searchProductBySKU(Long sku) {
         ProductId productId = new ProductId(sku);
@@ -76,9 +76,10 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findAll(productExample);
     }
 
+    @Override
     @Transactional
-    public List<Product> searchProductByName(String name) {
-        return productRepository.findByName(name);
+    public List<Product> searchProductByName(String name,Long storeId) {
+        return productRepository.findByNameAndStoreId(name,storeId);
     }
 
 }

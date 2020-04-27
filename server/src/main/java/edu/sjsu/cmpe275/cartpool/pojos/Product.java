@@ -35,6 +35,10 @@ public class Product {
     @JoinColumn(name = "storeId", referencedColumnName = "id")
     private Store store;
 
+    public Product(){
+
+    }
+
     public Product(ProductId id, String name, String description, String imageURL, String unit, long price) {
         this.id = id;
         this.name = name;

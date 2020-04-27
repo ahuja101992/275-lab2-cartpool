@@ -22,7 +22,7 @@ export default function orderReducer(state = initialState, action) {
         });
     } else if (action.type === GET_ORDERS_BY_USER_ID) {
         return Object.assign({}, state, {
-            orderByPooler: []
+            orderByPooler: action.payload
         });
     }
 

@@ -14,16 +14,22 @@ public class OrderDetails {
     private long id;
 
     @Column
-    private long qty;
+    private Long qty;
 
     @Column
-    private long price;
+    private Long price;
 
     @Column
-    private long product_id;
+    private Long sku;
 
     @ManyToOne(fetch = FetchType.LAZY,
             cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn(name = "order_id", referencedColumnName = "id")
     private Orders order;
+
+    public OrderDetails(long qty, long price, long sku) {
+        this.qty = qty;
+        this.price = price;
+        this.sku = sku;
+    }
 }

@@ -69,45 +69,6 @@ public class Orders {
         this.status = orderBuilder.status;
     }
 
-    public long getFinalPrice() {
-        return finalPrice;
-    }
-
-    public void setFinalPrice(long finalPrice) {
-        this.finalPrice = finalPrice;
-    }
-
-    public boolean isAvailable() {
-        return available;
-    }
-
-    public void setAvailable(boolean available) {
-        this.available = available;
-    }
-
-    public boolean isForDelivery() {
-        return forDelivery;
-    }
-
-    public void setForDelivery(boolean forDelivery) {
-        this.forDelivery = forDelivery;
-    }
-
-    public Pooler getOrderOwner() {
-        return orderOwner;
-    }
-
-    public void setOrderOwner(Pooler orderOwner) {
-        this.orderOwner = orderOwner;
-    }
-
-    public Pooler getDeliveryBy() {
-        return deliveryBy;
-    }
-
-    public void setDeliveryBy(Pooler deliveryBy) {
-        this.deliveryBy = deliveryBy;
-    }
 
     public long getId() {
         return id;
@@ -149,12 +110,60 @@ public class Orders {
         this.price = price;
     }
 
+    public long getFinalPrice() {
+        return finalPrice;
+    }
+
+    public void setFinalPrice(long finalPrice) {
+        this.finalPrice = finalPrice;
+    }
+
+    public boolean isAvailable() {
+        return available;
+    }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
+    }
+
+    public boolean isForDelivery() {
+        return forDelivery;
+    }
+
+    public void setForDelivery(boolean forDelivery) {
+        this.forDelivery = forDelivery;
+    }
+
     public String getStatus() {
         return status;
     }
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Pooler getOrderOwner() {
+        return orderOwner;
+    }
+
+    public void setOrderOwner(Pooler orderOwner) {
+        this.orderOwner = orderOwner;
+    }
+
+    public Pooler getDeliveryBy() {
+        return deliveryBy;
+    }
+
+    public void setDeliveryBy(Pooler deliveryBy) {
+        this.deliveryBy = deliveryBy;
+    }
+
+    public List<OrderDetails> getOrderItems() {
+        return orderItems;
+    }
+
+    public void setOrderItems(List<OrderDetails> orderItems) {
+        this.orderItems = orderItems;
     }
 
     public static class OrderBuilder {

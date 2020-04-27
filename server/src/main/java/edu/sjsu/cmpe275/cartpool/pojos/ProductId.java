@@ -13,6 +13,9 @@ public class ProductId implements Serializable {
     private Long storeId;
     private Long sku;
 
+    public ProductId(){
+
+    }
     public ProductId(Long storeId, Long sku) {
         this.sku = sku;
         this.storeId = storeId;

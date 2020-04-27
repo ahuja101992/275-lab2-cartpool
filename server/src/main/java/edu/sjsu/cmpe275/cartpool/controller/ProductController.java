@@ -1,8 +1,10 @@
 package edu.sjsu.cmpe275.cartpool.controller;
 
 
+import edu.sjsu.cmpe275.cartpool.pojos.Admin;
 import edu.sjsu.cmpe275.cartpool.pojos.Product;
 import edu.sjsu.cmpe275.cartpool.pojos.ProductId;
+import edu.sjsu.cmpe275.cartpool.pojos.Store;
 import edu.sjsu.cmpe275.cartpool.service.AdminService;
 import edu.sjsu.cmpe275.cartpool.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Set;
 
 @Component
@@ -47,7 +50,7 @@ public class ProductController {
             product = new Product(productId, name, desc, image_url, brand, unit, price);
         }
 
-        Product newProduct = productService.createProduct(product, adminId);
+        Product newProduct = productService.createProduct(product);
         return newProduct != null ? ResponseEntity.status(HttpStatus.OK).body(product) : null;
     }
 
@@ -55,26 +58,29 @@ public class ProductController {
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             method = RequestMethod.DELETE)
     @ResponseBody
-    public ResponseEntity<Set<Product>> deleteStore(@PathVariable Long storeId,
+    public ResponseEntity<Set<Product>> deleteProduct(@PathVariable Long storeId,
                                                     @PathVariable Long sku,
                                                     @PathVariable Long adminId) {
-        Set<Product> products = productService.deleteProduct(storeId, sku, adminId);
+        adminService.findById(adminId);
+        Set<Product> products = productService.deleteProduct(storeId, sku);
         return ResponseEntity.status(HttpStatus.OK).body(products);
     }
 
     @RequestMapping(value = "/product/{storeId}/{sku}/{adminId}",
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+
             method = RequestMethod.PUT)
     @ResponseBody
-    public ResponseEntity<Product> updateStore(@PathVariable Long storeId,
-                                                   @PathVariable Long sku,
-                                                   @RequestParam String name,
-                                                   @RequestParam String desc,
-                                                   @RequestParam String image_url,
-                                                   @RequestParam String brand,
-                                                   @RequestParam String unit,
-                                                   @RequestParam Long price,
-                                                   @RequestParam Long adminId) {
+    public ResponseEntity<Product> updateProduct(@PathVariable Long storeId,
+                                                 @PathVariable Long sku,
+                                                 @PathVariable Long adminId,
+                                                 @RequestParam (required = false)String name,
+                                                   @RequestParam (required = false)String desc,
+                                                   @RequestParam (required = false)String image_url,
+                                                   @RequestParam (required = false)String brand,
+                                                   @RequestParam (required = false)String unit,
+                                                   @RequestParam (required = false)Long price
+                                                   ) {
         adminService.findById(adminId);
         Product product = productService.ffindByStoreId_SKU(storeId,sku);
         if(name!=null){
@@ -96,8 +102,42 @@ public class ProductController {
             product.setPrice(price);
         }
 
+        productService.updateProduct(product);
         return product != null ? ResponseEntity.status(HttpStatus.OK).body(product) : null;
     }
 
+    @RequestMapping(value = "/products/{storeId}",
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+            method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<Set<Product>> getStoreByStoreId(@PathVariable Long storeId) {
+        return ResponseEntity.status(HttpStatus.OK).body(productService.searchProductByStoreId(storeId));
+    }
+
+    @RequestMapping(value = "/products/sku",
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+            method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<Product> getProductByStoreId_SKU(@RequestParam Long storeId,
+                                                               @RequestParam Long sku) {
+       return ResponseEntity.status(HttpStatus.OK).body(productService.ffindByStoreId_SKU(storeId,sku));
+    }
+
+    @RequestMapping(value = "/products/name",
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+            method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<List<Product>> getProductByStoreId_SKU(@RequestParam Long storeId,
+                                                                 @RequestParam String name) {
+        return ResponseEntity.status(HttpStatus.OK).body(productService.searchProductByName(name,storeId));
+    }
+
+    //    @RequestMapping(value = "/products/sku/{sku}",
+//            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+//            method = RequestMethod.GET)
+//    @ResponseBody
+//    public ResponseEntity<List<Product>> getProductBySKU(@PathVariable Long sku) {
+//        return ResponseEntity.status(HttpStatus.OK).body(productService.searchProductBySKU(sku));
+//    }
 
 }
