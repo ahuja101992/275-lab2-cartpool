@@ -7,10 +7,15 @@ import edu.sjsu.cmpe275.cartpool.pojos.Pool;
 import edu.sjsu.cmpe275.cartpool.pojos.Pooler;
 import edu.sjsu.cmpe275.cartpool.repository.PoolRepository;
 import edu.sjsu.cmpe275.cartpool.repository.PoolerRepository;
+import edu.sjsu.cmpe275.cartpool.util.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
+import java.net.URI;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.List;
 
 @Service
@@ -21,6 +26,9 @@ public class PoolServiceImpl implements PoolService {
 
     @Autowired
     private PoolerRepository<Pooler> poolerRepository;
+
+    @Autowired
+    private EmailService emailService;
 
     @Transactional
     @Override
@@ -56,7 +64,7 @@ public class PoolServiceImpl implements PoolService {
 
     @Transactional
     @Override
-    public Pool joinPool(Long poolId, Long poolerId, String screenName) {
+    public void joinPool(Long poolId, Long poolerId, String screenName) {
 
         Pooler pooler = poolerRepository.findById(poolerId).orElseThrow(() -> new UserNotFoundException());
         Pool pool = poolRepository.findById(poolId).orElseThrow(() -> new PoolNotFoundException());
@@ -65,10 +73,42 @@ public class PoolServiceImpl implements PoolService {
             if(member.getScreenname() == screenName){
 
                 /////// send email to the reference pooler /////////
+
+                URI uri = null;
+                URL url = null;
+
+                try {
+                    String protocol = "http";
+                    String host = Constants.HOSTNAME;
+                    int port = 8080;
+                    String path = "/pool/verify/" + poolerId + "/" + poolId;
+                    uri = new URI(protocol, null, host, port, path, null, null);
+                    url = uri.toURL();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                emailService.sendVerificationEmail(pooler.getEmail(),
+                        "CartPoll account verification for pool membership",
+                        String.format("Please take action for pooler's membership " +
+                                " clicking on the following link - %s", url));
+                //emailService.sendVerificationEmail(to, subject, text);
             }
         }
 
         ///// throw exception -> no pooler with given ScreenName found
-        return null;
+        //return null;
+    }
+
+    @Override
+    public Pool verify(Long poolerId, Long poolId) {
+        Pooler pooler = poolerRepository.findById(poolerId).orElseThrow(() -> new UserNotFoundException());
+        Pool pool = poolRepository.findById(poolId).orElseThrow(() -> new PoolNotFoundException());
+
+        pooler.setVerifiedForPoolMembership(true);
+        pool.addPooler(pooler);
+        poolerRepository.save(pooler);
+        return poolRepository.save(pool);
+        //return poolRepository.save()
     }
 }
