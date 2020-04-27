@@ -46,7 +46,8 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public List<Orders> getOrdersByOwnerId(long id) {
 		Pooler owner = poolerRepository.findById(id).orElseThrow(() -> new UserNotFoundException());
-		List<Orders> ownerOrders = orderRepository.findByOrderOwner(owner);
+		List<Orders> ownerOrders = orderRepository.findByOrderOwnerAndAvailable(owner, true);
+//		List<Orders> ownerOrders = orderRepository.findByAvailableAndQty(true, 12);
 		if(ownerOrders.size()<1) throw new OrderNotFoundException();
 		return ownerOrders;
 	}
