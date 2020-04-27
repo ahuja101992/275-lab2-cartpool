@@ -13,5 +13,5 @@ import java.util.Optional;
 @Repository
 public interface OrderRepository<T> extends CrudRepository<Orders, Long> {
     Optional<Orders> findById(Long id);
-    List<Orders> findByOrderOwner(Pooler owner);
+    List<Orders> findByOrderOwnerAndAvailable(Pooler owner, Boolean available);
 }
