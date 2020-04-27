@@ -107,7 +107,7 @@ public class OrderController {
     }
     
     
-    @RequestMapping(value = "/order/submitorder/",
+    @RequestMapping(value = "/order/submitorder",
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             method = RequestMethod.POST)
     public @ResponseBody

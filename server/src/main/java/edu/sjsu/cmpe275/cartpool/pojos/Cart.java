@@ -12,7 +12,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-        "id",
         "store",
         "pool",
         "qty",
@@ -27,8 +26,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 })
 public class Cart {
 
-    @JsonProperty("id")
-    private Integer id;
     @JsonProperty("store")
     private Integer store;
     @JsonProperty("pool")
@@ -53,16 +50,6 @@ public class Cart {
     private String deliveryBy;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
-
-    @JsonProperty("id")
-    public Integer getId() {
-        return id;
-    }
-
-    @JsonProperty("id")
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     @JsonProperty("store")
     public Integer getStore() {
