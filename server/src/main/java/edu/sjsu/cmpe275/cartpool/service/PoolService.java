@@ -12,4 +12,6 @@ public interface PoolService {
     boolean chceckMembership(Long poolerId);
 
     List<Pool> searchPool(String searchParam);
+
+    Pool joinPool(Long poolId, Long poolerId, String screenName);
 }
