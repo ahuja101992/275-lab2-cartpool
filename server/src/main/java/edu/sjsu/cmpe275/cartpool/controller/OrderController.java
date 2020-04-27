@@ -3,6 +3,7 @@ package edu.sjsu.cmpe275.cartpool.controller;
 import edu.sjsu.cmpe275.cartpool.pojos.Orders;
 import edu.sjsu.cmpe275.cartpool.service.OrderService;
 import edu.sjsu.cmpe275.cartpool.service.PoolerService;
+import edu.sjsu.cmpe275.cartpool.util.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -21,12 +22,11 @@ public class OrderController {
     @Autowired
     PoolerService poolerService;
 
-    @RequestMapping(value = "/order/checkout",
+    @RequestMapping(value = "/order/placeOrder",
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             method = RequestMethod.POST)
     public @ResponseBody
     ResponseEntity<Orders> checkout(@RequestParam(required = false) String deliveryPersonId,
-                                    @RequestParam String orderId,
                                     @RequestParam long storeId,
                                     @RequestParam int qty,
                                     @RequestParam boolean forDelivery,
@@ -43,9 +43,10 @@ public class OrderController {
                 .price(price)
                 .finalPrice(finalPrice)
                 .forDelivery(forDelivery)
-                .status("Placed")
+                .status(Constants.PLACED)
                 .build();
         orderService.createOrder(order, deliveryPersonId, ownerId, storeId);
+
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
