@@ -1,4 +1,5 @@
 import {CHECKOUT, DELIVERY_NOT_RECEIVED, GET_ORDERS_BY_USER_ID, GET_ORDERS_READY_FOR_PICKUP, GET_ORDERS_READY_FOR_DELIVERY} from "../../redux/constants/actionTypes";
+import {PLACED, PICKED_UP, PICKED_UP_BY_SELF, DELIVERED} from "../../constants/appConstants";
 
 const initialState = {
     ordersReadyForPickup: [],
@@ -14,17 +15,22 @@ const extractAddress = (address) => {
     return address.street + " " + address.city + " " + address.state + " " + address.zip
 }
 
-const getOrdersBasedOnStatus = (response, status) => {
+const getOrdersBasedOnStatus = (response, applyFilter, status) => {
     console.log("getOrderBasedOnStatus")
     console.log(response)
 
-    // const ordersByStatus = response.filter(order => {
-    //     return (order.status === )
-    // });
+    let ordersByStatus = response;
+
+    if (applyFilter) {
+        ordersByStatus = response.filter(order => {
+            return (order.status === status)
+        });
+    }
+
 
     const displayOrders = [];
 
-    response.forEach(function (order) {
+    ordersByStatus.forEach(function (order) {
         const displayOrder = {};
         //const items = JSON.parse(order.items);
 
@@ -60,11 +66,11 @@ export default function orderReducer(state = initialState, action) {
         });
     } else if (action.type === GET_ORDERS_READY_FOR_PICKUP) {
         return Object.assign({}, state, {
-            ordersReadyForPickup: getOrdersBasedOnStatus(action.payload)
+            ordersReadyForPickup: getOrdersBasedOnStatus(action.payload, true, PLACED)
         });
     } else if (action.type === GET_ORDERS_READY_FOR_DELIVERY) {
         return Object.assign({}, state, {
-            ordersReadyForDelivery: getOrdersBasedOnStatus(action.payload)
+            ordersReadyForDelivery: getOrdersBasedOnStatus(action.payload, true, PICKED_UP)
         });
     }
 

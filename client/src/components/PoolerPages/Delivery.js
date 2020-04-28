@@ -2,6 +2,8 @@ import React, {Component} from "react";
 import {connect} from "react-redux";
 import BootstrapTable from "react-bootstrap-table-next";
 import {getOrdersReadyForDelivery, markDelivered} from "../../redux/actions/orderActions";
+import axios from "axios";
+import {HOSTNAME} from "../../constants/appConstants";
 
 function mapStateToProps(store) {
     return {
@@ -75,7 +77,6 @@ class Delivery extends Component {
         payload.orderId = cell.orderId;
 
         this.props.markDelivered(payload, () => this.populateOrdersReadyForDelivery());
-
     }
 
     render() {
