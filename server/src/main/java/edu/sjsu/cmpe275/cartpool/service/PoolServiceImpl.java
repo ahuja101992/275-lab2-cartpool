@@ -91,7 +91,7 @@ public class PoolServiceImpl implements PoolService {
                     uri = new URI(protocol, null, host, port, path, null, null);
                     url = uri.toURL();
                     messageBody="<h3>Take the action to accept or reject the membership request</h3>\n" +
-                            " <a target='_blank' href=><button style=\"background-color:#4CAF50\">Accept</button></a>\n" +
+                            " <a target='_blank' href=" + url + "><button style=\"background-color:#4CAF50\">Accept</button></a>\n" +
                             "<a target='_blank' href=><button style=\"background-color:#f44336\">Reject</button></a>";
 
                 } catch (Exception e) {
@@ -115,8 +115,8 @@ public class PoolServiceImpl implements PoolService {
 
         pooler.setVerifiedForPoolMembership(true);
         pool.addPooler(pooler);
+        pooler.setPool(pool);
         poolerRepository.save(pooler);
         return poolRepository.save(pool);
-        //return poolRepository.save()
     }
 }
