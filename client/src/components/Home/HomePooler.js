@@ -43,7 +43,7 @@ class HomePooler extends Component {
                     <Navbar>
                         <Navbar.Brand as={Link} to='/'>{this.state.restaurantName}</Navbar.Brand>
                         <Nav>
-                            <Nav.Link as={NavLink} to='/homePooler/menu/'>HomePooler</Nav.Link>
+                            <Nav.Link as={NavLink} to='/homePooler/'>HomePooler</Nav.Link>
                         </Nav>
                         <Nav className="ml-auto">
                             <Nav.Link as={NavLink} to='/homePooler/pickup/'>Pickup</Nav.Link>
@@ -56,7 +56,7 @@ class HomePooler extends Component {
 
                 <div>
                     <Switch>
-                        <Route exact path='/homePooler/menu/' component={Pickup}/>
+                        <Route exact path='/homePooler/' component={Pickup}/>
                         <Route exact path='/homePooler/orders/' component={Orders}/>
                         <Route exact path='/homePooler/pickup/' component={Pickup}/>
                         <Route exact path='/homePooler/delivery/' component={Delivery}/>
