@@ -76,4 +76,16 @@ public class OrderServiceImpl implements OrderService {
 		return orders;
 	}
 
+	@Override
+	public Boolean selectOrders(long poolerId, int count, String[] orders) {
+		Pooler deliveryBy = poolerRepository.findById(poolerId).orElseThrow(() -> new UserNotFoundException());
+		for(String order : orders) {
+			long orderNum = Long.parseLong(order);
+			Orders currentOrder = orderRepository.findById(orderNum).orElseThrow(() -> new UserNotFoundException());
+			currentOrder.setDeliveryBy(deliveryBy);
+			currentOrder.setAvailable(false);
+		}
+		return deliveryBy.getOrders().size()>0;
+	}
+
 }
