@@ -19,7 +19,7 @@ const getOrdersBasedOnStatus = (response, status) => {
     console.log(response)
 
     // const ordersByStatus = response.filter(order => {
-    //     return (order.status === status)
+    //     return (order.status === )
     // });
 
     const displayOrders = [];

@@ -45,11 +45,15 @@ class Delivery extends Component {
         };
     }
 
-    componentDidMount() {
+    populateOrdersReadyForDelivery = () => {
         const payload = {};
         payload.poolerId = localStorage.getItem("id");
 
         this.props.getOrdersReadyForDelivery(payload);
+    }
+
+    componentDidMount() {
+        this.populateOrdersReadyForDelivery();
     }
 
     addMarkDeliveredButton = (cell, row) => {
@@ -68,10 +72,10 @@ class Delivery extends Component {
         console.log(cell)
 
         const payload = {};
-        payload.deliveryPersonId = localStorage.getItem('id');
-        payload.orderId = "";
+        payload.orderId = cell.orderId;
 
-        //this.props.checkoutOrder(payload);
+        this.props.markDelivered(payload, () => this.populateOrdersReadyForDelivery());
+
     }
 
     render() {

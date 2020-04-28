@@ -179,10 +179,10 @@ public class OrderController {
     public @ResponseBody
     ResponseEntity<Orders> selectOrdersForDelivery(@RequestParam long poolerId,
 										    		@RequestParam int count,
-										    		@RequestParam String orderList) {
-    	String[] orders = orderList.split("-");
-    	if(orders.length!=count) return ResponseEntity.status(HttpStatus.OK).body(null);/// error to be sent
-    	if(!orderService.selectOrders(poolerId, count, orders)) return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+                                                   @RequestBody List<Long> orderList) {
+        System.out.println(orderList);
+    	if(orderList.size()!=count) return ResponseEntity.status(HttpStatus.OK).body(null);/// error to be sent
+    	if(!orderService.selectOrders(poolerId, count, orderList)) return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
