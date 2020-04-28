@@ -1,4 +1,4 @@
-import {CHECKOUT, DELIVERY_NOT_RECEIVED, GET_ORDERS_BY_USER_ID, GET_ORDERS_READY_FOR_PICKUP} from "../../redux/constants/actionTypes";
+import {CHECKOUT, DELIVERY_NOT_RECEIVED, GET_ORDERS_BY_USER_ID, GET_ORDERS_READY_FOR_PICKUP, GET_ORDERS_READY_FOR_DELIVERY} from "../../redux/constants/actionTypes";
 import {HOSTNAME} from "../../constants/appConstants";
 
 import axios from 'axios';
@@ -55,7 +55,7 @@ export const getOrdersReadyForDeliveryDispatch = (returnData) => {
     console.log("getOrdersReadyForPickupDispatch returnData");
     console.log(returnData);
 
-    return {type: GET_ORDERS_READY_FOR_PICKUP, payload: returnData}
+    return {type: GET_ORDERS_READY_FOR_DELIVERY, payload: returnData}
 };
 
 

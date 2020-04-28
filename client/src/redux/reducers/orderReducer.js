@@ -1,4 +1,4 @@
-import {CHECKOUT, DELIVERY_NOT_RECEIVED, GET_ORDERS_BY_USER_ID, GET_ORDERS_READY_FOR_PICKUP} from "../../redux/constants/actionTypes";
+import {CHECKOUT, DELIVERY_NOT_RECEIVED, GET_ORDERS_BY_USER_ID, GET_ORDERS_READY_FOR_PICKUP, GET_ORDERS_READY_FOR_DELIVERY} from "../../redux/constants/actionTypes";
 
 const initialState = {
     ordersReadyForPickup: [],
@@ -47,7 +47,7 @@ const getOrdersBasedOnStatus = (response, status) => {
 }
 
 export default function orderReducer(state = initialState, action) {
-    console.log("inventoryReducer:");
+    console.log("orderReducer:");
     console.log(action.payload);
 
     if (action.type === CHECKOUT) {
@@ -59,14 +59,20 @@ export default function orderReducer(state = initialState, action) {
             orderByPooler: [...state.orderByPooler]
         });
     } else if (action.type === GET_ORDERS_BY_USER_ID) {
-        // return Object.assign({}, state, {
-        //     orderByPooler: getOrdersBasedOnStatus(action.payload)
-        // });
+        return Object.assign({}, state, {
+            orderByPooler: action.payload
+        });
     } else if (action.type === GET_ORDERS_READY_FOR_PICKUP) {
         return Object.assign({}, state, {
             ordersReadyForPickup: getOrdersBasedOnStatus(action.payload)
         });
+    } else if (action.type === GET_ORDERS_READY_FOR_DELIVERY) {
+        return Object.assign({}, state, {
+            ordersReadyForDelivery: getOrdersBasedOnStatus(action.payload)
+        });
     }
+
+
 
     return state;
 }

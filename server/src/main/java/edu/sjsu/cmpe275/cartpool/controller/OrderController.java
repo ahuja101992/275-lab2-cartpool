@@ -58,20 +58,36 @@ public class OrderController {
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
+    /***
+     * Picks-up and order for delivery by changing status from PLACED to
+     * either "Picked-up by self" or "Picked-up"
+     *
+     * @param deliveryPersonId - Long id of the deliveryPerson
+     * @param orderId - Long id of the order
+     * @return
+     */
     @RequestMapping(value = "/order/delivery/pickUpOrder",
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             method = RequestMethod.POST)
     public @ResponseBody
-    ResponseEntity<Orders> deliveryCheckout(@RequestParam(required = false) String deliveryPersonId,
-                                            @RequestParam String orderId) {
+    ResponseEntity<Orders> deliveryCheckout(@RequestParam(required = false) long deliveryPersonId,
+                                            @RequestParam long orderId) {
+        orderService.pickUpOrderForDelivery(deliveryPersonId, orderId);
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
+    /***
+     * Completes delivery of an order by changing  status from "Picked-up" to "Delivered"
+     *
+     * @param orderId - Long id of the order
+     * @return
+     */
     @RequestMapping(value = "/order/delivery/markDelivered",
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             method = RequestMethod.POST)
     public @ResponseBody
-    ResponseEntity<Orders> markDelivered(@RequestParam String orderId) {
+    ResponseEntity<Orders> markDelivered(@RequestParam long orderId) {
+        orderService.markOrderDelivered(orderId);
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
@@ -148,7 +164,7 @@ public class OrderController {
     ResponseEntity<List<Orders>> getOrdersForPickup(@PathVariable long poolerId, @PathVariable long storeId) {
         return ResponseEntity.status(HttpStatus.OK).body(orderService.getOrdersForPickUp(poolerId, storeId));
     }
-    @RequestMapping(value = "/order/getallorders/{poolerId}",
+    @RequestMapping(value = "/order/delivery/getOrdersForPickup/{poolerId}",
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             method = RequestMethod.GET)
     public @ResponseBody
