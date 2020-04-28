@@ -55,11 +55,19 @@ public class OrderServiceImpl implements OrderService {
 		Pooler pooler = poolerRepository.findById(poolerId).orElseThrow(() -> new UserNotFoundException());
 		Pool poolerPool = pooler.getPool();
 		List<Orders> orders = orderRepository.findByPoolAndStoreAndAvailableAndForDelivery(poolerPool, store, true, true);
-		orders.addAll(orderRepository.findByOrderOwnerAndAvailable(pooler, true));
 		if (orders.size() < 1) throw new OrderNotFoundException();
 		return orders;
 	}
 
+	public List<Orders> getAllOrders(long id) {
+		Pooler owner = poolerRepository.findById(id).orElseThrow(() -> new UserNotFoundException());
+		List<Orders> orders = owner.getOrders();
+		if(orders.size()<1) throw new OrderNotFoundException();
+		List<Orders> ownerOrders = orderRepository.findByOrderOwner(owner);
+		orders.addAll(orderRepository.findByOrderOwnerAndAvailable(owner, true));
+		return orders;
+	}
+	
 	@Override
 	public List<Orders> getDeliveryOrders(long id) {
 		Pooler owner = poolerRepository.findById(id).orElseThrow(() -> new UserNotFoundException());
