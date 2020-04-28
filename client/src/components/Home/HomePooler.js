@@ -42,7 +42,7 @@ class HomePooler extends Component {
                 {/*</div>*/}
                 <div>
                     <Navbar>
-                        <Navbar.Brand as={Link} to='/'>{this.state.restaurantName}</Navbar.Brand>
+                        <Navbar.Brand as={Link} to='/'></Navbar.Brand>
                         <Nav>
                             <Nav.Link as={NavLink} to='/homePooler/'>HomePooler</Nav.Link>
                         </Nav>

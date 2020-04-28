@@ -98,8 +98,11 @@ class Login extends Component {
                 provider: 'google',
                 OAuthRedirect: true
             });
-
         }
+    }
+
+    isAdmin = () => {
+        return "sjsu.edu" === localStorage.getItem("email").split("@")[1];
     }
 
     render() {
@@ -126,9 +129,19 @@ class Login extends Component {
                 {this.state.redirectVar === true && <Redirect to={{
                     pathname: "/signup"
                 }}/>}
-                {this.props.signinSuccess === true && <Redirect to={{
-                    pathname: "/Home"
+
+                {this.props.signinSuccess === true
+                && localStorage.getItem("email") !== null
+                && this.isAdmin() && <Redirect to={{
+                    pathname: "/homeAdmin"
                 }}/>}
+
+                {this.props.signinSuccess === true
+                && localStorage.getItem("email") !== null
+                && !this.isAdmin() && <Redirect to={{
+                    pathname: "/homePooler"
+                }}/>}
+
                 {this.state.OAuthRedirect === true && <Redirect to={{
                     pathname: "/signup",
                     props: {
