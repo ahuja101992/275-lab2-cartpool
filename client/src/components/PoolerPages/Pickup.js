@@ -24,6 +24,7 @@ class Pickup extends Component {
         this.state = {
             redirectVar: null,
             selectedOrder: null,
+            selectedOrderId: null,
             currentStoreEditIndex: null,
             showQRCode: false,
             basicColumns: [{
@@ -76,9 +77,9 @@ class Pickup extends Component {
 
         const payload = {};
         payload.deliveryPersonId = localStorage.getItem('id');
-        payload.orderId = "";
+        payload.orderId = cell.orderId;
 
-        this.setState({showQRCode: true})
+        this.setState({showQRCode: true, selectedOrderId: cell.orderId})
 
         this.props.pickUpOrder(payload);
     }
@@ -93,7 +94,7 @@ class Pickup extends Component {
                     </Modal.Header>
                     <Modal.Body>
                         <QRCode
-                        data="1"
+                        data={this.state.selectedOrderId}
                         size={130}
                         framed/>
                     </Modal.Body>
