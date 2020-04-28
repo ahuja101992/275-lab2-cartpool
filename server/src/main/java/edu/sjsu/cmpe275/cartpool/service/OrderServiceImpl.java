@@ -90,6 +90,7 @@ public class OrderServiceImpl implements OrderService {
 		if (order.getOrderOwner() != null) {
 			String status = order.getOrderOwner().getId() == deliveryPersonId ? Constants.PICKED_UP_BY_SELF : Constants.PICKED_UP;
 			order.setStatus(status);
+			order.setAvailable(false);
 			//To-do
 
 			orderRepository.save(order);
@@ -101,6 +102,7 @@ public class OrderServiceImpl implements OrderService {
 	public void markOrderDelivered(long orderId) {
 		Orders order = orderRepository.findById(orderId).orElseThrow(() -> new OrderNotFoundException());
 		order.setStatus(Constants.DELIVERED);
+		order.setDeliveryBy(null);
 		//To-do
 
 		orderRepository.save(order);
