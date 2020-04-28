@@ -2,12 +2,17 @@ import {CHECKOUT, DELIVERY_NOT_RECEIVED, GET_ORDERS_BY_USER_ID, GET_ORDERS_READY
 
 const initialState = {
     ordersReadyForPickup: [],
+    ordersReadyForDelivery: [],
     orderByPooler: [],
     //ordersReadyForPickup: [{"orderId": "1", "customerName": "xyz", "customerAddress": "1SM", "status": "OK"}],
     // orderByPooler: [{"orderId": "1", "customerName": "xyz", "customerAddress": "1SM", "status": "Placed"},
     //     {"orderId": "2", "customerName": "abc", "customerAddress": "2SM", "status": "Picked-up by oneself"},
     //     {"orderId": "3", "customerName": "pqr", "customerAddress": "3SM", "status": "Delivered"}]
 };
+
+const extractAddress = (address) => {
+    return address.street + " " + address.city + " " + address.state + " " + address.zip
+}
 
 const getOrdersBasedOnStatus = (response, status) => {
     console.log("getOrderBasedOnStatus")
@@ -25,8 +30,8 @@ const getOrdersBasedOnStatus = (response, status) => {
 
         displayOrder["status"] = order.status;
         displayOrder["orderId"] = order.id;
-        displayOrder["customerName"] = order.orderOwner.firstname + " " + order.orderOwner.lastname;
-        displayOrder["customerAddress"] = order.orderOwner.address;
+        displayOrder["customerName"] = order.orderOwner.screenname;
+        displayOrder["customerAddress"] = extractAddress(order.orderOwner.address);
         displayOrder["finalPrice"] = "$" + order.finalPrice;
         // displayOrder["items"] = [];
         //
@@ -54,11 +59,10 @@ export default function orderReducer(state = initialState, action) {
             orderByPooler: [...state.orderByPooler]
         });
     } else if (action.type === GET_ORDERS_BY_USER_ID) {
-        return Object.assign({}, state, {
-            orderByPooler: action.payload
-        });
+        // return Object.assign({}, state, {
+        //     orderByPooler: getOrdersBasedOnStatus(action.payload)
+        // });
     } else if (action.type === GET_ORDERS_READY_FOR_PICKUP) {
-
         return Object.assign({}, state, {
             ordersReadyForPickup: getOrdersBasedOnStatus(action.payload)
         });

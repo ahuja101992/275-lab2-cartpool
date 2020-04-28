@@ -1,5 +1,6 @@
 package edu.sjsu.cmpe275.cartpool.controller;
 
+import edu.sjsu.cmpe275.cartpool.pojos.Address;
 import edu.sjsu.cmpe275.cartpool.pojos.Admin;
 import edu.sjsu.cmpe275.cartpool.pojos.Pooler;
 import edu.sjsu.cmpe275.cartpool.pojos.User;
@@ -36,6 +37,10 @@ public class AccountController {
     ResponseEntity<User> signUp(@RequestParam String screenName,
                                 @RequestParam String nickName,
                                 @RequestParam String email,
+                                @RequestParam(required = false) String street,
+                                @RequestParam(required = false) String city,
+                                @RequestParam(required = false) String state,
+                                @RequestParam(required = false) String zip,
                                 @RequestParam(required = false) String password,
                                 @RequestParam(required = false) String img_url,
                                 @RequestParam(required = false) String accessToken,
@@ -46,12 +51,12 @@ public class AccountController {
         if (nickName != null) nickName = nickName.trim();
         if (email != null) email = email.trim();
 
-
-        System.out.println("password: " + password);
-        String encryptedPassword = encryptionService.encrypt(password);
-        System.out.println("encryptedPassword: " + encryptedPassword);
-        String decryptedPassword = encryptionService.decrypt(encryptedPassword);
-        System.out.println("decryptedPassword: " + decryptedPassword);
+        Address address = new Address.AddressBuilder()
+                .street(street)
+                .city(city)
+                .state(state)
+                .zip(zip)
+                .build();
 
         if (UtilFunctions.isAdmin(email)) {
             //Create admin
@@ -60,6 +65,7 @@ public class AccountController {
                     .nickname(nickName)
                     .email(email)
                     .password(encryptionService.encrypt(password))
+                    .address(address)
                     .build();
             return ResponseEntity.status(HttpStatus.OK).body(adminService.save(admin));
         } else {
@@ -73,6 +79,7 @@ public class AccountController {
                         .accessToken(accessToken)
                         .provider(provider)
                         .provider_id(provider_id)
+                        .address(address)
                         .build();
             } else {
                 pooler = new Pooler.Builder()
@@ -80,6 +87,7 @@ public class AccountController {
                         .nickname(nickName)
                         .email(email)
                         .password(encryptionService.encrypt(password))
+                        .address(address)
                         .build();
             }
 

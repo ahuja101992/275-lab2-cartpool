@@ -8,7 +8,7 @@ import java.util.List;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-@Table(name = "pooler", uniqueConstraints = {@UniqueConstraint(columnNames = {"screenname", "nickname"})})
+@Table(name = "pooler", uniqueConstraints = {@UniqueConstraint(columnNames = {"screenname", "nickname", "email"})})
 public class Pooler extends User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

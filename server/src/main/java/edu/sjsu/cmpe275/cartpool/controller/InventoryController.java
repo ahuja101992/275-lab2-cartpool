@@ -46,7 +46,6 @@ public class InventoryController {
                 .address(address)
                 .build();
 
-        System.out.println("storeId class: " + storeId.getClass());
         if (storeId != null) store.setId(storeId.longValue());
 
         storeService.createStore(store, adminId);

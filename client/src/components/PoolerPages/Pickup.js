@@ -1,7 +1,9 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
+import {Button, Col, Form, Modal, Toast} from "react-bootstrap";
 import BootstrapTable from "react-bootstrap-table-next";
 import {pickUpOrder, getOrdersReadyForPickup} from "../../redux/actions/orderActions";
+import QRCode from "react-google-qrcode";
 
 function mapStateToProps(store) {
     return {
@@ -23,7 +25,7 @@ class Pickup extends Component {
             redirectVar: null,
             selectedOrder: null,
             currentStoreEditIndex: null,
-            show: false,
+            showQRCode: false,
             basicColumns: [{
                 dataField: 'orderId',
                 text: 'Order ID'
@@ -66,6 +68,8 @@ class Pickup extends Component {
         );
     };
 
+    handleClose = () => this.setState({showQRCode: false});
+
     checkout = (cell) => {
         console.log("Inside checkout");
         console.log(cell)
@@ -74,6 +78,8 @@ class Pickup extends Component {
         payload.deliveryPersonId = localStorage.getItem('id');
         payload.orderId = "";
 
+        this.setState({showQRCode: true})
+
         this.props.pickUpOrder(payload);
     }
 
@@ -81,6 +87,24 @@ class Pickup extends Component {
         return (
             <div>
                 <h1>Pickup</h1>
+                <Modal show={this.state.showQRCode} onHide={this.handleClose}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>QR code</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <QRCode
+                        data="1"
+                        size={130}
+                        framed/>
+                    </Modal.Body>
+
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={this.handleClose}>
+                            Close
+                        </Button>
+                    </Modal.Footer>
+
+                </Modal>
                 <BootstrapTable keyField='orderId'
                                 data={this.props.ordersReadyForPickup}
                                 columns={this.state.basicColumns}

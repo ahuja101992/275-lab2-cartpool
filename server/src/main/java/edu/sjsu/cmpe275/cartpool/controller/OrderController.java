@@ -1,7 +1,6 @@
 package edu.sjsu.cmpe275.cartpool.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sun.tools.javac.jvm.Items;
 import edu.sjsu.cmpe275.cartpool.pojos.Cart;
 import edu.sjsu.cmpe275.cartpool.pojos.Item;
 import edu.sjsu.cmpe275.cartpool.pojos.OrderDetails;
@@ -106,12 +105,12 @@ public class OrderController {
         return ResponseEntity.status(HttpStatus.OK).body(orderService.getOrdersByOwnerId(id));
     }
     
-    @RequestMapping(value = "/order/getdeliveryorders/{id}",
+    @RequestMapping(value = "/order/getDeliveryOrders/{poolerId}",
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             method = RequestMethod.GET)
     public @ResponseBody
-    ResponseEntity<List<Orders>> getDeliveryOrders(@PathVariable long id) {
-        return ResponseEntity.status(HttpStatus.OK).body(orderService.getOrdersByOwnerId(id));
+    ResponseEntity<List<Orders>> getDeliveryOrders(@PathVariable long poolerId) {
+        return ResponseEntity.status(HttpStatus.OK).body(orderService.getOrdersByOwnerId(poolerId));
     }
     
     @RequestMapping(value = "/order/submitorder",
