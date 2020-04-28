@@ -17,10 +17,11 @@ export default function authReducer(state = initialState, action) {
 
     if (action.type === SIGN_IN) {
         localStorage.setItem('id', action.payload.id);
+        localStorage.setItem('screenname', action.payload.id);
+        localStorage.setItem('email', action.payload.id);
 
         return Object.assign({}, state, {
             signinSuccess: action.payload.id !== null ? true : false,
-            signinMessage: ""
         });
     } else if (action.type === SIGN_IN_ERROR) {
         return Object.assign({}, state, {
