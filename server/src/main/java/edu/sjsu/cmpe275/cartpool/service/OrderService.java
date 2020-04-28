@@ -12,7 +12,7 @@ public interface OrderService {
     List<Orders> getDeliveryOrders(long id);
     List<Orders> getOrdersByOwnerId(long id);
     List<Orders> getOrdersForPickUp(long poolerId, long storeId);
-    List<Orders> getAllOrders(long id);
+    List<Orders> getAllOrdersForPickup(long id);
     Boolean selectOrders(long poolerId, int count ,String[] orders );
     void pickUpOrderForDelivery(long deliveryPersonId, long orderId);
     void markOrderDelivered(long orderId);

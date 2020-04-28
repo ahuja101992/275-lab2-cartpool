@@ -126,7 +126,7 @@ public class OrderController {
             method = RequestMethod.GET)
     public @ResponseBody
     ResponseEntity<List<Orders>> getDeliveryOrders(@PathVariable long poolerId) {
-        return ResponseEntity.status(HttpStatus.OK).body(orderService.getOrdersByOwnerId(poolerId));
+        return ResponseEntity.status(HttpStatus.OK).body(orderService.getDeliveryOrders(poolerId));
     }
     
     @RequestMapping(value = "/order/submitorder",
@@ -169,8 +169,8 @@ public class OrderController {
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             method = RequestMethod.GET)
     public @ResponseBody
-    ResponseEntity<List<Orders>> getAllOrders(@PathVariable long poolerId) {
-        return ResponseEntity.status(HttpStatus.OK).body(orderService.getAllOrders(poolerId));
+    ResponseEntity<List<Orders>> getAllOrdersForPickup(@PathVariable long poolerId) {
+        return ResponseEntity.status(HttpStatus.OK).body(orderService.getAllOrdersForPickup(poolerId));
     }
     
     @RequestMapping(value = "/order/selectorders",
