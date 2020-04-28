@@ -126,7 +126,7 @@ public class OrderController {
             method = RequestMethod.GET)
     public @ResponseBody
     ResponseEntity<List<Orders>> getDeliveryOrders(@PathVariable long poolerId) {
-        return ResponseEntity.status(HttpStatus.OK).body(orderService.getOrdersByOwnerId(poolerId));
+        return ResponseEntity.status(HttpStatus.OK).body(orderService.getDeliveryOrders(poolerId));
     }
     
     @RequestMapping(value = "/order/submitorder",
