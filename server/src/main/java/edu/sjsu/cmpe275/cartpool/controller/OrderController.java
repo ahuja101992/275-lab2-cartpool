@@ -148,5 +148,25 @@ public class OrderController {
     ResponseEntity<List<Orders>> getOrdersForPickup(@PathVariable long poolerId, @PathVariable long storeId) {
         return ResponseEntity.status(HttpStatus.OK).body(orderService.getOrdersForPickUp(poolerId, storeId));
     }
+    @RequestMapping(value = "/order/getallorders/{poolerId}",
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+            method = RequestMethod.GET)
+    public @ResponseBody
+    ResponseEntity<List<Orders>> getAllOrders(@PathVariable long poolerId) {
+        return ResponseEntity.status(HttpStatus.OK).body(orderService.getAllOrders(poolerId));
+    }
+    
+    @RequestMapping(value = "/order/selectorders",
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+            method = RequestMethod.POST)
+    public @ResponseBody
+    ResponseEntity<Orders> selectOrdersForDelivery(@RequestParam long poolerId,
+										    		@RequestParam int count,
+										    		@RequestParam String orderList) {
+    	String[] orders = orderList.split("-");
+    	if(orders.length!=count) return ResponseEntity.status(HttpStatus.OK).body(null);/// error to be sent
+    	if(!orderService.selectOrders(poolerId, count, orders)) return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+        return ResponseEntity.status(HttpStatus.OK).body(null);
+    }
 
 }
