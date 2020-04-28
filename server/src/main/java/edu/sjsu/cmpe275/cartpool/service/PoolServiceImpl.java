@@ -9,10 +9,12 @@ import edu.sjsu.cmpe275.cartpool.repository.PoolRepository;
 import edu.sjsu.cmpe275.cartpool.repository.PoolerRepository;
 import edu.sjsu.cmpe275.cartpool.util.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import javax.mail.internet.MimeMessage;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -73,7 +75,7 @@ public class PoolServiceImpl implements PoolService {
         Pool pool = poolRepository.findById(poolId).orElseThrow(() -> new PoolNotFoundException());
 
         for(Pooler member: pool.getMembers()){
-            if(member.getScreenname() == screenName){
+            if(member.getScreenname().equals(screenName)){
 
                 /////// send email to the reference pooler /////////
 
@@ -86,21 +88,19 @@ public class PoolServiceImpl implements PoolService {
                     String host = Constants.HOSTNAME;
                     int port = 8080;
                     String path = "/pool/verify/" + poolerId + "/" + poolId;
-
-                    messageBody = "<h2>Perform the action </h2>" +
-                            "<h3> Plaese click on the button to reset password \n </h3> "+
-                            " <a target='_blank' href="+path+"><button>Accept</button></a>";
                     uri = new URI(protocol, null, host, port, path, null, null);
                     url = uri.toURL();
+                    messageBody="<h3>Take the action to accept or reject the membership request</h3>\n" +
+                            " <a target='_blank' href=><button style=\"background-color:#4CAF50\">Accept</button></a>\n" +
+                            "<a target='_blank' href=><button style=\"background-color:#f44336\">Reject</button></a>";
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
 
-                emailService.sendVerificationEmail(referencePooler.getEmail(),
-                        "CartPoll account verification for pool membership",
-                        String.format("Please take action for pooler's membership " +
-                                " clicking on the following link - %s", messageBody));
-                //emailService.sendVerificationEmail(to, subject, text);
+                emailService.sendEmailForPoolMembership(referencePooler.getEmail(),
+                        "verification for pool membership", messageBody);
+
             }
         }
 
