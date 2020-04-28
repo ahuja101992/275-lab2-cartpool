@@ -17,5 +17,5 @@ public interface OrderRepository<T> extends CrudRepository<Orders, Long> {
     Optional<Orders> findById(Long id);
     List<Orders> findByOrderOwnerAndAvailable(Pooler owner, Boolean available);
     List<Orders> findByOrderOwner(Pooler owner); // for all orders
-    List<Orders> findByPoolAndStoreAndAvailableAndForDelivery(Pool pool, Store store, Boolean available, Boolean delivery);
+    List<Orders> findByPoolAndStoreAndAvailableAndForDeliveryOrderByDateAsc(Pool pool, Store store, Boolean available, Boolean delivery);
 }

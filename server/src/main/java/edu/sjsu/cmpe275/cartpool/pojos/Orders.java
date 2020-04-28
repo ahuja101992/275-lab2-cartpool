@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlTransient;
+
+import java.util.Date;
 import java.util.List;
 
 
@@ -57,8 +59,19 @@ public class Orders {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "order")
     private List<OrderDetails> orderItems;
+    
+	@Column
+    private Date date = new Date();
 
-    public Orders() {
+    public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
+	public Orders() {
     }
 
     protected Orders(OrderBuilder orderBuilder) {

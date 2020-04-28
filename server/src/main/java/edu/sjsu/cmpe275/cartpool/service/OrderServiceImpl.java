@@ -53,7 +53,7 @@ public class OrderServiceImpl implements OrderService {
 		Store store = storeRepository.findById(storeId).orElseThrow(() -> new StoreNotFoundException());
 		Pooler pooler = poolerRepository.findById(poolerId).orElseThrow(() -> new UserNotFoundException());
 		Pool poolerPool = pooler.getPool();
-		List<Orders> orders = orderRepository.findByPoolAndStoreAndAvailableAndForDelivery(poolerPool, store, true, true);
+		List<Orders> orders = orderRepository.findByPoolAndStoreAndAvailableAndForDeliveryOrderByDateAsc(poolerPool, store, true, true);
 		if (orders.size() < 1) throw new OrderNotFoundException();
 		return orders;
 	}
