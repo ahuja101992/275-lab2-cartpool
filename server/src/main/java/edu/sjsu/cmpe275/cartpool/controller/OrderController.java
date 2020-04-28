@@ -164,6 +164,7 @@ public class OrderController {
     ResponseEntity<List<Orders>> getOrdersForPickup(@PathVariable long poolerId, @PathVariable long storeId) {
         return ResponseEntity.status(HttpStatus.OK).body(orderService.getOrdersForPickUp(poolerId, storeId));
     }
+
     @RequestMapping(value = "/order/delivery/getOrdersForPickup/{poolerId}",
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             method = RequestMethod.GET)
