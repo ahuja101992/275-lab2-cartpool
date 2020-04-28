@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { HOSTNAME } from "../../constants/appConstants";
+import React, {Component} from 'react';
+import {HOSTNAME} from "../../constants/appConstants";
 import axios from 'axios';
 
 class SearchPool extends Component {
@@ -32,8 +32,9 @@ class SearchPool extends Component {
     render() {
         return (
             <React.Fragment>
-                <div><input type="text" className="search-box" value={this.state.searchParam} onChange={this.changeHandeler}
-                    placeholder="Pizza, sushi, ...." /></div>
+                <div><input type="text" className="search-box" value={this.state.searchParam}
+                            onChange={this.changeHandeler}
+                            placeholder="Pizza, sushi, ...."/></div>
 
             </React.Fragment>
         );

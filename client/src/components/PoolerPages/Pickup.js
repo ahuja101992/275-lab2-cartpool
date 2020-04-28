@@ -1,8 +1,8 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import {Button, Col, Form, Modal, Toast} from "react-bootstrap";
+import {Button, Modal} from "react-bootstrap";
 import BootstrapTable from "react-bootstrap-table-next";
-import {pickUpOrder, getOrdersReadyForPickup} from "../../redux/actions/orderActions";
+import {getOrdersReadyForPickup, pickUpOrder} from "../../redux/actions/orderActions";
 import QRCode from "react-google-qrcode";
 
 function mapStateToProps(store) {
@@ -36,7 +36,7 @@ class Pickup extends Component {
             }, {
                 dataField: 'customerAddress',
                 text: 'Customer Address'
-            },{
+            }, {
                 dataField: 'finalPrice',
                 text: 'Final price'
             }, {
@@ -99,9 +99,9 @@ class Pickup extends Component {
                     </Modal.Header>
                     <Modal.Body>
                         <QRCode
-                        data={this.state.selectedOrderId}
-                        size={130}
-                        framed/>
+                            data={this.state.selectedOrderId}
+                            size={130}
+                            framed/>
                     </Modal.Body>
 
                     <Modal.Footer>

@@ -5,5 +5,5 @@ public interface EmailService {
 
     void sendDirectMessageViaEmail(String from, String to, String subject, String text);
 
-    public void sendEmailForPoolMembership(String to, String subject, String messageBody);
+    void sendEmailForPoolMembership(String to, String subject, String messageBody);
 }

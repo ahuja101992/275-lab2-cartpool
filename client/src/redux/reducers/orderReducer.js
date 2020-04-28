@@ -1,5 +1,10 @@
-import {CHECKOUT, DELIVERY_NOT_RECEIVED, GET_ORDERS_BY_USER_ID, GET_ORDERS_READY_FOR_PICKUP, GET_ORDERS_READY_FOR_DELIVERY} from "../../redux/constants/actionTypes";
-import {PLACED, PICKED_UP, PICKED_UP_BY_SELF, DELIVERED} from "../../constants/appConstants";
+import {
+    DELIVERY_NOT_RECEIVED,
+    GET_ORDERS_BY_USER_ID,
+    GET_ORDERS_READY_FOR_DELIVERY,
+    GET_ORDERS_READY_FOR_PICKUP
+} from "../../redux/constants/actionTypes";
+import {PICKED_UP, PLACED} from "../../constants/appConstants";
 
 const initialState = {
     ordersReadyForPickup: [],
@@ -73,7 +78,6 @@ export default function orderReducer(state = initialState, action) {
             ordersReadyForDelivery: getOrdersBasedOnStatus(action.payload, true, PICKED_UP)
         });
     }
-
 
 
     return state;

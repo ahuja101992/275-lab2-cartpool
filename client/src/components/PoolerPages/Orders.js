@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import {Badge, Button, Card} from "react-bootstrap";
 import {connect} from "react-redux";
 import {getOrdersByUserId, markDeliveryNotReceived} from "../../redux/actions/orderActions";
-import {PLACED, PICKED_UP, PICKED_UP_BY_SELF, DELIVERED} from "../../constants/appConstants";
+import {DELIVERED, PICKED_UP, PICKED_UP_BY_SELF, PLACED} from "../../constants/appConstants";
 
 function mapStateToProps(store) {
     return {

@@ -120,7 +120,7 @@ public class OrderController {
     ResponseEntity<List<Orders>> getOrdersByOwnerId(@PathVariable long id) {
         return ResponseEntity.status(HttpStatus.OK).body(orderService.getOrdersByOwnerId(id));
     }
-    
+
     @RequestMapping(value = "/order/getDeliveryOrders/{poolerId}",
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             method = RequestMethod.GET)
@@ -128,7 +128,7 @@ public class OrderController {
     ResponseEntity<List<Orders>> getDeliveryOrders(@PathVariable long poolerId) {
         return ResponseEntity.status(HttpStatus.OK).body(orderService.getDeliveryOrders(poolerId));
     }
-    
+
     @RequestMapping(value = "/order/submitorder",
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             method = RequestMethod.POST)
@@ -149,14 +149,14 @@ public class OrderController {
                 .build();
         List<Item> itemList = cart.getItems();
         List<OrderDetails> orderList = new ArrayList<>();
-        for(Item item : itemList){
-            orderList.add( new OrderDetails(item.getQty(),item.getPrice(),item.getSku()));
+        for (Item item : itemList) {
+            orderList.add(new OrderDetails(item.getQty(), item.getPrice(), item.getSku()));
         }
         order.setOrderItems(orderList);
-        orderService.createOrder(order, cart.getDeliveryBy() , cart.getOrderOwner(), cart.getStore());
+        orderService.createOrder(order, cart.getDeliveryBy(), cart.getOrderOwner(), cart.getStore());
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
-    
+
     @RequestMapping(value = "/order/getOrdersForPickup/{poolerId}/{storeId}",
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             method = RequestMethod.GET)
@@ -172,17 +172,18 @@ public class OrderController {
     ResponseEntity<List<Orders>> getAllOrdersForPickup(@PathVariable long poolerId) {
         return ResponseEntity.status(HttpStatus.OK).body(orderService.getAllOrdersForPickup(poolerId));
     }
-    
+
     @RequestMapping(value = "/order/selectorders",
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             method = RequestMethod.POST)
     public @ResponseBody
     ResponseEntity<Orders> selectOrdersForDelivery(@RequestParam long poolerId,
-										    		@RequestParam int count,
+                                                   @RequestParam int count,
                                                    @RequestBody List<Long> orderList) {
         System.out.println(orderList);
-    	if(orderList.size()!=count) return ResponseEntity.status(HttpStatus.OK).body(null);/// error to be sent
-    	if(!orderService.selectOrders(poolerId, count, orderList)) return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+        if (orderList.size() != count) return ResponseEntity.status(HttpStatus.OK).body(null);/// error to be sent
+        if (!orderService.selectOrders(poolerId, count, orderList))
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 

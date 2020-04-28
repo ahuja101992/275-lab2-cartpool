@@ -1,7 +1,6 @@
 package edu.sjsu.cmpe275.cartpool.pojos;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.util.List;
@@ -27,6 +26,7 @@ public class Pooler extends User {
 
     @Column(name = "isVerifiedForPoolMembership")
     private boolean isVerifiedForPoolMembership = false;
+
     public Pooler() {
     }
 

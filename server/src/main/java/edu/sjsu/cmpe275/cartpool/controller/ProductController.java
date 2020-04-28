@@ -1,10 +1,8 @@
 package edu.sjsu.cmpe275.cartpool.controller;
 
 
-import edu.sjsu.cmpe275.cartpool.pojos.Admin;
 import edu.sjsu.cmpe275.cartpool.pojos.Product;
 import edu.sjsu.cmpe275.cartpool.pojos.ProductId;
-import edu.sjsu.cmpe275.cartpool.pojos.Store;
 import edu.sjsu.cmpe275.cartpool.service.AdminService;
 import edu.sjsu.cmpe275.cartpool.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,8 +57,8 @@ public class ProductController {
             method = RequestMethod.DELETE)
     @ResponseBody
     public ResponseEntity<Set<Product>> deleteProduct(@PathVariable Long storeId,
-                                                    @PathVariable Long sku,
-                                                    @PathVariable Long adminId) {
+                                                      @PathVariable Long sku,
+                                                      @PathVariable Long adminId) {
         adminService.findById(adminId);
         Set<Product> products = productService.deleteProduct(storeId, sku);
         return ResponseEntity.status(HttpStatus.OK).body(products);
@@ -74,31 +72,31 @@ public class ProductController {
     public ResponseEntity<Product> updateProduct(@PathVariable Long storeId,
                                                  @PathVariable Long sku,
                                                  @PathVariable Long adminId,
-                                                 @RequestParam (required = false)String name,
-                                                   @RequestParam (required = false)String desc,
-                                                   @RequestParam (required = false)String image_url,
-                                                   @RequestParam (required = false)String brand,
-                                                   @RequestParam (required = false)String unit,
-                                                   @RequestParam (required = false)Long price
-                                                   ) {
+                                                 @RequestParam(required = false) String name,
+                                                 @RequestParam(required = false) String desc,
+                                                 @RequestParam(required = false) String image_url,
+                                                 @RequestParam(required = false) String brand,
+                                                 @RequestParam(required = false) String unit,
+                                                 @RequestParam(required = false) Long price
+    ) {
         adminService.findById(adminId);
-        Product product = productService.ffindByStoreId_SKU(storeId,sku);
-        if(name!=null){
+        Product product = productService.ffindByStoreId_SKU(storeId, sku);
+        if (name != null) {
             product.setName(name);
         }
-        if(desc!=null){
+        if (desc != null) {
             product.setDescription(desc);
         }
-        if(image_url!=null){
+        if (image_url != null) {
             product.setImageURL(image_url);
         }
-        if(brand!=null){
+        if (brand != null) {
             product.setBrandName(brand);
         }
-        if(unit!=null){
+        if (unit != null) {
             product.setUnit(unit);
         }
-        if(price!=null){
+        if (price != null) {
             product.setPrice(price);
         }
 
@@ -119,8 +117,8 @@ public class ProductController {
             method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<Product> getProductByStoreId_SKU(@RequestParam Long storeId,
-                                                               @RequestParam Long sku) {
-       return ResponseEntity.status(HttpStatus.OK).body(productService.ffindByStoreId_SKU(storeId,sku));
+                                                           @RequestParam Long sku) {
+        return ResponseEntity.status(HttpStatus.OK).body(productService.ffindByStoreId_SKU(storeId, sku));
     }
 
     @RequestMapping(value = "/products/name",
@@ -129,7 +127,7 @@ public class ProductController {
     @ResponseBody
     public ResponseEntity<List<Product>> getProductByStoreId_SKU(@RequestParam Long storeId,
                                                                  @RequestParam String name) {
-        return ResponseEntity.status(HttpStatus.OK).body(productService.searchProductByName(name,storeId));
+        return ResponseEntity.status(HttpStatus.OK).body(productService.searchProductByName(name, storeId));
     }
 
     //    @RequestMapping(value = "/products/sku/{sku}",

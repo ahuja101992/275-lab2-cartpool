@@ -21,6 +21,6 @@ public interface ProductService {
 
     List<Product> searchProductBySKU(Long sku);
 
-    List<Product> searchProductByName(String name,Long storeId);
+    List<Product> searchProductByName(String name, Long storeId);
 
 }

@@ -124,6 +124,20 @@ public class Pool {
         members.add(pooler);
     }
 
+    @Override
+    public String toString() {
+        return "Pool{" +
+                "id=" + id +
+                ", poolId='" + poolId + '\'' +
+                ", name='" + name + '\'' +
+                ", neighborhoodName='" + neighborhoodName + '\'' +
+                ", description='" + description + '\'' +
+                ", zip='" + zip + '\'' +
+                ", poolLeader=" + poolLeader +
+                ", members=" + members +
+                '}';
+    }
+
     public static class PoolBuilder {
         private String poolId;
         private String name;
@@ -159,19 +173,5 @@ public class Pool {
         public Pool build() {
             return new Pool(this);
         }
-    }
-
-    @Override
-    public String toString() {
-        return "Pool{" +
-                "id=" + id +
-                ", poolId='" + poolId + '\'' +
-                ", name='" + name + '\'' +
-                ", neighborhoodName='" + neighborhoodName + '\'' +
-                ", description='" + description + '\'' +
-                ", zip='" + zip + '\'' +
-                ", poolLeader=" + poolLeader +
-                ", members=" + members +
-                '}';
     }
 }

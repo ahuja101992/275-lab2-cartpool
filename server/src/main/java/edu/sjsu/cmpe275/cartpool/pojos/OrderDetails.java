@@ -14,13 +14,13 @@ public class OrderDetails {
     private long id;
 
     @Column
-    private Long qty;
+    private final Long qty;
 
     @Column
-    private Long price;
+    private final Long price;
 
     @Column
-    private Long sku;
+    private final Long sku;
 
     @ManyToOne(fetch = FetchType.LAZY,
             cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH})

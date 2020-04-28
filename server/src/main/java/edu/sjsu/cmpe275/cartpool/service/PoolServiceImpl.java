@@ -9,15 +9,11 @@ import edu.sjsu.cmpe275.cartpool.repository.PoolRepository;
 import edu.sjsu.cmpe275.cartpool.repository.PoolerRepository;
 import edu.sjsu.cmpe275.cartpool.util.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
-import javax.mail.internet.MimeMessage;
 import java.net.URI;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.util.List;
 
 @Service
@@ -74,8 +70,8 @@ public class PoolServiceImpl implements PoolService {
 
         Pool pool = poolRepository.findById(poolId).orElseThrow(() -> new PoolNotFoundException());
 
-        for(Pooler member: pool.getMembers()){
-            if(member.getScreenname().equals(screenName)){
+        for (Pooler member : pool.getMembers()) {
+            if (member.getScreenname().equals(screenName)) {
 
                 /////// send email to the reference pooler /////////
 
@@ -90,7 +86,7 @@ public class PoolServiceImpl implements PoolService {
                     String path = "/pool/verify/" + poolerId + "/" + poolId;
                     uri = new URI(protocol, null, host, port, path, null, null);
                     url = uri.toURL();
-                    messageBody="<h3>Take the action to accept or reject the membership request</h3>\n" +
+                    messageBody = "<h3>Take the action to accept or reject the membership request</h3>\n" +
                             " <a target='_blank' href=" + url + "><button style=\"background-color:#4CAF50\">Accept</button></a>\n" +
                             "<a target='_blank' href=><button style=\"background-color:#f44336\">Reject</button></a>";
 

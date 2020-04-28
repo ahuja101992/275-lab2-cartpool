@@ -57,14 +57,14 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     public Set<Product> searchProductByStoreId(Long storeId) {
         Store store = storeRepository.findById(storeId).orElseThrow(() -> new StoreNotFoundException());
-        List<Product> list= productRepository.findByStoreId(storeId);
+        List<Product> list = productRepository.findByStoreId(storeId);
         return new HashSet<Product>(list);
     }
 
     @Override
     @Transactional
     public Product ffindByStoreId_SKU(Long storeId, Long sku) {
-        Product product = productRepository.findById(new ProductId(storeId,sku)).orElseThrow(()->new UserNotFoundException());
+        Product product = productRepository.findById(new ProductId(storeId, sku)).orElseThrow(() -> new UserNotFoundException());
         return product;
     }
 
@@ -78,8 +78,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public List<Product> searchProductByName(String name,Long storeId) {
-        return productRepository.findByNameAndStoreId(name,storeId);
+    public List<Product> searchProductByName(String name, Long storeId) {
+        return productRepository.findByNameAndStoreId(name, storeId);
     }
 
 }

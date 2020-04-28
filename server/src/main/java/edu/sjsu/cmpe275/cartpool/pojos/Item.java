@@ -23,7 +23,7 @@ public class Item {
     @JsonProperty("unit")
     private String unit;
     @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private final Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("sku")
     public Long getSku() {

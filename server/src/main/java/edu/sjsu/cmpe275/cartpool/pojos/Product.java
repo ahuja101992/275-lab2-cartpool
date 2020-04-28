@@ -35,7 +35,7 @@ public class Product {
     @JoinColumn(name = "storeId", referencedColumnName = "id")
     private Store store;
 
-    public Product(){
+    public Product() {
 
     }
 
@@ -56,6 +56,10 @@ public class Product {
         this.brandName = brandName;
         this.unit = unit;
         this.price = price;
+    }
+
+    public Product(ProductId id) {
+        this.id = id;
     }
 
     public ProductId getId() {
@@ -104,10 +108,6 @@ public class Product {
 
     public void setUnit(String unit) {
         this.unit = unit;
-    }
-
-    public Product(ProductId id) {
-        this.id = id;
     }
 
     public long getPrice() {

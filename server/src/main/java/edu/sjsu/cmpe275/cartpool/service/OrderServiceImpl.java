@@ -41,78 +41,78 @@ public class OrderServiceImpl implements OrderService {
         return orderDetails;
     }
 
-	public List<Orders> getOrdersByOwnerId(long id) {
-		Pooler owner = poolerRepository.findById(id).orElseThrow(() -> new UserNotFoundException());
+    public List<Orders> getOrdersByOwnerId(long id) {
+        Pooler owner = poolerRepository.findById(id).orElseThrow(() -> new UserNotFoundException());
 //		List<Orders> ownerOrders = orderRepository.findByOrderOwnerAndAvailable(owner, true);
-		List<Orders> ownerOrders = orderRepository.findByOrderOwner(owner);
-		if(ownerOrders.size()<1) throw new OrderNotFoundException();
-		return ownerOrders;
-	}
+        List<Orders> ownerOrders = orderRepository.findByOrderOwner(owner);
+        if (ownerOrders.size() < 1) throw new OrderNotFoundException();
+        return ownerOrders;
+    }
 
-	public List<Orders> getOrdersForPickUp(long poolerId, long storeId) {
-		Store store = storeRepository.findById(storeId).orElseThrow(() -> new StoreNotFoundException());
-		Pooler pooler = poolerRepository.findById(poolerId).orElseThrow(() -> new UserNotFoundException());
-		Pool poolerPool = pooler.getPool();
-		List<Orders> orders = orderRepository.findByPoolAndStoreAndAvailableAndForDeliveryOrderByDateAsc(poolerPool, store, true, true);
-		if (orders.size() < 1) throw new OrderNotFoundException();
-		return orders;
-	}
+    public List<Orders> getOrdersForPickUp(long poolerId, long storeId) {
+        Store store = storeRepository.findById(storeId).orElseThrow(() -> new StoreNotFoundException());
+        Pooler pooler = poolerRepository.findById(poolerId).orElseThrow(() -> new UserNotFoundException());
+        Pool poolerPool = pooler.getPool();
+        List<Orders> orders = orderRepository.findByPoolAndStoreAndAvailableAndForDeliveryOrderByDateAsc(poolerPool, store, true, true);
+        if (orders.size() < 1) throw new OrderNotFoundException();
+        return orders;
+    }
 
-	public List<Orders> getAllOrdersForPickup(long id) {
-		Pooler owner = poolerRepository.findById(id).orElseThrow(() -> new UserNotFoundException());
-		List<Orders> orders = owner.getOrders();
-		orders.addAll(orderRepository.findByOrderOwnerAndAvailable(owner, true));
-		if(orders.size()<1) throw new OrderNotFoundException();
+    public List<Orders> getAllOrdersForPickup(long id) {
+        Pooler owner = poolerRepository.findById(id).orElseThrow(() -> new UserNotFoundException());
+        List<Orders> orders = owner.getOrders();
+        orders.addAll(orderRepository.findByOrderOwnerAndAvailable(owner, true));
+        if (orders.size() < 1) throw new OrderNotFoundException();
 
-		return orders;
-	}
-	
-	public List<Orders> getDeliveryOrders(long id) {
-		Pooler owner = poolerRepository.findById(id).orElseThrow(() -> new UserNotFoundException());
-		List<Orders> orders = owner.getOrders();
-		if(orders.size()<1) throw new OrderNotFoundException();
-		return orders;
-	}
+        return orders;
+    }
 
-	public Boolean selectOrders(long poolerId, int count, List<Long> orders) {
-		Pooler deliveryBy = poolerRepository.findById(poolerId).orElseThrow(() -> new UserNotFoundException());
+    public List<Orders> getDeliveryOrders(long id) {
+        Pooler owner = poolerRepository.findById(id).orElseThrow(() -> new UserNotFoundException());
+        List<Orders> orders = owner.getOrders();
+        if (orders.size() < 1) throw new OrderNotFoundException();
+        return orders;
+    }
 
-		System.out.println("orders.length: " + orders.size()); //Added by Vini
-		for(Long orderNum : orders) {
-			System.out.println(orderNum); //Added by Vini
-			Orders currentOrder = orderRepository.findById(orderNum).orElseThrow(() -> new OrderNotFoundException());
-			currentOrder.setDeliveryBy(deliveryBy);
-			currentOrder.setAvailable(false);
+    public Boolean selectOrders(long poolerId, int count, List<Long> orders) {
+        Pooler deliveryBy = poolerRepository.findById(poolerId).orElseThrow(() -> new UserNotFoundException());
 
-			orderRepository.save(currentOrder); //Added by Vini
-		}
+        System.out.println("orders.length: " + orders.size()); //Added by Vini
+        for (Long orderNum : orders) {
+            System.out.println(orderNum); //Added by Vini
+            Orders currentOrder = orderRepository.findById(orderNum).orElseThrow(() -> new OrderNotFoundException());
+            currentOrder.setDeliveryBy(deliveryBy);
+            currentOrder.setAvailable(false);
 
-		//Added by Vini
-		deliveryBy = poolerRepository.findById(poolerId).orElseThrow(() -> new UserNotFoundException());
-		return deliveryBy.getOrders().size()>0;
-	}
+            orderRepository.save(currentOrder); //Added by Vini
+        }
 
-	public void pickUpOrderForDelivery(long deliveryPersonId, long orderId) {
-		Orders order = orderRepository.findById(orderId).orElseThrow(() -> new OrderNotFoundException());
-		if (order.getOrderOwner() != null) {
-			String status = order.getOrderOwner().getId() == deliveryPersonId ? Constants.PICKED_UP_BY_SELF : Constants.PICKED_UP;
-			order.setStatus(status);
-			order.setAvailable(false);
-			//To-do
+        //Added by Vini
+        deliveryBy = poolerRepository.findById(poolerId).orElseThrow(() -> new UserNotFoundException());
+        return deliveryBy.getOrders().size() > 0;
+    }
 
-			orderRepository.save(order);
-		} else {
-			throw new UserNotFoundException();
-		}
-	}
+    public void pickUpOrderForDelivery(long deliveryPersonId, long orderId) {
+        Orders order = orderRepository.findById(orderId).orElseThrow(() -> new OrderNotFoundException());
+        if (order.getOrderOwner() != null) {
+            String status = order.getOrderOwner().getId() == deliveryPersonId ? Constants.PICKED_UP_BY_SELF : Constants.PICKED_UP;
+            order.setStatus(status);
+            order.setAvailable(false);
+            //To-do
 
-	public void markOrderDelivered(long orderId) {
-		Orders order = orderRepository.findById(orderId).orElseThrow(() -> new OrderNotFoundException());
-		order.setStatus(Constants.DELIVERED);
-		order.setDeliveryBy(null);
-		//To-do
+            orderRepository.save(order);
+        } else {
+            throw new UserNotFoundException();
+        }
+    }
 
-		orderRepository.save(order);
-	}
+    public void markOrderDelivered(long orderId) {
+        Orders order = orderRepository.findById(orderId).orElseThrow(() -> new OrderNotFoundException());
+        order.setStatus(Constants.DELIVERED);
+        order.setDeliveryBy(null);
+        //To-do
+
+        orderRepository.save(order);
+    }
 
 }
