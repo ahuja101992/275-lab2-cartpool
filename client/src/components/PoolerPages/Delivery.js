@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
 import BootstrapTable from "react-bootstrap-table-next";
-import {getOrdersReadyForDelivery} from "../../redux/actions/orderActions";
+import {getOrdersReadyForDelivery, markDelivered} from "../../redux/actions/orderActions";
 
 function mapStateToProps(store) {
     return {
@@ -12,6 +12,8 @@ function mapStateToProps(store) {
 function mapDispatchToProps(dispatch) {
     return {
         getOrdersReadyForDelivery: (payload) => dispatch(getOrdersReadyForDelivery(payload)),
+        markDelivered: (payload) => dispatch(markDelivered(payload)),
+
     };
 }
 
@@ -38,7 +40,7 @@ class Delivery extends Component {
             }, {
                 dataField: 'action',
                 text: 'Action',
-                formatter: this.addCheckoutButton.bind(this)
+                formatter: this.addMarkDeliveredButton.bind(this)
             }],
         };
     }
@@ -50,18 +52,18 @@ class Delivery extends Component {
         this.props.getOrdersReadyForDelivery(payload);
     }
 
-    addCheckoutButton = (cell, row) => {
+    addMarkDeliveredButton = (cell, row) => {
         return (
             <div>
                 <button type="button" className="btn btn-outline-primary btn-sm ts-buttom" size="sm"
-                        onClick={this.checkout.bind(cell, row)}>
+                        onClick={this.markDelivered.bind(cell, row)}>
                     Mark delivered
                 </button>
             </div>
         );
     };
 
-    checkout = (cell) => {
+    markDelivered = (cell) => {
         console.log("Inside checkout");
         console.log(cell)
 

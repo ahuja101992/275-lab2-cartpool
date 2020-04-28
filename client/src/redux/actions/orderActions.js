@@ -14,6 +14,17 @@ export function pickUpOrder(payload) {
     }
 }
 
+export function markDelivered(payload) {
+    console.log("markDelivered payload");
+    console.log(payload);
+
+    return (dispatch) => {
+        axios.post(`http://${HOSTNAME}:8080/order/delivery/markDelivered`, null, {params: payload})
+            .then((response) => console.log(response.data))
+            .catch((err) => console.log(err));
+    }
+}
+
 
 export function getOrdersReadyForPickup(payload) {
     console.log("getOrdersReadyForPickup payload");
