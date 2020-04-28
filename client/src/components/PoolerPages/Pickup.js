@@ -53,7 +53,6 @@ class Pickup extends Component {
     componentDidMount() {
         const payload = {};
         payload.poolerId = localStorage.getItem("id");
-        payload.storeId = localStorage.getItem("storeId");
 
         this.props.getOrdersReadyForPickup(payload);
     }
@@ -79,9 +78,15 @@ class Pickup extends Component {
         payload.deliveryPersonId = localStorage.getItem('id');
         payload.orderId = cell.orderId;
 
-        this.setState({showQRCode: true, selectedOrderId: cell.orderId})
+        this.setState({showQRCode: true, selectedOrderId: cell.orderId.toString()})
 
-        this.props.pickUpOrder(payload);
+        this.props.pickUpOrder(payload, () => {
+            console.log("After pickUpOrder");
+            const payload = {};
+            payload.poolerId = localStorage.getItem("id");
+
+            this.props.getOrdersReadyForPickup(payload);
+        });
     }
 
     render() {

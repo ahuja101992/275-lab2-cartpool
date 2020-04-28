@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import {Badge, Button, Card} from "react-bootstrap";
 import {connect} from "react-redux";
 import {getOrdersByUserId, markDeliveryNotReceived} from "../../redux/actions/orderActions";
+import {PLACED, PICKED_UP, PICKED_UP_BY_SELF, DELIVERED} from "../../constants/appConstants";
 
 function mapStateToProps(store) {
     return {
@@ -32,20 +33,20 @@ class Orders extends Component {
 
 
         switch (status) {
-            case "Placed":
-                badge = <Badge style={{fontSize: fontSize}} variant="primary">Placed</Badge>;
+            case PLACED:
+                badge = <Badge style={{fontSize: fontSize}} variant="primary">{PLACED}</Badge>;
                 break;
 
-            case "Picked-up by oneself":
-                badge = <Badge style={{fontSize: fontSize}} variant="info">Picked-up by oneself</Badge>;
+            case PICKED_UP_BY_SELF:
+                badge = <Badge style={{fontSize: fontSize}} variant="info">{PICKED_UP_BY_SELF}</Badge>;
                 break;
 
-            case "Ready":
-                badge = <Badge style={{fontSize: fontSize}} variant="dark">x</Badge>;
+            case PICKED_UP:
+                badge = <Badge style={{fontSize: fontSize}} variant="dark">{PICKED_UP}</Badge>;
                 break;
 
-            case "Delivered":
-                badge = <Badge style={{fontSize: fontSize}} variant="success">Delivered</Badge>;
+            case DELIVERED:
+                badge = <Badge style={{fontSize: fontSize}} variant="success">{DELIVERED}</Badge>;
                 break;
 
             case "Cancel":

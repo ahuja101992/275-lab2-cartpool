@@ -5,6 +5,7 @@ import {Nav, Navbar} from "react-bootstrap";
 import Pickup from '../PoolerPages/Pickup';
 import Delivery from '../PoolerPages/Delivery';
 import Orders from '../PoolerPages/Orders';
+import SearchPool from '../SearchPool/SearchPool';
 
 
 class HomePooler extends Component {
@@ -56,7 +57,7 @@ class HomePooler extends Component {
 
                 <div>
                     <Switch>
-                        <Route exact path='/homePooler/' component={Pickup}/>
+                        <Route exact path='/homePooler/' component={SearchPool}/>
                         <Route exact path='/homePooler/orders/' component={Orders}/>
                         <Route exact path='/homePooler/pickup/' component={Pickup}/>
                         <Route exact path='/homePooler/delivery/' component={Delivery}/>

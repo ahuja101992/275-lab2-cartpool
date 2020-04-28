@@ -50,11 +50,7 @@ export default function orderReducer(state = initialState, action) {
     console.log("orderReducer:");
     console.log(action.payload);
 
-    if (action.type === CHECKOUT) {
-        return Object.assign({}, state, {
-            ordersReadyForCheckout: [...state.ordersReadyForCheckout]
-        });
-    } else if (action.type === DELIVERY_NOT_RECEIVED) {
+    if (action.type === DELIVERY_NOT_RECEIVED) {
         return Object.assign({}, state, {
             orderByPooler: [...state.orderByPooler]
         });

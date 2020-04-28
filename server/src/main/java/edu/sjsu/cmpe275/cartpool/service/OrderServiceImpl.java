@@ -61,9 +61,9 @@ public class OrderServiceImpl implements OrderService {
 	public List<Orders> getAllOrdersForPickup(long id) {
 		Pooler owner = poolerRepository.findById(id).orElseThrow(() -> new UserNotFoundException());
 		List<Orders> orders = owner.getOrders();
-		if(orders.size()<1) throw new OrderNotFoundException();
-		List<Orders> ownerOrders = orderRepository.findByOrderOwner(owner);
 		orders.addAll(orderRepository.findByOrderOwnerAndAvailable(owner, true));
+		if(orders.size()<1) throw new OrderNotFoundException();
+
 		return orders;
 	}
 	

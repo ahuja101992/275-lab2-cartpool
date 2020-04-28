@@ -8,18 +8,11 @@ export function pickUpOrder(payload) {
     console.log(payload);
 
     return (dispatch) => {
-        axios.post(`http://${HOSTNAME}:8080/order/delivery/pickUpOrder/`, null, {params: payload})
-            .then((response) => dispatch(pickUpOrderDispatch(response.data)))
+        axios.post(`http://${HOSTNAME}:8080/order/delivery/pickUpOrder`, null, {params: payload})
+            .then((response) => console.log(response.data))
             .catch((err) => console.log(err));
     }
 }
-
-export const pickUpOrderDispatch = (returnData) => {
-    console.log("pickUpOrderDispatch returnData");
-    console.log(returnData);
-
-    return {type: CHECKOUT, payload: returnData}
-};
 
 
 export function getOrdersReadyForPickup(payload) {
@@ -27,7 +20,7 @@ export function getOrdersReadyForPickup(payload) {
     console.log(payload);
 
     return (dispatch) => {
-        axios.get(`http://${HOSTNAME}:8080/order/getOrdersForPickup/${payload.poolerId}/${payload.storeId}`)
+        axios.get(`http://${HOSTNAME}:8080/order/delivery/getOrdersForPickup/${payload.poolerId}`)
             .then((response) => dispatch(getOrdersReadyForPickupDispatch(response.data)))
             .catch((err) => console.log(err));
     }

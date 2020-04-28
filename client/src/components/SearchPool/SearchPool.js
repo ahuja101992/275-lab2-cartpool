@@ -9,7 +9,6 @@ class SearchPool extends Component {
             searchParam: "",
             pools: []
         };
-        this.renderSelectedComponent = this.renderSelectedComponent.bind(this);
     }
 
     submitHandler = () => {
