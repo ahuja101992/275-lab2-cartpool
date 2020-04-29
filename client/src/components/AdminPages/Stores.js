@@ -48,6 +48,7 @@ class Stores extends Component {
         payload.adminId = localStorage.getItem('id');
 
         this.props.deleteStore(payload)
+        this.setState({currentStoreEditIndex: null});
     }
 
     createStore = (e) => {
@@ -72,9 +73,8 @@ class Stores extends Component {
             adminId: localStorage.getItem('id'),
         }
 
-        console.log(updatedData)
-
-        this.props.createStore(updatedData)
+        this.props.createStore(updatedData);
+        this.handleClose();
     }
 
     componentDidMount() {
@@ -88,7 +88,7 @@ class Stores extends Component {
         console.log("populateSection");
 
         const renderTodos = this.props.stores.map((store, index) => {
-            return <li key={index}>
+            return <ul key={index}>
                 <Card style={{width: '22rem'}}>
                     {/*<Card.Img variant="top" src={require("../../images/restaurant-logo.png")}/>*/}
                     <Card.Body>
@@ -106,7 +106,7 @@ class Stores extends Component {
                         <Button onClick={() => this.deleteStore(store)} type="button" variant="primary">Delete</Button>
                     </Card.Body>
                 </Card>
-            </li>;
+            </ul>;
         });
 
         return <div>
@@ -116,26 +116,25 @@ class Stores extends Component {
 
     render() {
         return (
-            <div>
-                <Button variant="primary" onClick={() => this.handleShow(null)}>
+            <div style={styles.container}>
+                <Button variant="primary" style={styles.button} onClick={() => this.handleShow(null)}>
                     Create new store
                 </Button>
 
                 <Modal show={this.state.show} onHide={this.handleClose}>
                     <Modal.Header closeButton>
-                        <Modal.Title>Modal heading</Modal.Title>
+                        <Modal.Title>Edit store</Modal.Title>
                     </Modal.Header>
-                    <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
-                    <Form onSubmit={this.createStore}>
 
-                        <Form.Group controlId="name">
+                    <Form onSubmit={this.createStore}>
+                        <Form.Group controlId="name" style={styles.formField}>
                             <Form.Label>Name</Form.Label>
                             <Form.Control
                                 defaultValue={this.state.currentStoreEditIndex !== null ? this.props.stores[this.state.currentStoreEditIndex].name : ""}
                                 placeholder="Enter store name" required/>
                         </Form.Group>
 
-                        <Form.Group controlId="street">
+                        <Form.Group controlId="street" style={styles.formField}>
                             <Form.Label>Street</Form.Label>
                             <Form.Control
                                 defaultValue={this.state.currentStoreEditIndex !== null ? this.props.stores[this.state.currentStoreEditIndex].address.street : ""}
@@ -143,7 +142,7 @@ class Stores extends Component {
                         </Form.Group>
 
                         <Form.Row>
-                            <Form.Group as={Col} controlId="city">
+                            <Form.Group as={Col} controlId="city" style={styles.formField}>
                                 <Form.Label>City</Form.Label>
                                 <Form.Control
                                     defaultValue={this.state.currentStoreEditIndex !== null ? this.props.stores[this.state.currentStoreEditIndex].address.city : ""}
@@ -155,7 +154,7 @@ class Stores extends Component {
                                     defaultValue={this.state.currentStoreEditIndex !== null ? this.props.stores[this.state.currentStoreEditIndex].address.state : ""}
                                     placeholder="Enter store state" required/>
                             </Form.Group>
-                            <Form.Group as={Col} controlId="zip">
+                            <Form.Group as={Col} controlId="zip" style={styles.formField}>
                                 <Form.Label>Zipcode</Form.Label>
                                 <Form.Control
                                     defaultValue={this.state.currentStoreEditIndex !== null ? this.props.stores[this.state.currentStoreEditIndex].address.zip : ""}
@@ -175,7 +174,9 @@ class Stores extends Component {
 
                 </Modal>
 
-                {this.populateSection()}
+                <div style={styles.storeList}>
+                    {this.populateSection()}
+                </div>
             </div>
         );
     }
@@ -184,29 +185,21 @@ class Stores extends Component {
 const styles = {
     container: {
         flex: 1,
-        display: "flex",
-        flexDirection: "row",
-        height: "100vh",
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'stretch',
     },
-    channelList: {
-        display: "flex",
-        flex: 1,
-        flexDirection: "column",
+    button: {
+        marginLeft: "45%"
     },
-    chat: {
-        display: "flex",
-        flex: 3,
-        flexDirection: "column",
-        borderWidth: "1px",
-        borderColor: "#ccc",
-        borderRightStyle: "solid",
-        borderLeftStyle: "solid",
+    storeList: {
+        flex: 2,
+        alignSelf: 'left'
     },
-    settings: {
-        display: "flex",
-        flex: 1,
-        flexDirection: "column",
-    },
+    formField: {
+        marginLeft: "1rem",
+        marginRight: "1rem"
+    }
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Stores);
