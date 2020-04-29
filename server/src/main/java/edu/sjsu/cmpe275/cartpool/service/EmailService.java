@@ -6,4 +6,6 @@ public interface EmailService {
     void sendDirectMessageViaEmail(String from, String to, String subject, String text);
 
     void sendEmailForPoolMembership(String to, String subject, String messageBody);
+    
+    void sendEmailForOrderConfirmation(String to, String subject, String messageBody);
 }

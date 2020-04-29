@@ -57,4 +57,17 @@ public class EmailServiceImpl implements EmailService {
             exception.printStackTrace();
         }
     }
+
+	@Override
+	public void sendEmailForOrderConfirmation(String to, String subject, String messageBody) {
+        try {
+            SimpleMailMessage message = new SimpleMailMessage();
+            message.setTo(to);
+            message.setSubject(subject);
+            message.setText(messageBody);
+            emailSender.send(message);
+        } catch (MailException exception) {
+            exception.printStackTrace();
+        }
+	}
 }
