@@ -38,10 +38,13 @@ class SearchPool extends Component {
             <Row>
                 <Col xs={6}>
                     <Card className="search-pool-card">
+
                         <Card.Header>
-                            <h2>{pool.name}</h2>
-                            <Button variant="info">Join</Button>
+                            <Row><Col xs={12} md={8}><h2>{pool.name}</h2></Col>
+                                <Col xs={6} md={4}><Button variant="info">Join</Button></Col>
+                            </Row>
                         </Card.Header>
+
                         <Card.Body>
                             <Card.Title>Pool Details:</Card.Title>
                             <Table responsive>
