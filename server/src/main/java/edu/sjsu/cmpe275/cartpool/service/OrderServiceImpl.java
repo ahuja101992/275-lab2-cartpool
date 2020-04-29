@@ -3,6 +3,7 @@ package edu.sjsu.cmpe275.cartpool.service;
 import edu.sjsu.cmpe275.cartpool.exceptions.OrderNotFoundException;
 import edu.sjsu.cmpe275.cartpool.exceptions.StoreNotFoundException;
 import edu.sjsu.cmpe275.cartpool.exceptions.UserNotFoundException;
+import edu.sjsu.cmpe275.cartpool.pojos.OrderDetails;
 import edu.sjsu.cmpe275.cartpool.pojos.Orders;
 import edu.sjsu.cmpe275.cartpool.pojos.Pool;
 import edu.sjsu.cmpe275.cartpool.pojos.Pooler;
@@ -25,6 +26,8 @@ public class OrderServiceImpl implements OrderService {
     PoolerRepository<Pooler> poolerRepository;
     @Autowired
     StoreRepository<Pooler> storeRepository;
+    @Autowired
+    EmailService emailService;
 
     public Orders createOrder(Orders order, String deliveryPersonId, String ownerId, long storeId) {
         Pooler deliveryPerson = poolerRepository.findByEmail(deliveryPersonId); //.orElseThrow(() -> new UserNotFoundException());
@@ -114,5 +117,39 @@ public class OrderServiceImpl implements OrderService {
 
         orderRepository.save(order);
     }
+
+	@Override
+	public String generateOrderEmail(long id) {
+		List<Orders> orders = getAllOrdersForPickup(id);
+		StringBuilder str = new StringBuilder();
+		for(Orders order : orders) {
+			str.append(order.getId()+"   "+order.getQty()+ "   "+order.getFinalPrice());
+			str.append(System.getProperty("line.separator"));
+			str.append("Details");
+			List<OrderDetails> items = order.getOrderItems();
+			if(items.size()>0) {
+				for(OrderDetails item : items) {
+					str.append("------>"+item.getId()+"   "+item.getQty()+ "   "+item.getPrice());
+				}
+			}
+			str.append(System.getProperty("line.separator"));
+		}
+		return str.toString();
+	}
+
+	@Override
+	public void sendOrderConfirmationEmail(Orders order) {
+		Pooler owner = order.getOrderOwner();
+		String to = owner.getEmail();
+		if(order.isForDelivery()) {
+			String subject ="Order places Successfully with Order Id :"+order.getId();
+			String msg= "Hello "+owner.getNickname()+",\n\nYour order has been successfullt placed. It will be delivered by some fellow pooler shortly.\n\n Thanks for using certpool.";
+			emailService.sendEmailForOrderConfirmation(to, subject, msg);
+		}else {
+			String subject ="Order details for all orders for pickup";
+			String msg= generateOrderEmail(owner.getId());
+			emailService.sendEmailForOrderConfirmation(to, subject, msg);
+		}
+	}
 
 }

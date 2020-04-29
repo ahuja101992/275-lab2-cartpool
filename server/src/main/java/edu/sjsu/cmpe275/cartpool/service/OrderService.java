@@ -21,8 +21,7 @@ public interface OrderService {
     Boolean selectOrders(long poolerId, int count, List<Long> orders);
 
     void pickUpOrderForDelivery(long deliveryPersonId, long orderId);
-
+    String generateOrderEmail(long id);
     void markOrderDelivered(long orderId);
-
-
+    void sendOrderConfirmationEmail(Orders order);
 }
