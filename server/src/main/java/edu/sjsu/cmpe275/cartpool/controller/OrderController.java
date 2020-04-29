@@ -53,8 +53,8 @@ public class OrderController {
                 .forDelivery(forDelivery)
                 .status(Constants.PLACED)
                 .build();
-        orderService.createOrder(order, deliveryPersonId, ownerId, storeId);
-
+        Orders result = orderService.createOrder(order, deliveryPersonId, ownerId, storeId);
+        orderService.sendOrderConfirmationEmail(result);
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
@@ -153,8 +153,9 @@ public class OrderController {
             orderList.add(new OrderDetails(item.getQty(), item.getPrice(), item.getSku()));
         }
         order.setOrderItems(orderList);
-        orderService.createOrder(order, cart.getDeliveryBy(), cart.getOrderOwner(), cart.getStore());
-        return ResponseEntity.status(HttpStatus.OK).body(null);
+        Orders result = orderService.createOrder(order, cart.getDeliveryBy(), cart.getOrderOwner(), cart.getStore());
+        orderService.sendOrderConfirmationEmail(result);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
     @RequestMapping(value = "/order/getOrdersForPickup/{poolerId}/{storeId}",
@@ -186,5 +187,15 @@ public class OrderController {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
+    
+    @RequestMapping(value = "/order/delivery/testService/{poolerId}",
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+            method = RequestMethod.GET)
+    public @ResponseBody
+    ResponseEntity<List<Orders>> test(@PathVariable long poolerId) {
+    	System.out.println(orderService.generateOrderEmail(poolerId));
+        return ResponseEntity.status(HttpStatus.OK).body(null);
+    }
+    
 
 }
