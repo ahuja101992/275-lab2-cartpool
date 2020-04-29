@@ -15,7 +15,7 @@ public class OrderAspect {
     @Autowired
     public EmailService emailService;
 
-    @AfterReturning(pointcut = "execution(public * edu.sjsu.cmpe275.cartpool.controller.OrderController.checkout(..))", returning = "result")
+    @AfterReturning(pointcut = "execution(public * edu.sjsu.cmpe275.cartpool.controller.OrderController.checkout1(..))", returning = "result")
     public void sendCheckoutSuccessEmail(JoinPoint joinPoint, Object result) {
         Object[] args = joinPoint.getArgs();
 
@@ -24,7 +24,7 @@ public class OrderAspect {
         System.out.println("[OrderCheckoutAspect] sendCheckoutSuccessEmail =" + Arrays.toString(joinPoint.getArgs()));
     }
 
-    @AfterReturning(pointcut = "execution(public * edu.sjsu.cmpe275.cartpool.controller.OrderController.checkout(..))", returning = "result")
+    @AfterReturning(pointcut = "execution(public * edu.sjsu.cmpe275.cartpool.controller.OrderController.checkout1(..))", returning = "result")
     public void sendDeliveryInstructionEmail(JoinPoint joinPoint, Object result) {
         Object[] args = joinPoint.getArgs();
 
@@ -33,7 +33,7 @@ public class OrderAspect {
         System.out.println("[OrderCheckoutAspect] sendDeliveryInstructionEmail =" + Arrays.toString(joinPoint.getArgs()));
     }
 
-    @AfterReturning(pointcut = "execution(public * edu.sjsu.cmpe275.cartpool.controller.OrderController.checkout(..))", returning = "result")
+    @AfterReturning(pointcut = "execution(public * edu.sjsu.cmpe275.cartpool.controller.OrderController.checkout1(..))", returning = "result")
     public void sendOrderDeliveredEmail(JoinPoint joinPoint, Object result) {
         Object[] args = joinPoint.getArgs();
 
