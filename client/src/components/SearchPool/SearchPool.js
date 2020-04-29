@@ -9,7 +9,7 @@ import ModalManager from 'react-overlays/esm/ModalManager';
 class SearchPool extends Component {
     constructor(props) {
         super(props);
-        this.state = Object.assign({}, { searchParam: "" }, { pools: [] }, { setShow: false }, { screenName: "" });
+        this.state = Object.assign({}, { searchParam: "" }, { pools: [] }, { setShow: false }, { screenName: "" }, { isCheckboxDisabled: false });
     }
 
     submitSearchHandler = () => {
@@ -30,7 +30,8 @@ class SearchPool extends Component {
 
     changeHandeler = (e) => {
         this.setState({
-            [e.target.name]: e.target.value
+            [e.target.name]: e.target.value,
+            isCheckboxDisabled: !this.state.isCheckboxDisabled
         });
     };
 
@@ -124,7 +125,7 @@ class SearchPool extends Component {
                                 <div className="join-pool-modal-text">Or</div>
                                 <InputGroup className="mb-3">
                                     <InputGroup.Prepend>
-                                        <InputGroup.Checkbox aria-label="Checkbox for following text input" className="search-pool-checkbox" />
+                                        <InputGroup.Checkbox aria-label="Checkbox for following text input" className="search-pool-checkbox" disabled={this.state.isCheckboxDisabled} />
                                         <span className="search-pool-checkbox-text">If you know the pool leader, check the box here</span>
                                     </InputGroup.Prepend>
                                 </InputGroup>
