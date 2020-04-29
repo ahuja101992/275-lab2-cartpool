@@ -9,7 +9,8 @@ import ModalManager from 'react-overlays/esm/ModalManager';
 class SearchPool extends Component {
     constructor(props) {
         super(props);
-        this.state = Object.assign({}, { searchParam: "" }, { pools: [] }, { setShow: false }, { screenName: "" }, { isCheckboxDisabled: false });
+        this.state = Object.assign({}, { searchParam: "" }, { pools: [] }, { setShow: false },
+            { screenName: "" }, { isCheckboxDisabled: false }, { screenNameTextBoxDisableFlag: false }, { checked: false });
     }
 
     submitSearchHandler = () => {
@@ -28,16 +29,28 @@ class SearchPool extends Component {
             })
     };
 
+    changeScreenNameTextBoxDisableFlag = () => {
+        this.setState({
+            screenNameTextBoxDisableFlag: this.state.checked
+        })
+    }
+    changeCheckboxDisabledFlag = () => {
+        this.setState({
+            isCheckboxDisabled: this.state.screenName !== "" ? true : false
+        })
+    };
+
     changeHandeler = (e) => {
         this.setState({
             [e.target.name]: e.target.value,
-            isCheckboxDisabled: !this.state.isCheckboxDisabled
-        });
+        }, () => this.changeCheckboxDisabledFlag());
     };
 
     handleClose = () => {
         this.setState({
-            setShow: false
+            setShow: false,
+            screenName: "",
+            checked: false
         });
     }
 
@@ -45,6 +58,13 @@ class SearchPool extends Component {
         this.setState({
             setShow: true
         });
+    }
+
+    handleCheck = () => {
+        console.log("checking here")
+        this.setState({
+            checked: !this.state.checked
+        }, () => this.changeScreenNameTextBoxDisableFlag())
     }
 
     submitJoinHandler = () => {
@@ -120,12 +140,13 @@ class SearchPool extends Component {
                         <Form>
                             <Form.Group controlId="formGroupItemName">
                                 <Form.Label>Enter Screen name of reference Pooler:</Form.Label>
-                                <Form.Control type="text" name="screenName"
+                                <Form.Control type="text" name="screenName" disabled={this.state.screenNameTextBoxDisableFlag}
                                     value={this.state.screenName} onChange={this.changeHandeler} className="join-pool-modal-text" />
                                 <div className="join-pool-modal-text">Or</div>
                                 <InputGroup className="mb-3">
                                     <InputGroup.Prepend>
-                                        <InputGroup.Checkbox aria-label="Checkbox for following text input" className="search-pool-checkbox" disabled={this.state.isCheckboxDisabled} />
+                                        <InputGroup.Checkbox aria-label="Checkbox for following text input" className="search-pool-checkbox"
+                                            disabled={this.state.isCheckboxDisabled} defaultChecked={this.state.defaultChecked} onChange={this.handleCheck} />
                                         <span className="search-pool-checkbox-text">If you know the pool leader, check the box here</span>
                                     </InputGroup.Prepend>
                                 </InputGroup>
