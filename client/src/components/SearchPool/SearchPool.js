@@ -2,16 +2,16 @@ import React, { Component } from 'react';
 import { HOSTNAME } from "../../constants/appConstants";
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.css'
-import { Button, Card, Table, Row, Col } from 'react-bootstrap'
+import { Button, Card, Table, Row, Col, Modal, Form } from 'react-bootstrap'
 import './SearchPool.css';
 
 class SearchPool extends Component {
     constructor(props) {
         super(props);
-        this.state = Object.assign({}, { searchParam: "" }, { pools: [] });
+        this.state = Object.assign({}, { searchParam: "" }, { pools: [] }, { setShow: false }, { screenName: "" });
     }
 
-    submitHandler = () => {
+    submitSearchHandler = () => {
         let searchParam = this.state.searchParam;
         axios.defaults.withCredential = true;
         axios.get(`http://${HOSTNAME}:8080/pool/search/${searchParam}`)
@@ -29,9 +29,25 @@ class SearchPool extends Component {
 
     changeHandeler = (e) => {
         this.setState({
-            searchParam: e.target.value
+            [e.target.name]: e.target.value
         });
     };
+
+    handleClose = () => {
+        this.setState({
+            setShow: false
+        });
+    }
+
+    handleShow = () => {
+        this.setState({
+            setShow: true
+        });
+    }
+
+    submitJoinHandler = () => {
+        console.log('submitted join request')
+    }
 
     renderPoolList = (pool) => {
         console.log('in render function for pools')
@@ -42,7 +58,7 @@ class SearchPool extends Component {
 
                         <Card.Header>
                             <Row><Col xs={12} md={8}><h2>{pool.name}</h2></Col>
-                                <Col xs={6} md={4}><Button variant="info">Join</Button></Col>
+                                <Col xs={6} md={4}><Button variant="info" onClick={this.handleShow}>Join</Button></Col>
                             </Row>
                         </Card.Header>
 
@@ -75,11 +91,11 @@ class SearchPool extends Component {
             <React.Fragment>
                 <div className="container-fluid">
                     <div className="search-pool-title"><h3>Search Pool by name, neighborhood or zip</h3></div>
-                    <div><input type="text" className="search-pool-search-bar" value={this.state.searchParam}
+                    <div><input type="text" className="search-pool-search-bar" name="searchParam" value={this.state.searchParam}
                         onChange={this.changeHandeler}
                         placeholder="Search Pool..." />
                         <Button variant="primary" >
-                            <p className="search-pool-btn" size="lg" onClick={this.submitHandler}>Search</p>
+                            <p className="search-pool-btn" size="lg" onClick={this.submitSearchHandler}>Search</p>
                         </Button>
                     </div>
                     <div className="cards-container">
@@ -91,6 +107,35 @@ class SearchPool extends Component {
                     </div>
 
                 </div>
+
+
+                <Modal show={this.state.setShow} onHide={this.handleClose} animation={false}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Join Pool</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Form>
+                            <Form.Group controlId="formGroupItemName">
+                                <Form.Label>Screen name of reference Pooler</Form.Label>
+                                <Form.Control type="text" name="screenName"
+                                    value={this.state.screenName} onChange={this.changeHandeler} />
+                            </Form.Group>
+
+                        </Form>
+
+                    </Modal.Body>
+                    <Modal.Footer>
+
+                        <Button variant="secondary" onClick={this.handleClose}>
+                            Close
+                         </Button>
+
+                        <Button variant="primary" onClick={this.submitJoinHandler}>
+                            Submit
+                         </Button>
+
+                    </Modal.Footer>
+                </Modal>
 
             </React.Fragment>
         );
