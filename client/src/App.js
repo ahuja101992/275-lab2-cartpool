@@ -1,15 +1,15 @@
 import React from "react";
 import "./App.css";
-import {BrowserRouter} from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import Main from "./components/Main";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
     return (
         <BrowserRouter>
-            <div>
+            <div className="container">
                 {/* App Component Has a Child Component called Main*/}
-                <Main/>
+                <Main />
             </div>
         </BrowserRouter>
     );
