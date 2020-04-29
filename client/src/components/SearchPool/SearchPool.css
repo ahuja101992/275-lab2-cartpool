@@ -28,3 +28,19 @@
 .search-pool-card{
     margin-top: 10px;
 }
+
+.search-pool-checkbox-text{
+    margin-left: 10%;
+}
+.search-pool-checkbox{
+    outline: none;
+}
+
+.join-pool-modal-text {
+    margin-bottom: 5%;
+}
+
+input.join-pool-modal-text + div.join-pool-modal-text{
+    width: 100%;
+    text-align: center;
+}

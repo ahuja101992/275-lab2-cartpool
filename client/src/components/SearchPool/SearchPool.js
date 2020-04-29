@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { HOSTNAME } from "../../constants/appConstants";
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.css'
-import { Button, Card, Table, Row, Col, Modal, Form } from 'react-bootstrap'
+import { Button, Card, Table, Row, Col, Modal, Form, InputGroup, FormControl } from 'react-bootstrap'
 import './SearchPool.css';
+import ModalManager from 'react-overlays/esm/ModalManager';
 
 class SearchPool extends Component {
     constructor(props) {
@@ -114,11 +115,20 @@ class SearchPool extends Component {
                         <Modal.Title>Join Pool</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
+                        <div className="text-muted text-center join-pool-modal-text">Either enter reference pooler's screen name or check the box if you know the pool leader</div>
                         <Form>
                             <Form.Group controlId="formGroupItemName">
-                                <Form.Label>Screen name of reference Pooler</Form.Label>
+                                <Form.Label>Enter Screen name of reference Pooler:</Form.Label>
                                 <Form.Control type="text" name="screenName"
-                                    value={this.state.screenName} onChange={this.changeHandeler} />
+                                    value={this.state.screenName} onChange={this.changeHandeler} className="join-pool-modal-text" />
+                                <div className="join-pool-modal-text">Or</div>
+                                <InputGroup className="mb-3">
+                                    <InputGroup.Prepend>
+                                        <InputGroup.Checkbox aria-label="Checkbox for following text input" className="search-pool-checkbox" />
+                                        <span className="search-pool-checkbox-text">If you know the pool leader, check the box here</span>
+                                    </InputGroup.Prepend>
+                                </InputGroup>
+                                {/* If you know the pool leader, check the box here. */}
                             </Form.Group>
 
                         </Form>
@@ -137,7 +147,7 @@ class SearchPool extends Component {
                     </Modal.Footer>
                 </Modal>
 
-            </React.Fragment>
+            </React.Fragment >
         );
     }
 }
