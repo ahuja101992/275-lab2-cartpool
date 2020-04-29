@@ -18,7 +18,8 @@ class SearchPool extends Component {
             .then(response => {
                 console.log(response.data);
                 this.setState({
-                    poolList: response.data
+                    poolList: response.data,
+                    searchParam: ""
                 })
             })
             .catch(error => {
@@ -36,7 +37,7 @@ class SearchPool extends Component {
         console.log('in render function for pools')
         return (<div key={pool.id}>
             <Row>
-                <Col xs={6}>
+                <Col xs={12}>
                     <Card className="search-pool-card">
 
                         <Card.Header>
@@ -81,7 +82,7 @@ class SearchPool extends Component {
                             <p className="search-pool-btn" size="lg" onClick={this.submitHandler}>Search</p>
                         </Button>
                     </div>
-                    <div>
+                    <div className="cards-container">
                         {
                             poolList.map((pool, index) => {
                                 return (this.renderPoolList(pool))
