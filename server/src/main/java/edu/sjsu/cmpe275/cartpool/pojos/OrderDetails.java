@@ -13,7 +13,35 @@ public class OrderDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column
+    public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public Orders getOrder() {
+		return order;
+	}
+
+	public void setOrder(Orders order) {
+		this.order = order;
+	}
+
+	public Long getQty() {
+		return qty;
+	}
+
+	public Long getPrice() {
+		return price;
+	}
+
+	public Long getSku() {
+		return sku;
+	}
+
+	@Column
     private final Long qty;
 
     @Column
