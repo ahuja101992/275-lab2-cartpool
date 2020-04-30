@@ -16,8 +16,11 @@ class Checkout extends Component {
       forDelivery: true,
       pickupOrders: null,
       showPickUpModel: false,
-      setShow: false,
-      noOrders: 0,
+      show: false,
+      noOfOrders: 0,
+      warning: false,
+      orderList: [],
+      pickUpSelectionSuccess: false,
     };
   }
 
@@ -50,8 +53,50 @@ class Checkout extends Component {
   };
   handleClose = () => this.setState({ show: false });
   handleShow = () => this.setState({ show: true });
-  handleContnue = () => {
+  handleSelectPickUpOrders = () => {
+    console.log("jhjhjh");
     this.setState({ show: false, deliverySelection: true });
+    console.log("yayduydsuyfyusdyu");
+    let list = [];
+
+    if (this.state.noOfOrders > 0) {
+      if (this.state.noOfOrders > this.state.pickupOrders.length)
+        this.setState({ show: false, warning: true });
+      else {
+        for (let i = 0; i < this.state.noOfOrders; i++) {
+          list.push(this.state.pickupOrders[i].id);
+        }
+        this.setState({ orderList: list });
+      }
+    }
+    ///////////////////////////////THIS HHAS TO BE MOVED TO PLACE ORDER BY SAKSHI
+    // let poolerId = localStorage.getItem("poolerId");
+    // let storeId = localStorage.getItem("storeId");
+    let storeId = 1;
+    let poolerId = 1;
+    const requestParams = {};
+    requestParams.poolerId = poolerId;
+    requestParams.count = storeId;
+    axios.defaults.withCredential = true;
+    axios
+      .post(
+        `http://${HOSTNAME}:8080/order/selectorders`,
+        this.state.orderList,
+        {
+          params: requestParams,
+        }
+      )
+      .then((response) => {
+        this.setState({
+          pickUpSelectionSuccess: true,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  handleWarningClose = () => {
+    this.setState({ warning: false });
   };
   getPlaceOrderBtnClass = () => {
     let classes = "btn place-order-btn btn-";
@@ -112,9 +157,9 @@ class Checkout extends Component {
                 <Form.Group controlId="formGridState">
                   <Form.Control
                     as="select"
-                    value={this.state.noOrders}
+                    value={this.state.noOfOrders}
                     onChange={(e) =>
-                      this.setState({ noOrders: e.target.value })
+                      this.setState({ noOfOrders: e.target.value })
                     }
                   >
                     {[...Array(11)].map((curr, i) => (
@@ -132,8 +177,19 @@ class Checkout extends Component {
             <Button variant="secondary" onClick={this.handleClose}>
               Close
             </Button>
-            <Button variant="primary" onClick={this.handleContnue}>
+            <Button variant="primary" onClick={this.handleSelectPickUpOrders}>
               Confirm
+            </Button>
+          </Modal.Footer>
+        </Modal>
+        <Modal show={this.state.warning} animation={false}>
+          <Modal.Body>
+            Number of orders selected for pickup is greater than prders present.
+            So no orders will be assigned fo you to pick up.{" "}
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={this.handleWarningClose}>
+              Close
             </Button>
           </Modal.Footer>
         </Modal>
