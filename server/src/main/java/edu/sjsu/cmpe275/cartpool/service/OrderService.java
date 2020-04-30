@@ -23,5 +23,6 @@ public interface OrderService {
     void pickUpOrderForDelivery(long deliveryPersonId, long orderId);
     String generateOrderEmail(long id);
     void markOrderDelivered(long orderId);
+    Orders markDeliveryNotReceived(long orderId);
     void sendOrderConfirmationEmail(Orders order);
 }

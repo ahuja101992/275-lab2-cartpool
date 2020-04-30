@@ -118,6 +118,13 @@ public class OrderServiceImpl implements OrderService {
         orderRepository.save(order);
     }
 
+    public Orders markDeliveryNotReceived(long orderId) {
+        Orders order = orderRepository.findById(orderId).orElseThrow(() -> new OrderNotFoundException());
+        order.setStatus(Constants.DELIVERED_NOT_RECEIVED);
+
+        return orderRepository.save(order);
+    }
+
 	@Override
 	public String generateOrderEmail(long id) {
 		List<Orders> orders = getAllOrdersForPickup(id);

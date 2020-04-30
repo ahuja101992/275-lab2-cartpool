@@ -9,6 +9,7 @@ dependencies:
   axios: 0.19.2
   bootstrap: 4.4.1_jquery@3.5.0
   canvasjs: 1.8.3
+  fast-deep-equal: 3.1.1
   jquery: 3.5.0
   react: 16.13.1
   react-bootstrap: 1.0.1_react-dom@16.13.1+react@16.13.1
@@ -12533,6 +12534,7 @@ specifiers:
   eslint-plugin-jsx-a11y: ^6.2.3
   eslint-plugin-react: ^7.16.0
   eslint-plugin-react-hooks: ^3.0.0
+  fast-deep-equal: ^3.1.1
   jquery: ^3.4.1
   react: ^16.11.0
   react-bootstrap: ^1.0.1

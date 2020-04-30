@@ -63,7 +63,7 @@ export default function orderReducer(state = initialState, action) {
 
     if (action.type === DELIVERY_NOT_RECEIVED) {
         return Object.assign({}, state, {
-            orderByPooler: [...state.orderByPooler]
+            orderByPooler: action.payload
         });
     } else if (action.type === GET_ORDERS_BY_USER_ID) {
         return Object.assign({}, state, {

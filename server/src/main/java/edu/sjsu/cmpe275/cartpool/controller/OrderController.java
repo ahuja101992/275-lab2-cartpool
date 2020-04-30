@@ -105,8 +105,9 @@ public class OrderController {
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             method = RequestMethod.POST)
     public @ResponseBody
-    ResponseEntity<Orders> markDeliveryNotReceived(@RequestParam String orderId) {
-        return ResponseEntity.status(HttpStatus.OK).body(null);
+    ResponseEntity<List<Orders>> markDeliveryNotReceived(@RequestParam Long orderId, @RequestParam Long orderOwnerId) {
+        orderService.markDeliveryNotReceived(orderId);
+        return ResponseEntity.status(HttpStatus.OK).body(orderService.getOrdersByOwnerId(orderOwnerId));
     }
 
     /**
