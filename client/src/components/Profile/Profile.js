@@ -47,7 +47,7 @@ class Profile extends Component {
 
         axios.post(`http://${HOSTNAME}:8080/pool/create`, null, { params: payload })
             .then(response => {
-                console.log(response);
+                this.handleClose();
             })
             .catch(error => {
                 console.log(error);
