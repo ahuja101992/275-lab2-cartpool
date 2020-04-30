@@ -43,7 +43,7 @@ public class OrderAspect {
     }
 
     @AfterReturning(pointcut = "execution(public * edu.sjsu.cmpe275.cartpool.controller.OrderController.checkout1(..))", returning = "result")
-    public void sendOrderDeliveredEmail(JoinPoint joinPoint, Object result) {
+    public void sendDeliveryNotReceivedEmail(JoinPoint joinPoint, Object result) {
         Object[] args = joinPoint.getArgs();
 
         System.out.println(result);
