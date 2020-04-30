@@ -23,11 +23,16 @@ public class PoolerController {
         return "Hello Test";
     }
 
-    @RequestMapping(value = "/pooler/getcontribution",
+    /**
+     * Get pooler contribution API
+     * @param poolerId
+     * @return
+     */
+    @RequestMapping(value = "/pooler/getcontribution/{poolerId}",
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
-            method = RequestMethod.POST)
+            method = RequestMethod.GET)
     public @ResponseBody
-    ResponseEntity<Integer> getContribution(@RequestParam String poolerId) {
+    ResponseEntity<Integer> getContribution(@PathVariable long poolerId) {
         int contribution = poolerService.getContribution(poolerId);
 
         return ResponseEntity.status(HttpStatus.OK).body(contribution);

@@ -1,6 +1,8 @@
-import React, {Component} from "react";
-import {Button, Form, Modal} from "react-bootstrap";
-import {HOSTNAME} from "../../constants/appConstants";
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import BootstrapTable from "react-bootstrap-table-next";
+import { Button, Modal, Dropdown, Form, Col } from "react-bootstrap";
+import { HOSTNAME } from "../../constants/appConstants";
 import axios from "axios";
 import "./checkout.css";
 
@@ -22,9 +24,7 @@ class Checkout extends Component {
         };
     }
 
-    componentDidMount() {
-    }
-
+    componentDidMount() {}
     handleDeliverySelection = () => {
         this.setState({
             deliverySelection: true,
@@ -51,22 +51,22 @@ class Checkout extends Component {
                 console.log(error);
             });
     };
-    handleClose = () => this.setState({show: false});
-    handleShow = () => this.setState({show: true});
+    handleClose = () => this.setState({ show: false });
+    handleShow = () => this.setState({ show: true });
     handleSelectPickUpOrders = () => {
         console.log("jhjhjh");
-        this.setState({show: false, deliverySelection: true});
+        this.setState({ show: false, deliverySelection: true });
         console.log("yayduydsuyfyusdyu");
         let list = [];
 
         if (this.state.noOfOrders > 0) {
             if (this.state.noOfOrders > this.state.pickupOrders.length)
-                this.setState({show: false, warning: true});
+                this.setState({ show: false, warning: true });
             else {
                 for (let i = 0; i < this.state.noOfOrders; i++) {
                     list.push(this.state.pickupOrders[i].id);
                 }
-                this.setState({orderList: list});
+                this.setState({ orderList: list });
             }
         }
         ///////////////////////////////THIS HHAS TO BE MOVED TO PLACE ORDER BY SAKSHI
@@ -96,7 +96,7 @@ class Checkout extends Component {
             });
     };
     handleWarningClose = () => {
-        this.setState({warning: false});
+        this.setState({ warning: false });
     };
     getPlaceOrderBtnClass = () => {
         let classes = "btn place-order-btn btn-";
@@ -134,7 +134,6 @@ class Checkout extends Component {
             });
         }
     };
-
     render() {
         if (this.props.location.props && this.props.location.props.price !== "") {
             this.setState({
@@ -143,8 +142,7 @@ class Checkout extends Component {
             });
         }
         return (
-            <div>
-                <h4>Order Details for Checkout</h4>
+            <div class="order-checkout--row row">
                 <Modal show={this.state.show} onHide={this.handleClose}>
                     <Modal.Header closeButton>
                         <Modal.Title>Select orders for pickup</Modal.Title>
@@ -160,7 +158,7 @@ class Checkout extends Component {
                                         as="select"
                                         value={this.state.noOfOrders}
                                         onChange={(e) =>
-                                            this.setState({noOfOrders: e.target.value})
+                                            this.setState({ noOfOrders: e.target.value })
                                         }
                                     >
                                         {[...Array(11)].map((curr, i) => (
@@ -194,33 +192,34 @@ class Checkout extends Component {
                         </Button>
                     </Modal.Footer>
                 </Modal>
-                <div class="order-checkout-container">
+                <div class="order-checkout-container col-sm-6">
+                    <h4>Order Details for Checkout</h4>
                     <div class="order-total row">
-                        <div class="col-sm-6 order-total-title">Order Total</div>
-                        <div class="col-sm-6 order-total">$ {this.state.price}</div>
+                        <div class="col-sm-10 order-total-title">Order Total</div>
+                        <div class="col-sm-2 order-total">$ {this.state.price}</div>
                     </div>
                     <div class="order-service-tax row">
-                        <div class="col-sm-6 service-tax">Universal Tax</div>
-                        <div class="col-sm-6 service-tax">
+                        <div class="col-sm-10 service-tax">Universal Tax</div>
+                        <div class="col-sm-2 service-tax">
                             $ {this.state.price * 0.0925}
                         </div>
                     </div>
                     <div class="order-convenience-fee row">
-                        <div class="col-sm-6 convenience-fee">Convenience-Fee</div>
-                        <div class="col-sm-6 convenience-fee">
+                        <div class="col-sm-10 convenience-fee">Convenience-Fee</div>
+                        <div class="col-sm-2 convenience-fee">
                             $ {this.state.price * 0.005}
                         </div>
                     </div>
                     <div class="order-final-price row">
-                        <div class="col-sm-6 order-total-title">Amount Payable</div>
-                        <div class="col-sm-6 order-total">
+                        <div class="col-sm-10 order-total-title">Amount Payable</div>
+                        <div class="col-sm-2 order-total">
                             $ {this.state.price * 1.0975}
                         </div>
                     </div>
                     <div class="delivery-selection-header">
                         <h5>Choose your delivery option</h5>
                     </div>
-                    <div class="button-container row">
+                    <div class="button-container row justify-content-around">
                         <div class="col-sm-4 pickup-btn">
                             <button
                                 type="button"
@@ -241,7 +240,7 @@ class Checkout extends Component {
                         </div>
                     </div>
                     <div class="place-order row">
-                        <div class="col-sm-7 ">
+                        <div class="col-sm-12 ">
                             <button
                                 disabled={!this.state.deliverySelection}
                                 type="button"
