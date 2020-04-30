@@ -9,6 +9,7 @@ import AdminLayout from "./Layout/AdminLayout";
 import PoolerLayout from "./Layout/PoolerLayout";
 import SearchPool from "./SearchPool/SearchPool";
 import Profile from "./Profile/Profile";
+import ProfilePage from "./ProfilePage/ProfilePage";
 
 class Main extends Component {
     render() {
@@ -22,6 +23,7 @@ class Main extends Component {
                 <Route exact path="/logout" component={Logout} />
                 <Route exact path="/searchPool" component={SearchPool} />
                 <Route exact path="/Profile" component={Profile} />
+                <Route exact path="/ProfilePage" component={ProfilePage} />
                 {/*<Route exact path="/store" component={Stores} />*/}
             </div>
         );
