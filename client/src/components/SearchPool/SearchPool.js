@@ -77,7 +77,7 @@ class SearchPool extends Component {
         }
         axios.put(`http://${HOSTNAME}:8080/pool/join/${poolId}`, null, { params: payload })
             .then(response => {
-                console.log(response);
+                this.handleClose();
             })
             .catch(error => {
                 console.log(error);
