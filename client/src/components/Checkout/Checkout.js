@@ -21,10 +21,26 @@ class Checkout extends Component {
       warning: false,
       orderList: [],
       pickUpSelectionSuccess: false,
+      contributionCount: 0,
     };
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    // let poolerId = localStorage.getItem("poolerId");
+    let poolerId = 1;
+    axios.defaults.withCredential = true;
+    axios
+      .get(`http://${HOSTNAME}:8080/pooler/getcontribution/${poolerId}`)
+      .then((response) => {
+        console.log("kjdhfhjshj", response);
+        this.setState({
+          contributionCount: response.data,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
   handleDeliverySelection = () => {
     this.setState({
       deliverySelection: true,
@@ -98,9 +114,12 @@ class Checkout extends Component {
   handleWarningClose = () => {
     this.setState({ warning: false });
   };
-  getPlaceOrderBtnClass = () => {
-    let classes = "btn place-order-btn btn-";
-    classes += this.state.deliverySelection ? "success" : "secondary disabled";
+  getCotriClass = () => {
+    let classes = "disabled contri-status-btn btn btn-";
+    const contriCount = this.state.contributionCount;
+    if (contriCount > -4) classes += "success";
+    else if (contriCount <= -4 && contriCount > -6) classes += "warning";
+    else classes += "danger";
     return classes;
   };
   getButtonState = () => {
@@ -134,6 +153,11 @@ class Checkout extends Component {
       });
     }
   };
+  getPlaceOrderBtnClass = () => {
+    let classes = "btn place-order-btn btn-";
+    classes += this.state.deliverySelection ? "success" : "secondary disabled";
+    return classes;
+  };
   render() {
     if (this.props.location.props && this.props.location.props.price !== "") {
       this.setState({
@@ -142,7 +166,7 @@ class Checkout extends Component {
       });
     }
     return (
-      <div class="order-checkout--row row">
+      <div class="order-checkout-row row">
         <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>Select orders for pickup</Modal.Title>
@@ -247,6 +271,18 @@ class Checkout extends Component {
                 class={this.getPlaceOrderBtnClass()}
               >
                 Place Order
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="contribution-container col-sm-6">
+          <div class="contri-heading">
+            <h4>Your current contribution count</h4>
+          </div>
+          <div class="contri-btn-container row">
+            <div class="contri-btn offset-md-2 col-sm-8">
+              <button type="button" disabled class={this.getCotriClass()}>
+                {this.state.contributionCount}
               </button>
             </div>
           </div>
