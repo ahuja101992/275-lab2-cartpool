@@ -30,6 +30,16 @@ public class OrderController {
     @Autowired
     ObjectMapper objectMapper;
 
+    /**
+     * Method for testing to generate order form postman. 
+     * @param deliveryPersonId
+     * @param storeId
+     * @param qty
+     * @param forDelivery
+     * @param ownerId
+     * @param price
+     * @return
+     */
     @RequestMapping(value = "/order/placeOrder",
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             method = RequestMethod.POST)
@@ -99,17 +109,22 @@ public class OrderController {
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
-    @RequestMapping(value = "/order/getOrderDetails/{id}/",
+    /**
+     * to fetch the details of an order
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/order/getOrderDetails/{id}",
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             method = RequestMethod.GET)
     public @ResponseBody
-    ResponseEntity<Orders> verify(@PathVariable long id) {
+    ResponseEntity<Orders> getOrderDetails(@PathVariable long id) {
         orderService.getOrderDetails(id);
         return ResponseEntity.status(HttpStatus.OK).body(orderService.getOrderDetails(id));
     }
 
     /***
-     *
+     * fetch all the order placed by a pooler 
      * @param id - Long poolerId
      * @return Returns all orders placed by the order owner
      */
@@ -121,6 +136,11 @@ public class OrderController {
         return ResponseEntity.status(HttpStatus.OK).body(orderService.getOrdersByOwnerId(id));
     }
 
+    /**
+     * Fetch all the orders to be delivered by a pooler 
+     * @param poolerId
+     * @return
+     */
     @RequestMapping(value = "/order/getDeliveryOrders/{poolerId}",
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             method = RequestMethod.GET)
@@ -129,6 +149,11 @@ public class OrderController {
         return ResponseEntity.status(HttpStatus.OK).body(orderService.getDeliveryOrders(poolerId));
     }
 
+    /**
+     * final submit order method
+     * @param cart
+     * @return
+     */
     @RequestMapping(value = "/order/submitorder",
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             method = RequestMethod.POST)
@@ -158,6 +183,12 @@ public class OrderController {
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
+    /**
+     * Find all the orders available to pooler for pickup
+     * @param poolerId
+     * @param storeId
+     * @return
+     */
     @RequestMapping(value = "/order/getOrdersForPickup/{poolerId}/{storeId}",
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             method = RequestMethod.GET)
@@ -166,6 +197,11 @@ public class OrderController {
         return ResponseEntity.status(HttpStatus.OK).body(orderService.getOrdersForPickUp(poolerId, storeId));
     }
 
+    /**
+     * Fetch all the orders pooler has to pickup including his own - when he is at store
+     * @param poolerId
+     * @return
+     */
     @RequestMapping(value = "/order/delivery/getOrdersForPickup/{poolerId}",
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             method = RequestMethod.GET)
@@ -174,6 +210,13 @@ public class OrderController {
         return ResponseEntity.status(HttpStatus.OK).body(orderService.getAllOrdersForPickup(poolerId));
     }
 
+    /**
+     * post method to update all the orders selected by a pooler for pickup 
+     * @param poolerId
+     * @param count
+     * @param orderList
+     * @return
+     */
     @RequestMapping(value = "/order/selectorders",
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             method = RequestMethod.POST)
@@ -188,6 +231,11 @@ public class OrderController {
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
     
+    /**
+     * Service for testing. To be removed. 
+     * @param poolerId
+     * @return
+     */
     @RequestMapping(value = "/order/delivery/testService/{poolerId}",
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             method = RequestMethod.GET)
