@@ -142,8 +142,7 @@ class Checkout extends Component {
       });
     }
     return (
-      <div>
-        <h4>Order Details for Checkout</h4>
+      <div class="order-checkout--row row">
         <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>Select orders for pickup</Modal.Title>
@@ -193,33 +192,34 @@ class Checkout extends Component {
             </Button>
           </Modal.Footer>
         </Modal>
-        <div class="order-checkout-container">
+        <div class="order-checkout-container col-sm-6">
+          <h4>Order Details for Checkout</h4>
           <div class="order-total row">
-            <div class="col-sm-6 order-total-title">Order Total</div>
-            <div class="col-sm-6 order-total">$ {this.state.price}</div>
+            <div class="col-sm-10 order-total-title">Order Total</div>
+            <div class="col-sm-2 order-total">$ {this.state.price}</div>
           </div>
           <div class="order-service-tax row">
-            <div class="col-sm-6 service-tax">Universal Tax</div>
-            <div class="col-sm-6 service-tax">
+            <div class="col-sm-10 service-tax">Universal Tax</div>
+            <div class="col-sm-2 service-tax">
               $ {this.state.price * 0.0925}
             </div>
           </div>
           <div class="order-convenience-fee row">
-            <div class="col-sm-6 convenience-fee">Convenience-Fee</div>
-            <div class="col-sm-6 convenience-fee">
+            <div class="col-sm-10 convenience-fee">Convenience-Fee</div>
+            <div class="col-sm-2 convenience-fee">
               $ {this.state.price * 0.005}
             </div>
           </div>
           <div class="order-final-price row">
-            <div class="col-sm-6 order-total-title">Amount Payable</div>
-            <div class="col-sm-6 order-total">
+            <div class="col-sm-10 order-total-title">Amount Payable</div>
+            <div class="col-sm-2 order-total">
               $ {this.state.price * 1.0975}
             </div>
           </div>
           <div class="delivery-selection-header">
             <h5>Choose your delivery option</h5>
           </div>
-          <div class="button-container row">
+          <div class="button-container row justify-content-around">
             <div class="col-sm-4 pickup-btn">
               <button
                 type="button"
@@ -240,7 +240,7 @@ class Checkout extends Component {
             </div>
           </div>
           <div class="place-order row">
-            <div class="col-sm-7 ">
+            <div class="col-sm-12 ">
               <button
                 disabled={!this.state.deliverySelection}
                 type="button"
