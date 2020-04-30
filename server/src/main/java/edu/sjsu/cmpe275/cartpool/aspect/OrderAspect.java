@@ -41,4 +41,13 @@ public class OrderAspect {
         System.out.println(result.getClass());
         System.out.println("[OrderCheckoutAspect] sendDeliveryInstructionEmail =" + Arrays.toString(joinPoint.getArgs()));
     }
+
+    @AfterReturning(pointcut = "execution(public * edu.sjsu.cmpe275.cartpool.controller.OrderController.checkout1(..))", returning = "result")
+    public void sendOrderDeliveredEmail(JoinPoint joinPoint, Object result) {
+        Object[] args = joinPoint.getArgs();
+
+        System.out.println(result);
+        System.out.println(result.getClass());
+        System.out.println("[OrderCheckoutAspect] sendDeliveryInstructionEmail =" + Arrays.toString(joinPoint.getArgs()));
+    }
 }

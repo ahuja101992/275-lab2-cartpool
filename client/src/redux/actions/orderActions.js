@@ -73,7 +73,7 @@ export function markDeliveryNotReceived(payload) {
     console.log(payload);
 
     return (dispatch) => {
-        axios.post(`http://${HOSTNAME}:8080/order/markDeliveryNotReceived/`, null, {params: payload})
+        axios.post(`http://${HOSTNAME}:8080/order/delivery/markDeliveryNotReceived/`, null, {params: payload})
             .then((response) => dispatch(markDeliveryNotReceivedDispatch(response.data)))
             .catch((err) => console.log(err));
     }

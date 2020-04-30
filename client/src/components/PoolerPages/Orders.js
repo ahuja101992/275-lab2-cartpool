@@ -70,7 +70,9 @@ class Orders extends Component {
     }
 
     markDeliveryNotReceived = (order) => {
-        this.props.markDeliveryNotReceived({orderId: order.orderId})
+        console.log("markDeliveryNotReceived")
+        console.log(order)
+        this.props.markDeliveryNotReceived({orderId: order.id})
     }
 
     extractAddress = (address) => {
