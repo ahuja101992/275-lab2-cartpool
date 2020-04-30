@@ -1,15 +1,16 @@
-import React, {Component} from 'react';
-import {HOSTNAME} from "../../constants/appConstants";
+import React, { Component } from 'react';
+import { HOSTNAME } from "../../constants/appConstants";
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.css'
-import {Button, Card, Col, Form, InputGroup, Modal, Row, Table} from 'react-bootstrap'
+import { Button, Card, Col, Form, InputGroup, Modal, Row, Table } from 'react-bootstrap'
 import './SearchPool.css';
 
 class SearchPool extends Component {
     constructor(props) {
         super(props);
-        this.state = Object.assign({}, {searchParam: ""}, {pools: []}, {setShow: false},
-            {screenName: ""}, {isCheckboxDisabled: false}, {screenNameTextBoxDisableFlag: false}, {checked: false});
+        this.state = Object.assign({}, { searchParam: "" }, { pools: [] }, { setShow: false },
+            { screenName: "" }, { isCheckboxDisabled: false }, { screenNameTextBoxDisableFlag: false }, { checked: false }, { poolId: null });
+
     }
 
     submitSearchHandler = () => {
@@ -17,7 +18,6 @@ class SearchPool extends Component {
         axios.defaults.withCredential = true;
         axios.get(`http://${HOSTNAME}:8080/pool/search/${searchParam}`)
             .then(response => {
-                console.log(response.data);
                 this.setState({
                     poolList: response.data,
                     searchParam: ""
@@ -60,18 +60,31 @@ class SearchPool extends Component {
     }
 
     handleCheck = () => {
-        console.log("checking here")
         this.setState({
             checked: !this.state.checked
         }, () => this.changeScreenNameTextBoxDisableFlag())
     }
 
     submitJoinHandler = () => {
-        console.log('submitted join request')
+        let reference = this.state.checked ? 'pool_leader_reference' : this.state.screenName;
+        let poolId = this.state.poolId;
+        //let poolerId = localStorage.getItem('id');
+        let poolerId = 2;
+
+        let payload = {
+            screenName: reference,
+            poolerId: poolerId
+        }
+        axios.put(`http://${HOSTNAME}:8080/pool/join/${poolId}`, null, { params: payload })
+            .then(response => {
+                console.log(response);
+            })
+            .catch(error => {
+                console.log(error);
+            })
     }
 
     renderPoolList = (pool) => {
-        console.log('in render function for pools')
         return (<div key={pool.id}>
             <Row>
                 <Col xs={12}>
@@ -79,7 +92,15 @@ class SearchPool extends Component {
 
                         <Card.Header>
                             <Row><Col xs={12} md={8}><h2>{pool.name}</h2></Col>
-                                <Col xs={6} md={4}><Button variant="info" onClick={this.handleShow}>Join</Button></Col>
+                                <Col xs={6} md={4}><Button variant="info" onClick={
+                                    () => {
+                                        this.setState({
+                                            poolId: pool.id
+                                        },
+                                            () => this.handleShow()
+                                        )
+                                    }
+                                }>Join</Button></Col>
                             </Row>
                         </Card.Header>
 
@@ -87,18 +108,18 @@ class SearchPool extends Component {
                             <Card.Title>Pool Details:</Card.Title>
                             <Table responsive>
                                 <tbody>
-                                <tr>
-                                    <th>Pool Name</th>
-                                    <td>{pool.name}</td>
-                                </tr>
-                                <tr>
-                                    <th>NeighborHood Name</th>
-                                    <td>{pool.neighborhoodName}</td>
-                                </tr>
-                                <tr>
-                                    <th>Zip</th>
-                                    <td>{pool.zip}</td>
-                                </tr>
+                                    <tr>
+                                        <th>Pool Name</th>
+                                        <td>{pool.name}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>NeighborHood Name</th>
+                                        <td>{pool.neighborhoodName}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Zip</th>
+                                        <td>{pool.zip}</td>
+                                    </tr>
                                 </tbody>
                             </Table>
                         </Card.Body>
@@ -106,6 +127,7 @@ class SearchPool extends Component {
                 </Col>
             </Row>
         </div>)
+
     }
 
     render() {
@@ -118,12 +140,12 @@ class SearchPool extends Component {
                         <div className="container-fluid">
                             <div className="search-pool-title"><h3>Search Pool by name, neighborhood or zip</h3></div>
                             <div><input type="text" className="search-pool-search-bar" name="searchParam"
-                                        value={this.state.searchParam}
-                                        onChange={this.changeHandeler}
-                                        placeholder="Search Pool..."/>
+                                value={this.state.searchParam}
+                                onChange={this.changeHandeler}
+                                placeholder="Search Pool..." />
                                 <Button variant="primary">
                                     <p className="search-pool-btn" size="lg"
-                                       onClick={this.submitSearchHandler}>Search</p>
+                                        onClick={this.submitSearchHandler}>Search</p>
                                 </Button>
                             </div>
                             <div className="cards-container">
@@ -149,17 +171,17 @@ class SearchPool extends Component {
                                     <Form.Group controlId="formGroupItemName">
                                         <Form.Label>Enter Screen name of reference Pooler:</Form.Label>
                                         <Form.Control type="text" name="screenName"
-                                                      disabled={this.state.screenNameTextBoxDisableFlag}
-                                                      value={this.state.screenName} onChange={this.changeHandeler}
-                                                      className="join-pool-modal-text"/>
+                                            disabled={this.state.screenNameTextBoxDisableFlag}
+                                            value={this.state.screenName} onChange={this.changeHandeler}
+                                            className="join-pool-modal-text" />
                                         <div className="join-pool-modal-text">Or</div>
                                         <InputGroup className="mb-3">
                                             <InputGroup.Prepend>
                                                 <InputGroup.Checkbox aria-label="Checkbox for following text input"
-                                                                     className="search-pool-checkbox"
-                                                                     disabled={this.state.isCheckboxDisabled}
-                                                                     defaultChecked={this.state.defaultChecked}
-                                                                     onChange={this.handleCheck}/>
+                                                    className="search-pool-checkbox"
+                                                    disabled={this.state.isCheckboxDisabled}
+                                                    defaultChecked={this.state.defaultChecked}
+                                                    onChange={this.handleCheck} />
                                                 <span className="search-pool-checkbox-text">If you know the pool leader, check the box here</span>
                                             </InputGroup.Prepend>
                                         </InputGroup>
