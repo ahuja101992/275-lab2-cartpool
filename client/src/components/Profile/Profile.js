@@ -7,7 +7,7 @@ import 'bootstrap/dist/css/bootstrap.css'
 class Profile extends Component {
     constructor(props) {
         super(props);
-        this.state = Object.assign({}, { setShow: false }, { poolId: "" }, { poolName: "" }, { poolNickname: "" }, { zip: "" }, { poolDescription: "" });
+        this.state = Object.assign({}, { setShow: false }, { poolId: "" }, { poolName: "" }, { poolNeighborhoodName: "" }, { zip: "" }, { poolDescription: "" });
 
     }
 
@@ -20,8 +20,10 @@ class Profile extends Component {
     handleClose = () => {
         this.setState({
             setShow: false,
+            poolId: "",
             poolName: "",
-            poolNickname: "",
+            poolNeighborhoodName: "",
+            poolDescription: "",
             zip: ""
         });
     }
@@ -35,13 +37,15 @@ class Profile extends Component {
     submitCreatePoolHandler = () => {
         let payload = {
             poolId: this.state.poolId,
-            poolName: this.state.poolName,
-            poolNickname: this.state.poolNickname,
-            poolDescription: this.state.poolDescription,
-            zip: this.state.zip
+            name: this.state.poolName,
+            neighborhoodName: this.state.poolNeighborhoodName,
+            description: this.state.poolDescription,
+            zip: this.state.zip,
+            //poolerId: localStorage.getItem('id')
+            poolerId: 6
         }
 
-        axios.get(`http://${HOSTNAME}:8080/pool/create`, null, { params: payload })
+        axios.post(`http://${HOSTNAME}:8080/pool/create`, null, { params: payload })
             .then(response => {
                 console.log(response);
             })
@@ -79,9 +83,9 @@ class Profile extends Component {
                                     value={this.state.poolName} onChange={this.changeHandeler}
                                     className="join-pool-modal-text" />
 
-                                <Form.Label>Pool Nickname:</Form.Label>
-                                <Form.Control type="text" name="poolNickname"
-                                    value={this.state.poolNickname} onChange={this.changeHandeler}
+                                <Form.Label>Pool NeighborhoodName:</Form.Label>
+                                <Form.Control type="text" name="poolNeighborhoodName"
+                                    value={this.state.poolNeighborhoodName} onChange={this.changeHandeler}
                                     className="join-pool-modal-text" />
 
                                 <Form.Label>Pool Description:</Form.Label>
