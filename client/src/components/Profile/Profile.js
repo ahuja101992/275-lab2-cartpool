@@ -7,7 +7,7 @@ import 'bootstrap/dist/css/bootstrap.css'
 class Profile extends Component {
     constructor(props) {
         super(props);
-        this.state = Object.assign({}, { setShow: false }, { poolName: "" }, { poolNickname: "" }, { zip: "" });
+        this.state = Object.assign({}, { setShow: false }, { poolId: "" }, { poolName: "" }, { poolNickname: "" }, { zip: "" }, { poolDescription: "" });
 
     }
 
@@ -31,6 +31,25 @@ class Profile extends Component {
             setShow: true
         });
     }
+
+    submitCreatePoolHandler = () => {
+        let payload = {
+            poolId: this.state.poolId,
+            poolName: this.state.poolName,
+            poolNickname: this.state.poolNickname,
+            poolDescription: this.state.poolDescription,
+            zip: this.state.zip
+        }
+
+        axios.get(`http://${HOSTNAME}:8080/pool/create`, null, { params: payload })
+            .then(response => {
+                console.log(response);
+            })
+            .catch(error => {
+                console.log(error);
+            })
+    };
+
     render() {
         return (
             <React.Fragment>
@@ -50,6 +69,11 @@ class Profile extends Component {
                                 </div>
                         <Form>
                             <Form.Group controlId="formGroupItemName">
+                                <Form.Label>Pool Id:</Form.Label>
+                                <Form.Control type="text" name="poolId"
+                                    value={this.state.poolId} onChange={this.changeHandeler}
+                                    className="join-pool-modal-text" />
+
                                 <Form.Label>Pool Name:</Form.Label>
                                 <Form.Control type="text" name="poolName"
                                     value={this.state.poolName} onChange={this.changeHandeler}
@@ -58,6 +82,11 @@ class Profile extends Component {
                                 <Form.Label>Pool Nickname:</Form.Label>
                                 <Form.Control type="text" name="poolNickname"
                                     value={this.state.poolNickname} onChange={this.changeHandeler}
+                                    className="join-pool-modal-text" />
+
+                                <Form.Label>Pool Description:</Form.Label>
+                                <Form.Control type="text" name="poolDescription"
+                                    value={this.state.poolDescription} onChange={this.changeHandeler}
                                     className="join-pool-modal-text" />
 
                                 <Form.Label>ZipCode:</Form.Label>
@@ -75,7 +104,7 @@ class Profile extends Component {
                             Close
                                 </Button>
 
-                        <Button variant="primary" onClick={this.submitJoinHandler}>
+                        <Button variant="primary" onClick={this.submitCreatePoolHandler}>
                             Submit
                                 </Button>
 
