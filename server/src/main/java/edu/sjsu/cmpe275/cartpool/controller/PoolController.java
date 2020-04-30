@@ -91,8 +91,6 @@ public class PoolController {
 
 
         poolService.joinPool(poolId, poolerId, screenName);
-        //return ResponseEntity.status(HttpStatus.OK).body(poolService.joinPool(poolId, poolerId, screenName));
-        //return null;
     }
 
 

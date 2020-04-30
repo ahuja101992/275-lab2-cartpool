@@ -63,13 +63,18 @@ public class PoolServiceImpl implements PoolService {
     @Transactional
     @Override
     public void joinPool(Long poolId, Long poolerId, String screenName) {
+        Pool pool = poolRepository.findById(poolId).orElseThrow(() -> new PoolNotFoundException());
+        Pooler referencePooler;
+        if(screenName.equals("pool_leader_reference")){
+            referencePooler = pool.getPoolLeader();
+            screenName = referencePooler.getScreenname();
+        }
+        else
+            referencePooler = poolerRepository.findByScreenname(screenName);
 
-        Pooler referencePooler = poolerRepository.findByScreenname(screenName);
         if (referencePooler == null)
             throw new UserNotFoundException();
-
-        Pool pool = poolRepository.findById(poolId).orElseThrow(() -> new PoolNotFoundException());
-
+        
         for (Pooler member : pool.getMembers()) {
             if (member.getScreenname().equals(screenName)) {
 
@@ -99,9 +104,6 @@ public class PoolServiceImpl implements PoolService {
 
             }
         }
-
-        ///// throw exception -> no pooler with given ScreenName found
-        //return null;
     }
 
     @Override
