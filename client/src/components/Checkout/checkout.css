@@ -1,41 +1,41 @@
 .order-total-title {
-  font-weight: bold;
-  margin-bottom: 10px;
+    font-weight: bold;
+    margin-bottom: 10px;
 }
 .order-total {
-  font-weight: bold;
-  margin-bottom: 10px;
+    font-weight: bold;
+    margin-bottom: 10px;
 }
 .order-service-tax {
-  margin-bottom: 10px;
+    margin-bottom: 10px;
 }
 .convenience-fee {
-  margin-bottom: 10px;
+    margin-bottom: 10px;
 }
 .place-order {
-  margin-top: 50px;
+    margin-top: 50px;
 }
 .button-container {
-  margin-top: 10px;
-  margin-bottom: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 .place-order-btn {
-  width: inherit;
+    width: inherit;
 }
 .delivery-selection-header {
-  margin-top: 40px;
+    margin-top: 40px;
 }
 .selection-btn {
-  width: 100%;
+    width: 100%;
 }
 .order-list {
-  margin-bottom: 10px;
-  margin-left: 0px;
-  margin-top: 5px;
+    margin-bottom: 10px;
+    margin-left: 0px;
+    margin-top: 5px;
 }
 .dropdown-label {
-  font-weight: bold;
-  margin-left: 25px;
+    font-weight: bold;
+    margin-left: 25px;
 }
 .contri-status-btn {
   width: 100%;
