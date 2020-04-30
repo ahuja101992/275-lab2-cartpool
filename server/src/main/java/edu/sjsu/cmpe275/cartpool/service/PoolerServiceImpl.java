@@ -75,9 +75,9 @@ public class PoolerServiceImpl implements PoolerService {
 
     ////// need to check this service
     @Override
-    public int getContribution(String email) {
+    public int getContribution(long id) {
         int contribution = 0;
-        Pooler users = poolerRepository.findByEmail(email);
+        Pooler users = poolerRepository.findById(id).orElseThrow(() -> new UserNotFoundException());
         if (users != null) {
             contribution = users.getContribution();
         } else {
