@@ -22,6 +22,8 @@ import java.util.Map;
 })
 public class Cart {
 
+    @JsonIgnore
+    private final Map<String, Object> additionalProperties = new HashMap<String, Object>();
     @JsonProperty("store")
     private Integer store;
     @JsonProperty("pool")
@@ -44,8 +46,6 @@ public class Cart {
     private String orderOwner;
     @JsonProperty("deliveryBy")
     private String deliveryBy;
-    @JsonIgnore
-    private final Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("store")
     public Integer getStore() {

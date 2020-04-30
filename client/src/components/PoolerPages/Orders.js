@@ -1,8 +1,8 @@
-import React, {Component, useEffect, useState} from "react";
+import React, {Component} from "react";
 import {Badge, Button, Card} from "react-bootstrap";
 import {connect} from "react-redux";
 import {getOrdersByUserId, markDeliveryNotReceived} from "../../redux/actions/orderActions";
-import {DELIVERED, PICKED_UP, PICKED_UP_BY_SELF, PLACED, DELIVERED_NOT_RECEIVED} from "../../constants/appConstants";
+import {DELIVERED, DELIVERED_NOT_RECEIVED, PICKED_UP, PICKED_UP_BY_SELF, PLACED} from "../../constants/appConstants";
 
 function mapStateToProps(store) {
     return {
@@ -13,7 +13,9 @@ function mapStateToProps(store) {
 function mapDispatchToProps(dispatch) {
     return {
         markDeliveryNotReceived: (payload) => dispatch(markDeliveryNotReceived(payload)),
-        getOrdersByUserId: (payload) => dispatch(getOrdersByUserId(payload), () => {this.forceUpdate()}),
+        getOrdersByUserId: (payload) => dispatch(getOrdersByUserId(payload), () => {
+            this.forceUpdate()
+        }),
     };
 }
 

@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
-import { Button, Modal, Form } from 'react-bootstrap'
-import { HOSTNAME } from "../../constants/appConstants";
+import React, {Component} from 'react';
+import {Button, Form, Modal} from 'react-bootstrap'
+import {HOSTNAME} from "../../constants/appConstants";
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.css'
 
 class Profile extends Component {
     constructor(props) {
         super(props);
-        this.state = Object.assign({}, { setShow: false }, { poolId: "" }, { poolName: "" }, { poolNeighborhoodName: "" }, { zip: "" }, { poolDescription: "" });
+        this.state = Object.assign({}, {setShow: false}, {poolId: ""}, {poolName: ""}, {poolNeighborhoodName: ""}, {zip: ""}, {poolDescription: ""});
 
     }
 
@@ -45,7 +45,7 @@ class Profile extends Component {
             poolerId: 6
         }
 
-        axios.post(`http://${HOSTNAME}:8080/pool/create`, null, { params: payload })
+        axios.post(`http://${HOSTNAME}:8080/pool/create`, null, {params: payload})
             .then(response => {
                 this.handleClose();
             })
@@ -58,8 +58,8 @@ class Profile extends Component {
         return (
             <React.Fragment>
                 <Button variant="success" size="lg"
-                    className="profile-btn"
-                    onClick={this.handleShow}>Create Pool
+                        className="profile-btn"
+                        onClick={this.handleShow}>Create Pool
                 </Button>
 
 
@@ -70,33 +70,33 @@ class Profile extends Component {
                     <Modal.Body>
                         <div className="text-muted text-center join-pool-modal-text">
                             You should not be a member of any other pool to create a new pool!
-                                </div>
+                        </div>
                         <Form>
                             <Form.Group controlId="formGroupItemName">
                                 <Form.Label>Pool Id:</Form.Label>
                                 <Form.Control type="text" name="poolId"
-                                    value={this.state.poolId} onChange={this.changeHandeler}
-                                    className="join-pool-modal-text" />
+                                              value={this.state.poolId} onChange={this.changeHandeler}
+                                              className="join-pool-modal-text"/>
 
                                 <Form.Label>Pool Name:</Form.Label>
                                 <Form.Control type="text" name="poolName"
-                                    value={this.state.poolName} onChange={this.changeHandeler}
-                                    className="join-pool-modal-text" />
+                                              value={this.state.poolName} onChange={this.changeHandeler}
+                                              className="join-pool-modal-text"/>
 
                                 <Form.Label>Pool NeighborhoodName:</Form.Label>
                                 <Form.Control type="text" name="poolNeighborhoodName"
-                                    value={this.state.poolNeighborhoodName} onChange={this.changeHandeler}
-                                    className="join-pool-modal-text" />
+                                              value={this.state.poolNeighborhoodName} onChange={this.changeHandeler}
+                                              className="join-pool-modal-text"/>
 
                                 <Form.Label>Pool Description:</Form.Label>
                                 <Form.Control type="text" name="poolDescription"
-                                    value={this.state.poolDescription} onChange={this.changeHandeler}
-                                    className="join-pool-modal-text" />
+                                              value={this.state.poolDescription} onChange={this.changeHandeler}
+                                              className="join-pool-modal-text"/>
 
                                 <Form.Label>ZipCode:</Form.Label>
                                 <Form.Control type="text" name="zip"
-                                    value={this.state.zip} onChange={this.changeHandeler}
-                                    className="join-pool-modal-text" />
+                                              value={this.state.zip} onChange={this.changeHandeler}
+                                              className="join-pool-modal-text"/>
                             </Form.Group>
 
                         </Form>
@@ -106,11 +106,11 @@ class Profile extends Component {
 
                         <Button variant="secondary" onClick={this.handleClose}>
                             Close
-                                </Button>
+                        </Button>
 
                         <Button variant="primary" onClick={this.submitCreatePoolHandler}>
                             Submit
-                                </Button>
+                        </Button>
 
                     </Modal.Footer>
                 </Modal>

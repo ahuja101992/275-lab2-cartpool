@@ -1,15 +1,15 @@
-import React, { Component } from 'react';
-import { HOSTNAME } from "../../constants/appConstants";
+import React, {Component} from 'react';
+import {HOSTNAME} from "../../constants/appConstants";
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.css'
-import { Button, Card, Col, Form, InputGroup, Modal, Row, Table } from 'react-bootstrap'
+import {Button, Card, Col, Form, InputGroup, Modal, Row, Table} from 'react-bootstrap'
 import './SearchPool.css';
 
 class SearchPool extends Component {
     constructor(props) {
         super(props);
-        this.state = Object.assign({}, { searchParam: "" }, { pools: [] }, { setShow: false },
-            { screenName: "" }, { isCheckboxDisabled: false }, { screenNameTextBoxDisableFlag: false }, { checked: false }, { poolId: null });
+        this.state = Object.assign({}, {searchParam: ""}, {pools: []}, {setShow: false},
+            {screenName: ""}, {isCheckboxDisabled: false}, {screenNameTextBoxDisableFlag: false}, {checked: false}, {poolId: null});
 
     }
 
@@ -75,7 +75,7 @@ class SearchPool extends Component {
             screenName: reference,
             poolerId: poolerId
         }
-        axios.put(`http://${HOSTNAME}:8080/pool/join/${poolId}`, null, { params: payload })
+        axios.put(`http://${HOSTNAME}:8080/pool/join/${poolId}`, null, {params: payload})
             .then(response => {
                 this.handleClose();
             })
@@ -95,8 +95,8 @@ class SearchPool extends Component {
                                 <Col xs={6} md={4}><Button variant="info" onClick={
                                     () => {
                                         this.setState({
-                                            poolId: pool.id
-                                        },
+                                                poolId: pool.id
+                                            },
                                             () => this.handleShow()
                                         )
                                     }
@@ -108,18 +108,18 @@ class SearchPool extends Component {
                             <Card.Title>Pool Details:</Card.Title>
                             <Table responsive>
                                 <tbody>
-                                    <tr>
-                                        <th>Pool Name</th>
-                                        <td>{pool.name}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>NeighborHood Name</th>
-                                        <td>{pool.neighborhoodName}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Zip</th>
-                                        <td>{pool.zip}</td>
-                                    </tr>
+                                <tr>
+                                    <th>Pool Name</th>
+                                    <td>{pool.name}</td>
+                                </tr>
+                                <tr>
+                                    <th>NeighborHood Name</th>
+                                    <td>{pool.neighborhoodName}</td>
+                                </tr>
+                                <tr>
+                                    <th>Zip</th>
+                                    <td>{pool.zip}</td>
+                                </tr>
                                 </tbody>
                             </Table>
                         </Card.Body>
@@ -140,12 +140,12 @@ class SearchPool extends Component {
                         <div className="container-fluid">
                             <div className="search-pool-title"><h3>Search Pool by name, neighborhood or zip</h3></div>
                             <div><input type="text" className="search-pool-search-bar" name="searchParam"
-                                value={this.state.searchParam}
-                                onChange={this.changeHandeler}
-                                placeholder="Search Pool..." />
+                                        value={this.state.searchParam}
+                                        onChange={this.changeHandeler}
+                                        placeholder="Search Pool..."/>
                                 <Button variant="primary">
                                     <p className="search-pool-btn" size="lg"
-                                        onClick={this.submitSearchHandler}>Search</p>
+                                       onClick={this.submitSearchHandler}>Search</p>
                                 </Button>
                             </div>
                             <div className="cards-container">
@@ -171,17 +171,17 @@ class SearchPool extends Component {
                                     <Form.Group controlId="formGroupItemName">
                                         <Form.Label>Enter Screen name of reference Pooler:</Form.Label>
                                         <Form.Control type="text" name="screenName"
-                                            disabled={this.state.screenNameTextBoxDisableFlag}
-                                            value={this.state.screenName} onChange={this.changeHandeler}
-                                            className="join-pool-modal-text" />
+                                                      disabled={this.state.screenNameTextBoxDisableFlag}
+                                                      value={this.state.screenName} onChange={this.changeHandeler}
+                                                      className="join-pool-modal-text"/>
                                         <div className="join-pool-modal-text">Or</div>
                                         <InputGroup className="mb-3">
                                             <InputGroup.Prepend>
                                                 <InputGroup.Checkbox aria-label="Checkbox for following text input"
-                                                    className="search-pool-checkbox"
-                                                    disabled={this.state.isCheckboxDisabled}
-                                                    defaultChecked={this.state.defaultChecked}
-                                                    onChange={this.handleCheck} />
+                                                                     className="search-pool-checkbox"
+                                                                     disabled={this.state.isCheckboxDisabled}
+                                                                     defaultChecked={this.state.defaultChecked}
+                                                                     onChange={this.handleCheck}/>
                                                 <span className="search-pool-checkbox-text">If you know the pool leader, check the box here</span>
                                             </InputGroup.Prepend>
                                         </InputGroup>

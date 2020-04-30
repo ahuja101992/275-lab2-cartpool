@@ -59,11 +59,11 @@ account-logo
 
 .btnFacebook {
     width: 100%;
-    height:38px;
+    height: 38px;
     border-radius: 4px;
     background: #3b5998;
-    color:white;
-    border:0px transparent;
+    color: white;
+    border: 0px transparent;
     text-align: center;
     margin-top: 5px;
     font-size: medium;
@@ -73,11 +73,11 @@ account-logo
     display: flex;
     justify-content: center;
     width: 100%;
-    height:38px;
+    height: 38px;
     border-radius: 4px;
     background: #db3236;
-    color:white;
-    border:0px transparent;
+    color: white;
+    border: 0px transparent;
     text-align: center;
     margin-top: 5px;
     font-size: medium;
@@ -318,4 +318,7 @@ account-logo
     font-weight: bold;
 }
 
-.rowC{display:flex; flex-direction:row;}
+.rowC {
+    display: flex;
+    flex-direction: row;
+}

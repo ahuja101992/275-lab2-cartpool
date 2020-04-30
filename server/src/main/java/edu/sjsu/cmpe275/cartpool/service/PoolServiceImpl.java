@@ -65,16 +65,15 @@ public class PoolServiceImpl implements PoolService {
     public void joinPool(Long poolId, Long poolerId, String screenName) {
         Pool pool = poolRepository.findById(poolId).orElseThrow(() -> new PoolNotFoundException());
         Pooler referencePooler;
-        if(screenName.equals("pool_leader_reference")){
+        if (screenName.equals("pool_leader_reference")) {
             referencePooler = pool.getPoolLeader();
             screenName = referencePooler.getScreenname();
-        }
-        else
+        } else
             referencePooler = poolerRepository.findByScreenname(screenName);
 
         if (referencePooler == null)
             throw new UserNotFoundException();
-        
+
         for (Pooler member : pool.getMembers()) {
             if (member.getScreenname().equals(screenName)) {
 

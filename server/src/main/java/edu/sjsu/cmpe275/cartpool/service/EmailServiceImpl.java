@@ -58,8 +58,8 @@ public class EmailServiceImpl implements EmailService {
         }
     }
 
-	@Override
-	public void sendEmailForOrderConfirmation(String to, String subject, String messageBody) {
+    @Override
+    public void sendEmailForOrderConfirmation(String to, String subject, String messageBody) {
         try {
             SimpleMailMessage message = new SimpleMailMessage();
             message.setTo(to);
@@ -69,5 +69,5 @@ public class EmailServiceImpl implements EmailService {
         } catch (MailException exception) {
             exception.printStackTrace();
         }
-	}
+    }
 }

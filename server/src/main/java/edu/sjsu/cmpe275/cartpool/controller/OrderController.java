@@ -31,7 +31,8 @@ public class OrderController {
     ObjectMapper objectMapper;
 
     /**
-     * Method for testing to generate order form postman. 
+     * Method for testing to generate order form postman.
+     *
      * @param deliveryPersonId
      * @param storeId
      * @param qty
@@ -112,6 +113,7 @@ public class OrderController {
 
     /**
      * to fetch the details of an order
+     *
      * @param id
      * @return
      */
@@ -138,7 +140,8 @@ public class OrderController {
     }
 
     /**
-     * Fetch all the orders to be delivered by a pooler 
+     * Fetch all the orders to be delivered by a pooler
+     *
      * @param poolerId
      * @return
      */
@@ -152,6 +155,7 @@ public class OrderController {
 
     /**
      * final submit order method
+     *
      * @param cart
      * @return
      */
@@ -186,6 +190,7 @@ public class OrderController {
 
     /**
      * Find all the orders available to pooler for pickup
+     *
      * @param poolerId
      * @param storeId
      * @return
@@ -200,6 +205,7 @@ public class OrderController {
 
     /**
      * Fetch all the orders pooler has to pickup including his own - when he is at store
+     *
      * @param poolerId
      * @return
      */
@@ -212,7 +218,8 @@ public class OrderController {
     }
 
     /**
-     * post method to update all the orders selected by a pooler for pickup 
+     * post method to update all the orders selected by a pooler for pickup
+     *
      * @param poolerId
      * @param count
      * @param orderList
@@ -231,9 +238,10 @@ public class OrderController {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
-    
+
     /**
-     * Service for testing. To be removed. 
+     * Service for testing. To be removed.
+     *
      * @param poolerId
      * @return
      */
@@ -242,9 +250,9 @@ public class OrderController {
             method = RequestMethod.GET)
     public @ResponseBody
     ResponseEntity<List<Orders>> test(@PathVariable long poolerId) {
-    	System.out.println(orderService.generateOrderEmail(poolerId));
+        System.out.println(orderService.generateOrderEmail(poolerId));
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
-    
+
 
 }
