@@ -208,7 +208,7 @@ class Login extends Component {
                                 onFailure={LoginGoogle}
                                 icon={false}
                                 cookiePolicy={'single_host_origin'}>
-                                <i className="fa fa-google-plus" style={{ marginLeft: '5px' }}/>
+                                <i className="fa fa-google-plus" style={{marginLeft: '5px'}}/>
                                 <span>&nbsp;&nbsp;Sign In with Google</span>
                             </GoogleLogin>
                         </div>

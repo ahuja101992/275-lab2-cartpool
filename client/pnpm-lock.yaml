@@ -23,6 +23,7 @@ dependencies:
   react-js-pull-to-refresh: 1.2.2_react-dom@16.13.1+react@16.13.1
   react-native-qrcode-svg: 6.0.6_882e56883a194f9a5027d3c3393355ea
   react-native-svg: 12.1.0_react@16.13.1
+  react-overlays: 3.1.3_react-dom@16.13.1+react@16.13.1
   react-redux: 7.2.0_49f644e2f7de4182503f8b93abece808
   react-router: 5.1.2_react@16.13.1
   react-router-dom: 5.1.2_react@16.13.1
@@ -1128,6 +1129,12 @@ packages:
       regenerator-runtime: 0.13.5
     resolution:
       integrity: sha512-NE2DtOdufG7R5vnfQUTehdTfNycfUANEtCa9PssN9O/xmTzP4E08UI797ixaei6hBEVL9BI/PsdJS5x7mWoB9Q==
+  /@babel/runtime/7.9.6:
+    dependencies:
+      regenerator-runtime: 0.13.5
+    dev: false
+    resolution:
+      integrity: sha512-64AF1xY3OAkFHqOb9s4jpgk1Mm5vDZ4L3acHvAml+53nO1XbXLuDodsVpO4OIUsmemlUHMxNdYMNJmsvOwLrvQ==
   /@babel/template/7.8.6:
     dependencies:
       '@babel/code-frame': 7.8.3
@@ -1582,10 +1589,10 @@ packages:
       node: '>= 6'
     resolution:
       integrity: sha512-shAmDyaQC4H92APFoIaVDHCx5bStIocgvbwQyxPRrbUY20V1EYTbSDchWbuwlMG3V17cprZhA6+78JfB+3DTPw==
-  /@popperjs/core/2.3.3:
+  /@popperjs/core/2.4.0:
     dev: false
     resolution:
-      integrity: sha512-yEvVC8RfhRPkD9TUn7cFcLcgoJePgZRAOR7T21rcRY5I8tpuhzeWfGa7We7tB14fe9R7wENdqUABcMdwD4SQLw==
+      integrity: sha512-NMrDy6EWh9TPdSRiHmHH2ye1v5U0gBD7pRYwSwJvomx7Bm4GG04vu63dYiVzebLOx2obPpJugew06xVP0Nk7hA==
   /@restart/context/2.1.4_react@16.13.1:
     dependencies:
       react: 16.13.1
@@ -4138,7 +4145,7 @@ packages:
       integrity: sha512-LnuPJ+dwqKDIyotW1VzmOZ5TONUN7CwkCR5hrgawTUbkBGYdeoNLZo6nNfGkCrjtE1nXXaj7iMMpDa8/d9WoIA==
   /dom-helpers/5.1.4:
     dependencies:
-      '@babel/runtime': 7.9.2
+      '@babel/runtime': 7.9.6
       csstype: 2.6.10
     dev: false
     resolution:
@@ -9857,8 +9864,8 @@ packages:
       integrity: sha512-1g9qBRci7man8QsHoXn6tP3DhCDiypGgc6+AOWq+Sy+PmP6yiyf8VmvKuoqrPam/tf5x+ZaBT2KI0gl7bptZ7w==
   /react-overlays/3.1.3_react-dom@16.13.1+react@16.13.1:
     dependencies:
-      '@babel/runtime': 7.9.2
-      '@popperjs/core': 2.3.3
+      '@babel/runtime': 7.9.6
+      '@popperjs/core': 2.4.0
       '@restart/hooks': 0.3.22_react@16.13.1
       '@types/warning': 3.0.0
       dom-helpers: 5.1.4
@@ -11738,7 +11745,7 @@ packages:
       integrity: sha512-UIEXBNeYmKptWH6z8ZnqTeS8fV74zG0/eRU9VGkpzz+LIJNs8W/zM/L+7ctCkRrgbNnnR0xxw4bKOr0cW0N0Og==
   /uncontrollable/7.1.1_react@16.13.1:
     dependencies:
-      '@babel/runtime': 7.9.2
+      '@babel/runtime': 7.9.6
       '@types/react': 16.9.34
       invariant: 2.2.4
       react: 16.13.1
@@ -12540,6 +12547,7 @@ specifiers:
   react-js-pull-to-refresh: ^1.2.2
   react-native-qrcode-svg: ^6.0.6
   react-native-svg: ^12.1.0
+  react-overlays: ^3.1.3
   react-redux: ^7.1.3
   react-router: ^5.1.2
   react-router-dom: ^5.1.2

@@ -1,23 +1,25 @@
-.search-pool-title{
+.search-pool-title {
     display: inline;
 }
-.cards-container{
+
+.cards-container {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-gap: 10px;
 }
 
-.search-pool-search-bar{
+.search-pool-search-bar {
     text-align: center;
-    width: 300px ;
-    height: 50px ;
+    width: 300px;
+    height: 50px;
     margin-right: 20px;
     border-radius: 20px;
     border: #dee2e6;
     border-style: solid;
     outline: none;
 }
-.search-pool-btn{
+
+.search-pool-btn {
     margin-bottom: 5px;
     margin-top: 5px;
     margin-left: 10px;
@@ -25,14 +27,15 @@
     font-weight: bolder
 }
 
-.search-pool-card{
+.search-pool-card {
     margin-top: 10px;
 }
 
-.search-pool-checkbox-text{
+.search-pool-checkbox-text {
     margin-left: 10%;
 }
-.search-pool-checkbox{
+
+.search-pool-checkbox {
     outline: none;
 }
 
@@ -40,7 +43,7 @@
     margin-bottom: 5%;
 }
 
-input.join-pool-modal-text + div.join-pool-modal-text{
+input.join-pool-modal-text + div.join-pool-modal-text {
     width: 100%;
     text-align: center;
 }

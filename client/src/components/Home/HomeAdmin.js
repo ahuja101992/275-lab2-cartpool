@@ -3,6 +3,7 @@ import {Redirect, Switch} from 'react-router';
 import {Link, NavLink, Route} from "react-router-dom";
 import {Nav, Navbar} from "react-bootstrap";
 import Stores from '../AdminPages/Stores';
+import Logout from "../Account/Logout";
 import logo from "../../images/cart.png";
 import '../../css/Account.css'
 
@@ -32,7 +33,7 @@ class HomeAdmin extends Component {
         const redirectVar = (localStorage.getItem('userType') === null) ? <Redirect to="/home"/> : null;
 
         return (
-            <div >
+            <div>
                 {/*{redirectVar}*/}
 
                 <div style={styles.container}>
@@ -41,7 +42,7 @@ class HomeAdmin extends Component {
                             <img style={styles.logo} src={logo} alt="Quora"/>
                         </div>
                         <div>
-                            <h3 style={styles.message}>CartPool</h3>
+                            <h3 style={styles.message}>&nbsp;&nbsp;CartPool</h3>
                         </div>
                     </div>
                 </div>
@@ -62,7 +63,7 @@ class HomeAdmin extends Component {
                 <div>
                     <Switch>
                         <Route exact path='/homeAdmin/' component={Stores}/>
-                        <Route exact path='/logout/' component={Stores}/>
+                        <Route exact path='/logout/' component={Logout}/>
                     </Switch>
                 </div>
             </div>
