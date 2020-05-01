@@ -1,5 +1,6 @@
 package edu.sjsu.cmpe275.cartpool.controller;
 
+import edu.sjsu.cmpe275.cartpool.pojos.Pooler;
 import edu.sjsu.cmpe275.cartpool.service.PoolerService;
 import edu.sjsu.cmpe275.cartpool.service.PoolerServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,15 @@ public class PoolerController {
         int contribution = poolerService.getContribution(poolerId);
 
         return ResponseEntity.status(HttpStatus.OK).body(contribution);
+    }
+
+    @RequestMapping(value = "/pooler/profile/getById/{poolerId}",
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+            method = RequestMethod.GET)
+    public @ResponseBody
+    ResponseEntity<Pooler> getProfile(@PathVariable long poolerId) {
+
+        return ResponseEntity.status(HttpStatus.OK).body(poolerService.findById(poolerId));
     }
 
 //    @RequestMapping(value = "/inventory/store/getByAdmin/{adminId}",
