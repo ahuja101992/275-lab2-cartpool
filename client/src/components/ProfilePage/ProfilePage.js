@@ -1,28 +1,43 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Profile.css';
-import {HOSTNAME} from "../../constants/appConstants";
+import { HOSTNAME } from "../../constants/appConstants";
 import axios from 'axios';
 
 class ProfilePage extends Component {
     constructor(props) {
         super(props);
-        this.state = Object.assign({}, {firstName: "Vijay"}, {email: "vijayghanshani2@gmail.com"}, {imageUrl: "https://bootdey.com/img/Content/avatar/avatar1.png"},
-            {credits: 5}, {address: ""});
+        this.state = Object.assign({}, { firstName: "Vijay" }, { email: "vijayghanshani2@gmail.com" }, { imageUrl: "https://bootdey.com/img/Content/avatar/avatar1.png" },
+            { credits: 5 }, { address: "" }, { screenName: "" });
 
     }
 
     componentDidMount() {
-        let poolerId = localStorage.getItem('id');
-        axios.get(`http://${HOSTNAME}:8080/pool/profile/getById/${poolerId}`)
+        //let poolerId = localStorage.getItem('id');
+        let poolerId = 3;
+        axios.get(`http://${HOSTNAME}:8080/pooler/profile/getById/${poolerId}`)
             .then(response => {
                 console.log(response);
+                this.setState({
+                    email: response.data.email,
+                    address: response.data.address ? response.data.address : "",
+                    //imageUrl: response.data.imageUrl,
+                    screenName: response.data.screenname,
+                    credits: response.data.contribution
+
+                });
             })
             .catch(error => {
                 console.log(error);
             })
     }
+
+    changeHandeler = (e) => {
+        this.setState({
+            [e.target.name]: e.target.value
+        });
+    };
 
     render() {
         return (
@@ -34,9 +49,9 @@ class ProfilePage extends Component {
                                 <div className="side-bar">
                                     <div className="user-info">
                                         <img className="img-profile img-circle img-responsive center-block"
-                                             src={this.state.imageUrl} alt=""/>
+                                            src={this.state.imageUrl} alt="" />
                                         <ul className="meta list list-unstyled">
-                                            <li className="name">{this.state.firstName}
+                                            <li className="name">{this.state.screenName}
                                                 <label className="label label-info">{this.state.email}</label>
                                             </li>
                                         </ul>
@@ -45,7 +60,7 @@ class ProfilePage extends Component {
                                         <ul className="nav">
                                             <li className="active"><a href="#"><span
                                                 className="fa fa-user"></span> Profile</a></li>
-                                            <li><a href="#"><span className="fa fa-cog"></span> Settings</a></li>
+                                            <li><a href="#"><span className="fa fa-cog"></span> Pool Info</a></li>
                                             <li><a href="#"><span className="fa fa-credit-card"></span> Upcoming Orders</a>
                                             </li>
                                             <li><a href="#"><span className="fa fa-envelope"></span> Past Orders</a>
@@ -62,13 +77,13 @@ class ProfilePage extends Component {
                                             <div className="form-group avatar">
                                                 <figure className="figure col-md-2 col-sm-3 col-xs-12">
                                                     <img className="img-rounded img-responsive"
-                                                         src={this.state.imageUrl} alt=""/>
+                                                        src={this.state.imageUrl} alt="" />
                                                 </figure>
                                                 <div className="form-inline col-md-10 col-sm-9 col-xs-12">
-                                                    <input type="file" className="file-uploader pull-left"/>
+                                                    <input type="file" className="file-uploader pull-left" />
                                                     <button type="submit"
-                                                            className="btn btn-sm btn-default-alt pull-left">Update
-                                                        Image
+                                                        className="btn btn-sm btn-default-alt pull-left">Update
+                                                    Image
                                                     </button>
                                                 </div>
                                             </div>
@@ -77,7 +92,7 @@ class ProfilePage extends Component {
                                                     Name</label>
                                                 <div className="col-md-10 col-sm-9 col-xs-12">
                                                     <input type="text" className="form-control"
-                                                           value={this.state.firstName}/>
+                                                        value={this.state.screenName} onChange={this.changeHandeler} />
                                                 </div>
                                             </div>
 
@@ -86,7 +101,7 @@ class ProfilePage extends Component {
                                                     Name</label>
                                                 <div className="col-md-10 col-sm-9 col-xs-12">
                                                     <input type="text" className="form-control"
-                                                           value={this.state.firstName}/>
+                                                        value={this.state.firstName} onChange={this.changeHandeler} />
                                                 </div>
                                             </div>
                                             <div className="form-group">
@@ -94,7 +109,7 @@ class ProfilePage extends Component {
                                                     Name</label>
                                                 <div className="col-md-10 col-sm-9 col-xs-12">
                                                     <input type="text" className="form-control"
-                                                           value={this.state.firstName}/>
+                                                        value={this.state.firstName} onChange={this.changeHandeler} />
                                                 </div>
                                             </div>
                                         </fieldset>
@@ -105,7 +120,7 @@ class ProfilePage extends Component {
                                                     className="col-md-2  col-sm-3 col-xs-12 control-label">Email</label>
                                                 <div className="col-md-10 col-sm-9 col-xs-12">
                                                     <input type="email" className="form-control"
-                                                           value={this.state.email}/>
+                                                        value={this.state.email} onChange={this.changeHandeler} />
                                                     <p className="help-block">This is the email </p>
                                                 </div>
                                             </div>
@@ -114,16 +129,16 @@ class ProfilePage extends Component {
                                                     className="col-md-2  col-sm-3 col-xs-12 control-label">Address</label>
                                                 <div className="col-md-10 col-sm-9 col-xs-12">
                                                     <input type="text" className="form-control"
-                                                           value={this.state.address}/>
+                                                        value={this.state.address} onChange={this.changeHandeler} />
                                                 </div>
                                             </div>
                                         </fieldset>
-                                        <hr/>
+                                        <hr />
                                         <div className="form-group">
                                             <div
                                                 className="col-md-10 col-sm-9 col-xs-12 col-md-push-2 col-sm-push-3 col-xs-push-0">
                                                 <input className="btn btn-primary" type="submit"
-                                                       value="Update Profile"/>
+                                                    value="Update Profile" />
                                             </div>
                                         </div>
                                     </form>
