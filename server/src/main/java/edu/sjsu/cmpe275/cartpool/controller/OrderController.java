@@ -81,10 +81,10 @@ public class OrderController {
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             method = RequestMethod.POST)
     public @ResponseBody
-    ResponseEntity<Orders> deliveryCheckout(@RequestParam(required = false) long deliveryPersonId,
+    ResponseEntity<List<Orders>> deliveryCheckout(@RequestParam(required = false) long deliveryPersonId,
                                             @RequestParam long orderId) {
         orderService.pickUpOrderForDelivery(deliveryPersonId, orderId);
-        return ResponseEntity.status(HttpStatus.OK).body(null);
+        return ResponseEntity.status(HttpStatus.OK).body(orderService.getAllOrdersForPickup(deliveryPersonId));
     }
 
     /***
@@ -97,9 +97,9 @@ public class OrderController {
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             method = RequestMethod.POST)
     public @ResponseBody
-    ResponseEntity<Orders> markDelivered(@RequestParam long orderId) {
+    ResponseEntity<List<Orders>> markDelivered(@RequestParam long orderId, @RequestParam long poolerId) {
         orderService.markOrderDelivered(orderId);
-        return ResponseEntity.status(HttpStatus.OK).body(null);
+        return ResponseEntity.status(HttpStatus.OK).body(orderService.getDeliveryOrders(poolerId));
     }
 
     @RequestMapping(value = "/order/delivery/markDeliveryNotReceived",
@@ -145,7 +145,7 @@ public class OrderController {
      * @param poolerId
      * @return
      */
-    @RequestMapping(value = "/order/getDeliveryOrders/{poolerId}",
+    @RequestMapping(value = "/order/delivery/getDeliveryOrders/{poolerId}",
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             method = RequestMethod.GET)
     public @ResponseBody
@@ -233,7 +233,7 @@ public class OrderController {
                                                    @RequestParam int count,
                                                    @RequestBody List<Long> orderList) {
         System.out.println(orderList);
-        if (orderList.size() != count) return ResponseEntity.status(HttpStatus.OK).body(null);/// error to be sent
+        if (orderList.size() != count) return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(null);/// error to be sent
         if (!orderService.selectOrders(poolerId, count, orderList))
             return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
         return ResponseEntity.status(HttpStatus.OK).body(null);

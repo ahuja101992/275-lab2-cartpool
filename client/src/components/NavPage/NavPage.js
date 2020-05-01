@@ -5,11 +5,12 @@ class NavPage extends Component {
     render() {
         return (
             <div>
-                {localStorage.getItem("id") === null &&
+                {!localStorage.getItem("id") &&
                 <Redirect to={{
                     pathname: "/login"
                 }}/>}
-                {localStorage.getItem("type") === "admin" ? <Redirect to="/homeAdmin"/> : <Redirect to="/homePooler"/>}
+                {localStorage.getItem("id") !== null &&
+                (localStorage.getItem("type") === "admin" ? <Redirect to="/homeAdmin"/> : <Redirect to="/homePooler"/>)}
 
             </div>
 

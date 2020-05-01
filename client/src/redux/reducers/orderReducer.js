@@ -2,7 +2,7 @@ import {
     DELIVERY_NOT_RECEIVED,
     GET_ORDERS_BY_USER_ID,
     GET_ORDERS_READY_FOR_DELIVERY,
-    GET_ORDERS_READY_FOR_PICKUP
+    GET_ORDERS_READY_FOR_PICKUP, MARK_DELIVERED, PICKUP_ORDER
 } from "../../redux/constants/actionTypes";
 import {PICKED_UP, PLACED} from "../../constants/appConstants";
 
@@ -61,7 +61,17 @@ export default function orderReducer(state = initialState, action) {
     console.log("orderReducer:");
     console.log(action.payload);
 
-    if (action.type === DELIVERY_NOT_RECEIVED) {
+
+
+    if (action.type === PICKUP_ORDER) {
+        return Object.assign({}, state, {
+            ordersReadyForPickup: getOrdersBasedOnStatus(action.payload, true, PLACED)
+        });
+    } else if (action.type === MARK_DELIVERED) {
+        return Object.assign({}, state, {
+            ordersReadyForDelivery: getOrdersBasedOnStatus(action.payload, true, PICKED_UP)
+        });
+    } else if (action.type === DELIVERY_NOT_RECEIVED) {
         return Object.assign({}, state, {
             orderByPooler: action.payload
         });

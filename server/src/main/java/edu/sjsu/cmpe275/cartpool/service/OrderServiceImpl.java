@@ -18,10 +18,13 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     OrderRepository<Orders> orderRepository;
+
     @Autowired
     PoolerRepository<Pooler> poolerRepository;
+
     @Autowired
     StoreRepository<Pooler> storeRepository;
+
     @Autowired
     EmailService emailService;
 
@@ -144,15 +147,17 @@ public class OrderServiceImpl implements OrderService {
     public void sendOrderConfirmationEmail(Orders order) {
         Pooler owner = order.getOrderOwner();
         String to = owner.getEmail();
+        String subject = "";
+        String msg = "";
         if (order.isForDelivery()) {
-            String subject = "Order places Successfully with Order Id :" + order.getId();
-            String msg = "Hello " + owner.getNickname() + ",\n\nYour order has been successfullt placed. It will be delivered by some fellow pooler shortly.\n\n Thanks for using certpool.";
-            emailService.sendEmailForOrderConfirmation(to, subject, msg);
+            subject = "Order places Successfully with Order Id :" + order.getId();
+            msg = "Hello " + owner.getNickname() + ",\n\nYour order has been successfully placed. It will be delivered by some fellow pooler shortly.\n\n Thanks for using CartPool.";
         } else {
-            String subject = "Order details for all orders for pickup";
-            String msg = generateOrderEmail(owner.getId());
-            emailService.sendEmailForOrderConfirmation(to, subject, msg);
+            subject = "Order details for all orders for pickup";
+            msg = generateOrderEmail(owner.getId());
         }
+
+        emailService.sendEmailForOrderConfirmation(to, subject, msg);
     }
 
 }

@@ -73,8 +73,9 @@ class Delivery extends Component {
 
         const payload = {};
         payload.orderId = cell.orderId;
+        payload.poolerId = localStorage.getItem("id")
 
-        this.props.markDelivered(payload, () => this.populateOrdersReadyForDelivery());
+        this.props.markDelivered(payload);
     }
 
     render() {
