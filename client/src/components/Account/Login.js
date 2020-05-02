@@ -1,32 +1,38 @@
-import React, {Component} from 'react';
+import React, {Component, useState} from 'react';
 //import logo from '../../static/images/login_twitter_logo.png';
 import logo from '../../images/cart.png';
-import {signIn} from "../../redux/actions/authActions";
+import {signIn, verifyEmail} from "../../redux/actions/authActions";
 import {connect} from "react-redux";
 import {Button, Form, Toast} from "react-bootstrap";
 import {Redirect} from "react-router";
 import FacebookLogin from 'react-facebook-login';
 import GoogleLogin from 'react-google-login';
 import '../../css/Account.css'
+import Expire from "./Expire";
 
 function mapStateToProps(store) {
     return {
         signinSuccess: store.auth.signinSuccess,
         signinMessage: store.auth.signinMessage,
-        userActive: store.auth.userActive
+        userActive: store.auth.userActive,
+        verifyEmailSuccess: store.auth.verifyEmailSuccess,
+        verifyEmailMessage: store.auth.verifyEmailMessage,
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        signIn: (payload) => dispatch(signIn(payload))
+        signIn: (payload) => dispatch(signIn(payload)),
+        verifyEmail: (payload) => dispatch(verifyEmail(payload)),
     };
 }
 
 class Login extends Component {
     constructor(props) {
         super(props);
+
         this.state = {
+            showVerifyEmailBox: this.props.verifyEmailSuccess,
             redirectVar: false,
             date: null,
             email: null,
@@ -105,7 +111,23 @@ class Login extends Component {
         return "sjsu.edu" === localStorage.getItem("email").split("@")[1];
     }
 
+
+
+    componentDidMount() {
+        if (this.props.match.params.email !== undefined) {
+            console.log("this.props.match.params.email: " + this.props.match.params.email)
+
+            const payload = {};
+            payload.email = this.props.match.params.email
+            this.props.verifyEmail(payload)
+        } else {
+            console.log("undefined")
+        }
+    }
+
     render() {
+
+
         const responseFacebook = (response) => {
             console.log(" facebook", response);
             this.signup(response, 'facebook');
@@ -162,6 +184,24 @@ class Login extends Component {
                     </Toast.Header>
                     <Toast.Body>{this.props.signinMessage}</Toast.Body>
                 </Toast>}
+
+                {this.props.verifyEmailSuccess === true &&
+                        <Toast
+                            onClose={() => this.setState({showVerifyEmailBox: false})}
+                            show={this.props.verifyEmailSuccess}>
+                            <Toast.Header>
+                                <img
+                                    src="holder.js/20x20?text=%20"
+                                    className="rounded mr-2"
+                                    alt=""
+                                />
+                                <strong className="mr-auto">Notification</strong>
+                            </Toast.Header>
+                            <Toast.Body>
+                                {this.props.verifyEmailMessage}
+                            </Toast.Body>
+                        </Toast>
+                }
 
                 <div>
                     <img style={styles.logo} src={logo} alt="Quora"/>

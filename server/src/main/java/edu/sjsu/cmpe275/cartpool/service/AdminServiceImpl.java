@@ -36,7 +36,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Transactional
     public Admin verify(String email) {
-        Admin admin = adminRepository.findByEmail(email);
+        Admin admin = adminRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException());
         admin.setIs_verified(true);
         return adminRepository.save(admin);
     }
