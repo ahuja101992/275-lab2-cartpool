@@ -15,7 +15,7 @@ import java.util.Map;
 public class Item {
 
     @JsonProperty("sku")
-    private Long sku;
+    private String sku;
     @JsonProperty("price")
     private Integer price;
     @JsonProperty("qty")
@@ -26,12 +26,12 @@ public class Item {
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("sku")
-    public Long getSku() {
+    public String getSku() {
         return sku;
     }
 
     @JsonProperty("sku")
-    public void setSku(Long sku) {
+    public void setSku(String sku) {
         this.sku = sku;
     }
 

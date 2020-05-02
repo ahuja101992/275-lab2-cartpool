@@ -150,7 +150,9 @@ public class OrderController {
         List<Item> itemList = cart.getItems();
         List<OrderDetails> orderList = new ArrayList<>();
         for(Item item : itemList){
-            orderList.add( new OrderDetails(item.getQty(),item.getPrice(),item.getSku()));
+            OrderDetails orderDetails=new OrderDetails(item.getQty(),item.getPrice(),item.getSku());
+            orderDetails.setOrder(order);
+            orderList.add(orderDetails);
         }
         order.setOrderItems(orderList);
         orderService.createOrder(order, cart.getDeliveryBy() , cart.getOrderOwner(), cart.getStore());

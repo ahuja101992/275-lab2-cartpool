@@ -55,8 +55,9 @@ public class Orders {
     @JsonIgnoreProperties({"pool", "orders"})///// to be done 
     private Pooler deliveryBy;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "order")
-    private List<OrderDetails> orderItems;
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "order")
+//    @JoinColumn(name = "order_id", referencedColumnName = "id")
+    private List<OrderDetails> orderDetails;
 
     public Orders() {
     }
@@ -160,11 +161,11 @@ public class Orders {
     }
 
     public List<OrderDetails> getOrderItems() {
-        return orderItems;
+        return orderDetails;
     }
 
     public void setOrderItems(List<OrderDetails> orderItems) {
-        this.orderItems = orderItems;
+        this.orderDetails = orderItems;
     }
 
     public static class OrderBuilder {

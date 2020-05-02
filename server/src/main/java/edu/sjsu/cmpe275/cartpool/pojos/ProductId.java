@@ -11,17 +11,23 @@ import java.util.Objects;
 public class ProductId implements Serializable {
 
     private Long storeId;
-    private Long sku;
+
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private String sku;
 
     public ProductId(){
 
     }
-    public ProductId(Long storeId, Long sku) {
+    public ProductId(Long storeId, String sku) {
         this.sku = sku;
         this.storeId = storeId;
     }
 
-    public ProductId(Long sku){
+    public ProductId(Long storeId){
+        this.storeId=storeId;
+    }
+
+    public ProductId(String sku){
         this.sku=sku;
     }
 
@@ -47,11 +53,11 @@ public class ProductId implements Serializable {
         this.storeId = storeId;
     }
 
-    public long getSku() {
+    public String getSku() {
         return sku;
     }
 
-    public void setSku(Long sku) {
+    public void setSku(String sku) {
         this.sku = sku;
     }
 }

@@ -38,7 +38,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public Set<Product> deleteProduct(Long storeId, Long sku) {
+    public Set<Product> deleteProduct(Long storeId, String sku) {
         Store store = storeRepository.findById(storeId).orElseThrow(() -> new StoreNotFoundException());
         System.out.println("Deleting product: ");
         productRepository.deleteById(new ProductId(storeId, sku));
@@ -63,14 +63,14 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public Product ffindByStoreId_SKU(Long storeId, Long sku) {
+    public Product ffindByStoreId_SKU(Long storeId, String sku) {
         Product product = productRepository.findById(new ProductId(storeId,sku)).orElseThrow(()->new UserNotFoundException());
         return product;
     }
 
     @Override
     @Transactional
-    public List<Product> searchProductBySKU(Long sku) {
+    public List<Product> searchProductBySKU(String sku) {
         ProductId productId = new ProductId(sku);
         Example<Product> productExample = Example.of(new Product(productId));
         return productRepository.findAll(productExample);
@@ -80,6 +80,12 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     public List<Product> searchProductByName(String name,Long storeId) {
         return productRepository.findByNameAndStoreId(name,storeId);
+    }
+
+    @Override
+    @Transactional
+    public List<Product> searchProducts(){
+        return (List<Product>) productRepository.findAll();
     }
 
 }

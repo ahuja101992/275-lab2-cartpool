@@ -14,20 +14,63 @@ public class OrderDetails {
     private long id;
 
     @Column
-    private Long qty;
+    private long qty;
 
     @Column
-    private Long price;
+    private long price;
 
     @Column
-    private Long sku;
+    private String sku;
+
+    @Column
+    private String name;
 
     @ManyToOne(fetch = FetchType.LAZY,
             cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn(name = "order_id", referencedColumnName = "id")
     private Orders order;
 
-    public OrderDetails(long qty, long price, long sku) {
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public long getQty() {
+        return qty;
+    }
+
+    public void setQty(long qty) {
+        this.qty = qty;
+    }
+
+    public long getPrice() {
+        return price;
+    }
+
+    public void setPrice(long price) {
+        this.price = price;
+    }
+
+    public String getSku() {
+        return sku;
+    }
+
+    public void setSku(String sku) {
+        this.sku = sku;
+    }
+
+    public Orders getOrder() {
+        return order;
+    }
+
+    public void setOrder(Orders order) {
+        this.order = order;
+    }
+
+    public OrderDetails(long qty, long price, String sku) {
         this.qty = qty;
         this.price = price;
         this.sku = sku;
