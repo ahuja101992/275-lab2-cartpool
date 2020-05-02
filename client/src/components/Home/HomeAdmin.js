@@ -3,8 +3,9 @@ import {Redirect, Switch} from 'react-router';
 import {Link, NavLink, Route} from "react-router-dom";
 import {Nav, Navbar} from "react-bootstrap";
 import Stores from '../AdminPages/Stores';
-
-class HomeAdmin extends Component {
+import Items from '../Products/Items';
+import AddItem from '../AdminPages/AddItem';
+class   HomeAdmin extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -45,6 +46,8 @@ class HomeAdmin extends Component {
                         </Nav>
                         <Nav className="ml-auto">
                             <Nav.Link as={NavLink} to='/homeAdmin/store/'>Store</Nav.Link>
+                            <Nav.Link as={NavLink} to='/homeAdmin/item/'>Item</Nav.Link>
+                            <Nav.Link as={NavLink} to='/homeAdmin/addItem/'>AddItem</Nav.Link>
                         </Nav>
                     </Navbar>
                 </div>
@@ -53,6 +56,8 @@ class HomeAdmin extends Component {
                 <div>
                     <Switch>
                         <Route exact path='/homeAdmin/store/' component={Stores}/>
+                        <Route exact path='/homeAdmin/item/' component={Items}/>
+                        <Route exact path='/homeAdmin/addItem/' component={AddItem}/>
                     </Switch>
                 </div>
             </div>
