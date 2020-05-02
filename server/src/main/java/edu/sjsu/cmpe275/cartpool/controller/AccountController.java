@@ -44,7 +44,6 @@ public class AccountController {
                                 @RequestParam(required = false) String state,
                                 @RequestParam(required = false) String zip,
                                 @RequestParam(required = false) String password,
-                                @RequestParam(required = false) String img_url,
                                 @RequestParam(required = false) String accessToken,
                                 @RequestParam(required = false) String provider,
                                 @RequestParam(required = false) String provider_id) throws Exception {
