@@ -124,7 +124,6 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.save(order);
     }
 
-    @Override
     public String generateOrderEmail(long id) {
         List<Orders> orders = getAllOrdersForPickup(id);
         StringBuilder str = new StringBuilder();
@@ -143,7 +142,6 @@ public class OrderServiceImpl implements OrderService {
         return str.toString();
     }
 
-    @Override
     public void sendOrderConfirmationEmail(Orders order) {
         Pooler owner = order.getOrderOwner();
         String to = owner.getEmail();
@@ -159,5 +157,4 @@ public class OrderServiceImpl implements OrderService {
 
         emailService.sendEmailForOrderConfirmation(to, subject, msg);
     }
-
 }

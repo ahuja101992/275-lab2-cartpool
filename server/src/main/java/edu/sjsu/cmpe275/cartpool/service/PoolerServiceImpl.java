@@ -55,7 +55,6 @@ public class PoolerServiceImpl implements PoolerService {
         return poolerRepository.save(pooler);
     }
 
-    @Override
     public void addContribution(String email) {
         Pooler users = poolerRepository.findByEmail(email);
         if (users != null)
@@ -64,7 +63,6 @@ public class PoolerServiceImpl implements PoolerService {
             throw new UserNotFoundException();
     }
 
-    @Override
     public void subtractContribution(String email) {
         Pooler users = poolerRepository.findByEmail(email);
         if (users != null)
@@ -84,5 +82,9 @@ public class PoolerServiceImpl implements PoolerService {
             throw new UserNotFoundException();
         }
         return contribution;
+    }
+
+    public Iterable<Pooler> findAll() {
+        return poolerRepository.findAll();
     }
 }

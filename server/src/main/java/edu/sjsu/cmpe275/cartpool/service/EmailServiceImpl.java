@@ -29,13 +29,13 @@ public class EmailServiceImpl implements EmailService {
         }
     }
 
-    public void sendDirectMessageViaEmail(String from, String to, String subject, String text) {
+    public void sendDirectMessageViaEmail(String from, String to, String text) {
         try {
             SimpleMailMessage message = new SimpleMailMessage();
             message.setTo(to);
-            message.setSubject(subject);
+            message.setSubject("[Cartpool] Message received from " + from);
 
-            text += String.format("You have received the below message from %s\n\n", from);
+            text = String.format("You have received the below message from %s\n\n", from) + text;
             message.setText(text);
 
             emailSender.send(message);

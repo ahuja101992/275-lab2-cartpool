@@ -2,19 +2,19 @@ import React, {Component} from "react";
 import {connect} from "react-redux";
 import {Badge, Button, Card, Col, Form, ListGroup, Modal} from "react-bootstrap";
 import BootstrapTable from "react-bootstrap-table-next";
-import {getOrdersReadyForDelivery, markDelivered} from "../../redux/actions/orderActions";
+import {sendMessage, getAllPollers} from "../../redux/actions/messagingActions";
 import {DELIVERED} from "../../constants/appConstants";
 
 function mapStateToProps(store) {
     return {
-        ordersReadyForDelivery: store.orders.ordersReadyForDelivery,
+        allPoolers: store.messaging.allPoolers,
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        getOrdersReadyForDelivery: (payload) => dispatch(getOrdersReadyForDelivery(payload)),
-        markDelivered: (payload) => dispatch(markDelivered(payload)),
+        getAllPollers: (payload) => dispatch(getAllPollers(payload)),
+        sendMessage: (payload) => dispatch(sendMessage(payload)),
 
     };
 }
@@ -33,15 +33,8 @@ class Messaging extends Component {
         };
     }
 
-    populateOrdersReadyForDelivery = () => {
-        const payload = {};
-        payload.poolerId = localStorage.getItem("id");
-
-        this.props.getOrdersReadyForDelivery(payload);
-    }
-
     componentDidMount() {
-        this.populateOrdersReadyForDelivery();
+        this.props.getAllPollers();
     }
 
     userClicked = (pooler) => {
@@ -51,13 +44,35 @@ class Messaging extends Component {
 
     handleClose = () => this.setState({showEmailBox: false});
 
+    sendMessage = (e) => {
+        e.preventDefault();
+
+        console.log("Inside sendMessage")
+
+        const data = {};
+        for (let i = 0; i < e.target.length; i++) {
+            if (e.target[i].id !== "") {
+                data[e.target[i].id] = e.target[i].value;
+            }
+        }
+
+        let updatedData = {
+            message: data.message,
+            to: this.state.currentPooler.email,
+            from: "xxx",
+        }
+
+        this.props.sendMessage(updatedData);
+        this.handleClose();
+    }
+
     render() {
-        const renderTodos = this.state.poolers.map((pooler, index) => {
+        const renderTodos = this.props.allPoolers.map((pooler, index) => {
             console.log("pooler")
             console.log(pooler)
 
             return <ListGroup.Item style={{margin: "1px", width: "10rem"}} action onClick={() => this.userClicked(pooler)}>
-                {pooler}
+                {pooler.screenname}
             </ListGroup.Item>
         });
 
@@ -69,19 +84,19 @@ class Messaging extends Component {
                         {renderTodos}
                     </ListGroup>
 
-                    {this.state.showEmailBox && <Form style={styles.emailBox} onSubmit={this.createStore}>
+                    {this.state.showEmailBox && <Form style={styles.emailBox} onSubmit={this.sendMessage}>
                         <Form.Group controlId="name" style={styles.formField}>
                             <Form.Label>Name</Form.Label>
                             <Form.Control
                                 disabled={true}
-                                defaultValue={this.state.currentPooler !== null ? this.state.currentPooler : ""}/>
+                                defaultValue={this.state.currentPooler.screenname !== null ? this.state.currentPooler.screenname : ""}/>
                         </Form.Group>
 
-                        <Form.Group controlId="street" style={styles.formField}>
-                            <Form.Label>Street</Form.Label>
+                        <Form.Group controlId="message" style={styles.formField}>
+                            <Form.Label>Message</Form.Label>
                             <Form.Control
                                 as="textarea" rows="3"
-                                placeholder="Enter store street" required/>
+                                placeholder="Enter your message" required/>
                         </Form.Group>
 
                         <Modal.Footer>

@@ -1,6 +1,7 @@
 package edu.sjsu.cmpe275.cartpool.controller;
 
 import edu.sjsu.cmpe275.cartpool.pojos.Pooler;
+import edu.sjsu.cmpe275.cartpool.service.EmailService;
 import edu.sjsu.cmpe275.cartpool.service.PoolerService;
 import edu.sjsu.cmpe275.cartpool.service.PoolerServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,13 +11,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Component
 @RestController
 public class PoolerController {
     @Autowired
-    PoolerServiceImpl poolerServiceImpl;
-    @Autowired
     PoolerService poolerService;
+
+    @Autowired
+    EmailService emailService;
 
     @RequestMapping(value = "/test", method = RequestMethod.GET)
     public @ResponseBody
@@ -47,6 +51,26 @@ public class PoolerController {
     ResponseEntity<Pooler> getProfile(@PathVariable long poolerId) {
 
         return ResponseEntity.status(HttpStatus.OK).body(poolerService.findById(poolerId));
+    }
+
+    @RequestMapping(value = "/pooler/messaging/getAll",
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+            method = RequestMethod.GET)
+    public @ResponseBody
+    ResponseEntity<Iterable<Pooler>> getAllPoolers() {
+
+        return ResponseEntity.status(HttpStatus.OK).body(poolerService.findAll());
+    }
+
+    @RequestMapping(value = "/pooler/messaging/sendMessage",
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+            method = RequestMethod.POST)
+    public @ResponseBody
+    void sendMessage(@RequestParam String message,
+                                       @RequestParam String to,
+                                       @RequestParam String from) {
+
+        emailService.sendDirectMessageViaEmail(from, to, message);
     }
 
 //    @RequestMapping(value = "/inventory/store/getByAdmin/{adminId}",
