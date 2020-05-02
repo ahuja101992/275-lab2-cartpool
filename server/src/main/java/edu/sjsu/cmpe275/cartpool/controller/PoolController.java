@@ -86,13 +86,11 @@ public class PoolController {
             method = RequestMethod.PUT)
     public @ResponseBody
     void joinPool(@PathVariable Long poolId,
-                                  @RequestParam Long poolerId,
-                                  @RequestParam String screenName) {
+                  @RequestParam Long poolerId,
+                  @RequestParam String screenName) {
 
 
         poolService.joinPool(poolId, poolerId, screenName);
-        //return ResponseEntity.status(HttpStatus.OK).body(poolService.joinPool(poolId, poolerId, screenName));
-        //return null;
     }
 
 

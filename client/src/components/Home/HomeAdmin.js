@@ -3,9 +3,17 @@ import {Redirect, Switch} from 'react-router';
 import {Link, NavLink, Route} from "react-router-dom";
 import {Nav, Navbar} from "react-bootstrap";
 import Stores from '../AdminPages/Stores';
+<<<<<<< HEAD
 import Items from '../Products/Items';
 import AddItem from '../AdminPages/AddItem';
 class   HomeAdmin extends Component {
+=======
+import Logout from "../Account/Logout";
+import logo from "../../images/cart.png";
+import '../../css/Account.css'
+
+class HomeAdmin extends Component {
+>>>>>>> cb33489bb81dd5899424be4659d5b32de6c5cfe1
     constructor(props) {
         super(props);
         this.state = {
@@ -34,20 +42,28 @@ class   HomeAdmin extends Component {
             <div>
                 {/*{redirectVar}*/}
 
-                {/*<div className="account-logo-container">*/}
-                {/*    <img className="account-logo" src={logo} alt="Quora"/>*/}
-                {/*</div>*/}
+                <div style={styles.container}>
+                    <div className='rowC'>
+                        <div>
+                            <img style={styles.logo} src={logo} alt="Quora"/>
+                        </div>
+                        <div>
+                            <h3 style={styles.message}>&nbsp;&nbsp;CartPool</h3>
+                        </div>
+                    </div>
+                </div>
+
+
                 <div>
                     <Navbar>
-                        <Navbar.Brand as={Link} to='/'>{this.state.restaurantName}</Navbar.Brand>
+                        <Navbar.Brand as={Link} to='/'></Navbar.Brand>
                         <Nav>
-                            <Nav.Link as={NavLink} to='/homeOwner/orders/'>Orders</Nav.Link>
-                            <Nav.Link as={NavLink} to='/homeOwner/menu/'>Menu</Nav.Link>
                         </Nav>
                         <Nav className="ml-auto">
                             <Nav.Link as={NavLink} to='/homeAdmin/store/'>Store</Nav.Link>
                             <Nav.Link as={NavLink} to='/homeAdmin/item/'>Item</Nav.Link>
                             <Nav.Link as={NavLink} to='/homeAdmin/addItem/'>AddItem</Nav.Link>
+                            <Nav.Link as={NavLink} to='/homeAdmin/logout/'>Logout</Nav.Link>
                         </Nav>
                     </Navbar>
                 </div>
@@ -58,6 +74,8 @@ class   HomeAdmin extends Component {
                         <Route exact path='/homeAdmin/store/' component={Stores}/>
                         <Route exact path='/homeAdmin/item/' component={Items}/>
                         <Route exact path='/homeAdmin/addItem/' component={AddItem}/>
+                        <Route exact path='/homeAdmin/' component={Stores}/>
+                        <Route exact path='/logout/' component={Logout}/>
                     </Switch>
                 </div>
             </div>
@@ -65,5 +83,20 @@ class   HomeAdmin extends Component {
     }
 }
 
+const styles = {
+    container: {
+        display: "flex",
+        alignItems: "center",
+        flexDirection: "column",
+    },
+    message: {
+        fontWeight: "bold",
+        paddingTop: "15%"
+    },
+    logo: {
+        paddingTop: "10px",
+        width: "50px",
+    },
+}
 
 export default HomeAdmin;

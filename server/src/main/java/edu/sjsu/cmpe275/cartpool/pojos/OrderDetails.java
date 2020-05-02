@@ -9,10 +9,6 @@ import javax.persistence.*;
 @Table(name = "items")
 public class OrderDetails {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-
     @Column
     private long qty;
 
@@ -25,10 +21,21 @@ public class OrderDetails {
     @Column
     private String name;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
     @ManyToOne(fetch = FetchType.LAZY,
             cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn(name = "order_id", referencedColumnName = "id")
     private Orders order;
+
+
+    public OrderDetails(long qty, long price, String sku) {
+        this.qty = qty;
+        this.price = price;
+        this.sku = sku;
+    }
 
     public long getId() {
         return id;
@@ -36,30 +43,6 @@ public class OrderDetails {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public long getQty() {
-        return qty;
-    }
-
-    public void setQty(long qty) {
-        this.qty = qty;
-    }
-
-    public long getPrice() {
-        return price;
-    }
-
-    public void setPrice(long price) {
-        this.price = price;
-    }
-
-    public String getSku() {
-        return sku;
-    }
-
-    public void setSku(String sku) {
-        this.sku = sku;
     }
 
     public Orders getOrder() {
@@ -70,9 +53,15 @@ public class OrderDetails {
         this.order = order;
     }
 
-    public OrderDetails(long qty, long price, String sku) {
-        this.qty = qty;
-        this.price = price;
-        this.sku = sku;
+    public Long getQty() {
+        return qty;
+    }
+
+    public Long getPrice() {
+        return price;
+    }
+
+    public String getSku() {
+        return sku;
     }
 }

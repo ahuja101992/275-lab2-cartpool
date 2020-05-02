@@ -7,7 +7,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 function App() {
     return (
         <BrowserRouter>
-            <div>
+            <div className="container">
                 {/* App Component Has a Child Component called Main*/}
                 <Main/>
             </div>

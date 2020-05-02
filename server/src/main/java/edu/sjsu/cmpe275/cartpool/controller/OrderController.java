@@ -30,6 +30,17 @@ public class OrderController {
     @Autowired
     ObjectMapper objectMapper;
 
+    /**
+     * Method for testing to generate order form postman.
+     *
+     * @param deliveryPersonId
+     * @param storeId
+     * @param qty
+     * @param forDelivery
+     * @param ownerId
+     * @param price
+     * @return
+     */
     @RequestMapping(value = "/order/placeOrder",
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             method = RequestMethod.POST)
@@ -53,8 +64,8 @@ public class OrderController {
                 .forDelivery(forDelivery)
                 .status(Constants.PLACED)
                 .build();
-        orderService.createOrder(order, deliveryPersonId, ownerId, storeId);
-
+        Orders result = orderService.createOrder(order, deliveryPersonId, ownerId, storeId);
+        orderService.sendOrderConfirmationEmail(result);
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
@@ -70,10 +81,10 @@ public class OrderController {
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             method = RequestMethod.POST)
     public @ResponseBody
-    ResponseEntity<Orders> deliveryCheckout(@RequestParam(required = false) long deliveryPersonId,
+    ResponseEntity<List<Orders>> deliveryCheckout(@RequestParam(required = false) long deliveryPersonId,
                                             @RequestParam long orderId) {
         orderService.pickUpOrderForDelivery(deliveryPersonId, orderId);
-        return ResponseEntity.status(HttpStatus.OK).body(null);
+        return ResponseEntity.status(HttpStatus.OK).body(orderService.getAllOrdersForPickup(deliveryPersonId));
     }
 
     /***
@@ -86,30 +97,37 @@ public class OrderController {
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             method = RequestMethod.POST)
     public @ResponseBody
-    ResponseEntity<Orders> markDelivered(@RequestParam long orderId) {
+    ResponseEntity<List<Orders>> markDelivered(@RequestParam long orderId, @RequestParam long poolerId) {
         orderService.markOrderDelivered(orderId);
-        return ResponseEntity.status(HttpStatus.OK).body(null);
+        return ResponseEntity.status(HttpStatus.OK).body(orderService.getDeliveryOrders(poolerId));
     }
 
     @RequestMapping(value = "/order/delivery/markDeliveryNotReceived",
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             method = RequestMethod.POST)
     public @ResponseBody
-    ResponseEntity<Orders> markDeliveryNotReceived(@RequestParam String orderId) {
-        return ResponseEntity.status(HttpStatus.OK).body(null);
+    ResponseEntity<List<Orders>> markDeliveryNotReceived(@RequestParam Long orderId, @RequestParam Long orderOwnerId) {
+        orderService.markDeliveryNotReceived(orderId);
+        return ResponseEntity.status(HttpStatus.OK).body(orderService.getOrdersByOwnerId(orderOwnerId));
     }
 
-    @RequestMapping(value = "/order/getOrderDetails/{id}/",
+    /**
+     * to fetch the details of an order
+     *
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/order/getOrderDetails/{id}",
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             method = RequestMethod.GET)
     public @ResponseBody
-    ResponseEntity<Orders> verify(@PathVariable long id) {
+    ResponseEntity<Orders> getOrderDetails(@PathVariable long id) {
         orderService.getOrderDetails(id);
         return ResponseEntity.status(HttpStatus.OK).body(orderService.getOrderDetails(id));
     }
 
     /***
-     *
+     * fetch all the order placed by a pooler 
      * @param id - Long poolerId
      * @return Returns all orders placed by the order owner
      */
@@ -120,15 +138,27 @@ public class OrderController {
     ResponseEntity<List<Orders>> getOrdersByOwnerId(@PathVariable long id) {
         return ResponseEntity.status(HttpStatus.OK).body(orderService.getOrdersByOwnerId(id));
     }
-    
-    @RequestMapping(value = "/order/getDeliveryOrders/{poolerId}",
+
+    /**
+     * Fetch all the orders to be delivered by a pooler
+     *
+     * @param poolerId
+     * @return
+     */
+    @RequestMapping(value = "/order/delivery/getDeliveryOrders/{poolerId}",
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             method = RequestMethod.GET)
     public @ResponseBody
     ResponseEntity<List<Orders>> getDeliveryOrders(@PathVariable long poolerId) {
         return ResponseEntity.status(HttpStatus.OK).body(orderService.getDeliveryOrders(poolerId));
     }
-    
+
+    /**
+     * final submit order method
+     *
+     * @param cart
+     * @return
+     */
     @RequestMapping(value = "/order/submitorder",
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             method = RequestMethod.POST)
@@ -155,10 +185,18 @@ public class OrderController {
             orderList.add(orderDetails);
         }
         order.setOrderItems(orderList);
-        orderService.createOrder(order, cart.getDeliveryBy() , cart.getOrderOwner(), cart.getStore());
-        return ResponseEntity.status(HttpStatus.OK).body(null);
+        Orders result = orderService.createOrder(order, cart.getDeliveryBy(), cart.getOrderOwner(), cart.getStore());
+        orderService.sendOrderConfirmationEmail(result);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
     }
-    
+
+    /**
+     * Find all the orders available to pooler for pickup
+     *
+     * @param poolerId
+     * @param storeId
+     * @return
+     */
     @RequestMapping(value = "/order/getOrdersForPickup/{poolerId}/{storeId}",
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             method = RequestMethod.GET)
@@ -166,6 +204,13 @@ public class OrderController {
     ResponseEntity<List<Orders>> getOrdersForPickup(@PathVariable long poolerId, @PathVariable long storeId) {
         return ResponseEntity.status(HttpStatus.OK).body(orderService.getOrdersForPickUp(poolerId, storeId));
     }
+
+    /**
+     * Fetch all the orders pooler has to pickup including his own - when he is at store
+     *
+     * @param poolerId
+     * @return
+     */
     @RequestMapping(value = "/order/delivery/getOrdersForPickup/{poolerId}",
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             method = RequestMethod.GET)
@@ -173,18 +218,43 @@ public class OrderController {
     ResponseEntity<List<Orders>> getAllOrdersForPickup(@PathVariable long poolerId) {
         return ResponseEntity.status(HttpStatus.OK).body(orderService.getAllOrdersForPickup(poolerId));
     }
-    
+
+    /**
+     * post method to update all the orders selected by a pooler for pickup
+     *
+     * @param poolerId
+     * @param count
+     * @param orderList
+     * @return
+     */
     @RequestMapping(value = "/order/selectorders",
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             method = RequestMethod.POST)
     public @ResponseBody
     ResponseEntity<Orders> selectOrdersForDelivery(@RequestParam long poolerId,
-										    		@RequestParam int count,
-										    		@RequestParam String orderList) {
-    	String[] orders = orderList.split("-");
-    	if(orders.length!=count) return ResponseEntity.status(HttpStatus.OK).body(null);/// error to be sent
-    	if(!orderService.selectOrders(poolerId, count, orders)) return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+                                                   @RequestParam int count,
+                                                   @RequestBody List<Long> orderList) {
+        System.out.println(orderList);
+        if (orderList.size() != count) return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(null);/// error to be sent
+        if (!orderService.selectOrders(poolerId, count, orderList))
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
+
+    /**
+     * Service for testing. To be removed.
+     *
+     * @param poolerId
+     * @return
+     */
+    @RequestMapping(value = "/order/delivery/testService/{poolerId}",
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+            method = RequestMethod.GET)
+    public @ResponseBody
+    ResponseEntity<List<Orders>> test(@PathVariable long poolerId) {
+        System.out.println(orderService.generateOrderEmail(poolerId));
+        return ResponseEntity.status(HttpStatus.OK).body(null);
+    }
+
 
 }

@@ -1,8 +1,8 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import {Button, Col, Form, Modal, Toast} from "react-bootstrap";
+import {Button, Modal} from "react-bootstrap";
 import BootstrapTable from "react-bootstrap-table-next";
-import {pickUpOrder, getOrdersReadyForPickup} from "../../redux/actions/orderActions";
+import {getOrdersReadyForPickup, pickUpOrder} from "../../redux/actions/orderActions";
 import QRCode from "react-google-qrcode";
 
 function mapStateToProps(store) {
@@ -24,6 +24,7 @@ class Pickup extends Component {
         this.state = {
             redirectVar: null,
             selectedOrder: null,
+            selectedOrderId: null,
             currentStoreEditIndex: null,
             showQRCode: false,
             basicColumns: [{
@@ -35,7 +36,7 @@ class Pickup extends Component {
             }, {
                 dataField: 'customerAddress',
                 text: 'Customer Address'
-            },{
+            }, {
                 dataField: 'finalPrice',
                 text: 'Final price'
             }, {
@@ -52,7 +53,6 @@ class Pickup extends Component {
     componentDidMount() {
         const payload = {};
         payload.poolerId = localStorage.getItem("id");
-        payload.storeId = localStorage.getItem("storeId");
 
         this.props.getOrdersReadyForPickup(payload);
     }
@@ -76,11 +76,17 @@ class Pickup extends Component {
 
         const payload = {};
         payload.deliveryPersonId = localStorage.getItem('id');
-        payload.orderId = "";
+        payload.orderId = cell.orderId;
 
-        this.setState({showQRCode: true})
+        this.setState({showQRCode: true, selectedOrderId: cell.orderId.toString()})
 
-        this.props.pickUpOrder(payload);
+        this.props.pickUpOrder(payload, () => {
+            console.log("After pickUpOrder");
+            const payload = {};
+            payload.poolerId = localStorage.getItem("id");
+
+            this.props.getOrdersReadyForPickup(payload);
+        });
     }
 
     render() {
@@ -93,9 +99,9 @@ class Pickup extends Component {
                     </Modal.Header>
                     <Modal.Body>
                         <QRCode
-                        data="1"
-                        size={130}
-                        framed/>
+                            data={this.state.selectedOrderId}
+                            size={130}
+                            framed/>
                     </Modal.Body>
 
                     <Modal.Footer>

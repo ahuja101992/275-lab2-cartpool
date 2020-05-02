@@ -17,5 +17,5 @@ public interface PoolerService {
 
     void subtractContribution(String email);
 
-    int getContribution(String email);
+    int getContribution(long id);
 }

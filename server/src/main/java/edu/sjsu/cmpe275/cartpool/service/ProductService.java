@@ -23,7 +23,7 @@ public interface ProductService {
 
     Product ffindByStoreId_SKU(Long storeId, String sku);
 
-    List<Product> searchProductByName(String name,Long storeId);
+    List<Product> searchProductByName(String name, Long storeId);
 
 
 

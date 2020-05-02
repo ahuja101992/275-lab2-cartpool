@@ -1,10 +1,8 @@
 package edu.sjsu.cmpe275.cartpool.controller;
 
 
-import edu.sjsu.cmpe275.cartpool.pojos.Admin;
 import edu.sjsu.cmpe275.cartpool.pojos.Product;
 import edu.sjsu.cmpe275.cartpool.pojos.ProductId;
-import edu.sjsu.cmpe275.cartpool.pojos.Store;
 import edu.sjsu.cmpe275.cartpool.service.AdminService;
 import edu.sjsu.cmpe275.cartpool.service.ProductService;
 import edu.sjsu.cmpe275.cartpool.util.RandomString;
@@ -84,32 +82,32 @@ public class ProductController {
     public ResponseEntity<Product> updateProduct(@PathVariable Long storeId,
                                                  @PathVariable String sku,
                                                  @PathVariable Long adminId,
-                                                 @RequestParam (required = false)String name,
-                                                   @RequestParam (required = false)String desc,
-                                                   @RequestParam (required = false)String image_url,
-                                                   @RequestParam (required = false)String brand,
-                                                   @RequestParam (required = false)String unit,
-                                                   @RequestParam (required = false)Long price
-                                                   ) {
+                                                 @RequestParam(required = false) String name,
+                                                 @RequestParam(required = false) String desc,
+                                                 @RequestParam(required = false) String image_url,
+                                                 @RequestParam(required = false) String brand,
+                                                 @RequestParam(required = false) String unit,
+                                                 @RequestParam(required = false) Long price
+    ) {
         adminService.findById(adminId);
         image_url="https://res.cloudinary.com/sivadass/image/upload/v1493620045/dummy-products/strawberry.jpg";
         Product product = productService.ffindByStoreId_SKU(storeId,sku);
         if(name!=null){
             product.setName(name);
         }
-        if(desc!=null){
+        if (desc != null) {
             product.setDescription(desc);
         }
-        if(image_url!=null){
+        if (image_url != null) {
             product.setImageURL(image_url);
         }
-        if(brand!=null){
+        if (brand != null) {
             product.setBrandName(brand);
         }
-        if(unit!=null){
+        if (unit != null) {
             product.setUnit(unit);
         }
-        if(price!=null){
+        if (price != null) {
             product.setPrice(price);
         }
 
@@ -140,7 +138,7 @@ public class ProductController {
     @ResponseBody
     public ResponseEntity<List<Product>> getProductByStoreId_Name(@RequestParam Long storeId,
                                                                  @RequestParam String name) {
-        return ResponseEntity.status(HttpStatus.OK).body(productService.searchProductByName(name,storeId));
+        return ResponseEntity.status(HttpStatus.OK).body(productService.searchProductByName(name, storeId));
     }
 
         @RequestMapping(value = "/products/sku/{sku}",

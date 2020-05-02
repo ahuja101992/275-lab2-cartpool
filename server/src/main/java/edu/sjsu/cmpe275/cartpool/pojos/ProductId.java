@@ -1,6 +1,5 @@
 package edu.sjsu.cmpe275.cartpool.pojos;
 
-import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,9 +14,10 @@ public class ProductId implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String sku;
 
-    public ProductId(){
+    public ProductId() {
 
     }
+
     public ProductId(Long storeId, String sku) {
         this.sku = sku;
         this.storeId = storeId;

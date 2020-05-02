@@ -1,5 +1,6 @@
 package edu.sjsu.cmpe275.cartpool.controller;
 
+import edu.sjsu.cmpe275.cartpool.pojos.Pooler;
 import edu.sjsu.cmpe275.cartpool.service.PoolerService;
 import edu.sjsu.cmpe275.cartpool.service.PoolerServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,14 +24,29 @@ public class PoolerController {
         return "Hello Test";
     }
 
-    @RequestMapping(value = "/pooler/getcontribution",
+    /**
+     * Get pooler contribution API
+     *
+     * @param poolerId
+     * @return
+     */
+    @RequestMapping(value = "/pooler/getcontribution/{poolerId}",
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
-            method = RequestMethod.POST)
+            method = RequestMethod.GET)
     public @ResponseBody
-    ResponseEntity<Integer> getContribution(@RequestParam String poolerId) {
+    ResponseEntity<Integer> getContribution(@PathVariable long poolerId) {
         int contribution = poolerService.getContribution(poolerId);
 
         return ResponseEntity.status(HttpStatus.OK).body(contribution);
+    }
+
+    @RequestMapping(value = "/pooler/profile/getById/{poolerId}",
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+            method = RequestMethod.GET)
+    public @ResponseBody
+    ResponseEntity<Pooler> getProfile(@PathVariable long poolerId) {
+
+        return ResponseEntity.status(HttpStatus.OK).body(poolerService.findById(poolerId));
     }
 
 //    @RequestMapping(value = "/inventory/store/getByAdmin/{adminId}",

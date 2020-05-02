@@ -14,6 +14,8 @@ import java.util.Map;
 })
 public class Item {
 
+    @JsonIgnore
+    private final Map<String, Object> additionalProperties = new HashMap<String, Object>();
     @JsonProperty("sku")
     private String sku;
     @JsonProperty("price")
@@ -22,8 +24,6 @@ public class Item {
     private Integer qty;
     @JsonProperty("unit")
     private String unit;
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("sku")
     public String getSku() {

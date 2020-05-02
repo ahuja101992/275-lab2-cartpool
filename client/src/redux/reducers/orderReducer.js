@@ -1,4 +1,10 @@
-import {CHECKOUT, DELIVERY_NOT_RECEIVED, GET_ORDERS_BY_USER_ID, GET_ORDERS_READY_FOR_PICKUP, GET_ORDERS_READY_FOR_DELIVERY} from "../../redux/constants/actionTypes";
+import {
+    DELIVERY_NOT_RECEIVED,
+    GET_ORDERS_BY_USER_ID,
+    GET_ORDERS_READY_FOR_DELIVERY,
+    GET_ORDERS_READY_FOR_PICKUP, MARK_DELIVERED, PICKUP_ORDER
+} from "../../redux/constants/actionTypes";
+import {PICKED_UP, PLACED} from "../../constants/appConstants";
 
 const initialState = {
     ordersReadyForPickup: [],
@@ -14,17 +20,22 @@ const extractAddress = (address) => {
     return address.street + " " + address.city + " " + address.state + " " + address.zip
 }
 
-const getOrdersBasedOnStatus = (response, status) => {
+const getOrdersBasedOnStatus = (response, applyFilter, status) => {
     console.log("getOrderBasedOnStatus")
     console.log(response)
 
-    // const ordersByStatus = response.filter(order => {
-    //     return (order.status === status)
-    // });
+    let ordersByStatus = response;
+
+    if (applyFilter) {
+        ordersByStatus = response.filter(order => {
+            return (order.status === status)
+        });
+    }
+
 
     const displayOrders = [];
 
-    response.forEach(function (order) {
+    ordersByStatus.forEach(function (order) {
         const displayOrder = {};
         //const items = JSON.parse(order.items);
 
@@ -50,13 +61,19 @@ export default function orderReducer(state = initialState, action) {
     console.log("orderReducer:");
     console.log(action.payload);
 
-    if (action.type === CHECKOUT) {
+
+
+    if (action.type === PICKUP_ORDER) {
         return Object.assign({}, state, {
-            ordersReadyForCheckout: [...state.ordersReadyForCheckout]
+            ordersReadyForPickup: getOrdersBasedOnStatus(action.payload, true, PLACED)
+        });
+    } else if (action.type === MARK_DELIVERED) {
+        return Object.assign({}, state, {
+            ordersReadyForDelivery: getOrdersBasedOnStatus(action.payload, true, PICKED_UP)
         });
     } else if (action.type === DELIVERY_NOT_RECEIVED) {
         return Object.assign({}, state, {
-            orderByPooler: [...state.orderByPooler]
+            orderByPooler: action.payload
         });
     } else if (action.type === GET_ORDERS_BY_USER_ID) {
         return Object.assign({}, state, {
@@ -64,14 +81,13 @@ export default function orderReducer(state = initialState, action) {
         });
     } else if (action.type === GET_ORDERS_READY_FOR_PICKUP) {
         return Object.assign({}, state, {
-            ordersReadyForPickup: getOrdersBasedOnStatus(action.payload)
+            ordersReadyForPickup: getOrdersBasedOnStatus(action.payload, true, PLACED)
         });
     } else if (action.type === GET_ORDERS_READY_FOR_DELIVERY) {
         return Object.assign({}, state, {
-            ordersReadyForDelivery: getOrdersBasedOnStatus(action.payload)
+            ordersReadyForDelivery: getOrdersBasedOnStatus(action.payload, true, PICKED_UP)
         });
     }
-
 
 
     return state;

@@ -7,6 +7,7 @@ import {Button, Form, Toast} from "react-bootstrap";
 import {Redirect} from "react-router";
 import FacebookLogin from 'react-facebook-login';
 import GoogleLogin from 'react-google-login';
+import '../../css/Account.css'
 
 function mapStateToProps(store) {
     return {
@@ -47,8 +48,10 @@ class Login extends Component {
             }
         }
         this.setState({date: new Date().getTime()})
+
         this.props.signIn(data);
     };
+
     login = (res, type) => {
         let data = {};
         if (type === 'facebook' && res.email) {
@@ -70,8 +73,10 @@ class Login extends Component {
                 provider: 'google'
             };
         }
+
         this.props.signIn(data);
     }
+
     signup = (res, type) => {
         if (type === 'facebook' && res.email) {
             this.setState({
@@ -93,8 +98,11 @@ class Login extends Component {
                 provider: 'google',
                 OAuthRedirect: true
             });
-
         }
+    }
+
+    isAdmin = () => {
+        return "sjsu.edu" === localStorage.getItem("email").split("@")[1];
     }
 
     render() {
@@ -115,14 +123,25 @@ class Login extends Component {
             console.log(response);
             this.login(response, 'google');
         }
+
         return (
             <div style={styles.container}>
                 {this.state.redirectVar === true && <Redirect to={{
                     pathname: "/signup"
                 }}/>}
-                {this.props.signinSuccess === true && <Redirect to={{
-                    pathname: "/Home"
+
+                {this.props.signinSuccess === true
+                && localStorage.getItem("email") !== null
+                && this.isAdmin() && <Redirect to={{
+                    pathname: "/homeAdmin"
                 }}/>}
+
+                {this.props.signinSuccess === true
+                && localStorage.getItem("email") !== null
+                && !this.isAdmin() && <Redirect to={{
+                    pathname: "/homePooler"
+                }}/>}
+
                 {this.state.OAuthRedirect === true && <Redirect to={{
                     pathname: "/signup",
                     props: {
@@ -173,8 +192,10 @@ class Login extends Component {
                                 appId="648035059374184"
                                 autoLoad={false}
                                 size="small"
-                                textButton="Login with FaceBook"
+                                textButton="&nbsp;&nbsp;Login with FaceBook"
                                 fields="name,email,picture"
+                                cssClass="btnFacebook"
+                                icon="fab fa-facebook-f"
                                 onClick={loginFaceook}
                                 callback={loginFaceook}/>
                         </div>
@@ -182,21 +203,30 @@ class Login extends Component {
                             <GoogleLogin
                                 clientId="332159711982-5stv96v0qenutt5p3lrv0jtbo9lst47e.apps.googleusercontent.com"
                                 buttonText="Login with Google "
+                                className="btnGoogle"
                                 onSuccess={LoginGoogle}
                                 onFailure={LoginGoogle}
-                                cookiePolicy={'single_host_origin'}/>
+                                icon={false}
+                                cookiePolicy={'single_host_origin'}>
+                                <i className="fa fa-google-plus" style={{marginLeft: '5px'}}/>
+                                <span>&nbsp;&nbsp;Sign In with Google</span>
+                            </GoogleLogin>
                         </div>
                     </div>
 
                     <div style={styles.signUpBox}>
                         <Form.Row>
                             <Form.Label style={{paddingTop: 10, paddingRight: 5}}>New to CartPool?</Form.Label>
-
+                        </Form.Row>
+                        <Form.Row>
                             <Button style={styles.signUpButton} variant="primary"
                                     onClick={() => this.setState({redirectVar: true})}>
                                 Sign up
                             </Button>
+                        </Form.Row>
+                        <Form.Row>
                             <FacebookLogin
+                                style={styles.signUpButton}
                                 appId="648035059374184"
                                 autoLoad={false}
                                 size="small"
@@ -204,14 +234,17 @@ class Login extends Component {
                                 fields="name,email,picture"
                                 onClick={responseFacebook}
                                 callback={responseFacebook}/>
+                        </Form.Row>
+                        <Form.Row>
                             <GoogleLogin
+                                style={styles.signUpButton}
                                 clientId="332159711982-5stv96v0qenutt5p3lrv0jtbo9lst47e.apps.googleusercontent.com"
                                 buttonText="Signup with Google "
                                 onSuccess={responseGoogle}
                                 onFailure={responseGoogle}
                                 cookiePolicy={'single_host_origin'}/>
-                            <Form onSubmit={this.signUp}></Form>
                         </Form.Row>
+                        <Form onSubmit={this.signUp}></Form>
                     </div>
                 </Form>
             </div>

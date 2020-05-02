@@ -3,14 +3,9 @@ package edu.sjsu.cmpe275.cartpool.service;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.Cipher;
-import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.security.spec.KeySpec;
+import java.nio.charset.StandardCharsets;
 
 
 @Service
@@ -30,7 +25,7 @@ public class EncryptionServiceImpl implements EncryptionService {
 
     public String encrypt(String str) throws Exception {
         // Encode the string into bytes using utf-8
-        byte[] utf8 = str.getBytes("UTF8");
+        byte[] utf8 = str.getBytes(StandardCharsets.UTF_8);
 
         // Encrypt
         byte[] enc = ecipher.doFinal(utf8);
@@ -46,6 +41,6 @@ public class EncryptionServiceImpl implements EncryptionService {
         byte[] utf8 = dcipher.doFinal(dec);
 
         // Decode using utf-8
-        return new String(utf8, "UTF8");
+        return new String(utf8, StandardCharsets.UTF_8);
     }
 }

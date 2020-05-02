@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import {Badge, Button, Card} from "react-bootstrap";
 import {connect} from "react-redux";
 import {getOrdersByUserId, markDeliveryNotReceived} from "../../redux/actions/orderActions";
+import {DELIVERED, DELIVERED_NOT_RECEIVED, PICKED_UP, PICKED_UP_BY_SELF, PLACED} from "../../constants/appConstants";
 
 function mapStateToProps(store) {
     return {
@@ -12,18 +13,22 @@ function mapStateToProps(store) {
 function mapDispatchToProps(dispatch) {
     return {
         markDeliveryNotReceived: (payload) => dispatch(markDeliveryNotReceived(payload)),
-        getOrdersByUserId: (payload) => dispatch(getOrdersByUserId(payload)),
-
+        getOrdersByUserId: (payload) => dispatch(getOrdersByUserId(payload), () => {
+            this.forceUpdate()
+        }),
     };
 }
 
 class Orders extends Component {
+
     constructor(props) {
         super(props);
+
         this.state = {
             redirectVar: null,
             selectedOrder: null,
-        };
+            isLoading: false,
+        }
     }
 
     getOrderStatusBadge = (status) => {
@@ -32,24 +37,24 @@ class Orders extends Component {
 
 
         switch (status) {
-            case "Placed":
-                badge = <Badge style={{fontSize: fontSize}} variant="primary">Placed</Badge>;
+            case PLACED:
+                badge = <Badge style={{fontSize: fontSize}} variant="primary">{PLACED}</Badge>;
                 break;
 
-            case "Picked-up by oneself":
-                badge = <Badge style={{fontSize: fontSize}} variant="info">Picked-up by oneself</Badge>;
+            case PICKED_UP_BY_SELF:
+                badge = <Badge style={{fontSize: fontSize}} variant="info">{PICKED_UP_BY_SELF}</Badge>;
                 break;
 
-            case "Ready":
-                badge = <Badge style={{fontSize: fontSize}} variant="dark">x</Badge>;
+            case PICKED_UP:
+                badge = <Badge style={{fontSize: fontSize}} variant="dark">{PICKED_UP}</Badge>;
                 break;
 
-            case "Delivered":
-                badge = <Badge style={{fontSize: fontSize}} variant="success">Delivered</Badge>;
+            case DELIVERED:
+                badge = <Badge style={{fontSize: fontSize}} variant="success">{DELIVERED}</Badge>;
                 break;
 
-            case "Cancel":
-                badge = <Badge style={{fontSize: fontSize}} variant="danger">x</Badge>;
+            case DELIVERED_NOT_RECEIVED:
+                badge = <Badge style={{fontSize: fontSize}} variant="danger">{DELIVERED_NOT_RECEIVED}</Badge>;
                 break;
 
             case "Warning":
@@ -68,8 +73,21 @@ class Orders extends Component {
         this.props.getOrdersByUserId(payload);
     }
 
+    // componentDidUpdate(nextProps) {
+    //     console.log('********------***********: ', nextProps.orderByPooler);
+    //
+    //     if(!equal(this.props.orderByPooler, nextProps.orderByPooler)) {
+    //         console.log('***: ', 'Change detected');
+    //         const payload = {};
+    //         payload.userId = localStorage.getItem('id');
+    //         this.props.getOrdersByUserId(payload);
+    //     }
+    // }
+
     markDeliveryNotReceived = (order) => {
-        this.props.markDeliveryNotReceived({orderId: order.orderId})
+        console.log("markDeliveryNotReceived")
+        console.log(order)
+        this.props.markDeliveryNotReceived({orderId: order.id, orderOwnerId: localStorage.getItem("id")})
     }
 
     extractAddress = (address) => {
@@ -97,23 +115,22 @@ class Orders extends Component {
                             <br/>
                             <b>Order Status</b> - {this.getOrderStatusBadge(order.status)}
                             <br/><br/>
-                            {order.status === "Delivered" &&
+                            {order.status === DELIVERED &&
                             <Button onClick={() => this.markDeliveryNotReceived(order)} type="button" variant="danger">Mark
                                 Delivery Not Received</Button>}
                         </Card.Text>
                     </Card.Body>
                 </Card>
-            </ul>;
+            </ul>
         });
 
         return <div>
             <ul className="ul li">{renderTodos}</ul>
-        </div>;
-
+        </div>
     }
 
-    render() {
 
+    render() {
         return (
             <div>
                 {this.populateSection()}

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlTransient;
+import java.util.Date;
 import java.util.List;
 
 
@@ -59,6 +60,9 @@ public class Orders {
 //    @JoinColumn(name = "order_id", referencedColumnName = "id")
     private List<OrderDetails> orderDetails;
 
+    @Column
+    private Date date = new Date();
+
     public Orders() {
     }
 
@@ -71,6 +75,13 @@ public class Orders {
         this.status = orderBuilder.status;
     }
 
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
 
     public long getId() {
         return id;
