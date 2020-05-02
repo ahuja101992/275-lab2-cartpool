@@ -26,8 +26,11 @@ public class Pooler extends User {
 
     @Column(name = "isVerifiedForPoolMembership")
     private boolean isVerifiedForPoolMembership = false;
+    
+    @Column(name = "image")
+    private String img ;
 
-    public Pooler() {
+	public Pooler() {
     }
 
     protected Pooler(Builder builder) {
@@ -66,6 +69,14 @@ public class Pooler extends User {
         this.orders = orders;
     }
 
+    public String getImg() {
+		return img;
+	}
+
+	public void setImg(String img) {
+		this.img = img;
+	}
+	
     public static class Builder extends User.Builder<Builder> {
         private final boolean sauceInside = false; // Default
 
