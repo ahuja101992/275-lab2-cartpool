@@ -28,6 +28,7 @@ public class OrderDetails {
     @ManyToOne(fetch = FetchType.LAZY,
             cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn(name = "order_id", referencedColumnName = "id")
+//    @JsonIgnoreProperties({"orderOwner","store","pool","deliveryBy"})
     private Orders order;
 
 

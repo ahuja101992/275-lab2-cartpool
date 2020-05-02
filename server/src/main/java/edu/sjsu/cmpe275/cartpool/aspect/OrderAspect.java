@@ -60,7 +60,7 @@ public class OrderAspect {
         String subject = "[CartPool]: Delivery not received for OrderId: " + order.getId();
 
         StringBuilder str = new StringBuilder();
-        List<OrderDetails> items = order.getOrderItems();
+        List<OrderDetails> items = order.getOrderDetails();
         if (items.size() > 0) {
             for (OrderDetails item : items) {
                 str.append("------>" + item.getId() + "   " + item.getQty() + "   " + item.getPrice() + "\n");

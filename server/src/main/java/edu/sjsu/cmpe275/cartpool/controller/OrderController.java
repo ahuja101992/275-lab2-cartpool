@@ -184,7 +184,7 @@ public class OrderController {
             orderDetails.setOrder(order);
             orderList.add(orderDetails);
         }
-        order.setOrderItems(orderList);
+        order.setOrderDetails(orderList);
         Orders result = orderService.createOrder(order, cart.getDeliveryBy(), cart.getOrderOwner(), cart.getStore());
         orderService.sendOrderConfirmationEmail(result);
         return ResponseEntity.status(HttpStatus.OK).body(result);

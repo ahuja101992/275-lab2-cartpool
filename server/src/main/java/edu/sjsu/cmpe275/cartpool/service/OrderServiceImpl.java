@@ -131,7 +131,7 @@ public class OrderServiceImpl implements OrderService {
             str.append(order.getId() + "   " + order.getQty() + "   " + order.getFinalPrice());
             str.append(System.getProperty("line.separator"));
             str.append("Details");
-            List<OrderDetails> items = order.getOrderItems();
+            List<OrderDetails> items = order.getOrderDetails();
             if (items.size() > 0) {
                 for (OrderDetails item : items) {
                     str.append("------>" + item.getId() + "   " + item.getQty() + "   " + item.getPrice());

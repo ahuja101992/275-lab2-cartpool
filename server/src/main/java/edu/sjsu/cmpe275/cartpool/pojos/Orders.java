@@ -48,16 +48,17 @@ public class Orders {
     private String status;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties({"pool", "orders"})
+    @JsonIgnoreProperties({"pool", "orders","password","is_verified","accessToken","provider","provider_id","address","verifiedForPoolMembership"})
     private Pooler orderOwner;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pooler_id", referencedColumnName = "id")
-    @JsonIgnoreProperties({"pool", "orders"})///// to be done 
+    @JsonIgnoreProperties({"pool", "orders","store"})///// to be done 
     private Pooler deliveryBy;
 
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "order")
 //    @JoinColumn(name = "order_id", referencedColumnName = "id")
+    @JsonIgnoreProperties({"order"})
     private List<OrderDetails> orderDetails;
 
     @Column
@@ -171,15 +172,16 @@ public class Orders {
         this.deliveryBy = deliveryBy;
     }
 
-    public List<OrderDetails> getOrderItems() {
-        return orderDetails;
-    }
+    public List<OrderDetails> getOrderDetails() {
+		return orderDetails;
+	}
 
-    public void setOrderItems(List<OrderDetails> orderItems) {
-        this.orderDetails = orderItems;
-    }
+	public void setOrderDetails(List<OrderDetails> orderDetails) {
+		this.orderDetails = orderDetails;
+	}
 
-    public static class OrderBuilder {
+
+	public static class OrderBuilder {
         private long store_id;
         private int qty;
         private long price;
