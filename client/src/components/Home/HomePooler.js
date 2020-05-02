@@ -5,6 +5,8 @@ import {Nav, Navbar} from "react-bootstrap";
 import Pickup from "../PoolerPages/Pickup";
 import Delivery from "../PoolerPages/Delivery";
 import Orders from "../PoolerPages/Orders";
+import Messaging from "../PoolerPages/Messaging";
+
 import SearchPool from "../SearchPool/SearchPool";
 import Checkout from "../Checkout/Checkout";
 import Logout from "../Account/Logout";
@@ -73,6 +75,9 @@ class HomePooler extends Component {
                             <Nav.Link as={NavLink} to="/homePooler/orders/">
                                 Orders
                             </Nav.Link>
+                            <Nav.Link as={NavLink} to="/homePooler/messaging/">
+                                Messaging
+                            </Nav.Link>
                             <Nav.Link as={NavLink} to="/logout/">
                                 Logout
                             </Nav.Link>
@@ -86,7 +91,8 @@ class HomePooler extends Component {
                         <Route exact path="/homePooler/orders/" component={Orders}/>
                         <Route exact path="/homePooler/pickup/" component={Pickup}/>
                         <Route exact path="/homePooler/delivery/" component={Delivery}/>
-                        <Route exact path="/homepooler/checkout/" component={Checkout}/>
+                        <Route exact path="/homePooler/checkout/" component={Checkout}/>
+                        <Route exact path="/homePooler/messaging/" component={Messaging}/>
                         <Route exact path='/logout/' component={Logout}/>
                     </Switch>
                 </div>

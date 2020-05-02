@@ -3,17 +3,13 @@ import {Redirect, Switch} from 'react-router';
 import {Link, NavLink, Route} from "react-router-dom";
 import {Nav, Navbar} from "react-bootstrap";
 import Stores from '../AdminPages/Stores';
-<<<<<<< HEAD
 import Items from '../Products/Items';
 import AddItem from '../AdminPages/AddItem';
-class   HomeAdmin extends Component {
-=======
 import Logout from "../Account/Logout";
 import logo from "../../images/cart.png";
 import '../../css/Account.css'
 
 class HomeAdmin extends Component {
->>>>>>> cb33489bb81dd5899424be4659d5b32de6c5cfe1
     constructor(props) {
         super(props);
         this.state = {

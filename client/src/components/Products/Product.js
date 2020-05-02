@@ -91,8 +91,8 @@ class Product extends Component {
         </div>
 
     
-    let editQty = localStorage.getItem('type')=="pooler" ? counter : ""; 
-    let cartEle = localStorage.getItem('type')=="pooler" ? cart : ""; 
+    let editQty = localStorage.getItem('type') === "pooler" ? counter : "";
+    let cartEle = localStorage.getItem('type') === "pooler" ? cart : "";
     return (
       <div className="product">
         <div className="product-image">
