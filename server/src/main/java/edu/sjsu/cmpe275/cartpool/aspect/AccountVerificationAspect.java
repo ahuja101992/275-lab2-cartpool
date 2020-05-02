@@ -33,13 +33,13 @@ public class AccountVerificationAspect {
 
         System.out.println("Inside sendVerificationEmail");
 
-        URI uri = null;
+        URI uri;
         URL url = null;
         try {
             String protocol = "http";
             String host = Constants.HOSTNAME;
-            int port = 8080;
-            String path = "/account/verify/" + URLEncoder.encode(email, "UTF-8") + "/";
+            int port = 3000;
+            String path = "/login/" + email;
             uri = new URI(protocol, null, host, port, path, null, null);
             url = uri.toURL();
         } catch (Exception e) {

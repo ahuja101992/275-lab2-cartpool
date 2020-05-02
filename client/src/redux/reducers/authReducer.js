@@ -1,10 +1,12 @@
-import {SIGN_IN, SIGN_IN_ERROR, SIGN_UP} from "../../redux/constants/actionTypes";
+import {SIGN_IN, SIGN_IN_ERROR, SIGN_UP, VERIFY_EMAIL, VERIFY_EMAIL_ERROR} from "../../redux/constants/actionTypes";
 
 const initialState = {
     signupSuccess: null,
     signupMessage: null,
     signinSuccess: null,
     signinMessage: null,
+    verifyEmailSuccess: null,
+    verifyEmailMessage: null,
     userType: null,
     token: null,
     userId: null,
@@ -32,6 +34,16 @@ export default function authReducer(state = initialState, action) {
         return Object.assign({}, state, {
             signupSuccess: action.payload.id !== null ? true : false,
             signupMessage: "",
+        });
+    } else if (action.type === VERIFY_EMAIL) {
+        return Object.assign({}, state, {
+            verifyEmailSuccess: action.payload.is_verified !== null ? true : false,
+            verifyEmailMessage: action.payload.is_verified ? "You account has been successfully verified. Please login below." : "Could not verify account"
+        });
+    } else if (action.type === VERIFY_EMAIL_ERROR) {
+        return Object.assign({}, state, {
+            verifyEmailSuccess: true,
+            verifyEmailMessage: "Could not verify account"
         });
     }
 

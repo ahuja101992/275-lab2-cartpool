@@ -19,7 +19,7 @@ class Main extends Component {
                 <Route path="/homePooler" component={PoolerLayout}/>
                 <Route exact path="/" component={NavPage}/>
                 <Route exact path="/signup" component={SignUp}/>
-                <Route exact path="/login" component={Login}/>
+                <Route exact path="/login/:email?" component={Login}/>
                 <Route exact path="/logout" component={Logout}/>
                 <Route exact path="/searchPool" component={SearchPool}/>
                 <Route exact path="/Profile" component={Profile}/>

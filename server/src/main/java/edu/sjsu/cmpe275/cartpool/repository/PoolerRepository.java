@@ -5,10 +5,11 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface PoolerRepository<T> extends CrudRepository<Pooler, Long> {
-    Pooler findByEmail(String email);
+    Optional<Pooler> findByEmail(String email);
 
     List<Pooler> findByEmailAndPassword(String email, String password);
 
