@@ -17,6 +17,12 @@ public class User {
 
     @Column(name = "nickname")
     private String nickname;
+    
+    @Column(name = "firstname")
+    private String firstName;
+    
+    @Column(name = "lastname")
+    private String lastName;
 
     @Column(name = "is_verified")
     private boolean is_verified;
@@ -48,6 +54,8 @@ public class User {
         this.accessToken = builder.accessToken;
         this.provider = builder.provider;
         this.provider_id = builder.provider_id;
+        this.firstName = builder.firstName;
+        this.lastName = builder.lastName;
 //        this.contribution = builder.contribution;
     }
 
@@ -140,6 +148,8 @@ public class User {
         private String provider;
         private String accessToken;
         private String provider_id;
+        private String firstName;
+        private String lastName;
 //        private int contribution;
 
         public Builder() {
@@ -148,6 +158,16 @@ public class User {
 //            this.contribution = contribution;
 //            return (T) this;
 //        }
+        
+        public T firstName(String firstName) {
+            this.firstName = firstName;
+            return (T) this;
+        }
+        
+        public T lastName(String lastName) {
+            this.lastName = lastName;
+            return (T) this;
+        }
 
         public T provider_id(String provider_id) {
             this.provider_id = provider_id;

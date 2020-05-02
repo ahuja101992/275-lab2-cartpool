@@ -38,6 +38,8 @@ public class AccountController {
                                 @RequestParam String nickName,
                                 @RequestParam String email,
                                 @RequestParam(required = false) String street,
+                                @RequestParam(required = false) String firstName,
+                                @RequestParam(required = false) String lastName,
                                 @RequestParam(required = false) String city,
                                 @RequestParam(required = false) String state,
                                 @RequestParam(required = false) String zip,
@@ -46,10 +48,12 @@ public class AccountController {
                                 @RequestParam(required = false) String accessToken,
                                 @RequestParam(required = false) String provider,
                                 @RequestParam(required = false) String provider_id) throws Exception {
-
+    
         if (screenName != null) screenName = screenName.trim();
         if (nickName != null) nickName = nickName.trim();
         if (email != null) email = email.trim();
+        if (firstName != null) firstName = firstName.trim();
+        if (lastName != null) lastName = lastName.trim();
 
         Address address = new Address.AddressBuilder()
                 .street(street)
@@ -66,6 +70,8 @@ public class AccountController {
                     .email(email)
                     .password(encryptionService.encrypt(password))
                     .address(address)
+                    .firstName(firstName)
+                    .lastName(lastName)
                     .build();
             return ResponseEntity.status(HttpStatus.OK).body(adminService.save(admin));
         } else {
@@ -76,6 +82,8 @@ public class AccountController {
                         .screenname(screenName)
                         .nickname(nickName)
                         .email(email)
+                        .firstName(firstName)
+                        .lastName(lastName)
                         .accessToken(accessToken)
                         .provider(provider)
                         .provider_id(provider_id)
@@ -86,6 +94,8 @@ public class AccountController {
                         .screenname(screenName)
                         .nickname(nickName)
                         .email(email)
+                        .firstName(firstName)
+                        .lastName(lastName)
                         .password(encryptionService.encrypt(password))
                         .address(address)
                         .build();
