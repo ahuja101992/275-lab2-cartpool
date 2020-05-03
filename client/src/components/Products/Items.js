@@ -27,8 +27,8 @@ class Items extends Component {
   constructor(props) {
     super(props);
         this.state = {
-          storeid: props.location.state.id,
-          store:  props.location.state.store,
+          storeid: localStorage.getItem('type') === "pooler" ? props.location.state.id : 1,
+          store:  localStorage.getItem('type') === "pooler" ? props.location.state.store : 1,
           products: [],
           cart: [],
           totalItems: 0,
@@ -65,6 +65,7 @@ class Items extends Component {
       }
 
       getAll(){
+        if(localStorage.getItem('type') === "pooler" ){
         axios.get(`http://localhost:8080/products/${this.state.storeid}`)
       .then((response) => {
          console.log("create data res",response)
@@ -74,6 +75,17 @@ class Items extends Component {
       }).catch(err => {
           console.error(err);
       })
+    }else{
+      axios.get(`http://localhost:8080/products/groupByName`)
+      .then((response) => {
+         console.log("create data res",response)
+         this.setState({
+          products: response.data
+            });
+      }).catch(err => {
+          console.error(err);
+      })
+    }
     }
       componentWillMount() {
         this.getAll();
@@ -183,23 +195,33 @@ class Items extends Component {
         });
       }
     
+      handleUpdate(selectedProducts){
+        console.log("edit")
+      }
+
+      handleDelete(selectedProducts){
+        console.log("delete")
+      }
       render() {
+        let header=<Header
+        cartBounce={this.state.cartBounce}
+        total={this.state.totalAmount}
+        totalItems={this.state.totalItems}
+        cartItems={this.state.cart}
+        removeProduct={this.handleRemoveProduct}
+        handleSearch={this.handleSearch}
+        handleMobileSearch={this.handleMobileSearch}
+        handleCategory={this.handleCategory}
+        categoryTerm={this.state.category}
+        updateQuantity={this.updateQuantity}
+        productQuantity={this.state.moq}
+        {...this.state}
+      />
+
+      let showHeader = localStorage.getItem('type') === "pooler" ? header : "";
         return (
           <div className="container">
-            <Header
-              cartBounce={this.state.cartBounce}
-              total={this.state.totalAmount}
-              totalItems={this.state.totalItems}
-              cartItems={this.state.cart}
-              removeProduct={this.handleRemoveProduct}
-              handleSearch={this.handleSearch}
-              handleMobileSearch={this.handleMobileSearch}
-              handleCategory={this.handleCategory}
-              categoryTerm={this.state.category}
-              updateQuantity={this.updateQuantity}
-              productQuantity={this.state.moq}
-              {...this.state}
-            />
+            {showHeader}
             <Products
               productsList={this.state.products}
               searchTerm={this.state.term}

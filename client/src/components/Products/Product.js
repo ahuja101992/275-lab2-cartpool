@@ -32,7 +32,6 @@ class Product extends Component {
         }
       }
     );
-
     this.setState(
       {
         isAdded: this.state.selectedProduct.quantity>0 ? true :false
@@ -46,8 +45,35 @@ class Product extends Component {
         }, 3500);
       }
     );
-    
   }
+
+  handleUpdate(image,name,price,id,quantity,unit,sku,storeId) {
+    console.log("add to cart in  props");
+    this.setState(
+      {
+        selectedProduct: {
+          image: image,
+          name: name,
+          price: price,
+          id: id,
+          quantity: quantity,
+          unit : unit,
+          sku: sku,
+          storeId: storeId
+        }
+      },
+      function() {
+        if(this.state.selectedProduct.flag===0){
+          console.log("handleupdate",this.state.selectedProduct)
+        // this.props.addToCart(this.state.selectedProduct);
+        }else{
+          console.log("handleDelete",this.state.selectedProduct)
+        }
+      }
+    );
+  }
+
+
   quickView(image, name, price, id) {
     this.setState(
       {
@@ -98,9 +124,31 @@ class Product extends Component {
           </button>
         </div>
 
-    
+    let edit=<div className="product-action">
+    <button 
+    variant="primary"
+      type="button"
+      onClick={this.handleUpdate.bind(this,
+        image,name,price,id,quantity,unit,sku,storeId
+      )}>EDIT
+    </button>
+  </div>
+
+
+let del=<div className="product-action">
+  <button
+variant="primary"
+  type="button"
+  onClick={this.handleUpdate.bind(  this,
+    image,name,price,id,quantity,unit,sku,storeId
+  )}>DELETE
+</button>
+</div>
+
     let editQty = localStorage.getItem('type') === "pooler" ? counter : "";
     let cartEle = localStorage.getItem('type') === "pooler" ? cart : "";
+    let showEdit = localStorage.getItem('type') === "admin" ? edit : "";
+    let showDel = localStorage.getItem('type') === "admin" ? del : "";
     return (
       <div className="product">
         <div className="product-image">
@@ -125,6 +173,8 @@ class Product extends Component {
         
         {editQty}
         {cartEle}
+        {showEdit}
+        {showDel}
       </div>
     );
   }
