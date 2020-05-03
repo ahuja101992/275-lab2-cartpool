@@ -29,8 +29,10 @@ public class OrderServiceImpl implements OrderService {
     EmailService emailService;
 
     public Orders createOrder(Orders order, String deliveryPersonId, String ownerId, long storeId) {
-        Pooler deliveryPerson = poolerRepository.findByEmail(deliveryPersonId); //.orElseThrow(() -> new UserNotFoundException());
-        Pooler owner = poolerRepository.findByEmail(ownerId);//.orElseThrow(() -> new UserNotFoundException());
+        Pooler deliveryPerson = null;
+    	if(deliveryPersonId!=null && deliveryPersonId!="")
+        	deliveryPerson = poolerRepository.findByEmail(deliveryPersonId).orElseThrow(() -> new UserNotFoundException()); //.orElseThrow(() -> new UserNotFoundException());
+        Pooler owner = poolerRepository.findByEmail(ownerId).orElseThrow(() -> new UserNotFoundException());//.orElseThrow(() -> new UserNotFoundException());
         Store store = storeRepository.findById(storeId).orElseThrow(() -> new StoreNotFoundException());
         order.setDeliveryBy(deliveryPerson);
         order.setOrderOwner(owner);
@@ -131,7 +133,7 @@ public class OrderServiceImpl implements OrderService {
             str.append(order.getId() + "   " + order.getQty() + "   " + order.getFinalPrice());
             str.append(System.getProperty("line.separator"));
             str.append("Details");
-            List<OrderDetails> items = order.getOrderItems();
+            List<OrderDetails> items = order.getOrderDetails();
             if (items.size() > 0) {
                 for (OrderDetails item : items) {
                     str.append("------>" + item.getId() + "   " + item.getQty() + "   " + item.getPrice());

@@ -124,26 +124,20 @@ public class AccountController {
 
     }
 
-    @RequestMapping(value = "/account/verify/{email}/",
+    @RequestMapping(value = "/account/verify",
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
-            method = RequestMethod.GET)
+            method = RequestMethod.POST)
     public @ResponseBody
-    ResponseEntity<User> verify(@PathVariable String email) {
+    ResponseEntity<User> verify(@RequestParam String email) {
         System.out.println("Verify");
 
-        try {
-            System.out.println("email: " + email);
-            if (email != null) email = URLDecoder.decode(email, "UTF-8");
-            System.out.println("email: " + email);
-            if (UtilFunctions.isAdmin(email)) {
-                return ResponseEntity.status(HttpStatus.OK).body(adminService.verify(email));
-            } else {
-                return ResponseEntity.status(HttpStatus.OK).body(poolerService.verify(email));
-            }
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.OK).body(null);
+        System.out.println("email: " + email);
+        //if (email != null) email = URLDecoder.decode(email, "UTF-8");
+
+        if (UtilFunctions.isAdmin(email)) {
+            return ResponseEntity.status(HttpStatus.OK).body(adminService.verify(email));
+        } else {
+            return ResponseEntity.status(HttpStatus.OK).body(poolerService.verify(email));
         }
     }
-
 }

@@ -1,4 +1,4 @@
-import {SIGN_IN, SIGN_IN_ERROR, SIGN_UP} from "../../redux/constants/actionTypes";
+import {SIGN_IN, SIGN_IN_ERROR, SIGN_UP, VERIFY_EMAIL, VERIFY_EMAIL_ERROR} from "../../redux/constants/actionTypes";
 import {HOSTNAME} from "../../constants/appConstants";
 
 import axios from 'axios';
@@ -42,4 +42,29 @@ export const signUpDispatch = (returnData) => {
     console.log(returnData);
 
     return {type: SIGN_UP, payload: returnData}
+};
+
+export function verifyEmail(payload) {
+    console.log("verifyEmail payload");
+    console.log(payload);
+
+    return (dispatch) => {
+        axios.post(`http://${HOSTNAME}:8080/account/verify`, null, {params: payload})
+            .then((response) => dispatch(verifyEmailDispatch(response.data)))
+            .catch((error) => dispatch(verifyEmailErrorDispatch(error)));
+    }
+}
+
+export const verifyEmailDispatch = (returnData) => {
+    console.log("verifyEmail signUpDispatch");
+    console.log(returnData);
+
+    return {type: VERIFY_EMAIL, payload: returnData}
+};
+
+export const verifyEmailErrorDispatch = (error) => {
+    console.log("verifyEmailErrorDispatch error");
+    console.log(error);
+
+    return {type: VERIFY_EMAIL_ERROR, payload: null}
 };

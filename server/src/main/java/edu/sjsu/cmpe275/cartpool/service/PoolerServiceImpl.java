@@ -51,14 +51,14 @@ public class PoolerServiceImpl implements PoolerService {
 
     @Transactional
     public Pooler verify(String email) {
-        Pooler pooler = poolerRepository.findByEmail(email);
+        Pooler pooler = poolerRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException());
         pooler.setIs_verified(true);
 
         return poolerRepository.save(pooler);
     }
 
     public void addContribution(String email) {
-        Pooler users = poolerRepository.findByEmail(email);
+        Pooler users = poolerRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException());
         if (users != null)
             users.setContribution(users.getContribution() + 1);
         else
@@ -66,7 +66,7 @@ public class PoolerServiceImpl implements PoolerService {
     }
 
     public void subtractContribution(String email) {
-        Pooler users = poolerRepository.findByEmail(email);
+        Pooler users = poolerRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException());
         if (users != null)
             users.setContribution(users.getContribution() - 1);
         else
