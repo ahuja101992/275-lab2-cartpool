@@ -83,9 +83,9 @@ class Header extends Component {
           </div>
           <div className="product-total">
             <p className="quantity">
-              {product.quantity} {product.quantity > 1 ? "Nos." : "No."}{" "}
+              {product.quantity} {product.qty > 1 ? "Nos." : "No."}{" "}
             </p>
-            <p className="amount">{product.quantity * product.price}</p>
+            <p className="amount">{product.qty * product.price}</p>
           </div>
           <a
             className="product-remove"
