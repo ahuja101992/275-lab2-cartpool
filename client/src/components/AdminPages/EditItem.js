@@ -130,12 +130,6 @@ class EditItem extends Component {
                         </div>
                         <div class="edit-details-form">
                         <Form onSubmit={this.saveProfile}>
-                                <Multiselect
-              options={this.state.objectArray}
-              displayValue="key"
-              onSelect={this.onSelect} // Function will trigger on select event
-              selectedValues={this.state.selectedValues}
-            />
                                 <Form.Group controlId="name">
                                     <Form.Label>Name</Form.Label>
                                     <Form.Control
