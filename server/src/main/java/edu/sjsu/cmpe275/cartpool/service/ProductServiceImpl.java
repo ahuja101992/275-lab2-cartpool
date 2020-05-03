@@ -30,6 +30,8 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     StoreRepository<Store> storeRepository;
 
+
+
     @Override
     @Transactional
     public Product createProduct(Product product) {
@@ -86,6 +88,13 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     public List<Product> searchProducts(){
         return (List<Product>) productRepository.findAll();
+    }
+
+
+    @Override
+    @Transactional
+    public List<Product> getProductsGroupByName(){
+        return productRepository.findProductsGroupByName();
     }
 
 }

@@ -25,6 +25,6 @@ public interface ProductService {
 
     List<Product> searchProductByName(String name, Long storeId);
 
-
+    List<Product> getProductsGroupByName();
 
 }

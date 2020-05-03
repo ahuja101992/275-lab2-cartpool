@@ -115,6 +115,14 @@ public class ProductController {
         return product != null ? ResponseEntity.status(HttpStatus.OK).body(product) : null;
     }
 
+    @RequestMapping(value = "/products/groupByName",
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+            method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<List<Product>> getPorductsGroupByName() {
+        return ResponseEntity.status(HttpStatus.OK).body(productService.getProductsGroupByName());
+    }
+
     @RequestMapping(value = "/products/{storeId}",
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             method = RequestMethod.GET)
