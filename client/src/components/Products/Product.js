@@ -21,14 +21,14 @@ class Product extends Component {
           name: name,
           price: price,
           id: id,
-          quantity: quantity,
+          qty: quantity,
           unit : unit,
           sku: sku,
           storeId: storeId
         }
       },
       function() {
-        if(this.state.selectedProduct.quantity>0){
+        if(this.state.selectedProduct.qty>0){
           console.log("item added",this.state.selectedProduct)
         this.props.addToCart(this.state.selectedProduct);
         }

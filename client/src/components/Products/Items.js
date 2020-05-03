@@ -108,12 +108,12 @@ class Items extends Component {
       handleAddToCart(selectedProducts) {
         let cartItem = this.state.cart;
         let productID = selectedProducts.id;
-        let productQty = selectedProducts.quantity;
+        let productQty = selectedProducts.qty;
         if (this.checkProduct(productID)) {
           console.log("hi");
           let index = cartItem.findIndex(x => x.id == productID);
           cartItem[index].quantity =
-            Number(cartItem[index].quantity) + Number(productQty);
+            Number(cartItem[index].qty) + Number(productQty);
           this.setState({
             cart: cartItem
           });
@@ -167,7 +167,7 @@ class Items extends Component {
         let total = 0;
         let cart = this.state.cart;
         for (var i = 0; i < cart.length; i++) {
-          total += cart[i].price * parseInt(cart[i].quantity);
+          total += cart[i].price * parseInt(cart[i].qty);
         }
         this.setState({
           totalAmount: total
