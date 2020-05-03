@@ -213,7 +213,7 @@ class Header extends Component {
             >
               <CartScrollBar>{view}</CartScrollBar>
               <div className="action-block">
-              <Link to={{ pathname: '/chat', 
+              <Link to={{ pathname: '/homePooler/checkout/', 
                 state: {
                     id: this.props.storeid,
                     store: this.props.storeid,

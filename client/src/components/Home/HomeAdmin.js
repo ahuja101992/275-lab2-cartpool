@@ -59,7 +59,7 @@ class HomeAdmin extends Component {
                         <Nav className="ml-auto">
                             <Nav.Link as={NavLink} to='/homeAdmin/viewStore/'>ViewStores</Nav.Link>
                             {/* <Nav.Link as={NavLink} to='/homeAdmin/store/'>Store</Nav.Link> */}
-                            <Nav.Link as={NavLink} to='/homeAdmin/item/'>Item</Nav.Link>
+                            {/* <Nav.Link as={NavLink} to='/homeAdmin/item/'>Item</Nav.Link> */}
                             <Nav.Link as={NavLink} to='/homeAdmin/addItem/'>AddItem</Nav.Link>
                             <Nav.Link as={NavLink} to='/homeAdmin/logout/'>Logout</Nav.Link>
                             
