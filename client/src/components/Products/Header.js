@@ -4,6 +4,7 @@ import Counter from "./Counter";
 import EmptyCart from "./EmptyCart";
 import CSSTransitionGroup from "react-transition-group/CSSTransitionGroup";
 import { findDOMNode } from "react-dom";
+import {Link} from 'react-router-dom';
 
 class Header extends Component {
   constructor(props) {
@@ -20,9 +21,12 @@ class Header extends Component {
       showCart: !this.state.showCart
     });
   }
+
   handleSubmit(e) {
     e.preventDefault();
   }
+
+
   handleMobileSearch(e) {
     e.preventDefault();
     this.setState({
@@ -209,12 +213,26 @@ class Header extends Component {
             >
               <CartScrollBar>{view}</CartScrollBar>
               <div className="action-block">
-                <button
+              <Link to={{ pathname: '/chat', 
+                state: {
+                    id: this.props.storeid,
+                    store: this.props.storeid,
+                    pool: "",
+                    qty: this.props.totalItems,
+                    items :this.props.cart,
+                    price: this.props.totalAmount,
+                    finalPrice: "",
+                    available: true,
+                    forDelivery: true,
+                    status: "Placed",
+                    orderOwner: "",
+                    deliveryBy: null
+                  }
+                }}><button
                   type="button"
-                  className={this.state.cart.length > 0 ? " " : "disabled"}
-                >
+                  className={this.state.cart.length > 0 ? " " : "disabled"}>
                   PROCEED TO CHECKOUT
-                </button>
+                </button></Link>
               </div>
             </div>
           </div>

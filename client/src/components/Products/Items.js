@@ -24,9 +24,11 @@ function mapDispatchToProps(dispatch) {
 }
 
 class Items extends Component {
-    constructor() {
-        super();
+  constructor(props) {
+    super(props);
         this.state = {
+          storeid: props.location.state.id,
+          store:  props.location.state.store,
           products: [],
           cart: [],
           totalItems: 0,
@@ -63,7 +65,7 @@ class Items extends Component {
       }
 
       getAll(){
-        axios.get(`http://localhost:8080/products`)
+        axios.get(`http://localhost:8080/products/${this.state.storeid}`)
       .then((response) => {
          console.log("create data res",response)
          this.setState({
@@ -196,6 +198,7 @@ class Items extends Component {
               categoryTerm={this.state.category}
               updateQuantity={this.updateQuantity}
               productQuantity={this.state.moq}
+              {...this.state}
             />
             <Products
               productsList={this.state.products}

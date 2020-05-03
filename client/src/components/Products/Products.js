@@ -40,6 +40,7 @@ class Products extends Component {
           <Product
             key={product.sku}
             price={product.price}
+            unit={product.unit}
             name={product.name}
             image={product.imageURL}
             id={product.id.storeId}

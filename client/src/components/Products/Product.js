@@ -10,7 +10,7 @@ class Product extends Component {
       isAdded: false
     };
   }
-  addToCart(image, name, price, id, quantity) {
+  addToCart(image,name,price,id,quantity,unit,sku,storeId) {
     console.log("add to cart in  props");
     this.setState(
       {
@@ -19,11 +19,15 @@ class Product extends Component {
           name: name,
           price: price,
           id: id,
-          quantity: quantity
+          quantity: quantity,
+          unit : unit,
+          sku: sku,
+          storeId: storeId
         }
       },
       function() {
         if(this.state.selectedProduct.quantity>0){
+          console.log("item added",this.state.selectedProduct)
         this.props.addToCart(this.state.selectedProduct);
         }
       }
@@ -64,6 +68,8 @@ class Product extends Component {
     let name = this.props.name;
     let price = this.props.price;
     let id = this.props.sku;
+    let unit = this.props.unit;
+    let sku = this.props.sku;
     let storeId = this.props.id;
     let quantity = this.props.productQuantity;
     let counter = <Counter
@@ -83,6 +89,8 @@ class Product extends Component {
               price,
               id,
               quantity,
+              unit,
+              sku,
               storeId
             )}
           >
@@ -106,6 +114,8 @@ class Product extends Component {
               price,
               id,
               quantity,
+              unit,
+              sku,
               storeId
             )}
           />
