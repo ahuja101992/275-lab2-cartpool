@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { Multiselect } from "multiselect-react-dropdown";
 // import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 
-class AddItem extends Component {
+class EditItem extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -18,49 +18,21 @@ class AddItem extends Component {
             openFollowee: false,
             plainArray: [],
             objectArray: [],
-            selectedValues: []
+            selectedValues: [],
+            name:this.props.selectedProduct.name,
+            brand:this.props.selectedProduct.brand,
+            desc:this.props.selectedProduct.desc,
+            qty:this.props.selectedProduct.quantity,
+            unit:this.props.selectedProduct.unit,
+            price:this.props.selectedProduct.price
         };
     }
-    componentWillMount = () => {
-     this.setState({ editProfile: true });
-        var  plainArray = [];
-        var  objectArray = [];
-        axios.get(`http://localhost:8080/inventory/store/getByAdmin/1`)
-        .then(response => {
-            console.log("store response",response);
-            if(response.data){
-                let arr = response.data;
-                let text =[]
-                let obj =[];
-                arr.forEach(item => {
-                    console.log("item",item);
-                    let container = {
-                        key : item.name,
-                        value : item.id
-                    };
-                   text.push(item.name);
-                   obj.push(container);
-                });
-
-                console.log("text::",text);
-                console.log("obj::",obj);
-                this.setState({
-                    plainArray : text,
-                    objectArray : obj
-                })
-            }
-        })
-        .catch(err => {
-            console.error(err);
-        });
-    }
-
+    
     onSelect=(selectedList, selectedItem) =>{
         this.state.selectedValues = selectedList;
         console.log(this.state.selectedValues);
     }
      
-
     addItem= (val) =>{
         console.log("val",val);
         this.setState({
@@ -73,14 +45,6 @@ class AddItem extends Component {
         this.setState({ editProfile: true });
     };
 
-    componentDidMount() {
-        this.setState({ editProfile: true });
-        // const email = localStorage.getItem("email_id");
-        // const data = {
-        //     user_id: 100
-        // };
-        // this.props.getProfileDetails(data);
-    }
 
     cancelEdit = () => {
         this.setState({ editProfile: false });
@@ -123,14 +87,8 @@ class AddItem extends Component {
             price:data.price,
             adminId:1
         }
-
-        axios.post(`http://localhost:8080/product/create`, null, {params: updatedData})
-        .then((response) => {
-           console.log("create data res",response)
-        }).catch(err => {
-            console.error(err);
-        });
     }
+
     render() {
         console.log("checking props", JSON.stringify(this.props));
         let usrDetails = this.props.userDetails ? this.props.userDetails : [];
@@ -182,10 +140,10 @@ class AddItem extends Component {
                                     <Form.Label>Name</Form.Label>
                                     <Form.Control
                                     type="text"
-                                        // onChange={e => this.setState({ last_name: e.target.value })}
-                                        placeholder={usrDetails.firstName ? usrDetails.firstName : ""}
+                                        onChange={e => this.setState({ name: e.target.value })}
+                                        placeholder={this.state.name}
                                         // required
-                                        // value={this.props.firstName + " " + this.props.lastName}
+                                        value={this.state.name}
                                     />
                                 </Form.Group>
                                 <Form.Group controlId="brand">
@@ -193,9 +151,9 @@ class AddItem extends Component {
                                     <Form.Control
                                         // required
                                         type="text"
-                                        // onChange={e => this.setState({ last_name: e.target.value })}
-                                        placeholder={usrDetails.lastName ? usrDetails.lastName : ""}
-                                    // value={this.props.firstName + " " + this.props.lastName}
+                                        onChange={e => this.setState({ brand: e.target.value })}
+                                        placeholder={this.state.brand}
+                                        value={this.state.brand}
                                     />
                                 </Form.Group>
                                 <Form.Group controlId="desc">
@@ -205,7 +163,9 @@ class AddItem extends Component {
                                         type="text"
                                         as="textarea"
                                         rows="3"
-                                        placeholder={userData.bio ? userData.bio : "Add your Bio"}
+                                        onChange={e => this.setState({ desc: e.target.value })}
+                                        placeholder={this.state.desc}
+                                        value={this.state.desc}
                                     />
                                 </Form.Group>
 
@@ -214,8 +174,9 @@ class AddItem extends Component {
                                     <Form.Control 
                                     // required   
                                     type="text"
-                                        // onChange={e => this.setState({ last_name: e.target.value })}
-                                    // value={this.props.firstName + " " + this.props.lastName}
+                                    onChange={e => this.setState({ qty: e.target.value })}
+                                    placeholder={this.state.qty}
+                                    value={this.state.qty}
                                     />
                                 </Form.Group>
 
@@ -233,7 +194,11 @@ class AddItem extends Component {
                                 </Form.Group>
                                 <Form.Group controlId="price">
                                     <Form.Label>Price( in Dollars ) </Form.Label>
-                                    <Form.Control   type="text" required placeholder={userData.website ? userData.website : "$" } />
+                                    <Form.Control   type="text" required 
+                                    placeholder={"$"+this.state.price} 
+                                    onChange={e => this.setState({ price: e.target.value })}
+                                    value={"$"+this.state.price}
+                                    />
                                 </Form.Group>
                                 <Button variant="primary" type="submit">
                                 Submit
@@ -246,4 +211,4 @@ class AddItem extends Component {
         );
     }
 }
-export default AddItem;
+export default EditItem;

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Counter from "./Counter";
+import EditItem from '../AdminPages/EditItem'
 
 class Product extends Component {
   constructor(props) {
@@ -7,7 +8,8 @@ class Product extends Component {
     this.state = {
       selectedProduct: {},
       quickViewProduct: {},
-      isAdded: false
+      isAdded: false,
+      modal:false
     };
   }
   addToCart(image,name,price,id,quantity,unit,sku,storeId) {
@@ -59,13 +61,14 @@ class Product extends Component {
           quantity: quantity,
           unit : unit,
           sku: sku,
-          storeId: storeId
-        }
+          storeId: storeId,
+          flag:0
+        },
+        modal : true
       },
       function() {
         if(this.state.selectedProduct.flag===0){
           console.log("handleupdate",this.state.selectedProduct)
-        // this.props.addToCart(this.state.selectedProduct);
         }else{
           console.log("handleDelete",this.state.selectedProduct)
         }
@@ -134,6 +137,8 @@ class Product extends Component {
     </button>
   </div>
 
+let editModel=<EditItem  {...this.state}></EditItem>
+
 
 let del=<div className="product-action">
   <button
@@ -149,6 +154,7 @@ variant="primary"
     let cartEle = localStorage.getItem('type') === "pooler" ? cart : "";
     let showEdit = localStorage.getItem('type') === "admin" ? edit : "";
     let showDel = localStorage.getItem('type') === "admin" ? del : "";
+    let showModal = !this.state.modal ? "" : editModel;
     return (
       <div className="product">
         <div className="product-image">
@@ -175,6 +181,7 @@ variant="primary"
         {cartEle}
         {showEdit}
         {showDel}
+        {showModal}
       </div>
     );
   }
