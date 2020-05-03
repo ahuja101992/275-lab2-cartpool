@@ -164,11 +164,12 @@ public class OrderController {
             method = RequestMethod.POST)
     public @ResponseBody
     ResponseEntity<Orders> submitOrder(@RequestBody Cart cart) {
-        long finalPrice = (long) (cart.getPrice() + (.0975 * cart.getPrice()));
+        long finalPrice = (long) (cart.getPrice()*1.0975);
+        String orderOwner = cart.getOrderOwner();
         if (cart.getForDelivery())
-            poolerService.subtractContribution(cart.getOrderOwner());
+            poolerService.subtractContribution(orderOwner);
         else
-            poolerService.addContribution(cart.getOrderOwner());
+            poolerService.addContribution(orderOwner);
         Orders order = new Orders.OrderBuilder()
                 .available(true)
                 .qty(cart.getQty())
@@ -185,7 +186,7 @@ public class OrderController {
             orderList.add(orderDetails);
         }
         order.setOrderDetails(orderList);
-        Orders result = orderService.createOrder(order, cart.getDeliveryBy(), cart.getOrderOwner(), cart.getStore());
+        Orders result = orderService.createOrder(order, cart.getDeliveryBy(), orderOwner, cart.getStore());
         orderService.sendOrderConfirmationEmail(result);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
