@@ -166,6 +166,12 @@
             <artifactId>aws-java-sdk</artifactId>
             <version>1.11.133</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.awaitility</groupId>
+            <artifactId>awaitility</artifactId>
+            <version>4.0.2</version>
+        </dependency>
     </dependencies>
 
 

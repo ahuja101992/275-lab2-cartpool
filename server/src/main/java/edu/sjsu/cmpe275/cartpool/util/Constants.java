@@ -7,4 +7,8 @@ public class Constants {
     public final static String PICKED_UP = "Picked-up";
     public final static String DELIVERED = "Delivered";
     public final static String DELIVERED_NOT_RECEIVED = "Delivered (but not received)";
+    public final static String endpointUrl = "https://s3.us-east-2.amazonaws.com";
+    public final static String accessKey = "AKIAVE7T3Q4UEE3ODHCR";
+    public final static String secretKey = "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";
+    public final static String bucketName = "grubhub-bucket";
 }
