@@ -9,7 +9,7 @@ class Checkout extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      price: 20,
+      price: 0,
       finalPrice: null,
       deliverySelection: false,
       forDelivery: true,
@@ -23,12 +23,20 @@ class Checkout extends Component {
       contributionCount: 0,
       contriWarning: false,
       orderPlacedSuccess: false,
+      storeId: 1,
     };
   }
 
   componentDidMount() {
-    // let poolerId = localStorage.getItem("poolerId");
-    let poolerId = 6;
+    let poolerId = localStorage.getItem("id");
+    if (this.props.location.state && this.props.location.state.price !== "") {
+      this.setState({
+        price: this.props.location.state.price,
+        finalPrice: this.props.location.state.price * 1.0975,
+        storeId: this.props.location.state.store,
+      });
+    }
+    // let poolerId = 6;
     axios.defaults.withCredential = true;
     axios
       .get(`http://${HOSTNAME}:8080/pooler/getcontribution/${poolerId}`)
@@ -51,17 +59,19 @@ class Checkout extends Component {
       contriWarning: warningFlag,
     });
   };
-  hendlePickUpSelection = () => {
-    // let poolerId = localStorage.getItem("poolerId");
-    // let storeId = localStorage.getItem("storeId");
-    let storeId = 1;
-    let poolerId = 1;
+  handlePickUpSelection = () => {
+    let poolerId = localStorage.getItem("id");
+    let storeId = this.state.storeId;
+    // let storeId = 1;
+    // let poolerId = 1;
+    console.log(storeId, poolerId);
     axios.defaults.withCredential = true;
     axios
       .get(
         `http://${HOSTNAME}:8080/order/getOrdersForPickup/${poolerId}/${storeId}`
       )
       .then((response) => {
+        console.log(response);
         this.setState({
           pickupOrders: response.data,
           show: true,
@@ -69,6 +79,10 @@ class Checkout extends Component {
       })
       .catch((error) => {
         console.log(error);
+        this.setState({
+          pickupOrders: null,
+          show: true,
+        });
       });
   };
   handleClose = () => this.setState({ show: false });
@@ -84,7 +98,7 @@ class Checkout extends Component {
         for (let i = 0; i < this.state.noOfOrders; i++) {
           list.push(this.state.pickupOrders[i].id);
         }
-        this.setState({ orderList: list });
+        this.setState({ orderList: list, forDelivery: false });
       }
     }
   };
@@ -141,40 +155,18 @@ class Checkout extends Component {
   placeOrder = () => {
     // let reqOrder = this.props.location.props.order;
     let reqOrder = {
-      id: 1,
-      store: 2,
-      pool: "pool2",
-      qty: 12,
-      price: 25,
-      finalPrice: 27,
+      store: this.props.location.state.store,
+      qty: this.props.location.state.qty,
+      price: this.state.price,
+      finalPrice: this.state.finalPrice,
       available: true,
-      forDelivery: true,
+      forDelivery: this.state.forDelivery,
       status: "Placed",
-      orderOwner: "vijayghanshani91111@gmail.com",
-      deliveryBy: null,
-      items: [
-        {
-          sku: 1,
-          price: 10,
-          qty: 2,
-          unit: "oz",
-        },
-        {
-          sku: 2,
-          price: 10,
-          qty: 2,
-          unit: "oz",
-        },
-        {
-          sku: 3,
-          price: 5,
-          qty: 1,
-          unit: "pc",
-        },
-      ],
+      orderOwner: localStorage.getItem("email"),
+      deliveryBy: this.props.location.state.deliveryBy,
+      items: this.props.location.state.items,
     };
-    reqOrder.forDelivery = this.state.forDelivery;
-    reqOrder.finalPrice = this.state.finalPrice;
+    console.log(reqOrder);
     axios.defaults.withCredential = true;
     axios
       .post(`http://${HOSTNAME}:8080/order/submitorder`, reqOrder)
@@ -183,11 +175,9 @@ class Checkout extends Component {
           orderPlacedSuccess: true,
         });
         ///////////////////////////////THIS HHAS TO BE MOVED TO PLACE ORDER BY SAKSHI
-        // let poolerId = localStorage.getItem("poolerId");
-        // let storeId = localStorage.getItem("storeId");
         if (this.state.deliverySelection && this.state.orderList.length > 0) {
-          let storeId = 1;
-          let poolerId = 1;
+          let storeId = this.state.storeId;
+          let poolerId = localStorage.getItem("id");
           const requestParams = {};
           requestParams.poolerId = poolerId;
           requestParams.count = storeId;
@@ -216,12 +206,14 @@ class Checkout extends Component {
   };
 
   render() {
-    if (this.props.location.props && this.props.location.props.price !== "") {
-      this.setState({
-        price: this.props.location.props.price,
-        finalPrice: this.props.location.props.price * 1.0975,
-      });
-    }
+    console.log("Props", this.props);
+
+    // if (this.props.location.state && this.props.location.state.price !== "") {
+    //   this.setState({
+    //     price: this.props.location.props.price,
+    //     finalPrice: this.props.location.props.price * 1.0975,
+    //   });
+    // }
     return (
       <div class="order-checkout-row row">
         {this.state.orderPlacedSuccess === true && (
@@ -323,7 +315,7 @@ class Checkout extends Component {
               <button
                 type="button"
                 class="btn btn-primary selection-btn "
-                onClick={this.hendlePickUpSelection}
+                onClick={this.handlePickUpSelection}
               >
                 Pickup
               </button>
