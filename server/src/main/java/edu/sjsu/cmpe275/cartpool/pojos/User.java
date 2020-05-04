@@ -139,7 +139,23 @@ public class User {
         this.is_verified = is_verified;
     }
 
-    public static class Builder<T extends Builder<T>> {
+    public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public static class Builder<T extends Builder<T>> {
         private String email;
         private String password;
         private String screenname;
