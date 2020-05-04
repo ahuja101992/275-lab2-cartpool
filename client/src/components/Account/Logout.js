@@ -8,7 +8,7 @@ class Logout extends Component {
         localStorage.removeItem('email');
 
         return (
-            <Redirect to="/login"/>
+            <Redirect to="/login/"/>
         )
     }
 }

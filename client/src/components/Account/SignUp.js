@@ -157,6 +157,11 @@ class SignUp extends Component {
           <Form.Group controlId="email">
             <Form.Label>Email</Form.Label>
             <Form.Control
+                disabled={this.props.location.props &&
+                this.props.location.props.provider !== ""}
+                defaultValue={this.props.location.props &&
+                this.props.location.props.provider !== ""
+                    ? this.props.location.props.email : ""}
               placeholder={
                 this.props.location.props &&
                 this.props.location.props.provider !== ""

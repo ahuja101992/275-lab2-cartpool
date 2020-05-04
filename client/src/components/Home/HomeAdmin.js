@@ -76,7 +76,7 @@ class HomeAdmin extends Component {
                         <Route exact path='/homeAdmin/item/' component={Items}/>
                         <Route exact path='/homeAdmin/addItem/' component={AddItem}/>
                         <Route exact path='/homeAdmin/' component={Stores}/>
-                        <Route exact path='/logout/' component={Logout}/>
+                        <Route exact path='/homeAdmin/logout/' component={Logout}/>
                     </Switch>
                 </div>
             </div>
