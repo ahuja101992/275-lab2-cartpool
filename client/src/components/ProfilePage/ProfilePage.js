@@ -9,7 +9,9 @@ class ProfilePage extends Component {
     constructor(props) {
         super(props);
         this.state = Object.assign({}, { firstName: "Vijay" }, { email: "vijayghanshani2@gmail.com" }, { imageUrl: "https://bootdey.com/img/Content/avatar/avatar1.png" },
-            { credits: 5 }, { address: "" }, { screenName: "" });
+            { credits: 5 }, { address: "" }, { screenName: "" }, { editFlag: false });
+
+        this.onFileChange = this.onFileChange.bind(this);
 
     }
 
@@ -38,6 +40,27 @@ class ProfilePage extends Component {
             [e.target.name]: e.target.value
         });
     };
+
+    onFileChange(files) {
+        if (files == null || files.length == 0) return;
+        let file = files[0];
+
+        const data = new FormData();
+        data.append("file", file, file.name);
+
+        let user_id = localStorage.getItem('user_id');
+        axios.post(`http://localhost:8080/storage/uploadFile`, data)
+            .then(res => {
+                if (res.status === 200) {
+                    this.setState({ imageUrl: res.data });
+                }
+            })
+            .catch(err => console.error(err));
+    }
+
+    changeEditFlag = () => {
+        this.setState({ editFlag: true })
+    }
 
     render() {
         return (
@@ -80,7 +103,7 @@ class ProfilePage extends Component {
                                                         src={this.state.imageUrl} alt="" />
                                                 </figure>
                                                 <div className="form-inline col-md-10 col-sm-9 col-xs-12">
-                                                    <input type="file" className="file-uploader pull-left" />
+                                                    <input type="file" className="file-uploader pull-left" onChange={(e) => this.onFileChange(e.target.files)} />
                                                     <button type="submit"
                                                         className="btn btn-sm btn-default-alt pull-left">Update
                                                     Image
@@ -88,10 +111,10 @@ class ProfilePage extends Component {
                                                 </div>
                                             </div>
                                             <div className="form-group">
-                                                <label className="col-md-2 col-sm-3 col-xs-12 control-label">User
+                                                <label className="col-md-2 col-sm-3 col-xs-12 control-label">Screen
                                                     Name</label>
                                                 <div className="col-md-10 col-sm-9 col-xs-12">
-                                                    <input type="text" className="form-control"
+                                                    <input type="text" className="form-control" contentEditable={this.state.editFlag}
                                                         value={this.state.screenName} onChange={this.changeHandeler} />
                                                 </div>
                                             </div>
@@ -100,7 +123,7 @@ class ProfilePage extends Component {
                                                 <label className="col-md-2 col-sm-3 col-xs-12 control-label">First
                                                     Name</label>
                                                 <div className="col-md-10 col-sm-9 col-xs-12">
-                                                    <input type="text" className="form-control"
+                                                    <input type="text" className="form-control" contentEditable={this.state.editFlag}
                                                         value={this.state.firstName} onChange={this.changeHandeler} />
                                                 </div>
                                             </div>
@@ -108,7 +131,7 @@ class ProfilePage extends Component {
                                                 <label className="col-md-2 col-sm-3 col-xs-12 control-label">Last
                                                     Name</label>
                                                 <div className="col-md-10 col-sm-9 col-xs-12">
-                                                    <input type="text" className="form-control"
+                                                    <input type="text" className="form-control" contentEditable={this.state.editFlag}
                                                         value={this.state.firstName} onChange={this.changeHandeler} />
                                                 </div>
                                             </div>
@@ -119,7 +142,7 @@ class ProfilePage extends Component {
                                                 <label
                                                     className="col-md-2  col-sm-3 col-xs-12 control-label">Email</label>
                                                 <div className="col-md-10 col-sm-9 col-xs-12">
-                                                    <input type="email" className="form-control"
+                                                    <input type="email" className="form-control" contentEditable={this.state.editFlag}
                                                         value={this.state.email} onChange={this.changeHandeler} />
                                                     <p className="help-block">This is the email </p>
                                                 </div>
@@ -138,7 +161,7 @@ class ProfilePage extends Component {
                                             <div
                                                 className="col-md-10 col-sm-9 col-xs-12 col-md-push-2 col-sm-push-3 col-xs-push-0">
                                                 <input className="btn btn-primary" type="submit"
-                                                    value="Update Profile" />
+                                                    value="Update Profile" onClick={this.changeEditFlag} />
                                             </div>
                                         </div>
                                     </form>
