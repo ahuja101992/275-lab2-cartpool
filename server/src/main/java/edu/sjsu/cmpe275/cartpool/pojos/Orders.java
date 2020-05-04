@@ -20,7 +20,7 @@ public class Orders {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "store_id")
     @XmlTransient
-    @JsonIgnoreProperties({"admin", "orders", "products", "address"})
+    @JsonIgnoreProperties({"admin", "orders", "products"})
     private Store store;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -48,7 +48,7 @@ public class Orders {
     private String status;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties({"pool", "orders","password","is_verified","accessToken","provider","provider_id","address","verifiedForPoolMembership"})
+    @JsonIgnoreProperties({"pool", "orders","password","is_verified","accessToken","provider","provider_id","verifiedForPoolMembership"})
     private Pooler orderOwner;
 
     @ManyToOne(fetch = FetchType.LAZY)
