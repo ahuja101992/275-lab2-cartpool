@@ -88,17 +88,17 @@ class Checkout extends Component {
   handleClose = () => this.setState({ show: false });
   handleShow = () => this.setState({ show: true });
   handleSelectPickUpOrders = () => {
-    this.setState({ show: false, deliverySelection: true });
+    this.setState({ show: false, deliverySelection: true, forDelivery: false });
     let list = [];
 
     if (this.state.noOfOrders > 0) {
       if (this.state.noOfOrders > this.state.pickupOrders.length)
-        this.setState({ show: false, warning: true });
+        this.setState({ show: false, warning: true, forDelivery: false });
       else {
         for (let i = 0; i < this.state.noOfOrders; i++) {
           list.push(this.state.pickupOrders[i].id);
         }
-        this.setState({ orderList: list, forDelivery: false });
+        this.setState({ orderList: list });
       }
     }
   };
@@ -152,7 +152,7 @@ class Checkout extends Component {
     classes += this.state.deliverySelection ? "success" : "secondary disabled";
     return classes;
   };
-  placeOrder = () => {
+  placeOrder = async () => {
     // let reqOrder = this.props.location.props.order;
     let reqOrder = {
       store: this.props.location.state.store,
@@ -166,6 +166,28 @@ class Checkout extends Component {
       deliveryBy: this.props.location.state.deliveryBy,
       items: this.props.location.state.items,
     };
+    if (this.state.deliverySelection && this.state.orderList.length > 0) {
+      let storeId = this.state.storeId;
+      let poolerId = localStorage.getItem("id");
+      const requestParams = {};
+      requestParams.poolerId = poolerId;
+      requestParams.count = storeId;
+      axios.defaults.withCredential = true;
+      try {
+        let a = await axios.post(
+          `http://${HOSTNAME}:8080/order/selectorders`,
+          this.state.orderList,
+          {
+            params: requestParams,
+          }
+        );
+      } catch (error) {
+        console.log("lklkd", error);
+      }
+      this.setState({
+        pickUpSelectionSuccess: true,
+      });
+    }
     console.log(reqOrder);
     axios.defaults.withCredential = true;
     axios
@@ -174,31 +196,6 @@ class Checkout extends Component {
         this.setState({
           orderPlacedSuccess: true,
         });
-        ///////////////////////////////THIS HHAS TO BE MOVED TO PLACE ORDER BY SAKSHI
-        if (this.state.deliverySelection && this.state.orderList.length > 0) {
-          let storeId = this.state.storeId;
-          let poolerId = localStorage.getItem("id");
-          const requestParams = {};
-          requestParams.poolerId = poolerId;
-          requestParams.count = storeId;
-          axios.defaults.withCredential = true;
-          axios
-            .post(
-              `http://${HOSTNAME}:8080/order/selectorders`,
-              this.state.orderList,
-              {
-                params: requestParams,
-              }
-            )
-            .then((response) => {
-              this.setState({
-                pickUpSelectionSuccess: true,
-              });
-            })
-            .catch((error) => {
-              console.log(error);
-            });
-        }
       })
       .catch((error) => {
         console.log(error);
