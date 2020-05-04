@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Counter from "./Counter";
 import EditItem from '../AdminPages/EditItem'
+import axios from 'axios';
 
 class Product extends Component {
   constructor(props) {
@@ -13,7 +14,7 @@ class Product extends Component {
     };
   }
   addToCart(image,name,price,id,quantity,unit,sku,storeId) {
-    console.log("add to cart in  props");
+    console.log("add to cart in  props",quantity);
     this.setState(
       {
         selectedProduct: {
@@ -36,7 +37,7 @@ class Product extends Component {
     );
     this.setState(
       {
-        isAdded: this.state.selectedProduct.quantity>0 ? true :false
+        isAdded: this.state.selectedProduct.qty>0 ? true :false
       },
       function() {
         setTimeout(() => {
@@ -49,7 +50,7 @@ class Product extends Component {
     );
   }
 
-  handleUpdate(image,name,price,id,quantity,unit,sku,storeId) {
+  handleUpdate(image,name,price,id,quantity,unit,sku,storeId,flag) {
     console.log("add to cart in  props");
     this.setState(
       {
@@ -62,14 +63,22 @@ class Product extends Component {
           unit : unit,
           sku: sku,
           storeId: storeId,
-          flag:0
-        },
-        modal : true
+          flag:flag
+        }
       },
       function() {
         if(this.state.selectedProduct.flag===0){
+          this.setState({
+            modal : true
+          })
           console.log("handleupdate",this.state.selectedProduct)
         }else{
+          axios.delete(`http://localhost:8080/product/${id}/1`, null)
+          .then((response) => {
+             console.log("create data res",response)
+          }).catch(err => {
+              console.error(err);
+          });
           console.log("handleDelete",this.state.selectedProduct)
         }
       }
@@ -132,7 +141,7 @@ class Product extends Component {
     variant="primary"
       type="button"
       onClick={this.handleUpdate.bind(this,
-        image,name,price,id,quantity,unit,sku,storeId
+        image,name,price,id,quantity,unit,sku,storeId,0
       )}>EDIT
     </button>
   </div>
@@ -145,7 +154,7 @@ let del=<div className="product-action">
 variant="primary"
   type="button"
   onClick={this.handleUpdate.bind(  this,
-    image,name,price,id,quantity,unit,sku,storeId
+    image,name,price,id,quantity,unit,sku,storeId,1
   )}>DELETE
 </button>
 </div>

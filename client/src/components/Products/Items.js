@@ -38,7 +38,8 @@ class Items extends Component {
           cartBounce: false,
           quantity: 0,
           quickViewProduct: {},
-          modalActive: false
+          modalActive: false,
+          flag:0
         };
         this.handleSearch = this.handleSearch.bind(this);
         this.handleMobileSearch = this.handleMobileSearch.bind(this);
@@ -51,6 +52,10 @@ class Items extends Component {
         this.handleRemoveProduct = this.handleRemoveProduct.bind(this);
         this.openModal = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
+        this.handleSearchByStoreId=this.handleSearchByStoreId.bind(this);
+        this.handleSearchBySku=this.handleSearchBySku.bind(this);
+        this.addOne= this.addOne.bind(this);
+        this.deleteOne= this.deleteOne.bind(this);
       }
       // Fetch Initial Set of Products from external API
       getProducts() {
@@ -93,8 +98,22 @@ class Items extends Component {
     
       // Search by Keyword
       handleSearch(event) {
-        this.setState({ term: event.target.value });
+        this.setState({ term: event.target.value ,
+        flag:0});
       }
+       // Search by sKU
+       handleSearchBySku(event) {
+         console.log("sku parent page")
+         this.setState({ term: event.target.value,
+        flag:1 });
+      }
+       // Search by StoreId
+       handleSearchByStoreId(event) {
+        console.log("store parent page")
+        this.setState({ term: event.target.value,
+          flag:2 });
+      }
+
       // Mobile Search Reset
       handleMobileSearch() {
         this.setState({ term: "" });
@@ -109,11 +128,88 @@ class Items extends Component {
         let cartItem = this.state.cart;
         let productID = selectedProducts.id;
         let productQty = selectedProducts.qty;
+        console.log(productID+":::"+productQty)
         if (this.checkProduct(productID)) {
           console.log("hi");
           let index = cartItem.findIndex(x => x.id == productID);
-          cartItem[index].quantity =
+          console.log("index",index,cartItem[index].qty);
+          cartItem[index].qty =
             Number(cartItem[index].qty) + Number(productQty);
+          this.setState({
+            cart: cartItem
+          });
+        } else {
+          cartItem.push(selectedProducts);
+        }
+        this.setState({
+          cart: cartItem,
+          cartBounce: true
+        });
+        setTimeout(
+          function() {
+            this.setState({
+              cartBounce: false,
+              quantity: 0
+            });
+            console.log(this.state.quantity);
+            console.log(this.state.cart);
+          }.bind(this),
+          1000
+        );
+        this.sumTotalItems(this.state.cart);
+        this.sumTotalAmount(this.state.cart);
+      }
+
+            // Add to Cart
+            addOne(selectedProducts) {
+              let cartItem = this.state.cart;
+              let productID = selectedProducts.id;
+              let productQty = selectedProducts.qty;
+              console.log(productID+":::"+productQty)
+              if (this.checkProduct(productID)) {
+                console.log("hi");
+                let index = cartItem.findIndex(x => x.id == productID);
+                console.log("index",index,cartItem[index].qty);
+                cartItem[index].qty =
+                  Number(cartItem[index].qty) + 1;
+                this.setState({
+                  cart: cartItem
+                });
+              } else {
+                cartItem.push(selectedProducts);
+              }
+              this.setState({
+                cart: cartItem,
+                cartBounce: true
+              });
+              setTimeout(
+                function() {
+                  this.setState({
+                    cartBounce: false,
+                    quantity: 0
+                  });
+                  console.log(this.state.quantity);
+                  console.log(this.state.cart);
+                }.bind(this),
+                1000
+              );
+              this.sumTotalItems(this.state.cart);
+              this.sumTotalAmount(this.state.cart);
+            }
+
+
+                  // Add to Cart
+      deleteOne(selectedProducts) {
+        let cartItem = this.state.cart;
+        let productID = selectedProducts.id;
+        let productQty = selectedProducts.qty;
+        console.log(productID+":::"+productQty)
+        if (this.checkProduct(productID)) {
+          console.log("hi");
+          let index = cartItem.findIndex(x => x.id == productID);
+          console.log("index",index,cartItem[index].qty);
+          cartItem[index].qty =
+            Number(cartItem[index].qty) - 1;
           this.setState({
             cart: cartItem
           });
@@ -210,18 +306,21 @@ class Items extends Component {
         cartItems={this.state.cart}
         removeProduct={this.handleRemoveProduct}
         handleSearch={this.handleSearch}
+        handleSearchBySku={this.handleSearchBySku}
+        handleSearchByStoreId={this.handleSearchByStoreId}
         handleMobileSearch={this.handleMobileSearch}
         handleCategory={this.handleCategory}
         categoryTerm={this.state.category}
         updateQuantity={this.updateQuantity}
         productQuantity={this.state.moq}
+        addOne={this.addOne}
+        deleteOne={this.deleteOne}
         {...this.state}
       />
 
-      let showHeader = localStorage.getItem('type') === "pooler" ? header : "";
         return (
           <div className="container">
-            {showHeader}
+            {header}
             <Products
               productsList={this.state.products}
               searchTerm={this.state.term}
@@ -229,6 +328,7 @@ class Items extends Component {
               productQuantity={this.state.quantity}
               updateQuantity={this.updateQuantity}
               openModal={this.openModal}
+              flag={this.state.flag}
             />
             {/* <Footer /> */}
             {/* <QuickView

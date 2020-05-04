@@ -21,20 +21,33 @@ class Products extends Component {
       };
     }
 
-    function searchingForId(storeId) {
+    function searchingForId(term) {
+      console.log("storeid",term);
       return function(x) {
-        return storeId.name.toLowerCase().includes(storeId.toLowerCase()) || !storeId;
+        return x.id.storeId == term || !term;
       };
     }
 
-    function searchingForSku(sku) {
+    function searchingForSku(term) {
+      console.log("sku",term);
       return function(x) {
-        return sku.name.toLowerCase().includes(storeId.toLowerCase()) || !sku;
+        return x.id.sku.toLowerCase().includes(term.toLowerCase()) || !term;
       };
+    }
+
+    console.log("search",this.props.flag);
+    let func=searchingFor(term)
+    
+    if(this.props.flag===1){
+    func=searchingForSku(term)
+    }
+
+    if(this.props.flag===2){
+      func=searchingForId(term)
     }
 
     productsData = this.props.productsList
-      .filter(searchingFor(term))
+      .filter(func)
       .map(product => {
         return (
           <Product
