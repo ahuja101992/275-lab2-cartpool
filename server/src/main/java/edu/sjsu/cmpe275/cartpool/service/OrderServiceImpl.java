@@ -34,7 +34,9 @@ public class OrderServiceImpl implements OrderService {
         	deliveryPerson = poolerRepository.findByEmail(deliveryPersonId).orElseThrow(() -> new UserNotFoundException()); //.orElseThrow(() -> new UserNotFoundException());
         Pooler owner = poolerRepository.findByEmail(ownerId).orElseThrow(() -> new UserNotFoundException());//.orElseThrow(() -> new UserNotFoundException());
         Store store = storeRepository.findById(storeId).orElseThrow(() -> new StoreNotFoundException());
+        Pool ownerPool = owner.getPool();
         order.setDeliveryBy(deliveryPerson);
+        order.setPool(ownerPool);
         order.setOrderOwner(owner);
         order.setStore(store);
         return orderRepository.save(order);

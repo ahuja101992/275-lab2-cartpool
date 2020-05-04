@@ -6,10 +6,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootConfiguration
 @SpringBootApplication(scanBasePackages = {"edu.sjsu"})
 @EntityScan(basePackages = {"edu.sjsu.cmpe275.cartpool.pojos"})
+@EnableScheduling
 @EnableJpaRepositories(basePackages = {"edu.sjsu.cmpe275.cartpool.repository"})
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 public class SpringBootRestApplication {

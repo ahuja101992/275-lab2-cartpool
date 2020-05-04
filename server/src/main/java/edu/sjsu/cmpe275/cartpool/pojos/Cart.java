@@ -33,9 +33,9 @@ public class Cart {
     @JsonProperty("items")
     private List<Item> items = null;
     @JsonProperty("price")
-    private Integer price;
+    private double price;
     @JsonProperty("finalPrice")
-    private Integer finalPrice;
+    private double finalPrice;
     @JsonProperty("available")
     private Boolean available;
     @JsonProperty("forDelivery")
@@ -88,22 +88,22 @@ public class Cart {
     }
 
     @JsonProperty("price")
-    public Integer getPrice() {
+    public double getPrice() {
         return price;
     }
 
     @JsonProperty("price")
-    public void setPrice(Integer price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
     @JsonProperty("finalPrice")
-    public Integer getFinalPrice() {
+    public double getFinalPrice() {
         return finalPrice;
     }
 
     @JsonProperty("finalPrice")
-    public void setFinalPrice(Integer finalPrice) {
+    public void setFinalPrice(double finalPrice) {
         this.finalPrice = finalPrice;
     }
 

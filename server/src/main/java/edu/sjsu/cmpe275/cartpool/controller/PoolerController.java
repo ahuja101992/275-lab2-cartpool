@@ -73,6 +73,18 @@ public class PoolerController {
         emailService.sendDirectMessageViaEmail(from, to, message);
     }
 
+    @RequestMapping(value = "/pooler/update/{poolerId}",
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+            method = RequestMethod.PUT)
+    public @ResponseBody
+    ResponseEntity<Pooler> updateProfile(@PathVariable long poolerId,
+                                         @RequestParam String firstName,
+                                         @RequestParam String lastName,
+                                         @RequestParam String email) {
+
+        return ResponseEntity.status(HttpStatus.OK).body(poolerService.findById(poolerId));
+    }
+
 //    @RequestMapping(value = "/inventory/store/getByAdmin/{adminId}",
 //            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
 //            method = RequestMethod.GET)

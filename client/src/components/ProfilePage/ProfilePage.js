@@ -3,14 +3,17 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Profile.css';
 import { HOSTNAME } from "../../constants/appConstants";
+import { Button, Form, Modal, Row } from 'react-bootstrap'
 import axios from 'axios';
 
 class ProfilePage extends Component {
     constructor(props) {
         super(props);
-        this.state = Object.assign({}, { firstName: "Vijay" }, { email: "vijayghanshani2@gmail.com" }, { imageUrl: "https://bootdey.com/img/Content/avatar/avatar1.png" },
-            { credits: 5 }, { address: "" }, { screenName: "" });
+        this.state = Object.assign({}, { firstName: "" }, { lastName: "" }, { email: "" }, { imageUrl: "https://bootdey.com/img/Content/avatar/avatar1.png" },
+            { credits: 0 }, { screenName: "" }, { setShow: false }, { tempFirstName: "" }, { tempLastName: "" }, { tempEmail: "" }, { tempStreet: "" }, { tempCity: "" }, { tempState: "" }, { tempZip: "" },
+            { address: { city: "", state: "", street: "", zip: "" } });
 
+        this.onFileChange = this.onFileChange.bind(this);
     }
 
     componentDidMount() {
@@ -20,11 +23,16 @@ class ProfilePage extends Component {
             .then(response => {
                 console.log(response);
                 this.setState({
+                    firstName: response.data.firstName,
+                    lastName: response.data.lastName,
                     email: response.data.email,
-                    address: response.data.address ? response.data.address : "",
-                    //imageUrl: response.data.imageUrl,
+                    address: response.data.address ? { ...response.data.address } : "",
+                    imageUrl: response.data.img ? response.data.img : "https://bootdey.com/img/Content/avatar/avatar1.png",
                     screenName: response.data.screenname,
-                    credits: response.data.contribution
+                    credits: response.data.contribution,
+                    tempFirstName: response.data.firstName,
+                    tempLastName: response.data.lastName,
+                    tempEmail: response.data.email
 
                 });
             })
@@ -38,6 +46,64 @@ class ProfilePage extends Component {
             [e.target.name]: e.target.value
         });
     };
+
+    handleClose = () => {
+        this.setState({
+            setShow: false
+        });
+    }
+
+    handleShow = () => {
+        this.setState({
+            setShow: true
+        });
+    }
+
+    onFileChange(files) {
+        if (files == null || files.length == 0) return;
+        let file = files[0];
+
+        const data = new FormData();
+        data.append("file", file, file.name);
+
+        let user_id = localStorage.getItem('user_id');
+        axios.post(`http://localhost:8080/storage/uploadFile`, data)
+            .then(res => {
+                if (res.status === 200) {
+                    this.setState({ imageUrl: res.data });
+                }
+            })
+            .catch(err => console.error(err));
+    }
+
+    submitChangeProfile = () => {
+        //let poolerId = localStorage.getItem('id');
+        let poolerId = 3;
+
+        let tempAddress = {
+            street: this.state.tempStreet,
+            city: this.state.tempCity,
+            state: this.state.tempState,
+            zip: this.state.tempZip
+        }
+        let payload = {
+            firstName: this.state.tempFirstName,
+            lastName: this.state.tempLastName,
+            email: this.state.tempLastName,
+            address: tempAddress
+        }
+        axios.put(`http://${HOSTNAME}:8080/pooler/update/${poolerId}`, null, { params: payload })
+            .then(response => {
+                this.setState({
+                    firstName: this.state.tempFirstName,
+                    lastName: this.state.tempLastName,
+                    email: this.state.tempLastName
+                }, () => this.handleClose())
+            })
+            .catch(error => {
+                console.log(error);
+            })
+    }
 
     render() {
         return (
@@ -80,7 +146,7 @@ class ProfilePage extends Component {
                                                         src={this.state.imageUrl} alt="" />
                                                 </figure>
                                                 <div className="form-inline col-md-10 col-sm-9 col-xs-12">
-                                                    <input type="file" className="file-uploader pull-left" />
+                                                    <input type="file" className="file-uploader pull-left" onChange={(e) => this.onFileChange(e.target.files)} />
                                                     <button type="submit"
                                                         className="btn btn-sm btn-default-alt pull-left">Update
                                                     Image
@@ -88,7 +154,7 @@ class ProfilePage extends Component {
                                                 </div>
                                             </div>
                                             <div className="form-group">
-                                                <label className="col-md-2 col-sm-3 col-xs-12 control-label">User
+                                                <label className="col-md-2 col-sm-3 col-xs-12 control-label">Screen
                                                     Name</label>
                                                 <div className="col-md-10 col-sm-9 col-xs-12">
                                                     <input type="text" className="form-control"
@@ -121,15 +187,37 @@ class ProfilePage extends Component {
                                                 <div className="col-md-10 col-sm-9 col-xs-12">
                                                     <input type="email" className="form-control"
                                                         value={this.state.email} onChange={this.changeHandeler} />
-                                                    <p className="help-block">This is the email </p>
                                                 </div>
                                             </div>
                                             <div className="form-group">
                                                 <label
-                                                    className="col-md-2  col-sm-3 col-xs-12 control-label">Address</label>
+                                                    className="col-md-2  col-sm-3 col-xs-12 control-label text-muted">Address: </label>
                                                 <div className="col-md-10 col-sm-9 col-xs-12">
+                                                    <label
+                                                        className="col-md-2  col-sm-3 col-xs-12 control-label">Street </label>
                                                     <input type="text" className="form-control"
-                                                        value={this.state.address} onChange={this.changeHandeler} />
+                                                        value={this.state.address.street} onChange={this.changeHandeler} />
+                                                </div>
+
+                                                <div className="col-md-10 col-sm-9 col-xs-12">
+                                                    <label
+                                                        className="col-md-2  col-sm-3 col-xs-12 control-label">City </label>
+                                                    <input type="text" className="form-control"
+                                                        value={this.state.address.city} onChange={this.changeHandeler} />
+                                                </div>
+
+                                                <div className="col-md-10 col-sm-9 col-xs-12">
+                                                    <label
+                                                        className="col-md-2  col-sm-3 col-xs-12 control-label">State </label>
+                                                    <input type="text" className="form-control"
+                                                        value={this.state.address.state} onChange={this.changeHandeler} />
+                                                </div>
+
+                                                <div className="col-md-10 col-sm-9 col-xs-12">
+                                                    <label
+                                                        className="col-md-2  col-sm-3 col-xs-12 control-label">Zip </label>
+                                                    <input type="text" className="form-control"
+                                                        value={this.state.address.zip} onChange={this.changeHandeler} />
                                                 </div>
                                             </div>
                                         </fieldset>
@@ -137,8 +225,8 @@ class ProfilePage extends Component {
                                         <div className="form-group">
                                             <div
                                                 className="col-md-10 col-sm-9 col-xs-12 col-md-push-2 col-sm-push-3 col-xs-push-0">
-                                                <input className="btn btn-primary" type="submit"
-                                                    value="Update Profile" />
+                                                <input className="btn btn-primary" type="button"
+                                                    value="Update Profile" onClick={this.handleShow} />
                                             </div>
                                         </div>
                                     </form>
@@ -148,6 +236,61 @@ class ProfilePage extends Component {
                     </div>
                 </div>
 
+
+                <Modal show={this.state.setShow} onHide={this.handleClose} animation={false}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Create new pool</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <div className="text-muted text-center join-pool-modal-text">
+                            Update your Profile
+                        </div>
+                        <Form>
+                            <Form.Group controlId="formGroupItemName">
+                                <Form.Label>First Name:</Form.Label>
+                                <Form.Control type="text" name="tempFirstName"
+                                    value={this.state.tempFirstName} className="join-pool-modal-text" onChange={this.changeHandeler} />
+
+                                <Form.Label>Last Name:</Form.Label>
+                                <Form.Control type="text" name="tempLastName"
+                                    value={this.state.tempLastName} className="join-pool-modal-text" onChange={this.changeHandeler} />
+
+                                <Form.Label>Email:</Form.Label>
+                                <Form.Control type="text" name="tempEmail"
+                                    value={this.state.tempEmail} className="join-pool-modal-text" onChange={this.changeHandeler} />
+
+                                <Form.Label className="text-muted">Adddress:</Form.Label><hr />
+                                <Form.Label>Street:</Form.Label>
+                                <Form.Control type="text" name="tempStreet"
+                                    value={this.state.address.street} className="join-pool-modal-text" onChange={this.changeHandeler} />
+
+                                <Form.Label>City:</Form.Label>
+                                <Form.Control type="text" name="tmepCity"
+                                    value={this.state.address.city} className="join-pool-modal-text" onChange={this.changeHandeler} />
+
+                                <Form.Label>State:</Form.Label>
+                                <Form.Control type="text" name="tempState"
+                                    value={this.state.address.state} className="join-pool-modal-text" onChange={this.changeHandeler} />
+
+                                <Form.Label>Zip:</Form.Label>
+                                <Form.Control type="text" name="tempZip"
+                                    value={this.state.address.zip} className="join-pool-modal-text" onChange={this.changeHandeler} />
+                            </Form.Group>
+                        </Form>
+
+                    </Modal.Body>
+                    <Modal.Footer>
+
+                        <Button variant="secondary" onClick={this.handleClose}>
+                            Close
+                        </Button>
+
+                        <Button variant="primary" onClick={this.submitChangeProfile}>
+                            Submit
+                        </Button>
+
+                    </Modal.Footer>
+                </Modal>
             </React.Fragment>
         );
     }

@@ -164,7 +164,7 @@ public class OrderController {
             method = RequestMethod.POST)
     public @ResponseBody
     ResponseEntity<Orders> submitOrder(@RequestBody Cart cart) {
-        long finalPrice = (long) (cart.getPrice()*1.0975);
+//        long finalPrice = (long) (cart.getPrice()*1.0975);
         String orderOwner = cart.getOrderOwner();
         if (cart.getForDelivery())
             poolerService.subtractContribution(orderOwner);
@@ -174,7 +174,7 @@ public class OrderController {
                 .available(true)
                 .qty(cart.getQty())
                 .price(cart.getPrice())
-                .finalPrice(finalPrice)
+                .finalPrice(cart.getFinalPrice())
                 .forDelivery(cart.getForDelivery())
                 .status(Constants.PLACED)
                 .build();

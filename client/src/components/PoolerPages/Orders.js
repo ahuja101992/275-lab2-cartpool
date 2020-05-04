@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import {Badge, Button, Card} from "react-bootstrap";
 import {connect} from "react-redux";
 import {getOrdersByUserId, markDeliveryNotReceived} from "../../redux/actions/orderActions";
-import {DELIVERED, DELIVERED_NOT_RECEIVED, PICKED_UP, PICKED_UP_BY_SELF, PLACED} from "../../constants/appConstants";
+import {DELIVERED, DELIVERED_NOT_RECEIVED, PICKED_UP, PICKED_UP_BY_SELF, PLACED, CANCELED} from "../../constants/appConstants";
 
 function mapStateToProps(store) {
     return {
@@ -57,8 +57,8 @@ class Orders extends Component {
                 badge = <Badge style={{fontSize: fontSize}} variant="danger">{DELIVERED_NOT_RECEIVED}</Badge>;
                 break;
 
-            case "Warning":
-                badge = <Badge style={{fontSize: fontSize}} variant="warning">x</Badge>;
+            case CANCELED:
+                badge = <Badge style={{fontSize: fontSize}} variant="warning">{CANCELED}</Badge>;
                 break;
         }
 
@@ -72,17 +72,6 @@ class Orders extends Component {
 
         this.props.getOrdersByUserId(payload);
     }
-
-    // componentDidUpdate(nextProps) {
-    //     console.log('********------***********: ', nextProps.orderByPooler);
-    //
-    //     if(!equal(this.props.orderByPooler, nextProps.orderByPooler)) {
-    //         console.log('***: ', 'Change detected');
-    //         const payload = {};
-    //         payload.userId = localStorage.getItem('id');
-    //         this.props.getOrdersByUserId(payload);
-    //     }
-    // }
 
     markDeliveryNotReceived = (order) => {
         console.log("markDeliveryNotReceived")
