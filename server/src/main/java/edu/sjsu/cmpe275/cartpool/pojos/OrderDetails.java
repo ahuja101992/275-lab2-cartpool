@@ -31,7 +31,9 @@ public class OrderDetails {
 //    @JsonIgnoreProperties({"orderOwner","store","pool","deliveryBy"})
     private Orders order;
 
+    public OrderDetails() {
 
+    }
     public OrderDetails(long qty, long price, String sku) {
         this.qty = qty;
         this.price = price;
