@@ -11,9 +11,9 @@ public interface ProductService {
 
     Product createProduct(Product product);
 
-    Set<Product> deleteProduct(Long storeId, String sku);
+    List<Product> deleteProduct(String sku);
 
-    Set<Product> updateProduct(Product product);
+    List<Product> updateProduct(List<Product> product);
 
     Set<Product> searchProductByStoreId(Long storeId);
 
@@ -21,7 +21,7 @@ public interface ProductService {
 
     List<Product> searchProducts();
 
-    Product ffindByStoreId_SKU(Long storeId, String sku);
+    Product ffindByStoreId_SKU(Long storeId,String sku);
 
     List<Product> searchProductByName(String name, Long storeId);
 

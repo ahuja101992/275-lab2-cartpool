@@ -40,18 +40,21 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public Set<Product> deleteProduct(Long storeId, String sku) {
-        Store store = storeRepository.findById(storeId).orElseThrow(() -> new StoreNotFoundException());
+    public List<Product> deleteProduct(String sku) {
         System.out.println("Deleting product: ");
-        productRepository.deleteById(new ProductId(storeId, sku));
-        return store.getProducts();
+        List<Product> products = searchProductBySKU(sku);
+        productRepository.deleteAll(products);
+        return getProductsGroupByName();
     }
 
     @Override
     @Transactional
-    public Set<Product> updateProduct(Product product) {
-        productRepository.save(product);
-        return product.getStore().getProducts();
+    public List<Product> updateProduct(List<Product> products) {
+        for(Product product : products){
+            List<Product> stored = searchProductBySKU(product.getId().getSku());
+            productRepository.save(product);
+        }
+        return getProductsGroupByName();
 
     }
 
@@ -65,17 +68,15 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public Product ffindByStoreId_SKU(Long storeId, String sku) {
-        Product product = productRepository.findById(new ProductId(storeId,sku)).orElseThrow(()->new UserNotFoundException());
+    public Product ffindByStoreId_SKU(Long storeId,String sku) {
+        Product product = productRepository.findById(new ProductId(sku)).orElseThrow(()->new UserNotFoundException());
         return product;
     }
 
     @Override
     @Transactional
     public List<Product> searchProductBySKU(String sku) {
-        ProductId productId = new ProductId(sku);
-        Example<Product> productExample = Example.of(new Product(productId));
-        return productRepository.findAll(productExample);
+         return productRepository.findProductsBySku(sku);
     }
 
     @Override
