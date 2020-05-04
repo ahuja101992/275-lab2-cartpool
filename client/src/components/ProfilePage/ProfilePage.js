@@ -32,9 +32,13 @@ class ProfilePage extends Component {
                     credits: response.data.contribution,
                     tempFirstName: response.data.firstName,
                     tempLastName: response.data.lastName,
-                    tempEmail: response.data.email
+                    tempEmail: response.data.email,
+                    tempStreet: response.data.address.street,
+                    tempCity: response.data.address.city,
+                    tempState: response.data.address.state,
+                    tempZip: response.data.address.zip
 
-                });
+                }, () => console.log(this.state));
             })
             .catch(error => {
                 console.log(error);
@@ -79,25 +83,26 @@ class ProfilePage extends Component {
     submitChangeProfile = () => {
         //let poolerId = localStorage.getItem('id');
         let poolerId = 3;
-
-        let tempAddress = {
-            street: this.state.tempStreet,
-            city: this.state.tempCity,
-            state: this.state.tempState,
-            zip: this.state.tempZip
-        }
         let payload = {
             firstName: this.state.tempFirstName,
             lastName: this.state.tempLastName,
             email: this.state.tempLastName,
-            address: tempAddress
+            street: this.state.tempStreet,
+            city: this.state.tempCity,
+            state: this.state.tempState,
+            zip: this.state.tempZip
         }
         axios.put(`http://${HOSTNAME}:8080/pooler/update/${poolerId}`, null, { params: payload })
             .then(response => {
                 this.setState({
                     firstName: this.state.tempFirstName,
                     lastName: this.state.tempLastName,
-                    email: this.state.tempLastName
+                    email: this.state.tempLastName,
+                    img: this.state.imageUrl,
+                    street: this.state.tempStreet,
+                    city: this.state.tempCity,
+                    state: this.state.tempState,
+                    zip: this.state.tempZip
                 }, () => this.handleClose())
             })
             .catch(error => {
@@ -262,19 +267,19 @@ class ProfilePage extends Component {
                                 <Form.Label className="text-muted">Adddress:</Form.Label><hr />
                                 <Form.Label>Street:</Form.Label>
                                 <Form.Control type="text" name="tempStreet"
-                                    value={this.state.address.street} className="join-pool-modal-text" onChange={this.changeHandeler} />
+                                    value={this.state.tempStreet} className="join-pool-modal-text" onChange={this.changeHandeler} />
 
                                 <Form.Label>City:</Form.Label>
-                                <Form.Control type="text" name="tmepCity"
-                                    value={this.state.address.city} className="join-pool-modal-text" onChange={this.changeHandeler} />
+                                <Form.Control type="text" name="tempCity"
+                                    value={this.state.tempCity} className="join-pool-modal-text" onChange={this.changeHandeler} />
 
                                 <Form.Label>State:</Form.Label>
                                 <Form.Control type="text" name="tempState"
-                                    value={this.state.address.state} className="join-pool-modal-text" onChange={this.changeHandeler} />
+                                    value={this.state.tempState} className="join-pool-modal-text" onChange={this.changeHandeler} />
 
                                 <Form.Label>Zip:</Form.Label>
                                 <Form.Control type="text" name="tempZip"
-                                    value={this.state.address.zip} className="join-pool-modal-text" onChange={this.changeHandeler} />
+                                    value={this.state.tempZip} className="join-pool-modal-text" onChange={this.changeHandeler} />
                             </Form.Group>
                         </Form>
 
