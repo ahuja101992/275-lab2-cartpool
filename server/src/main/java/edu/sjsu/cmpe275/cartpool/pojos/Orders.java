@@ -32,11 +32,11 @@ public class Orders {
     @Column
     private long qty;
 
-    @Column
-    private long price;
+    @Column(precision=10, scale=2)
+    private double price;
 
-    @Column
-    private long finalPrice;
+    @Column(precision=10, scale=2)
+    private double finalPrice;
 
     @Column
     private boolean available;
@@ -116,19 +116,19 @@ public class Orders {
         this.qty = qty;
     }
 
-    public long getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(long price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
-    public long getFinalPrice() {
+    public double getFinalPrice() {
         return finalPrice;
     }
 
-    public void setFinalPrice(long finalPrice) {
+    public void setFinalPrice(double finalPrice) {
         this.finalPrice = finalPrice;
     }
 
@@ -184,8 +184,8 @@ public class Orders {
 	public static class OrderBuilder {
         private long store_id;
         private int qty;
-        private long price;
-        private long finalPrice;
+        private double price;
+        private double finalPrice;
         private boolean forDelivery;
         private boolean available;
         private String status;
@@ -201,12 +201,12 @@ public class Orders {
             return this;
         }
 
-        public OrderBuilder price(long price) {
+        public OrderBuilder price(double price) {
             this.price = price;
             return this;
         }
 
-        public OrderBuilder finalPrice(long finalPrice) {
+        public OrderBuilder finalPrice(double finalPrice) {
             this.finalPrice = finalPrice;
             return this;
         }
