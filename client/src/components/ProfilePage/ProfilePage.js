@@ -3,16 +3,16 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Profile.css';
 import { HOSTNAME } from "../../constants/appConstants";
+import { Button, Form, Modal } from 'react-bootstrap'
 import axios from 'axios';
 
 class ProfilePage extends Component {
     constructor(props) {
         super(props);
-        this.state = Object.assign({}, { firstName: "Vijay" }, { email: "vijayghanshani2@gmail.com" }, { imageUrl: "https://bootdey.com/img/Content/avatar/avatar1.png" },
-            { credits: 5 }, { address: "" }, { screenName: "" }, { editFlag: false });
+        this.state = Object.assign({}, { firstName: "" }, { lastName: "" }, { email: "" }, { imageUrl: "https://bootdey.com/img/Content/avatar/avatar1.png" },
+            { credits: 0 }, { address: "" }, { screenName: "" }, { setShow: false }, { tempFirstName: "" }, { tempLastName: "" }, { tempEmail: "" });
 
         this.onFileChange = this.onFileChange.bind(this);
-
     }
 
     componentDidMount() {
@@ -22,11 +22,16 @@ class ProfilePage extends Component {
             .then(response => {
                 console.log(response);
                 this.setState({
+                    firstName: response.data.firstName,
+                    lastName: response.data.lastName,
                     email: response.data.email,
                     address: response.data.address ? response.data.address : "",
-                    //imageUrl: response.data.imageUrl,
+                    imageUrl: response.data.img ? response.data.img : "https://bootdey.com/img/Content/avatar/avatar1.png",
                     screenName: response.data.screenname,
-                    credits: response.data.contribution
+                    credits: response.data.contribution,
+                    tempFirstName: response.data.firstName,
+                    tempLastName: response.data.lastName,
+                    tempEmail: response.data.email
 
                 });
             })
@@ -40,6 +45,18 @@ class ProfilePage extends Component {
             [e.target.name]: e.target.value
         });
     };
+
+    handleClose = () => {
+        this.setState({
+            setShow: false
+        });
+    }
+
+    handleShow = () => {
+        this.setState({
+            setShow: true
+        });
+    }
 
     onFileChange(files) {
         if (files == null || files.length == 0) return;
@@ -58,8 +75,22 @@ class ProfilePage extends Component {
             .catch(err => console.error(err));
     }
 
-    changeEditFlag = () => {
-        this.setState({ editFlag: true })
+    submitChangeProfile = () => {
+        //let poolerId = localStorage.getItem('id');
+        let poolerId = 3;
+
+        let payload = {
+            firstName: this.state.tempFirstName,
+            lastName: this.state.tempLastName,
+            email: this.state.tempLastName
+        }
+        axios.put(`http://${HOSTNAME}:8080/pooler/update/${poolerId}`, null, { params: payload })
+            .then(response => {
+                this.handleClose();
+            })
+            .catch(error => {
+                console.log(error);
+            })
     }
 
     render() {
@@ -114,7 +145,7 @@ class ProfilePage extends Component {
                                                 <label className="col-md-2 col-sm-3 col-xs-12 control-label">Screen
                                                     Name</label>
                                                 <div className="col-md-10 col-sm-9 col-xs-12">
-                                                    <input type="text" className="form-control" contentEditable={this.state.editFlag}
+                                                    <input type="text" className="form-control"
                                                         value={this.state.screenName} onChange={this.changeHandeler} />
                                                 </div>
                                             </div>
@@ -123,7 +154,7 @@ class ProfilePage extends Component {
                                                 <label className="col-md-2 col-sm-3 col-xs-12 control-label">First
                                                     Name</label>
                                                 <div className="col-md-10 col-sm-9 col-xs-12">
-                                                    <input type="text" className="form-control" contentEditable={this.state.editFlag}
+                                                    <input type="text" className="form-control"
                                                         value={this.state.firstName} onChange={this.changeHandeler} />
                                                 </div>
                                             </div>
@@ -131,7 +162,7 @@ class ProfilePage extends Component {
                                                 <label className="col-md-2 col-sm-3 col-xs-12 control-label">Last
                                                     Name</label>
                                                 <div className="col-md-10 col-sm-9 col-xs-12">
-                                                    <input type="text" className="form-control" contentEditable={this.state.editFlag}
+                                                    <input type="text" className="form-control"
                                                         value={this.state.firstName} onChange={this.changeHandeler} />
                                                 </div>
                                             </div>
@@ -142,7 +173,7 @@ class ProfilePage extends Component {
                                                 <label
                                                     className="col-md-2  col-sm-3 col-xs-12 control-label">Email</label>
                                                 <div className="col-md-10 col-sm-9 col-xs-12">
-                                                    <input type="email" className="form-control" contentEditable={this.state.editFlag}
+                                                    <input type="email" className="form-control"
                                                         value={this.state.email} onChange={this.changeHandeler} />
                                                     <p className="help-block">This is the email </p>
                                                 </div>
@@ -160,8 +191,8 @@ class ProfilePage extends Component {
                                         <div className="form-group">
                                             <div
                                                 className="col-md-10 col-sm-9 col-xs-12 col-md-push-2 col-sm-push-3 col-xs-push-0">
-                                                <input className="btn btn-primary" type="submit"
-                                                    value="Update Profile" onClick={this.changeEditFlag} />
+                                                <input className="btn btn-primary" type="button"
+                                                    value="Update Profile" onClick={this.handleShow} />
                                             </div>
                                         </div>
                                     </form>
@@ -171,6 +202,48 @@ class ProfilePage extends Component {
                     </div>
                 </div>
 
+
+                <Modal show={this.state.setShow} onHide={this.handleClose} animation={false}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Create new pool</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <div className="text-muted text-center join-pool-modal-text">
+                            Update your Profile
+                        </div>
+                        <Form>
+                            <Form.Group controlId="formGroupItemName">
+                                <Form.Label>First Name:</Form.Label>
+                                <Form.Control type="text" name="tempFirstName"
+                                    value={this.state.tempFirstName} className="join-pool-modal-text" onChange={this.changeHandeler} />
+
+                                <Form.Label>Last Name:</Form.Label>
+                                <Form.Control type="text" name="tempLastName"
+                                    value={this.state.tempLastName} className="join-pool-modal-text" onChange={this.changeHandeler} />
+
+                                <Form.Label>Email:</Form.Label>
+                                <Form.Control type="text" name="tempEmail"
+                                    value={this.state.tempEmail} className="join-pool-modal-text" onChange={this.changeHandeler} />
+
+                                {/* <Form.Label>Adddress:</Form.Label>
+                                <Form.Control type="text" name="address"
+                                    value={this.state.address} className="join-pool-modal-text" /> */}
+                            </Form.Group>
+                        </Form>
+
+                    </Modal.Body>
+                    <Modal.Footer>
+
+                        <Button variant="secondary" onClick={this.handleClose}>
+                            Close
+                        </Button>
+
+                        <Button variant="primary" onClick={this.submitChangeProfile}>
+                            Submit
+                        </Button>
+
+                    </Modal.Footer>
+                </Modal>
             </React.Fragment>
         );
     }
