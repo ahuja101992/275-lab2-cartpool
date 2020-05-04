@@ -19,6 +19,7 @@ class EditItem extends Component {
             plainArray: [],
             objectArray: [],
             selectedValues: [],
+            sku:this.props.selectedProduct.sku,
             name:this.props.selectedProduct.name,
             brand:this.props.selectedProduct.brand,
             desc:this.props.selectedProduct.desc,
@@ -78,15 +79,22 @@ class EditItem extends Component {
 
         console.log("store_arr",store_arr);
         let updatedData = {
-            stores: store_arr.toString(),
             name: data.name,
             desc: data.desc,
             brand: data.brand ? data.brand : "",
             unit: data.unit,
             qty: data.qty,
-            price:data.price,
-            adminId:1
+            price:data.price
         }
+
+        console.log("edit item",updatedData);
+        console.log("sku item",this.state.sku);
+        axios.put(`http://localhost:8080/product/${this.state.sku}/1`, null, {params: updatedData})
+        .then((response) => {
+           console.log("create data res",response)
+        }).catch(err => {
+            console.error(err);
+        });
     }
 
     render() {
@@ -189,9 +197,9 @@ class EditItem extends Component {
                                 <Form.Group controlId="price">
                                     <Form.Label>Price( in Dollars ) </Form.Label>
                                     <Form.Control   type="text" required 
-                                    placeholder={"$"+this.state.price} 
+                                    placeholder={this.state.price} 
                                     onChange={e => this.setState({ price: e.target.value })}
-                                    value={"$"+this.state.price}
+                                    value={this.state.price}
                                     />
                                 </Form.Group>
                                 <Button variant="primary" type="submit">

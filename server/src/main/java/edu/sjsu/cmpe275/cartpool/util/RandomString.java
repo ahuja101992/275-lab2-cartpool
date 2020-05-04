@@ -3,6 +3,7 @@ package edu.sjsu.cmpe275.cartpool.util;
 import org.springframework.stereotype.Component;
 
 import java.security.SecureRandom;
+import java.util.Arrays;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Random;

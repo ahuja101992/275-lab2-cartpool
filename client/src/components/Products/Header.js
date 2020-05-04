@@ -9,12 +9,27 @@ import {Link} from 'react-router-dom';
 class Header extends Component {
   constructor(props) {
     super(props);
+    
     this.state = {
       showCart: false,
       cart: this.props.cartItems,
       mobileSearch: false
     };
+      this.increment = this.increment.bind(this);
+      this.decrement = this.decrement.bind(this);
   }
+
+
+  increment(product) {
+    console.log("product increment",product.qty)
+    this.props.addOne(product);
+  }
+
+  decrement(product) {
+    console.log("product")
+   this.props.deleteOne(product);
+  }
+
   handleCart(e) {
     e.preventDefault();
     this.setState({
@@ -33,6 +48,7 @@ class Header extends Component {
       mobileSearch: true
     });
   }
+
   handleSearchNav(e) {
     e.preventDefault();
     this.setState(
@@ -48,14 +64,14 @@ class Header extends Component {
   handleClickOutside(event) {
     const cartNode = findDOMNode(this.refs.cartPreview);
     const buttonNode = findDOMNode(this.refs.cartButton);
-    if (cartNode.classList.contains("active")) {
-      if (!cartNode || !cartNode.contains(event.target)) {
-        this.setState({
-          showCart: false
-        });
-        event.stopPropagation();
-      }
-    }
+    // if (cartNode.classList.contains("active")) {
+    //   if (!cartNode || !cartNode.contains(event.target)) {
+    //     this.setState({
+    //       showCart: false
+    //     });
+    //     event.stopPropagation();
+    //   }
+    // }
   }
   componentDidMount() {
     document.addEventListener(
@@ -73,6 +89,23 @@ class Header extends Component {
   }
   render() {
     let cartItems;
+    let searchBySku=<input
+    type="search"
+    ref="searchBox"
+    placeholder="Search By Sku"
+    className="search-keyword"
+    onChange={this.props.handleSearchBySku}
+  />
+let searchByStoreId=<input
+    type="search"
+    ref="searchBox"
+    placeholder="Search By StoreId"
+    className="search-keyword"
+    onChange={this.props.handleSearchByStoreId}
+  />
+  let showSearchBySku = localStorage.getItem('type') === "admin" ? searchBySku : "";
+  let showSearchByStoreId = localStorage.getItem('type') === "admin" ? searchByStoreId : "";
+
     cartItems = this.state.cart.map(product => {
       return (
         <li className="cart-item" key={product.name}>
@@ -83,7 +116,26 @@ class Header extends Component {
           </div>
           <div className="product-total">
             <p className="quantity">
-              {product.quantity} {product.qty > 1 ? "Nos." : "No."}{" "}
+            <button
+            type="button"
+            onClick={this.increment.bind(
+              this,
+             product
+            )}
+          >
+            <b> + </b>
+          </button>
+
+        {product.qty} {product.qty > 1 ? "Nos." : "No."}{" "}
+        <button
+            type="button"
+            onClick={this.decrement.bind(
+              this,
+             product
+            )}
+          >
+            <b> - </b>
+          </button>
             </p>
             <p className="amount">{product.qty * product.price}</p>
           </div>
@@ -119,8 +171,8 @@ class Header extends Component {
           <div className="brand">
             <img
               className="logo"
-              src="https://res.cloudinary.com/sivadass/image/upload/v1493547373/dummy-logo/Veggy.png"
-              alt="Veggy Brand Logo"
+              src=""
+              alt="CartPool"
             />
           </div>
 
@@ -155,10 +207,13 @@ class Header extends Component {
               <input
                 type="search"
                 ref="searchBox"
-                placeholder="Search for Products"
+                placeholder="Search By Name"
                 className="search-keyword"
                 onChange={this.props.handleSearch}
               />
+              {showSearchBySku}
+              {showSearchByStoreId}
+
               <button
                 className="search-button"
                 type="submit"

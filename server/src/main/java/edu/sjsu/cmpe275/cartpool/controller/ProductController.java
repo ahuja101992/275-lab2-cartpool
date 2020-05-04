@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Component
@@ -44,10 +45,11 @@ public class ProductController {
                                         @RequestParam Long price,
                                         @RequestParam Long adminId) {
 
-            adminService.findById(adminId);
+        adminService.findById(adminId);
+        image_url="https://res.cloudinary.com/sivadass/image/upload/v1493620045/dummy-products/strawberry.jpg";
         List<Product> products= new ArrayList<>();
+        String sku= UUID.randomUUID().toString()+name+price;
         for(Long storeId : stores) {
-            String sku=new RandomString(8, ThreadLocalRandom.current()).toString();
             ProductId productId = new ProductId(storeId,sku);
             Product product = null;
             if (brand == null) {
@@ -55,32 +57,29 @@ public class ProductController {
             } else {
                 product = new Product(productId, name, desc, image_url, brand, unit, price);
             }
-
             Product newProduct = productService.createProduct(product);
             products.add(newProduct);
         }
         return  ResponseEntity.status(HttpStatus.OK).body(products);
     }
 
-    @RequestMapping(value = "/product/{storeId}/{sku}/{adminId}",
+    @RequestMapping(value = "/product/{sku}/{adminId}",
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             method = RequestMethod.DELETE)
     @ResponseBody
-    public ResponseEntity<Set<Product>> deleteProduct(@PathVariable Long storeId,
-                                                    @PathVariable String sku,
+    public ResponseEntity<List<Product>> deleteProduct(@PathVariable String sku,
                                                     @PathVariable Long adminId) {
         adminService.findById(adminId);
-        Set<Product> products = productService.deleteProduct(storeId, sku);
+        List<Product> products = productService.deleteProduct(sku);
         return ResponseEntity.status(HttpStatus.OK).body(products);
     }
 
-    @RequestMapping(value = "/product/{storeId}/{sku}/{adminId}",
+    @RequestMapping(value = "/product/{sku}/{adminId}",
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
 
             method = RequestMethod.PUT)
     @ResponseBody
-    public ResponseEntity<Product> updateProduct(@PathVariable Long storeId,
-                                                 @PathVariable String sku,
+    public ResponseEntity<List<Product>> updateProduct(@PathVariable String sku,
                                                  @PathVariable Long adminId,
                                                  @RequestParam(required = false) String name,
                                                  @RequestParam(required = false) String desc,
@@ -91,28 +90,27 @@ public class ProductController {
     ) {
         adminService.findById(adminId);
         image_url="https://res.cloudinary.com/sivadass/image/upload/v1493620045/dummy-products/strawberry.jpg";
-        Product product = productService.ffindByStoreId_SKU(storeId,sku);
-        if(name!=null){
-            product.setName(name);
-        }
-        if (desc != null) {
-            product.setDescription(desc);
-        }
-        if (image_url != null) {
+        List<Product> products = productService.searchProductBySKU(sku);
+        for(Product product : products) {
+            if (name != null) {
+                product.setName(name);
+            }
+            if (desc != null) {
+                product.setDescription(desc);
+            }
             product.setImageURL(image_url);
+            if (brand != null) {
+                product.setBrandName(brand);
+            }
+            if (unit != null) {
+                product.setUnit(unit);
+            }
+            if (price != null) {
+                product.setPrice(price);
+            }
         }
-        if (brand != null) {
-            product.setBrandName(brand);
-        }
-        if (unit != null) {
-            product.setUnit(unit);
-        }
-        if (price != null) {
-            product.setPrice(price);
-        }
-
-        productService.updateProduct(product);
-        return product != null ? ResponseEntity.status(HttpStatus.OK).body(product) : null;
+        productService.updateProduct(products);
+        return ResponseEntity.status(HttpStatus.OK).body(products);
     }
 
     @RequestMapping(value = "/products/groupByName",

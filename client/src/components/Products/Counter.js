@@ -23,7 +23,7 @@ class Counter extends Component {
 
   decrement(e) {
     e.preventDefault();
-    if (this.state.value <= 1) {
+    if (this.state.value <= 0) {
       return this.state.value;
     } else {
       this.setState(
