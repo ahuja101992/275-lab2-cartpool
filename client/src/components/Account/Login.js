@@ -42,6 +42,8 @@ class Login extends Component {
       provider: null,
       provider_id: null,
       OAuthRedirect: false,
+      firstName: null,
+      lastName: null,
     };
   }
 
@@ -99,6 +101,8 @@ class Login extends Component {
         email: res.Qt.zu,
         accessToken: res.accessToken,
         name: res.Qt.Ad,
+        firstName: res.Qt.DW,
+        lastName: res.Qt.DU,
         img_url: res.Qt.gL,
         provider_id: res.Qt.ZU,
         provider: "google",
@@ -185,6 +189,8 @@ class Login extends Component {
                 img_url: this.state.img_url,
                 provider_id: this.state.provider_id,
                 provider: this.state.provider,
+                firstName: this.state.firstName,
+                lastName: this.state.lastName,
               },
             }}
           />
