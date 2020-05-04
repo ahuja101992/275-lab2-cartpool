@@ -3,14 +3,15 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Profile.css';
 import { HOSTNAME } from "../../constants/appConstants";
-import { Button, Form, Modal } from 'react-bootstrap'
+import { Button, Form, Modal, Row } from 'react-bootstrap'
 import axios from 'axios';
 
 class ProfilePage extends Component {
     constructor(props) {
         super(props);
         this.state = Object.assign({}, { firstName: "" }, { lastName: "" }, { email: "" }, { imageUrl: "https://bootdey.com/img/Content/avatar/avatar1.png" },
-            { credits: 0 }, { address: "" }, { screenName: "" }, { setShow: false }, { tempFirstName: "" }, { tempLastName: "" }, { tempEmail: "" });
+            { credits: 0 }, { screenName: "" }, { setShow: false }, { tempFirstName: "" }, { tempLastName: "" }, { tempEmail: "" }, { tempStreet: "" }, { tempCity: "" }, { tempState: "" }, { tempZip: "" },
+            { address: { city: "", state: "", street: "", zip: "" } });
 
         this.onFileChange = this.onFileChange.bind(this);
     }
@@ -25,7 +26,7 @@ class ProfilePage extends Component {
                     firstName: response.data.firstName,
                     lastName: response.data.lastName,
                     email: response.data.email,
-                    address: response.data.address ? response.data.address : "",
+                    address: response.data.address ? { ...response.data.address } : "",
                     imageUrl: response.data.img ? response.data.img : "https://bootdey.com/img/Content/avatar/avatar1.png",
                     screenName: response.data.screenname,
                     credits: response.data.contribution,
@@ -79,14 +80,25 @@ class ProfilePage extends Component {
         //let poolerId = localStorage.getItem('id');
         let poolerId = 3;
 
+        let tempAddress = {
+            street: this.state.tempStreet,
+            city: this.state.tempCity,
+            state: this.state.tempState,
+            zip: this.state.tempZip
+        }
         let payload = {
             firstName: this.state.tempFirstName,
             lastName: this.state.tempLastName,
-            email: this.state.tempLastName
+            email: this.state.tempLastName,
+            address: tempAddress
         }
         axios.put(`http://${HOSTNAME}:8080/pooler/update/${poolerId}`, null, { params: payload })
             .then(response => {
-                this.handleClose();
+                this.setState({
+                    firstName: this.state.tempFirstName,
+                    lastName: this.state.tempLastName,
+                    email: this.state.tempLastName
+                }, () => this.handleClose())
             })
             .catch(error => {
                 console.log(error);
@@ -175,15 +187,37 @@ class ProfilePage extends Component {
                                                 <div className="col-md-10 col-sm-9 col-xs-12">
                                                     <input type="email" className="form-control"
                                                         value={this.state.email} onChange={this.changeHandeler} />
-                                                    <p className="help-block">This is the email </p>
                                                 </div>
                                             </div>
                                             <div className="form-group">
                                                 <label
-                                                    className="col-md-2  col-sm-3 col-xs-12 control-label">Address</label>
+                                                    className="col-md-2  col-sm-3 col-xs-12 control-label text-muted">Address: </label>
                                                 <div className="col-md-10 col-sm-9 col-xs-12">
+                                                    <label
+                                                        className="col-md-2  col-sm-3 col-xs-12 control-label">Street </label>
                                                     <input type="text" className="form-control"
-                                                        value={this.state.address} onChange={this.changeHandeler} />
+                                                        value={this.state.address.street} onChange={this.changeHandeler} />
+                                                </div>
+
+                                                <div className="col-md-10 col-sm-9 col-xs-12">
+                                                    <label
+                                                        className="col-md-2  col-sm-3 col-xs-12 control-label">City </label>
+                                                    <input type="text" className="form-control"
+                                                        value={this.state.address.city} onChange={this.changeHandeler} />
+                                                </div>
+
+                                                <div className="col-md-10 col-sm-9 col-xs-12">
+                                                    <label
+                                                        className="col-md-2  col-sm-3 col-xs-12 control-label">State </label>
+                                                    <input type="text" className="form-control"
+                                                        value={this.state.address.state} onChange={this.changeHandeler} />
+                                                </div>
+
+                                                <div className="col-md-10 col-sm-9 col-xs-12">
+                                                    <label
+                                                        className="col-md-2  col-sm-3 col-xs-12 control-label">Zip </label>
+                                                    <input type="text" className="form-control"
+                                                        value={this.state.address.zip} onChange={this.changeHandeler} />
                                                 </div>
                                             </div>
                                         </fieldset>
@@ -225,9 +259,22 @@ class ProfilePage extends Component {
                                 <Form.Control type="text" name="tempEmail"
                                     value={this.state.tempEmail} className="join-pool-modal-text" onChange={this.changeHandeler} />
 
-                                {/* <Form.Label>Adddress:</Form.Label>
-                                <Form.Control type="text" name="address"
-                                    value={this.state.address} className="join-pool-modal-text" /> */}
+                                <Form.Label className="text-muted">Adddress:</Form.Label><hr />
+                                <Form.Label>Street:</Form.Label>
+                                <Form.Control type="text" name="tempStreet"
+                                    value={this.state.address.street} className="join-pool-modal-text" onChange={this.changeHandeler} />
+
+                                <Form.Label>City:</Form.Label>
+                                <Form.Control type="text" name="tmepCity"
+                                    value={this.state.address.city} className="join-pool-modal-text" onChange={this.changeHandeler} />
+
+                                <Form.Label>State:</Form.Label>
+                                <Form.Control type="text" name="tempState"
+                                    value={this.state.address.state} className="join-pool-modal-text" onChange={this.changeHandeler} />
+
+                                <Form.Label>Zip:</Form.Label>
+                                <Form.Control type="text" name="tempZip"
+                                    value={this.state.address.zip} className="join-pool-modal-text" onChange={this.changeHandeler} />
                             </Form.Group>
                         </Form>
 
