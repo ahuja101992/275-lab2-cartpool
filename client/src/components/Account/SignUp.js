@@ -42,7 +42,10 @@ class SignUp extends Component {
     }
 
     let updatedData = null;
-    if (this.props.location.props && this.props.location.mene.provider !== "") {
+    if (
+      this.props.location.props &&
+      this.props.location.props.provider !== ""
+    ) {
       updatedData = {
         screenName: data.screenName,
         nickName: data.nickName,
@@ -142,6 +145,12 @@ class SignUp extends Component {
           <Form.Group controlId="firstName">
             <Form.Label>First Name</Form.Label>
             <Form.Control
+              defaultValue={
+                this.props.location.props &&
+                this.props.location.props.firstName !== ""
+                  ? this.props.location.props.firstName
+                  : ""
+              }
               placeholder="Please provide your first name"
               required
             />
@@ -150,6 +159,12 @@ class SignUp extends Component {
           <Form.Group controlId="lastName">
             <Form.Label>Last Name</Form.Label>
             <Form.Control
+              defaultValue={
+                this.props.location.props &&
+                this.props.location.props.lastName !== ""
+                  ? this.props.location.props.lastName
+                  : ""
+              }
               placeholder="Please provide your last name"
               required
             />
@@ -157,11 +172,16 @@ class SignUp extends Component {
           <Form.Group controlId="email">
             <Form.Label>Email</Form.Label>
             <Form.Control
-                disabled={this.props.location.props &&
-                this.props.location.props.provider !== ""}
-                defaultValue={this.props.location.props &&
+              disabled={
+                this.props.location.props &&
                 this.props.location.props.provider !== ""
-                    ? this.props.location.props.email : ""}
+              }
+              defaultValue={
+                this.props.location.props &&
+                this.props.location.props.provider !== ""
+                  ? this.props.location.props.email
+                  : ""
+              }
               placeholder={
                 this.props.location.props &&
                 this.props.location.props.provider !== ""
