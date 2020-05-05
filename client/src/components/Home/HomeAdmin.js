@@ -9,6 +9,7 @@ import Logout from "../Account/Logout";
 import logo from "../../images/cart.png";
 import '../../css/Account.css'
 import ViewStore from '../AdminPages/ViewStore';
+import AdminItems from '../Products/AdminItems';
 
 class HomeAdmin extends Component {
     constructor(props) {
@@ -59,8 +60,6 @@ class HomeAdmin extends Component {
                         <Nav className="ml-auto">
                             <Nav.Link as={NavLink} to='/homeAdmin/viewStore/'>Stores</Nav.Link>
                             <Nav.Link as={NavLink} to='/homeAdmin/viewProduct/'>Products</Nav.Link>
-                            {/* <Nav.Link as={NavLink} to='/homeAdmin/store/'>Store</Nav.Link> */}
-                            {/* <Nav.Link as={NavLink} to='/homeAdmin/item/'>Item</Nav.Link> */}
                             <Nav.Link as={NavLink} to='/homeAdmin/addItem/'>AddItem</Nav.Link>
                             <Nav.Link as={NavLink} to='/homeAdmin/logout/'>Logout</Nav.Link>
                             
@@ -72,8 +71,7 @@ class HomeAdmin extends Component {
                 <div>
                     <Switch>
                         <Route exact path='/homeAdmin/viewStore/' component={ViewStore}/>
-                        <Route exact path='/homeAdmin/viewProduct/' component={Items}/>
-                        <Route exact path='/homeAdmin/item/' component={Items}/>
+                        <Route exact path='/homeAdmin/viewProduct/' component={AdminItems}/>
                         <Route exact path='/homeAdmin/addItem/' component={AddItem}/>
                         <Route exact path='/homeAdmin/' component={Stores}/>
                         <Route exact path='/homeAdmin/logout/' component={Logout}/>

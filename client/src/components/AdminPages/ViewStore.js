@@ -31,6 +31,15 @@ class ViewStore extends Component {
     };
 
     renderPoolList = (pool) => {
+
+
+        let link;
+        let linkAdmin = <Link to={{ pathname: '/homeAdmin/item/', state: {store:pool,id:pool.id,name:pool.name}}}>
+        <Button variant="outline-danger">Select</Button></Link>
+        let linkPooler=<Link to={{ pathname: '/homePooler/item/', state: {store:pool,id:pool.id,name:pool.name}}}>
+        <Button variant="outline-danger">Select</Button></Link>
+
+        link = localStorage.getItem('type') === "pooler" ? linkPooler : linkAdmin   
         return (<div key={pool.id}>
             <Row>
                 <Col xs={12}>
@@ -38,8 +47,7 @@ class ViewStore extends Component {
                         <Card.Header>
                             <Row><Col xs={12} md={8}><h2>{pool.name}</h2></Col>
                                 <Col xs={6} md={4}>
-                                <Link to={{ pathname: '/homeAdmin/item/', state: {store:pool,id:pool.id,name:pool.name}}}>
-                                <Button variant="outline-danger">Select</Button></Link>
+                                {link}
                                 </Col>
                             </Row>
                             <Card.Body>

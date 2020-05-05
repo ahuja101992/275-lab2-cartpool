@@ -6,11 +6,12 @@ import Pickup from "../PoolerPages/Pickup";
 import Delivery from "../PoolerPages/Delivery";
 import Orders from "../PoolerPages/Orders";
 import Messaging from "../PoolerPages/Messaging";
-
+import ViewStore from '../AdminPages/ViewStore';
 import SearchPool from "../SearchPool/SearchPool";
 import Checkout from "../Checkout/Checkout";
 import Logout from "../Account/Logout";
 import logo from "../../images/cart.png";
+import Items from "../Products/Items";
 
 class HomePooler extends Component {
     constructor(props) {
@@ -66,6 +67,7 @@ class HomePooler extends Component {
                         </Nav>
 
                         <Nav className="ml-auto">
+                        <Nav.Link as={NavLink} to='/homePooler/viewStore/'>Stores</Nav.Link>
                             <Nav.Link as={NavLink} to="/homePooler/pickup/">
                                 Pickup
                             </Nav.Link>
@@ -87,7 +89,9 @@ class HomePooler extends Component {
 
                 <div>
                     <Switch>
-                        <Route exact path="/homePooler/" component={SearchPool}/>
+                    <Route exact path='/homePooler/viewStore/' component={ViewStore}/>
+                    <Route exact path='/homePooler/item/' component={Items}/>
+                    <Route exact path="/homePooler/" component={SearchPool}/>
                         <Route exact path="/homePooler/orders/" component={Orders}/>
                         <Route exact path="/homePooler/pickup/" component={Pickup}/>
                         <Route exact path="/homePooler/delivery/" component={Delivery}/>

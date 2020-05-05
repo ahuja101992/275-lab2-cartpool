@@ -8,6 +8,7 @@ import Products from "./Products";
 import Footer from "./Footer";
 import QuickView from "./QuickView";
 import "./scss/style.scss";
+import { findDOMNode } from "react-dom";
 
 function mapStateToProps(store) {
     return {
@@ -23,12 +24,13 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-class Items extends Component {
+class AdminItems extends Component {
   constructor(props) {
     super(props);
+
         this.state = {
-          storeid:  props.location.state.id,
-          store:  props.location.state.store,
+          storeid: "",
+          store:  "",
           products: [],
           cart: [],
           totalItems: 0,
@@ -70,8 +72,7 @@ class Items extends Component {
       }
 
       getAll(){
-        if(localStorage.getItem('type') === "pooler" ){
-        axios.get(`http://localhost:8080/products/${this.state.storeid}`)
+      axios.get(`http://localhost:8080/products`)
       .then((response) => {
          console.log("create data res",response)
          this.setState({
@@ -80,17 +81,6 @@ class Items extends Component {
       }).catch(err => {
           console.error(err);
       })
-    }else{
-      axios.get(`http://localhost:8080/products/groupByName`)
-      .then((response) => {
-         console.log("create data res",response)
-         this.setState({
-          products: response.data
-            });
-      }).catch(err => {
-          console.error(err);
-      })
-    }
     }
       componentWillMount() {
         this.getAll();
@@ -98,17 +88,29 @@ class Items extends Component {
     
       // Search by Keyword
       handleSearch(event) {
+        // const searchStoreId = findDOMNode(this.refs.searchStoreId);
+        // const searchSku = findDOMNode(this.refs.searchSku);
+        // searchStoreId.reset();
+        // searchSku.reset();
         this.setState({ term: event.target.value ,
         flag:0});
       }
        // Search by sKU
        handleSearchBySku(event) {
+        // const searchBox = findDOMNode(this.refs.searchBox);
+        // const searchStoreId = findDOMNode(this.refs.searchStoreId);
+        // searchBox.reset();
+        // searchStoreId.reset();
          console.log("sku parent page")
          this.setState({ term: event.target.value,
         flag:1 });
       }
        // Search by StoreId
        handleSearchByStoreId(event) {
+        // const searchBox = findDOMNode(this.refs.searchBox);
+        // const searchSku = findDOMNode(this.refs.searchSku);
+        // searchBox.reset();
+        // searchSku.reset();
         console.log("store parent page")
         this.setState({ term: event.target.value,
           flag:2 });
@@ -341,4 +343,4 @@ class Items extends Component {
       }
     }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Items);
+export default connect(mapStateToProps, mapDispatchToProps)(AdminItems);

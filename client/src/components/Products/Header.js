@@ -9,7 +9,7 @@ import {Link} from 'react-router-dom';
 class Header extends Component {
   constructor(props) {
     super(props);
-    
+    this.myRef = React.createRef();
     this.state = {
       showCart: false,
       cart: this.props.cartItems,
@@ -38,6 +38,8 @@ class Header extends Component {
   }
 
   handleSubmit(e) {
+    const searchStoreId = findDOMNode(this.refs.searchStoreId);
+    console.log("dom::",searchStoreId);
     e.preventDefault();
   }
 
@@ -91,23 +93,26 @@ class Header extends Component {
     let cartItems;
     let searchBySku=<input
     type="search"
-    ref="searchBox"
+    ref="searchBoxSku"
     placeholder="Search By Sku"
     className="search-keyword"
     onChange={this.props.handleSearchBySku}
   />
 let searchByStoreId=<input
     type="search"
-    ref="searchBox"
+    ref="searchStoreId"
     placeholder="Search By StoreId"
     className="search-keyword"
     onChange={this.props.handleSearchByStoreId}
   />
+
   let showSearchBySku = localStorage.getItem('type') === "admin" ? searchBySku : "";
   let showSearchByStoreId = localStorage.getItem('type') === "admin" ? searchByStoreId : "";
 
+
     cartItems = this.state.cart.map(product => {
       return (
+
         <li className="cart-item" key={product.name}>
           <img className="product-image" src={product.image} />
           <div className="product-info">
@@ -165,6 +170,76 @@ let searchByStoreId=<input
         </CSSTransitionGroup>
       );
     }
+    let bag=<div className="cart">
+  <div className="cart-info">
+    <table>
+      <tbody>
+        <tr>
+          <td>No. of items</td>
+          <td>:</td>
+          <td>
+            <strong>{this.props.totalItems}</strong>
+          </td>
+        </tr>
+        <tr>
+          <td>Sub Total</td>
+          <td>:</td>
+          <td>
+            <strong>{this.props.total}</strong>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <a
+    className="cart-icon"
+    href="#"
+    onClick={this.handleCart.bind(this)}
+    ref="cartButton"
+  >
+    <img
+      className={this.props.cartBounce ? "tada" : " "}
+      src="https://res.cloudinary.com/sivadass/image/upload/v1493548928/icons/bag.png"
+      alt="Cart"
+    />
+    {this.props.totalItems ? (
+      <span className="cart-count">{this.props.totalItems}</span>
+    ) : (
+      ""
+    )}
+  </a>
+  <div
+    className={
+      this.state.showCart ? "cart-preview active" : "cart-preview"
+    }
+    ref="cartPreview"
+  >
+    <CartScrollBar>{view}</CartScrollBar>
+    <div className="action-block">
+    <Link to={{ pathname: '/homePooler/checkout/', 
+      state: {
+          id: this.props.storeid,
+          store: this.props.storeid,
+          pool: "",
+          qty: this.props.totalItems,
+          items :this.props.cart,
+          price: this.props.totalAmount,
+          finalPrice: "",
+          available: true,
+          forDelivery: true,
+          status: "Placed",
+          orderOwner: "",
+          deliveryBy: null
+        }
+      }}><button
+        type="button"
+        className={this.state.cart.length > 0 ? " " : "disabled"}>
+        PROCEED TO CHECKOUT
+      </button></Link>
+    </div>
+  </div>
+</div>
+  let showCart = localStorage.getItem('type') === "pooler" ? bag : "";
     return (
       <header>
         <div className="container">
@@ -221,76 +296,8 @@ let searchByStoreId=<input
               />
             </form>
           </div>
+           {showCart}
 
-          <div className="cart">
-            <div className="cart-info">
-              <table>
-                <tbody>
-                  <tr>
-                    <td>No. of items</td>
-                    <td>:</td>
-                    <td>
-                      <strong>{this.props.totalItems}</strong>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Sub Total</td>
-                    <td>:</td>
-                    <td>
-                      <strong>{this.props.total}</strong>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <a
-              className="cart-icon"
-              href="#"
-              onClick={this.handleCart.bind(this)}
-              ref="cartButton"
-            >
-              <img
-                className={this.props.cartBounce ? "tada" : " "}
-                src="https://res.cloudinary.com/sivadass/image/upload/v1493548928/icons/bag.png"
-                alt="Cart"
-              />
-              {this.props.totalItems ? (
-                <span className="cart-count">{this.props.totalItems}</span>
-              ) : (
-                ""
-              )}
-            </a>
-            <div
-              className={
-                this.state.showCart ? "cart-preview active" : "cart-preview"
-              }
-              ref="cartPreview"
-            >
-              <CartScrollBar>{view}</CartScrollBar>
-              <div className="action-block">
-              <Link to={{ pathname: '/homePooler/checkout/', 
-                state: {
-                    id: this.props.storeid,
-                    store: this.props.storeid,
-                    pool: "",
-                    qty: this.props.totalItems,
-                    items :this.props.cart,
-                    price: this.props.totalAmount,
-                    finalPrice: "",
-                    available: true,
-                    forDelivery: true,
-                    status: "Placed",
-                    orderOwner: "",
-                    deliveryBy: null
-                  }
-                }}><button
-                  type="button"
-                  className={this.state.cart.length > 0 ? " " : "disabled"}>
-                  PROCEED TO CHECKOUT
-                </button></Link>
-              </div>
-            </div>
-          </div>
         </div>
       </header>
     );
