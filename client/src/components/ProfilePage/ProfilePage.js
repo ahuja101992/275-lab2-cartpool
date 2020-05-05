@@ -87,6 +87,7 @@ class ProfilePage extends Component {
             firstName: this.state.tempFirstName,
             lastName: this.state.tempLastName,
             email: this.state.tempLastName,
+            imageUrl: this.state.imageUrl,
             street: this.state.tempStreet,
             city: this.state.tempCity,
             state: this.state.tempState,
@@ -97,8 +98,8 @@ class ProfilePage extends Component {
                 this.setState({
                     firstName: this.state.tempFirstName,
                     lastName: this.state.tempLastName,
-                    email: this.state.tempLastName,
-                    img: this.state.imageUrl,
+                    email: this.state.tempEmail,
+                    imageUrl: this.state.imageUrl,
                     street: this.state.tempStreet,
                     city: this.state.tempCity,
                     state: this.state.tempState,
@@ -145,19 +146,7 @@ class ProfilePage extends Component {
                                     <form className="form-horizontal">
                                         <fieldset className="fieldset">
                                             <h3 className="fieldset-title text-muted">Personal Info</h3>
-                                            <div className="form-group avatar">
-                                                <figure className="figure col-md-2 col-sm-3 col-xs-12">
-                                                    <img className="img-rounded img-responsive"
-                                                        src={this.state.imageUrl} alt="" />
-                                                </figure>
-                                                <div className="form-inline col-md-10 col-sm-9 col-xs-12">
-                                                    <input type="file" className="file-uploader pull-left" onChange={(e) => this.onFileChange(e.target.files)} />
-                                                    <button type="submit"
-                                                        className="btn btn-sm btn-default-alt pull-left">Update
-                                                    Image
-                                                    </button>
-                                                </div>
-                                            </div>
+
                                             <div className="form-group">
                                                 <label className="col-md-2 col-sm-3 col-xs-12 control-label">Screen
                                                     Name</label>
@@ -251,6 +240,19 @@ class ProfilePage extends Component {
                             Update your Profile
                         </div>
                         <Form>
+                            <div className="form-group avatar">
+                                <figure className="figure col-md-2 col-sm-3 col-xs-12">
+                                    <img className="modal-img-profile img-circle img-responsive center-block"
+                                        src={this.state.imageUrl} alt="" />
+                                </figure>
+                                <div className="form-inline col-md-10 col-sm-9 col-xs-12">
+                                    <input type="file" className="file-uploader pull-left" onChange={(e) => this.onFileChange(e.target.files)} />
+                                    <button type="submit"
+                                        className="btn btn-sm btn-default-alt pull-left">Update
+                                    Image
+                                                    </button>
+                                </div>
+                            </div>
                             <Form.Group controlId="formGroupItemName">
                                 <Form.Label>First Name:</Form.Label>
                                 <Form.Control type="text" name="tempFirstName"
