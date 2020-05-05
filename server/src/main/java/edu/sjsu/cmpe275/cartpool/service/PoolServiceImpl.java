@@ -148,4 +148,12 @@ public class PoolServiceImpl implements PoolService {
                 "Rejection for pool membership", messageBody);
         return pooler.getFirstName() + "'s " + "join request is rejected!";
     }
+
+    @Transactional
+    @Override
+    public Long getLeader(Long poolId) {
+        Pool pool = poolRepository.findById(poolId).orElseThrow(() -> new PoolNotFoundException());
+        Pooler leader = pool.getPoolLeader();
+        return leader.getId();
+    }
 }

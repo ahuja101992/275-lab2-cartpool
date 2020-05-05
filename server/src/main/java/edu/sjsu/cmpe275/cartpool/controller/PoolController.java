@@ -127,4 +127,12 @@ public class PoolController {
         //return ResponseEntity.status(HttpStatus.OK).body(poolService.verify(poolerId, poolId));
         return new ResponseEntity<>(poolService.reject(poolerId, poolId), HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/pool/getLeader/{poolId}",
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+            method = RequestMethod.GET)
+    public @ResponseBody
+    ResponseEntity<Long> getLeader(@PathVariable Long poolId) {
+        return new ResponseEntity<>(poolService.getLeader(poolId), HttpStatus.OK);
+    }
 }
