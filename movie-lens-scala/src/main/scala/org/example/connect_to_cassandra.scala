@@ -5,7 +5,7 @@ import com.datastax.spark.connector.rdd.reader.RowReaderFactory
 import org.apache.spark.SparkContext
 import org.apache.spark.SparkConf
 
-object Movie {
+object connect_to_cassandra {
   def main(args: Array[String]) {
     //val conf = new SparkConf(true).set("spark.cassandra.connection.host", "localhost")
     //import org.apache.spark.SparkConf

@@ -13,6 +13,10 @@ const initialState = {
     userActive: null
 };
 
+const isAdmin = (email = localStorage.getItem("email")) => {
+    return "sjsu.edu" === email.split("@")[1];
+};
+
 export default function authReducer(state = initialState, action) {
     console.log("signin auth reducer:");
     console.log(action.payload);
@@ -21,6 +25,7 @@ export default function authReducer(state = initialState, action) {
         localStorage.setItem('id', action.payload.id);
         localStorage.setItem('screenname', action.payload.screenname);
         localStorage.setItem('email', action.payload.email);
+        localStorage.setItem('type', isAdmin(action.payload.email) ? "admin" : "pooler");
 
         return Object.assign({}, state, {
             signinSuccess: action.payload.id !== null ? true : false,
