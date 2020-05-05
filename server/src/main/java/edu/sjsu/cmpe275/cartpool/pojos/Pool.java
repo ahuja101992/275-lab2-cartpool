@@ -3,8 +3,8 @@ package edu.sjsu.cmpe275.cartpool.pojos;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -39,7 +39,7 @@ public class Pool {
             mappedBy = "pool"
     )
     @JsonIgnoreProperties({"pool"})
-    private List<Pooler> members;
+    private Set<Pooler> members;
 
 
     public Pool() {
@@ -109,17 +109,17 @@ public class Pool {
         this.poolLeader = poolLeader;
     }
 
-    public List<Pooler> getMembers() {
+    public Set<Pooler> getMembers() {
         return members;
     }
 
-    public void setMembers(List<Pooler> members) {
+    public void setMembers(Set<Pooler> members) {
         this.members = members;
     }
 
     public void addPooler(Pooler pooler) {
         if (members == null)
-            members = new ArrayList<>();
+            members = new HashSet<>();
 
         members.add(pooler);
     }
