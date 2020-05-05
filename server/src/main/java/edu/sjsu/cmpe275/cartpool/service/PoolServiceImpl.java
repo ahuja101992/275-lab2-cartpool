@@ -94,16 +94,23 @@ public class PoolServiceImpl implements PoolService {
                 URI uri = null;
                 URL url = null;
 
+                URI rejectPathUri = null;
+                URL rejectPathUrl = null;
+
                 try {
                     String protocol = "http";
                     String host = Constants.HOSTNAME;
                     int port = 8080;
-                    String path = "/pool/verify/" + poolerId + "/" + poolId;
-                    uri = new URI(protocol, null, host, port, path, null, null);
+                    String verifyPath = "/pool/verify/" + poolerId + "/" + poolId;
+                    String rejectPath = "/pool/reject/" + poolerId + "/" + poolId;
+                    uri = new URI(protocol, null, host, port, verifyPath, null, null);
                     url = uri.toURL();
+
+                    rejectPathUri = new URI(protocol, null, host, port, rejectPath, null, null);
+                    rejectPathUrl = rejectPathUri.toURL();
                     messageBody = "<h3>Take the action to accept or reject the membership request</h3>\n" +
                             " <a target='_blank' href=" + url + "><button style=\"background-color:#4CAF50\">Accept</button></a>\n" +
-                            "<a target='_blank' href=><button style=\"background-color:#f44336\">Reject</button></a>";
+                            "<a target='_blank' href=" + rejectPathUrl + "><button style=\"background-color:#f44336\">Reject</button></a>";
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -114,11 +121,10 @@ public class PoolServiceImpl implements PoolService {
 
             }
         }
-        //"{\"success\": \"Deleted pool successfully\"}"
-
         return "{\"message\": \"verification email has been sent to reference pooler\"}";
     }
 
+    @Transactional
     @Override
     public Pool verify(Long poolerId, Long poolId) {
         Pooler pooler = poolerRepository.findById(poolerId).orElseThrow(() -> new UserNotFoundException());
@@ -129,5 +135,17 @@ public class PoolServiceImpl implements PoolService {
         pooler.setPool(pool);
         poolerRepository.save(pooler);
         return poolRepository.save(pool);
+    }
+
+    @Transactional
+    @Override
+    public String reject(Long poolerId, Long poolId) {
+        Pooler pooler = poolerRepository.findById(poolerId).orElseThrow(() -> new UserNotFoundException());
+        Pool pool = poolRepository.findById(poolId).orElseThrow(() -> new PoolNotFoundException());
+
+        String messageBody = "Reference Pooler has rejected your join request for pool: " + pool.getName();
+        emailService.sendEmailForPoolMembership(pooler.getEmail(),
+                "Rejection for pool membership", messageBody);
+        return pooler.getFirstName() + "'s" + "join request is rejected!";
     }
 }
