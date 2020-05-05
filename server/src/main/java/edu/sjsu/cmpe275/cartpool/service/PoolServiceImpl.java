@@ -156,4 +156,15 @@ public class PoolServiceImpl implements PoolService {
         Pooler leader = pool.getPoolLeader();
         return leader.getId();
     }
+
+    @Transactional
+    @Override
+    public Pool updatePool(Long poolId, String name, String neighborhoodName, String description){
+        Pool pool = poolRepository.findById(poolId).orElseThrow(() -> new PoolNotFoundException());
+        pool.setName(name);
+        pool.setNeighborhoodName(neighborhoodName);
+        pool.setDescription(description);
+
+        return poolRepository.save(pool);
+    }
 }

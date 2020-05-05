@@ -20,4 +20,6 @@ public interface PoolService {
     String reject(Long poolId, Long poolerId);
 
     Long getLeader(Long poolId);
+
+    Pool updatePool(Long poolId, String name,String neighborhoodName, String description);
 }

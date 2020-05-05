@@ -135,4 +135,17 @@ public class PoolController {
     ResponseEntity<Long> getLeader(@PathVariable Long poolId) {
         return new ResponseEntity<>(poolService.getLeader(poolId), HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/pool/update/{poolId}",
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+            method = RequestMethod.PUT)
+    public @ResponseBody
+    ResponseEntity<Pool> updatePool(@PathVariable Long poolId,
+                                    @RequestParam String name,
+                                    @RequestParam String neighborhoodName,
+                                    @RequestParam String description) {
+
+        return ResponseEntity.status(HttpStatus.OK).body(poolService.updatePool(poolId, name, neighborhoodName, description));
+        //return new ResponseEntity<>(poolService.updatePool(poolId, name, neighborhoodName, description), HttpStatus.OK);
+    }
 }
