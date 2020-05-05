@@ -181,7 +181,7 @@ public class OrderController {
         List<Item> itemList = cart.getItems();
         List<OrderDetails> orderList = new ArrayList<>();
         for(Item item : itemList){
-            OrderDetails orderDetails=new OrderDetails(item.getQty(),item.getPrice(),item.getSku());
+            OrderDetails orderDetails=new OrderDetails(item.getQty(),item.getPrice(),item.getSku(),item.getName());
             orderDetails.setOrder(order);
             orderList.add(orderDetails);
         }

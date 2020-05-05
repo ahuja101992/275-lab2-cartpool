@@ -20,7 +20,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 public class Item {
 
     @JsonProperty("sku")
-    private Integer sku;
+    private String sku;
     @JsonProperty("price")
     private Integer price;
     @JsonProperty("qty")
@@ -33,12 +33,12 @@ public class Item {
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("sku")
-    public Integer getSku() {
+    public String getSku() {
         return sku;
     }
 
     @JsonProperty("sku")
-    public void setSku(Integer sku) {
+    public void setSku(String sku) {
         this.sku = sku;
     }
 
