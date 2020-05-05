@@ -16,4 +16,6 @@ public interface PoolService {
     String joinPool(Long poolId, Long poolerId, String screenName);
 
     Pool verify(Long poolerId, Long poolId);
+
+    String reject(Long poolId, Long poolerId);
 }
