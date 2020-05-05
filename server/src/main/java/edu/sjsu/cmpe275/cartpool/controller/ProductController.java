@@ -46,7 +46,6 @@ public class ProductController {
                                         @RequestParam Long adminId) {
 
         adminService.findById(adminId);
-        image_url="https://res.cloudinary.com/sivadass/image/upload/v1493620045/dummy-products/strawberry.jpg";
         List<Product> products= new ArrayList<>();
         String sku= UUID.randomUUID().toString()+name+price;
         for(Long storeId : stores) {
@@ -89,7 +88,7 @@ public class ProductController {
                                                  @RequestParam(required = false) Long price
     ) {
         adminService.findById(adminId);
-        image_url="https://res.cloudinary.com/sivadass/image/upload/v1493620045/dummy-products/strawberry.jpg";
+
         List<Product> products = productService.searchProductBySKU(sku);
         for(Product product : products) {
             if (name != null) {
@@ -98,7 +97,9 @@ public class ProductController {
             if (desc != null) {
                 product.setDescription(desc);
             }
-            product.setImageURL(image_url);
+            if (image_url != null) {
+                product.setImageURL(image_url);
+            }
             if (brand != null) {
                 product.setBrandName(brand);
             }
