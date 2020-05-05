@@ -3,6 +3,7 @@ package edu.sjsu.cmpe275.cartpool.pojos;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import javax.validation.constraints.Pattern;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -28,6 +29,7 @@ public class Pool {
     private String description;
 
     @Column(name = "zip")
+    @Pattern(regexp = "^[0-9]{5}")
     private String zip;
 
     @OneToOne(fetch = FetchType.LAZY)
