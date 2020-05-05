@@ -78,6 +78,23 @@ class PoolInfo extends Component {
         console.log('inside handleDelete')
     }
 
+    renderButtons = () => {
+        return (
+            <React.Fragment>
+
+                <Button variant="success" size="lg"
+                    className="profile-btn"
+                    onClick={this.handleShow}>Create Pool
+                </Button>
+
+                <Button variant="danger" size="lg"
+                    className="profile-btn"
+                    onClick={this.handleDelete}>Delete Pool
+                </Button>
+            </React.Fragment>
+        )
+    }
+
     render() {
         return (
             <React.Fragment>
@@ -101,17 +118,11 @@ class PoolInfo extends Component {
                         </tr>
                     </tbody>
                 </Table>
-                <Button variant="success" size="lg"
-                    className="profile-btn"
-                    onClick={this.handleShow}>Create Pool
-                </Button>
-
-                <Button variant="danger" size="lg"
-                    className="profile-btn"
-                    onClick={this.handleDelete}>Delete Pool
-                </Button>
-
-
+                {
+                    this.state.isPoolLeader ?
+                        this.renderButtons()
+                        : null
+                }
                 <Modal show={this.state.setShow} onHide={this.handleClose} animation={false}>
                     <Modal.Header closeButton>
                         <Modal.Title>Create new pool</Modal.Title>
