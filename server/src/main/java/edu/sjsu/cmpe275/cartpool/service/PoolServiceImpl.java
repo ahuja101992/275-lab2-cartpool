@@ -39,7 +39,7 @@ public class PoolServiceImpl implements PoolService {
     public void delete(Long poolId) {
         Pool pool = poolRepository.findById(poolId).orElseThrow(() -> new PoolNotFoundException());
         Pooler poolLeader = pool.getPoolLeader();
-        if (pool.getMembers().size() == 1 && pool.getMembers().get(0) == poolLeader) {
+        if (pool.getMembers().size() == 1 && pool.getMembers().contains(poolLeader)) {
             poolLeader.setPool(null);
             poolRepository.delete(pool);
         } else
@@ -62,14 +62,25 @@ public class PoolServiceImpl implements PoolService {
 
     @Transactional
     @Override
-    public void joinPool(Long poolId, Long poolerId, String screenName) {
+    public String joinPool(Long poolId, Long poolerId, String screenName) {
         Pool pool = poolRepository.findById(poolId).orElseThrow(() -> new PoolNotFoundException());
+
         Pooler referencePooler;
         if (screenName.equals("pool_leader_reference")) {
             referencePooler = pool.getPoolLeader();
             screenName = referencePooler.getScreenname();
         } else
             referencePooler = poolerRepository.findByScreenname(screenName);
+
+        Pooler pooler = poolerRepository.findById(poolerId).orElseThrow(() -> new PoolNotFoundException());
+        if(pool.getMembers().contains(pooler)){
+            return "{\"message\": \"You are already a member of this pool\"}";
+        }
+
+        if(pool.getMembers().size() >= 4){
+            return "{\"message\": \"Pool is full!! Only 4 members allowed in one pool\"}";
+            //throw new MembershipException("Pool is full!! Only 4 members allowed in one pool");
+        }
 
         if (referencePooler == null)
             throw new UserNotFoundException();
@@ -103,6 +114,9 @@ public class PoolServiceImpl implements PoolService {
 
             }
         }
+        //"{\"success\": \"Deleted pool successfully\"}"
+
+        return "{\"message\": \"verification email has been sent to reference pooler\"}";
     }
 
     @Override
