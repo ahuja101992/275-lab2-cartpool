@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.ConstraintViolationException;
 import java.util.List;
 
 @Component
@@ -60,7 +61,11 @@ public class PoolController {
         pool.addPooler(poolLeader);
         poolLeader.setPool(pool);
 
-        poolService.save(pool);
+        try{
+            poolService.save(pool);
+        }catch (ConstraintViolationException e){
+            return new ResponseEntity<>("{\"message\": \"validation failed!!\"}", HttpStatus.OK);
+        }
         return new ResponseEntity<>("{\"message\": \"created pool successfully!!\"}", HttpStatus.OK);
         //return ResponseEntity.status(HttpStatus.OK).body();
     }
@@ -120,6 +125,6 @@ public class PoolController {
                                 @PathVariable Long poolId) {
 
         //return ResponseEntity.status(HttpStatus.OK).body(poolService.verify(poolerId, poolId));
-        return new ResponseEntity<>( poolService.reject(poolId, poolerId), HttpStatus.OK);
+        return new ResponseEntity<>(poolService.reject(poolerId, poolId), HttpStatus.OK);
     }
 }

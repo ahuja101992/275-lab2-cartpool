@@ -146,6 +146,6 @@ public class PoolServiceImpl implements PoolService {
         String messageBody = "Reference Pooler has rejected your join request for pool: " + pool.getName();
         emailService.sendEmailForPoolMembership(pooler.getEmail(),
                 "Rejection for pool membership", messageBody);
-        return pooler.getFirstName() + "'s" + "join request is rejected!";
+        return pooler.getFirstName() + "'s " + "join request is rejected!";
     }
 }
