@@ -32,9 +32,13 @@ class ProfilePage extends Component {
                     credits: response.data.contribution,
                     tempFirstName: response.data.firstName,
                     tempLastName: response.data.lastName,
-                    tempEmail: response.data.email
+                    tempEmail: response.data.email,
+                    tempStreet: response.data.address.street,
+                    tempCity: response.data.address.city,
+                    tempState: response.data.address.state,
+                    tempZip: response.data.address.zip
 
-                });
+                }, () => console.log(this.state));
             })
             .catch(error => {
                 console.log(error);
@@ -79,25 +83,27 @@ class ProfilePage extends Component {
     submitChangeProfile = () => {
         //let poolerId = localStorage.getItem('id');
         let poolerId = 3;
-
-        let tempAddress = {
-            street: this.state.tempStreet,
-            city: this.state.tempCity,
-            state: this.state.tempState,
-            zip: this.state.tempZip
-        }
         let payload = {
             firstName: this.state.tempFirstName,
             lastName: this.state.tempLastName,
             email: this.state.tempLastName,
-            address: tempAddress
+            imageUrl: this.state.imageUrl,
+            street: this.state.tempStreet,
+            city: this.state.tempCity,
+            state: this.state.tempState,
+            zip: this.state.tempZip
         }
         axios.put(`http://${HOSTNAME}:8080/pooler/update/${poolerId}`, null, { params: payload })
             .then(response => {
                 this.setState({
                     firstName: this.state.tempFirstName,
                     lastName: this.state.tempLastName,
-                    email: this.state.tempLastName
+                    email: this.state.tempEmail,
+                    imageUrl: this.state.imageUrl,
+                    street: this.state.tempStreet,
+                    city: this.state.tempCity,
+                    state: this.state.tempState,
+                    zip: this.state.tempZip
                 }, () => this.handleClose())
             })
             .catch(error => {
@@ -140,19 +146,7 @@ class ProfilePage extends Component {
                                     <form className="form-horizontal">
                                         <fieldset className="fieldset">
                                             <h3 className="fieldset-title text-muted">Personal Info</h3>
-                                            <div className="form-group avatar">
-                                                <figure className="figure col-md-2 col-sm-3 col-xs-12">
-                                                    <img className="img-rounded img-responsive"
-                                                        src={this.state.imageUrl} alt="" />
-                                                </figure>
-                                                <div className="form-inline col-md-10 col-sm-9 col-xs-12">
-                                                    <input type="file" className="file-uploader pull-left" onChange={(e) => this.onFileChange(e.target.files)} />
-                                                    <button type="submit"
-                                                        className="btn btn-sm btn-default-alt pull-left">Update
-                                                    Image
-                                                    </button>
-                                                </div>
-                                            </div>
+
                                             <div className="form-group">
                                                 <label className="col-md-2 col-sm-3 col-xs-12 control-label">Screen
                                                     Name</label>
@@ -246,6 +240,19 @@ class ProfilePage extends Component {
                             Update your Profile
                         </div>
                         <Form>
+                            <div className="form-group avatar">
+                                <figure className="figure col-md-2 col-sm-3 col-xs-12">
+                                    <img className="modal-img-profile img-circle img-responsive center-block"
+                                        src={this.state.imageUrl} alt="" />
+                                </figure>
+                                <div className="form-inline col-md-10 col-sm-9 col-xs-12">
+                                    <input type="file" className="file-uploader pull-left" onChange={(e) => this.onFileChange(e.target.files)} />
+                                    <button type="submit"
+                                        className="btn btn-sm btn-default-alt pull-left">Update
+                                    Image
+                                                    </button>
+                                </div>
+                            </div>
                             <Form.Group controlId="formGroupItemName">
                                 <Form.Label>First Name:</Form.Label>
                                 <Form.Control type="text" name="tempFirstName"
@@ -262,19 +269,19 @@ class ProfilePage extends Component {
                                 <Form.Label className="text-muted">Adddress:</Form.Label><hr />
                                 <Form.Label>Street:</Form.Label>
                                 <Form.Control type="text" name="tempStreet"
-                                    value={this.state.address.street} className="join-pool-modal-text" onChange={this.changeHandeler} />
+                                    value={this.state.tempStreet} className="join-pool-modal-text" onChange={this.changeHandeler} />
 
                                 <Form.Label>City:</Form.Label>
-                                <Form.Control type="text" name="tmepCity"
-                                    value={this.state.address.city} className="join-pool-modal-text" onChange={this.changeHandeler} />
+                                <Form.Control type="text" name="tempCity"
+                                    value={this.state.tempCity} className="join-pool-modal-text" onChange={this.changeHandeler} />
 
                                 <Form.Label>State:</Form.Label>
                                 <Form.Control type="text" name="tempState"
-                                    value={this.state.address.state} className="join-pool-modal-text" onChange={this.changeHandeler} />
+                                    value={this.state.tempState} className="join-pool-modal-text" onChange={this.changeHandeler} />
 
                                 <Form.Label>Zip:</Form.Label>
                                 <Form.Control type="text" name="tempZip"
-                                    value={this.state.address.zip} className="join-pool-modal-text" onChange={this.changeHandeler} />
+                                    value={this.state.tempZip} className="join-pool-modal-text" onChange={this.changeHandeler} />
                             </Form.Group>
                         </Form>
 

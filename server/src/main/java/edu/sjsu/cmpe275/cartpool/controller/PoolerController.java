@@ -1,5 +1,6 @@
 package edu.sjsu.cmpe275.cartpool.controller;
 
+import edu.sjsu.cmpe275.cartpool.pojos.Address;
 import edu.sjsu.cmpe275.cartpool.pojos.Pooler;
 import edu.sjsu.cmpe275.cartpool.service.EmailService;
 import edu.sjsu.cmpe275.cartpool.service.PoolerService;
@@ -80,9 +81,36 @@ public class PoolerController {
     ResponseEntity<Pooler> updateProfile(@PathVariable long poolerId,
                                          @RequestParam String firstName,
                                          @RequestParam String lastName,
-                                         @RequestParam String email) {
+                                         @RequestParam String email,
+                                         @RequestParam String imageUrl,
+                                         @RequestParam String street,
+                                         @RequestParam String city,
+                                         @RequestParam String state,
+                                         @RequestParam String zip) {
 
-        return ResponseEntity.status(HttpStatus.OK).body(poolerService.findById(poolerId));
+        if (firstName != null) firstName = firstName.trim();
+        if (lastName != null) lastName = lastName.trim();
+        if (email != null) email = email.trim();
+        if (street != null) street = street.trim();
+        if (city != null) city = city.trim();
+        if (state != null) state = state.trim();
+        if (zip != null) zip = zip.trim();
+
+        Address address = new Address.AddressBuilder()
+                .street(street)
+                .city(city)
+                .state(state)
+                .zip(zip)
+                .build();
+
+        Pooler pooler = poolerService.findById(poolerId);
+        pooler.setFirstName(firstName);
+        pooler.setLastName(lastName);
+        pooler.setEmail(email);
+        pooler.setImg(imageUrl);
+        pooler.setAddress(address);
+
+        return ResponseEntity.status(HttpStatus.OK).body(poolerService.save(pooler));
     }
 
 //    @RequestMapping(value = "/inventory/store/getByAdmin/{adminId}",
