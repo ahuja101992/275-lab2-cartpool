@@ -34,7 +34,7 @@ public class PoolController {
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             method = RequestMethod.POST)
     public @ResponseBody
-    ResponseEntity<Pool> createPool(@RequestParam String poolId,
+    ResponseEntity<Object> createPool(@RequestParam String poolId,
                                     @RequestParam String name,
                                     @RequestParam String neighborhoodName,
                                     @RequestParam String description,
@@ -44,7 +44,7 @@ public class PoolController {
         //// check if pooler creating pool is member of other pool or not /////
         if (!poolService.chceckMembership(poolerId)) {
             //// pooler is already a member of other pool
-            throw new MembershipException("pooler is already a member of other pool");
+            return new ResponseEntity<>("{\"message\": \"you are already a member of other pool!!\"}", HttpStatus.OK);
         }
 
         Pool pool = new Pool.PoolBuilder()
@@ -59,7 +59,10 @@ public class PoolController {
         pool.setPoolLeader(poolLeader);
         pool.addPooler(poolLeader);
         poolLeader.setPool(pool);
-        return ResponseEntity.status(HttpStatus.OK).body(poolService.save(pool));
+
+        poolService.save(pool);
+        return new ResponseEntity<>("{\"message\": \"created pool successfully!!\"}", HttpStatus.OK);
+        //return ResponseEntity.status(HttpStatus.OK).body();
     }
 
     @RequestMapping(value = "/pool/delete/{id}",
@@ -69,7 +72,7 @@ public class PoolController {
     ResponseEntity<Object> deletePool(@PathVariable Long id) {
         poolService.delete(id);
         //return ResponseEntity.status(HttpStatus.OK).body(poolService.delete(id));
-        return new ResponseEntity<>("{\"success\": \"Deleted pool successfully\"}", HttpStatus.OK);
+        return new ResponseEntity<>("{\"message\": \"Deleted pool successfully\"}", HttpStatus.OK);
     }
 
     @RequestMapping(value = "/pool/search/{searchParam}",
@@ -85,12 +88,17 @@ public class PoolController {
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             method = RequestMethod.PUT)
     public @ResponseBody
-    void joinPool(@PathVariable Long poolId,
+    ResponseEntity<Object> joinPool(@PathVariable Long poolId,
                   @RequestParam Long poolerId,
                   @RequestParam String screenName) {
 
 
-        poolService.joinPool(poolId, poolerId, screenName);
+        if (!poolService.chceckMembership(poolerId)) {
+            //// pooler is already a member of other pool
+            return new ResponseEntity<>("{\"message\": \"you are already a member of other pool\"}", HttpStatus.OK);
+        }
+        return new ResponseEntity<>( poolService.joinPool(poolId, poolerId, screenName), HttpStatus.OK);
+        //"{\"success\": \"Deleted pool successfully\"}"
     }
 
 
@@ -102,5 +110,16 @@ public class PoolController {
                                 @PathVariable Long poolId) {
 
         return ResponseEntity.status(HttpStatus.OK).body(poolService.verify(poolerId, poolId));
+    }
+
+    @RequestMapping(value = "/pool/reject/{poolerId}/{poolId}",
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+            method = RequestMethod.GET)
+    public @ResponseBody
+    ResponseEntity<Object> reject(@PathVariable Long poolerId,
+                                @PathVariable Long poolId) {
+
+        //return ResponseEntity.status(HttpStatus.OK).body(poolService.verify(poolerId, poolId));
+        return new ResponseEntity<>( poolService.reject(poolId, poolerId), HttpStatus.OK);
     }
 }
