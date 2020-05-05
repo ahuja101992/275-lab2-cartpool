@@ -18,8 +18,10 @@ class AddItem extends Component {
             openFollowee: false,
             plainArray: [],
             objectArray: [],
-            selectedValues: []
+            selectedValues: [],
+            imageUrl: "https://res.cloudinary.com/sivadass/image/upload/v1493620045/dummy-products/strawberry.jpg" 
         };
+        this.onFileChange = this.onFileChange.bind(this);
     }
     componentWillMount = () => {
      this.setState({ editProfile: true });
@@ -95,6 +97,22 @@ class AddItem extends Component {
             selectedProfilePic: event.target.files[0]
         });
     };
+    onFileChange(files) {
+        if (files == null || files.length == 0) return;
+        let file = files[0];
+
+        const data = new FormData();
+        data.append("file", file, file.name);
+
+        let user_id = localStorage.getItem('user_id');
+        axios.post(`http://localhost:8080/storage/uploadFile`, data)
+            .then(res => {
+                if (res.status === 200) {
+                    this.setState({ imageUrl: res.data });
+                }
+            })
+            .catch(err => console.error(err));
+    };
     saveProfile = (e) => {
         // save profile code
         e.preventDefault();
@@ -121,6 +139,7 @@ class AddItem extends Component {
             unit: data.unit,
             qty: data.qty,
             price:data.price,
+            image:this.state.image,
             adminId:1
         }
 
@@ -158,12 +177,12 @@ class AddItem extends Component {
                                     type="file"
                                     accept="image/*"
                                     id="cover-pic-upload"
-                                    onChange={this.onCoverPicUploadHandler}
+                                    onChange={(e) => this.onFileChange(e.target.files)}
                                 ></input>
 
                                 <label for="cover-pic-upload">
                                     <img
-                                        src={userData.coverPic ? userData.coverPic : require("../../static/images/cover_pic1.png")}
+                                        src={this.state.imageUrl}
                                         width="100%"
                                         height="180px"
                                     />

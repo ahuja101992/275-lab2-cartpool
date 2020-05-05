@@ -25,8 +25,11 @@ class EditItem extends Component {
             desc:this.props.selectedProduct.desc,
             qty:this.props.selectedProduct.quantity,
             unit:this.props.selectedProduct.unit,
-            price:this.props.selectedProduct.price
+            price:this.props.selectedProduct.price,
+            imageUrl: this.props.selectedProduct.imageUrl,
+            imageFlag:false 
         };
+        this.onFileChange = this.onFileChange.bind(this);
     }
     
     onSelect=(selectedList, selectedItem) =>{
@@ -60,6 +63,27 @@ class EditItem extends Component {
             selectedProfilePic: event.target.files[0]
         });
     };
+
+    onFileChange(files) {
+        this.setState({
+            imageFlag:true
+        })
+        if (files == null || files.length == 0) return;
+        let file = files[0];
+
+        const data = new FormData();
+        data.append("file", file, file.name);
+
+        let user_id = localStorage.getItem('user_id');
+        axios.post(`http://localhost:8080/storage/uploadFile`, data)
+            .then(res => {
+                if (res.status === 200) {
+                    this.setState({ imageUrl: res.data });
+                }
+            })
+            .catch(err => console.error(err));
+    };
+
     saveProfile = (e) => {
         // save profile code
         e.preventDefault();
@@ -79,12 +103,13 @@ class EditItem extends Component {
 
         console.log("store_arr",store_arr);
         let updatedData = {
-            name: data.name,
-            desc: data.desc,
+            name: data.name ? data.name : "",
+            desc: data.desc ? data.name : "",
             brand: data.brand ? data.brand : "",
-            unit: data.unit,
-            qty: data.qty,
-            price:data.price
+            unit: data.unit ? data.name : "",
+            qty: data.qty ? data.name : "",
+            price:data.price ? data.name : "",
+            imageUrl :this.state.imageFlag===true?this.state.imageUrl:""
         }
 
         console.log("edit item",updatedData);
@@ -102,6 +127,7 @@ class EditItem extends Component {
         let usrDetails = this.props.userDetails ? this.props.userDetails : [];
         let usrTweets = this.props.userTweets ? this.props.userTweets : [];
         let userData = usrDetails.data ? usrDetails.data : [];
+        let pic = this.props.selectedProduct.imageUrl
         return (
             <div class="profile-container col-sm-12">
                 <div class="profile-pic-btn-container row">
@@ -119,17 +145,17 @@ class EditItem extends Component {
                     <Modal.Body>
                         <div class="edit-profile-continer">
                             <div class="cover-pic-container row">
-                                <input
+                            <input
                                     class="profile-pic-btn"
                                     type="file"
                                     accept="image/*"
                                     id="cover-pic-upload"
-                                    onChange={this.onCoverPicUploadHandler}
+                                    onChange={(e) => this.onFileChange(e.target.files)}
                                 ></input>
 
                                 <label for="cover-pic-upload">
                                     <img
-                                        src={userData.coverPic ? userData.coverPic : require("../../static/images/cover_pic1.png")}
+                                        src={this.state.imageUrl}
                                         width="100%"
                                         height="180px"
                                     />
