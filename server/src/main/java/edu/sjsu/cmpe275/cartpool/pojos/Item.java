@@ -1,37 +1,44 @@
 package edu.sjsu.cmpe275.cartpool.pojos;
 
-import com.fasterxml.jackson.annotation.*;
-
 import java.util.HashMap;
 import java.util.Map;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
         "sku",
         "price",
         "qty",
-        "unit"
+        "unit",
+        "name"
 })
 public class Item {
 
-    @JsonIgnore
-    private final Map<String, Object> additionalProperties = new HashMap<String, Object>();
     @JsonProperty("sku")
-    private String sku;
+    private Integer sku;
     @JsonProperty("price")
     private Integer price;
     @JsonProperty("qty")
     private Integer qty;
     @JsonProperty("unit")
     private String unit;
+    @JsonProperty("name")
+    private String name;
+    @JsonIgnore
+    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("sku")
-    public String getSku() {
+    public Integer getSku() {
         return sku;
     }
 
     @JsonProperty("sku")
-    public void setSku(String sku) {
+    public void setSku(Integer sku) {
         this.sku = sku;
     }
 
@@ -65,6 +72,16 @@ public class Item {
         this.unit = unit;
     }
 
+    @JsonProperty("name")
+    public String getName() {
+        return name;
+    }
+
+    @JsonProperty("name")
+    public void setName(String name) {
+        this.name = name;
+    }
+
     @JsonAnyGetter
     public Map<String, Object> getAdditionalProperties() {
         return this.additionalProperties;
@@ -76,4 +93,3 @@ public class Item {
     }
 
 }
-

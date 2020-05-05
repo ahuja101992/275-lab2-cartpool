@@ -34,10 +34,11 @@ public class OrderDetails {
     public OrderDetails() {
 
     }
-    public OrderDetails(long qty, long price, String sku) {
+    public OrderDetails(long qty, long price, String sku, String name) {
         this.qty = qty;
         this.price = price;
         this.sku = sku;
+        this.name=name;
     }
 
     public long getId() {
@@ -67,4 +68,14 @@ public class OrderDetails {
     public String getSku() {
         return sku;
     }
+
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
 }
