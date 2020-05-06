@@ -18,4 +18,8 @@ public interface PoolService {
     Pool verify(Long poolerId, Long poolId);
 
     String reject(Long poolId, Long poolerId);
+
+    Long getLeader(Long poolId);
+
+    Pool updatePool(Long poolId, String name,String neighborhoodName, String description);
 }

@@ -12,7 +12,7 @@ class Checkout extends Component {
       price: 0,
       finalPrice: null,
       deliverySelection: false,
-      forDelivery: true,
+      forDelivery: null,
       pickupOrders: null,
       showPickUpModel: false,
       show: false,
@@ -283,29 +283,59 @@ class Checkout extends Component {
         <div class="order-checkout-container col-sm-6">
           <h4>Order Details for Checkout</h4>
           <div class="order-total row">
-            <div class="col-sm-10 order-total-title">Order Total</div>
-            <div class="col-sm-2 order-total">$ {this.state.price}</div>
+            <div class="col-sm-9 order-total-title">Order Total</div>
+            <div class="col-sm-3 order-total">$ {this.state.price}</div>
           </div>
           <div class="order-service-tax row">
-            <div class="col-sm-10 service-tax">Universal Tax</div>
-            <div class="col-sm-2 service-tax">
+            <div class="col-sm-9 service-tax">Universal Tax</div>
+            <div class="col-sm-3 service-tax">
               $ {this.state.price * 0.0925}
             </div>
           </div>
           <div class="order-convenience-fee row">
-            <div class="col-sm-10 convenience-fee">Convenience-Fee</div>
-            <div class="col-sm-2 convenience-fee">
+            <div class="col-sm-9 convenience-fee">Convenience-Fee</div>
+            <div class="col-sm-3 convenience-fee">
               $ {this.state.price * 0.005}
             </div>
           </div>
           <div class="order-final-price row">
-            <div class="col-sm-10 order-total-title">Amount Payable</div>
-            <div class="col-sm-2 order-total">
+            <div class="col-sm-9 order-total-title">Amount Payable</div>
+            <div class="col-sm-3 order-total">
               $ {this.state.price * 1.0975}
             </div>
           </div>
-          <div class="delivery-selection-header">
-            <h5>Choose your delivery option</h5>
+          <div class="delivery-row row">
+            <div class="delivery-selection-header col-sm-7">
+              <h5>Your delivery option:</h5>
+            </div>
+            <div class="delivery-selection-header col-sm-5">
+              <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="pickUpSelected"
+                  id="pickUpSelected"
+                  checked={this.state.forDelivery === false}
+                  disabled
+                />
+                <label class="form-check-label" for="inlineRadio1">
+                  Pickup
+                </label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="deliverySelected"
+                  id="deliverySelected"
+                  checked={this.state.forDelivery}
+                  disabled
+                />
+                <label class="form-check-label" for="inlineRadio2">
+                  Delivery
+                </label>
+              </div>
+            </div>
           </div>
           <div class="button-container row justify-content-around">
             <div class="col-sm-4 pickup-btn">
