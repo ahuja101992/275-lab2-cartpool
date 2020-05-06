@@ -58,6 +58,7 @@ class AdminItems extends Component {
         this.handleSearchBySku=this.handleSearchBySku.bind(this);
         this.addOne= this.addOne.bind(this);
         this.deleteOne= this.deleteOne.bind(this);
+        this.getAll = this.getAll.bind(this);
       }
       // Fetch Initial Set of Products from external API
       getProducts() {
@@ -317,9 +318,10 @@ class AdminItems extends Component {
         productQuantity={this.state.moq}
         addOne={this.addOne}
         deleteOne={this.deleteOne}
+        getAll={this.getAll}
         {...this.state}
       />
-
+        
         return (
           <div className="container">
             {header}
@@ -329,6 +331,7 @@ class AdminItems extends Component {
               addToCart={this.handleAddToCart}
               productQuantity={this.state.quantity}
               updateQuantity={this.updateQuantity}
+              getAll={this.getAll}
               openModal={this.openModal}
               flag={this.state.flag}
             />

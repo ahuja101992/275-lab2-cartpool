@@ -127,8 +127,10 @@ class Items extends Component {
       handleAddToCart(selectedProducts) {
         let cartItem = this.state.cart;
         let productID = selectedProducts.id;
+        let storeId = selectedProducts.storeId;
         let productQty = selectedProducts.qty;
         console.log(productID+":::"+productQty)
+
         if (this.checkProduct(productID)) {
           console.log("hi");
           let index = cartItem.findIndex(x => x.id == productID);
@@ -216,6 +218,7 @@ class Items extends Component {
         } else {
           cartItem.push(selectedProducts);
         }
+        localStorage.setItem('cart', cartItem);
         this.setState({
           cart: cartItem,
           cartBounce: true

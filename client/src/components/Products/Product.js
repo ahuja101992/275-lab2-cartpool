@@ -6,12 +6,14 @@ import axios from 'axios';
 class Product extends Component {
   constructor(props) {
     super(props);
+    console.log(props);
     this.state = {
       selectedProduct: {},
       quickViewProduct: {},
       isAdded: false,
       modal:false
     };
+    this.handleUpdate= this.handleUpdate.bind(this);
   }
   addToCart(image,name,price,id,quantity,unit,sku,storeId) {
     console.log("add to cart in  props",quantity);
@@ -83,6 +85,7 @@ class Product extends Component {
         }
       }
     );
+    this.props.getAll();
   }
 
 
@@ -109,6 +112,7 @@ class Product extends Component {
     let unit = this.props.unit;
     let sku = this.props.sku;
     let storeId = this.props.id;
+    let weight = this.props.weight;
     let quantity = this.props.productQuantity;
     let counter = <Counter
     productQuantity={quantity}
@@ -126,6 +130,7 @@ class Product extends Component {
               name,
               price,
               id,
+              weight,
               quantity,
               unit,
               sku,
@@ -146,7 +151,9 @@ class Product extends Component {
     </button>
   </div>
 
-let editModel=<EditItem  {...this.state}></EditItem>
+let editModel=<EditItem  
+cancelEdit={this.state.cancelEdit}
+{...this.state}></EditItem>
 
 
 let del=<div className="product-action">
@@ -176,6 +183,7 @@ variant="primary"
               name,
               price,
               id,
+              weight,
               quantity,
               unit,
               sku,
@@ -183,7 +191,7 @@ variant="primary"
             )}
           />
         </div>
-        <h4 className="product-name">{this.props.name}</h4>
+            <h4 className="product-name">{this.props.name},{this.props.weight} {this.props.unit}</h4>
         <p className="product-price">{this.props.price}</p>
         
         {editQty}

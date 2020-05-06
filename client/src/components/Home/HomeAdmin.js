@@ -60,7 +60,7 @@ class HomeAdmin extends Component {
                         <Nav className="ml-auto">
                             <Nav.Link as={NavLink} to='/homeAdmin/viewStore/'>Stores</Nav.Link>
                             <Nav.Link as={NavLink} to='/homeAdmin/viewProduct/'>Products</Nav.Link>
-                            <Nav.Link as={NavLink} to='/homeAdmin/addItem/'>AddItem</Nav.Link>
+                            {/* <Nav.Link as={NavLink} to='/homeAdmin/addItem/'>AddItem</Nav.Link> */}
                             <Nav.Link as={NavLink} to='/homeAdmin/logout/'>Logout</Nav.Link>
                             
                         </Nav>
@@ -72,7 +72,7 @@ class HomeAdmin extends Component {
                     <Switch>
                         <Route exact path='/homeAdmin/viewStore/' component={ViewStore}/>
                         <Route exact path='/homeAdmin/viewProduct/' component={AdminItems}/>
-                        <Route exact path='/homeAdmin/addItem/' component={AddItem}/>
+                        {/* <Route exact path='/homeAdmin/addItem/' component={AddItem}/> */}
                         <Route exact path='/homeAdmin/' component={Stores}/>
                         <Route exact path='/homeAdmin/logout/' component={Logout}/>
                     </Switch>

@@ -53,6 +53,7 @@ class Products extends Component {
           <Product
             key={product.sku}
             price={product.price}
+            weight={product.qty}
             unit={product.unit}
             name={product.name}
             image={product.imageURL}
@@ -62,6 +63,7 @@ class Products extends Component {
             productQuantity={this.props.productQuantity}
             updateQuantity={this.props.updateQuantity}
             openModal={this.props.openModal}
+            getAll={this.props.getAll}
           />
         );
       });

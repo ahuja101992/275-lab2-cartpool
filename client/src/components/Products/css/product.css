@@ -27,15 +27,19 @@
     line-height: 20px;
     margin-bottom: 8px;
   }
+
+
   .product-price {
     font-size: 22px;
     font-weight: 700;
     line-height: 22px;
     margin-bottom: 16px;
     &:before {
-      content: "₹ ";
+      content: "$ ";
     }
   }
+
+
   .product-name,
   .product-price {
     color: $gray-medium;
