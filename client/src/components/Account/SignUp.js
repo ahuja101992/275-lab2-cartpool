@@ -52,17 +52,17 @@ class SignUp extends Component {
 
 
     if (this.props.location.props && this.props.location.props.provider !== "") {
-        updatedData.email = data.email
-        updatedData.accessToken = this.props.location.props.accessToken
-        updatedData.img_url = this.props.location.props.img_url
-        updatedData.name = this.props.location.props.name
-        updatedData.provider = this.props.location.props.provider
-        updatedData.provider_id = this.props.location.props.provider_id
+      updatedData.email = data.email
+      updatedData.accessToken = this.props.location.props.accessToken
+      updatedData.img_url = this.props.location.props.img_url
+      updatedData.name = this.props.location.props.name
+      updatedData.provider = this.props.location.props.provider
+      updatedData.provider_id = this.props.location.props.provider_id
     } else {
-        updatedData.email = data.email
-        updatedData.password = data.password
-        updatedData.firstName = data.firstName
-        updatedData.lastName = data.lastName
+      updatedData.email = data.email
+      updatedData.password = data.password
+      updatedData.firstName = data.firstName
+      updatedData.lastName = data.lastName
     }
 
     if (!this.checkValidState(updatedData.state)) {
@@ -116,7 +116,7 @@ class SignUp extends Component {
         {this.props.signupSuccess === true && (
           <Expire delay={5000} parentCallback={this.callbackFunction}>
             <Toast>
-              <Toast.Header>  
+              <Toast.Header>
                 <img
                   src="holder.js/20x20?text=%20"
                   className="rounded mr-2"
@@ -169,7 +169,7 @@ class SignUp extends Component {
               <Form.Control
                 defaultValue={
                   this.props.location.props &&
-                  this.props.location.props.firstName !== ""
+                    this.props.location.props.firstName !== ""
                     ? this.props.location.props.firstName
                     : ""
                 }
@@ -183,7 +183,7 @@ class SignUp extends Component {
               <Form.Control
                 defaultValue={
                   this.props.location.props &&
-                  this.props.location.props.lastName !== ""
+                    this.props.location.props.lastName !== ""
                     ? this.props.location.props.lastName
                     : ""
                 }
@@ -209,7 +209,7 @@ class SignUp extends Component {
             </Form.Group>
             <Form.Group as={Col} controlId="zip">
               <Form.Label>Zipcode</Form.Label>
-              <Form.Control placeholder="12345 or 12345-6789" required />
+              <Form.Control placeholder="12345" required />
             </Form.Group>
           </Form.Row>
 
@@ -222,13 +222,13 @@ class SignUp extends Component {
               }
               defaultValue={
                 this.props.location.props &&
-                this.props.location.props.provider !== ""
+                  this.props.location.props.provider !== ""
                   ? this.props.location.props.email
                   : ""
               }
               placeholder={
                 this.props.location.props &&
-                this.props.location.props.provider !== ""
+                  this.props.location.props.provider !== ""
                   ? this.props.location.props.email
                   : "What's your email?"
               }
@@ -241,7 +241,7 @@ class SignUp extends Component {
             controlId="password"
             className={
               this.props.location.props &&
-              this.props.location.props.provider !== ""
+                this.props.location.props.provider !== ""
                 ? "d-none"
                 : ""
             }
