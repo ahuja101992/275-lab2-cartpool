@@ -27,10 +27,9 @@ class Items extends Component {
   constructor(props) {
     super(props);
         this.state = {
-          storeid:  props.location.state.id,
-          store:  props.location.state.store,
+          storeid:  this.props.location.state == null ? 1 : this.props.location.state.id,
           products: [],
-          cart: [],
+          cart: JSON.parse(localStorage.getItem("cart") || "[]"),
           totalItems: 0,
           totalAmount: 0,
           term: "",
@@ -63,6 +62,11 @@ class Items extends Component {
       }
       // Fetch Initial Set of Products from external API
       getProducts() {
+        this.setItem({
+          cart : JSON.parse(localStorage.getItem("cart") || "[]")
+        })
+        this.sumTotalItems(this.state.cart);
+        this.sumTotalAmount(this.state.cart);
         let url =
           "https://res.cloudinary.com/sivadass/raw/upload/v1535817394/json/products.json";
         axios.get(url).then(response => {
@@ -130,27 +134,30 @@ class Items extends Component {
       
       refreshCartState(){
         this.setState({
-          erroModal:false
+          erroModal:false,
+          cartItem:[]
         })
-
+        localStorage.removeItem("cart")
+        localStorage.removeItem("cart-storeId")
       }
       
       // Add to Cart
       handleAddToCart(selectedProducts) {
         let cartItem = this.state.cart;
+        console.log("check",selectedProducts)
         let productID = selectedProducts.id;
         let storeId = selectedProducts.storeId;
         let productQty = selectedProducts.qty;
-        console.log(productID+":::"+productQty)
-        // if(cartItem.length>0){
-        //   if(selectedProducts.storeId!==localStorage.getItem("cart-storeId")){
-        //         this.setState({
-        //           erroModal:true
-        //         })
-        //   }
-        // }else{
-        //   localStorage.setItem("cart-storeId",selectedProducts.storeId);
-        // }
+        if(cartItem.length>0){
+          console.log("storedif",storeId);
+          if(storeId!==localStorage.getItem("cart-storeId")){
+                this.setState({
+                  erroModal:true
+                })
+          }
+        }else{
+          localStorage.setItem("cart-storeId",selectedProducts.storeId);
+        }
         if (this.checkProduct(productID)) {
           console.log("hi");
           let index = cartItem.findIndex(x => x.id == productID);
@@ -167,7 +174,8 @@ class Items extends Component {
           cart: cartItem,
           cartBounce: true
         });
-        // localStorage.setItem("cart",cartItem.toString());
+        
+        localStorage.setItem("cart",JSON.stringify(cartItem));
         setTimeout(
           function() {
             this.setState({
@@ -205,7 +213,7 @@ class Items extends Component {
                 cart: cartItem,
                 cartBounce: true
               });
-            //  localStorage.setItem("cart",cartItem.toString());
+              localStorage.setItem("cart",JSON.stringify(cartItem));
               setTimeout(
                 function() {
                   this.setState({
@@ -240,11 +248,11 @@ class Items extends Component {
         } else {
           cartItem.push(selectedProducts);
         }
-        // localStorage.setItem('cart', cartItem.toString());
         this.setState({
           cart: cartItem,
           cartBounce: true
         });
+        localStorage.setItem("cart",JSON.stringify(cartItem));
         setTimeout(
           function() {
             this.setState({
@@ -266,6 +274,7 @@ class Items extends Component {
         this.setState({
           cart: cart
         });
+        localStorage.setItem("cart",JSON.stringify(cart));
         this.sumTotalItems(this.state.cart);
         this.sumTotalAmount(this.state.cart);
         e.preventDefault();
@@ -324,26 +333,26 @@ class Items extends Component {
         console.log("delete")
       }
       render() {
-    //     let cartErrModal=<Modal show={this.state.erroModal} onHide={this.handleCloseCartModal}>
-    //     <Modal.Header>
-    //         <Modal.Title>Edit store</Modal.Title>
-    //     </Modal.Header>
+        let cartErrModal=<Modal show={this.state.erroModal} onHide={this.handleCloseCartModal}>
+        <Modal.Header>
+            <Modal.Title>Edit store</Modal.Title>
+        </Modal.Header>
 
-    //     <Form onSubmit={this.refreshCartState}>
-    //     <div className="text-muted text-center join-pool-modal-text">Your cart contains 
-    //                         items from other restaurant. Would you like to reset your cart for adding items from this restaurant?
-    //                             </div>
-    //         <Modal.Footer>
-    //             <Button variant="secondary" onClick={this.handleCartState}>
-    //                 NO
-    //             </Button>
-    //             <Button variant="primary" type="submit">
-    //                 YES,START AFRESH
-    //             </Button>
-    //         </Modal.Footer>
-    //     </Form>
+        <Form onSubmit={this.refreshCartState}>
+        <div className="text-muted text-center join-pool-modal-text">Your cart contains 
+                            items from other store. Would you like to reset your cart for adding items from this restaurant?
+                                </div>
+            <Modal.Footer>
+                <Button variant="secondary" onClick={this.handleCartState}>
+                    NO
+                </Button>
+                <Button variant="primary" type="submit">
+                    YES,START AFRESH
+                </Button>
+            </Modal.Footer>
+        </Form>
 
-    // </Modal>
+    </Modal>
         let header=<Header
         cartBounce={this.state.cartBounce}
         total={this.state.totalAmount}
@@ -365,7 +374,7 @@ class Items extends Component {
 
         return (
           <div className="container">
-            {/* {cartErrModal} */}
+            {cartErrModal}
             {header}
             <Products
               productsList={this.state.products}
