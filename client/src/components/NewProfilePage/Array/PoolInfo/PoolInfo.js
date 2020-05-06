@@ -17,11 +17,11 @@ class PoolInfo extends Component {
     }
 
     componentDidMount() {
-        let poolerId = 20;
-        //let poolId = this.state.id;
-        let poolId = 14;
+        //let poolerId = 20;
+        let poolId = this.state.id;
+        //let poolId = 14;
         //console.log(this.state.pool);
-        //let poolerId = localStorage.getItem('id');
+        let poolerId = localStorage.getItem('id');
         if (this.state.id && this.state.id !== "") {
             axios.get(`http://${HOSTNAME}:8080/pool/getLeader/${poolId}`)
                 .then(response => {

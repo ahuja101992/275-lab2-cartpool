@@ -15,10 +15,11 @@ class NewProfile extends Component {
             { pool: {} });
 
         this.renderSelectedComponent = this.renderSelectedComponent.bind(this);
+        this.onFileChange = this.onFileChange.bind(this);
     }
 
     componentDidMount() {
-        //let poolerId = localStorage.getItem('id');
+        let poolerId = localStorage.getItem('id');
         let _pool = {
             id: "",
             poolId: "",
@@ -27,7 +28,7 @@ class NewProfile extends Component {
             description: "",
             zip: ""
         }
-        let poolerId = 20;
+        //let poolerId = 20;
         axios.get(`http://${HOSTNAME}:8080/pooler/profile/getById/${poolerId}`)
             .then(response => {
                 console.log(response.data.pool);
@@ -50,6 +51,25 @@ class NewProfile extends Component {
             })
     }
 
+    onFileChange(files) {
+        if (files == null || files.length == 0) return;
+        let file = files[0];
+
+        const data = new FormData();
+        data.append("file", file, file.name);
+
+        let user_id = localStorage.getItem('user_id');
+        axios.post(`http://localhost:8080/storage/uploadFile`, data)
+            .then(res => {
+                if (res.status == 200) {
+                    this.setState({
+                        imageUrl: res.data
+                    });
+                }
+            })
+            .catch(err => console.error(err));
+    }
+
     renderSelectedComponent(selectedComponent) {
         let C = ArrayComponnet['Profile'];
         let info = {
@@ -63,7 +83,8 @@ class NewProfile extends Component {
             zip: this.state.address.zip,
             credits: this.state.credits,
             screenName: this.state.screenName,
-            pool: this.state.pool
+            pool: this.state.pool,
+            onFileChange: this.onFileChange
         }
         if (!selectedComponent) {
             return <C
