@@ -46,7 +46,7 @@ public class Product {
 
     }
     
-    public Product(ProductId id, String name, String description, String imageURL, String unit, long price,Long qty) {
+    public Product(ProductId id, String name, String description, String imageURL, String unit, Long price,Long qty) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -56,7 +56,7 @@ public class Product {
         this.qty=qty;
     }
 
-    public Product(ProductId id, String name, String description, String imageURL, String brandName, String unit, long price,Long qty) {
+    public Product(ProductId id, String name, String description, String imageURL, String brandName, String unit, Long price,Long qty) {
         this.id = id;
         this.name = name;
         this.description = description;

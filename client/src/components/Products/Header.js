@@ -15,7 +15,8 @@ class Header extends Component {
       showCart: false,
       cart: this.props.cartItems,
       mobileSearch: false,
-      modal:false
+      modal:false,
+      value:true
     };
       this.increment = this.increment.bind(this);
       this.decrement = this.decrement.bind(this);
@@ -25,6 +26,9 @@ class Header extends Component {
 
 
   increment(product) {
+    this.setState({
+      value:true
+    })
     console.log("product increment",product.qty)
     this.props.addOne(product);
   }
@@ -36,8 +40,14 @@ class Header extends Component {
  };
 
   decrement(product) {
-    console.log("product")
+    if(product.qty>0){
+    console.log("product delete ",product)
    this.props.deleteOne(product);
+    }else{
+      this.setState({
+        value:false
+      })
+    }
   }
 
   handleCart(e) {
@@ -120,6 +130,14 @@ let searchByStoreId=<input
     className="search-keyword"
     onChange={this.props.handleSearchByStoreId}
   />
+
+let adItem=<button 
+variant="primary"
+  type="button"
+  onClick={this.handleUpdate.bind(this
+  )}>NEW ITEM
+</button> 
+
  let create=<AddItem  
  cancelEdit={this.cancelEdit}
  getAll={this.props.getAll}
@@ -127,7 +145,7 @@ let searchByStoreId=<input
  let showModal = !this.state.modal ? "" : create;
   let showSearchBySku = localStorage.getItem('type') === "admin" ? searchBySku : "";
   let showSearchByStoreId = localStorage.getItem('type') === "admin" ? searchByStoreId : "";
-
+  let showAddItem = localStorage.getItem('type') === "admin" ? adItem : "";
 
     cartItems = this.state.cart.map(product => {
       return (
@@ -152,6 +170,7 @@ let searchByStoreId=<input
 
         {product.qty} {product.qty > 1 ? "Nos." : "No."}{" "}
         <button
+        disabled={!this.state.value}
             type="button"
             onClick={this.decrement.bind(
               this,
@@ -264,12 +283,7 @@ let searchByStoreId=<input
         {showModal}
         <div className="container">
           <div className="brand">
-          <button 
-    variant="primary"
-      type="button"
-      onClick={this.handleUpdate.bind(this
-      )}>NEW ITEM
-    </button>
+             {showAddItem}
           </div>
 
           <div className="search">

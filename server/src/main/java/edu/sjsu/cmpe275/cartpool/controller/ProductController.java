@@ -41,9 +41,9 @@ public class ProductController {
                                         @RequestParam String desc,
                                         @RequestParam String image_url,
                                         @RequestParam(required = false) String brand,
-                                        @RequestParam Long qty,
+                                        @RequestParam String qty,
                                         @RequestParam String unit,
-                                        @RequestParam Long price,
+                                        @RequestParam String price,
                                         @RequestParam Long adminId) {
 
         adminService.findById(adminId);
@@ -53,9 +53,9 @@ public class ProductController {
             ProductId productId = new ProductId(storeId,sku);
             Product product = null;
             if (brand == null) {
-                product = new Product(productId, name, desc, image_url, unit, price,qty);
+                product = new Product(productId, name, desc, image_url, unit, Long.valueOf(price),Long.valueOf(qty));
             } else {
-                product = new Product(productId, name, desc, image_url, brand, unit, price,qty);
+                product = new Product(productId, name, desc, image_url, brand, unit, Long.valueOf(price),Long.valueOf(qty));
             }
             Product newProduct = productService.createProduct(product);
             products.add(newProduct);

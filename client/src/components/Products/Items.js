@@ -39,6 +39,7 @@ class Items extends Component {
           quantity: 0,
           quickViewProduct: {},
           modalActive: false,
+          erroModal:false,
           flag:0
         };
         this.handleSearch = this.handleSearch.bind(this);
@@ -56,6 +57,9 @@ class Items extends Component {
         this.handleSearchBySku=this.handleSearchBySku.bind(this);
         this.addOne= this.addOne.bind(this);
         this.deleteOne= this.deleteOne.bind(this);
+        this.handleCartState= this.handleCartState.bind(this);
+        this.refreshCartState = this.refreshCartState.bind(this);
+        this.handleCloseCartModal= this.handleCloseCartModal.bind(this);
       }
       // Fetch Initial Set of Products from external API
       getProducts() {
@@ -70,7 +74,6 @@ class Items extends Component {
       }
 
       getAll(){
-        if(localStorage.getItem('type') === "pooler" ){
         axios.get(`http://localhost:8080/products/${this.state.storeid}`)
       .then((response) => {
          console.log("create data res",response)
@@ -80,17 +83,6 @@ class Items extends Component {
       }).catch(err => {
           console.error(err);
       })
-    }else{
-      axios.get(`http://localhost:8080/products/groupByName`)
-      .then((response) => {
-         console.log("create data res",response)
-         this.setState({
-          products: response.data
-            });
-      }).catch(err => {
-          console.error(err);
-      })
-    }
     }
       componentWillMount() {
         this.getAll();
@@ -123,6 +115,26 @@ class Items extends Component {
         this.setState({ category: event.target.value });
         console.log(this.state.category);
       }
+
+      handleCartState(){
+        this.setState({
+          erroModal:false
+        })
+      }
+
+      handleCloseCartModal(){
+        this.setState({
+          erroModal:false
+        })
+      }
+      
+      refreshCartState(){
+        this.setState({
+          erroModal:false
+        })
+
+      }
+      
       // Add to Cart
       handleAddToCart(selectedProducts) {
         let cartItem = this.state.cart;
@@ -130,7 +142,15 @@ class Items extends Component {
         let storeId = selectedProducts.storeId;
         let productQty = selectedProducts.qty;
         console.log(productID+":::"+productQty)
-
+        // if(cartItem.length>0){
+        //   if(selectedProducts.storeId!==localStorage.getItem("cart-storeId")){
+        //         this.setState({
+        //           erroModal:true
+        //         })
+        //   }
+        // }else{
+        //   localStorage.setItem("cart-storeId",selectedProducts.storeId);
+        // }
         if (this.checkProduct(productID)) {
           console.log("hi");
           let index = cartItem.findIndex(x => x.id == productID);
@@ -147,6 +167,7 @@ class Items extends Component {
           cart: cartItem,
           cartBounce: true
         });
+        // localStorage.setItem("cart",cartItem.toString());
         setTimeout(
           function() {
             this.setState({
@@ -163,7 +184,7 @@ class Items extends Component {
       }
 
             // Add to Cart
-            addOne(selectedProducts) {
+      addOne(selectedProducts) {
               let cartItem = this.state.cart;
               let productID = selectedProducts.id;
               let productQty = selectedProducts.qty;
@@ -184,6 +205,7 @@ class Items extends Component {
                 cart: cartItem,
                 cartBounce: true
               });
+            //  localStorage.setItem("cart",cartItem.toString());
               setTimeout(
                 function() {
                   this.setState({
@@ -218,7 +240,7 @@ class Items extends Component {
         } else {
           cartItem.push(selectedProducts);
         }
-        localStorage.setItem('cart', cartItem);
+        // localStorage.setItem('cart', cartItem.toString());
         this.setState({
           cart: cartItem,
           cartBounce: true
@@ -302,6 +324,26 @@ class Items extends Component {
         console.log("delete")
       }
       render() {
+    //     let cartErrModal=<Modal show={this.state.erroModal} onHide={this.handleCloseCartModal}>
+    //     <Modal.Header>
+    //         <Modal.Title>Edit store</Modal.Title>
+    //     </Modal.Header>
+
+    //     <Form onSubmit={this.refreshCartState}>
+    //     <div className="text-muted text-center join-pool-modal-text">Your cart contains 
+    //                         items from other restaurant. Would you like to reset your cart for adding items from this restaurant?
+    //                             </div>
+    //         <Modal.Footer>
+    //             <Button variant="secondary" onClick={this.handleCartState}>
+    //                 NO
+    //             </Button>
+    //             <Button variant="primary" type="submit">
+    //                 YES,START AFRESH
+    //             </Button>
+    //         </Modal.Footer>
+    //     </Form>
+
+    // </Modal>
         let header=<Header
         cartBounce={this.state.cartBounce}
         total={this.state.totalAmount}
@@ -323,6 +365,7 @@ class Items extends Component {
 
         return (
           <div className="container">
+            {/* {cartErrModal} */}
             {header}
             <Products
               productsList={this.state.products}

@@ -42,9 +42,11 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     public List<Product> deleteProduct(String sku) {
         System.out.println("Deleting product: ");
-        List<Product> products = searchProductBySKU(sku);
-        productRepository.deleteAll(products);
-        return getProductsGroupByName();
+        List<Product> products = productRepository.findProductsByOrderId(sku);
+        if(products!=null && products.size()>0) {
+            productRepository.deleteAll(products);
+        }
+        return searchProducts();
     }
 
     @Override
@@ -54,7 +56,7 @@ public class ProductServiceImpl implements ProductService {
             List<Product> stored = searchProductBySKU(product.getId().getSku());
             productRepository.save(product);
         }
-        return getProductsGroupByName();
+        return searchProducts();
 
     }
 

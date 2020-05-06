@@ -15,7 +15,7 @@ class Product extends Component {
     };
     this.handleUpdate= this.handleUpdate.bind(this);
   }
-  addToCart(image,name,price,id,quantity,unit,sku,storeId) {
+  addToCart(image,name,price,id,weight,quantity,unit,sku,storeId) {
     console.log("add to cart in  props",quantity);
     this.setState(
       {
@@ -52,7 +52,7 @@ class Product extends Component {
     );
   }
 
-  handleUpdate(image,name,price,id,quantity,unit,sku,storeId,flag) {
+  handleUpdate(image,name,price,id,weight,quantity,unit,sku,storeId,flag) {
     console.log("add to cart in  props");
     this.setState(
       {
@@ -111,7 +111,7 @@ class Product extends Component {
     let id = this.props.sku;
     let unit = this.props.unit;
     let sku = this.props.sku;
-    let storeId = this.props.id;
+    let storeId = this.props.storeId;
     let weight = this.props.weight;
     let quantity = this.props.productQuantity;
     let counter = <Counter

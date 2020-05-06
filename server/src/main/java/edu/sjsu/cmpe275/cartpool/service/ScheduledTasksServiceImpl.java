@@ -21,7 +21,7 @@ public class ScheduledTasksServiceImpl implements ScheduledTasksService {
 
     private static final long numOfMsInTwoDays =  2 * 24 * 60 * 60 * 1000;
 
-    @Scheduled(fixedRate = 120000)
+    @Scheduled(fixedRate = 1200000)
     public void cancelOrderOlderThanTwoDays() {
         Date currentDate = new Date(System.currentTimeMillis());
 

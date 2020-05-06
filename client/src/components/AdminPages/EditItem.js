@@ -119,7 +119,8 @@ class EditItem extends Component {
 
         console.log("edit item",updatedData);
         console.log("sku item",this.state.sku);
-        axios.put(`http://localhost:8080/product/${this.state.sku}/1`, null, {params: updatedData})
+        let adminId=localStorage.getItem("id")
+        axios.put(`http://localhost:8080/product/${this.state.sku}/${adminId}`, null, {params: updatedData})
         .then((response) => {
            console.log("create data res",response)
         }).catch(err => {
@@ -209,7 +210,8 @@ class EditItem extends Component {
                                     <Form.Label>Quantity</Form.Label>
                                     <Form.Control 
                                     // required   
-                                    type="text"
+                                    type="number"
+                                    min="0.00"
                                     onChange={e => this.setState({ qty: e.target.value })}
                                     placeholder={this.state.qty}
                                     value={this.state.qty}
@@ -230,7 +232,10 @@ class EditItem extends Component {
                                 </Form.Group>
                                 <Form.Group controlId="price">
                                     <Form.Label>Price( in Dollars ) </Form.Label>
-                                    <Form.Control   type="text" required 
+                                    <Form.Control   type="number"
+                                    min="0.00"
+                                    max="100.00"
+                                     required 
                                     placeholder={this.state.price} 
                                     onChange={e => this.setState({ price: e.target.value })}
                                     value={this.state.price}

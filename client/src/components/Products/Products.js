@@ -57,7 +57,8 @@ class Products extends Component {
             unit={product.unit}
             name={product.name}
             image={product.imageURL}
-            id={product.id.storeId}
+            id={product.id.sku}
+            storeId={product.id.storeId}
             sku={product.id.sku}
             addToCart={this.props.addToCart}
             productQuantity={this.props.productQuantity}

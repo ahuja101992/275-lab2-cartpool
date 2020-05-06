@@ -143,7 +143,7 @@ class AddItem extends Component {
             qty: data.qty,
             price:data.price,
             image_url:this.state.imageUrl,
-            adminId:1
+            adminId:localStorage.getItem("id")
         }
         console.log("updated image",updatedData);
         axios.post(`http://localhost:8080/product/create`, null, {params: updatedData})
@@ -240,8 +240,9 @@ class AddItem extends Component {
                                 <Form.Group controlId="qty">
                                     <Form.Label>Quantity</Form.Label>
                                     <Form.Control 
+                                    min="0.00"
                                     required   
-                                    type="text"
+                                    type="number"
                                         // onChange={e => this.setState({ last_name: e.target.value })}
                                     // value={this.props.firstName + " " + this.props.lastName}
                                     />
@@ -261,7 +262,10 @@ class AddItem extends Component {
                                 </Form.Group>
                                 <Form.Group controlId="price">
                                     <Form.Label>Price( in Dollars ) </Form.Label>
-                                    <Form.Control   type="text" required 
+                                    <Form.Control type="number"
+                                    min="0.00"
+                                    max="100.00"
+                                     required 
                                     placeholder={userData.website ? userData.website : "$" } />
                                 </Form.Group>
                                 <Button variant="primary" type="submit">

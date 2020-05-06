@@ -31,8 +31,6 @@ class ViewStore extends Component {
     };
 
     renderPoolList = (pool) => {
-
-
         let link;
         let linkAdmin = <Link to={{ pathname: '/homeAdmin/item/', state: {store:pool,id:pool.id,name:pool.name}}}>
         <Button variant="outline-danger">Select</Button></Link>
