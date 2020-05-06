@@ -74,6 +74,7 @@ class Product extends Component {
             modal : true
           })
           console.log("handleupdate",this.state.selectedProduct)
+          this.props.getAll();
         }else{
           axios.delete(`http://localhost:8080/product/${id}/1`, null)
           .then((response) => {
@@ -85,7 +86,7 @@ class Product extends Component {
         }
       }
     );
-    this.props.getAll();
+   
   }
 
 
@@ -146,7 +147,7 @@ class Product extends Component {
     variant="primary"
       type="button"
       onClick={this.handleUpdate.bind(this,
-        image,name,price,id,quantity,unit,sku,storeId,0
+        image,name,price,id,weight,quantity,unit,sku,storeId,0
       )}>EDIT
     </button>
   </div>
@@ -161,7 +162,7 @@ let del=<div className="product-action">
 variant="primary"
   type="button"
   onClick={this.handleUpdate.bind(  this,
-    image,name,price,id,quantity,unit,sku,storeId,1
+    image,name,price,id,weight,quantity,unit,sku,storeId,1
   )}>DELETE
 </button>
 </div>

@@ -25,17 +25,13 @@ public class Product {
     private String brandName;
 
     @Column(name = "qty")
-    private Long qty;
+    private Float qty;
 
     @Column(name = "unit")
     private String unit;
 
-    public void setPrice(Long price) {
-        this.price = price;
-    }
-
     @Column(name = "price")
-    private Long price;
+    private Float price;
 
     @MapsId("StoreId")
     @ManyToOne
@@ -46,7 +42,7 @@ public class Product {
 
     }
     
-    public Product(ProductId id, String name, String description, String imageURL, String unit, Long price,Long qty) {
+    public Product(ProductId id, String name, String description, String imageURL, String unit, Float price,Float qty) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -56,7 +52,7 @@ public class Product {
         this.qty=qty;
     }
 
-    public Product(ProductId id, String name, String description, String imageURL, String brandName, String unit, Long price,Long qty) {
+    public Product(ProductId id, String name, String description, String imageURL, String brandName, String unit, Float price,Float qty) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -119,10 +115,10 @@ public class Product {
         this.unit = unit;
     }
 
-    public long getPrice() {
+    public Float getPrice() {
         return price;
     }
-    public void setPrice(long price) {
+    public void setPrice(Float price) {
         this.price = price;
     }
 
@@ -134,11 +130,11 @@ public class Product {
         this.store = store;
     }
 
-    public Long getQty() {
+    public Float getQty() {
         return qty;
     }
 
-    public void setQty(Long qty) {
+    public void setQty(Float qty) {
         this.qty = qty;
     }
 

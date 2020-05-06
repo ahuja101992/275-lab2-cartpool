@@ -58,6 +58,7 @@ class EditItem extends Component {
     cancelEdit = () => {
         this.setState({ editProfile: false });
     };
+    
     onCoverPicUploadHandler = (event) => {
         this.setState({
             selectedCoverPic: event.target.files[0]

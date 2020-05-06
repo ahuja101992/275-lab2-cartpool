@@ -41,9 +41,9 @@ public class ProductController {
                                         @RequestParam String desc,
                                         @RequestParam String image_url,
                                         @RequestParam(required = false) String brand,
-                                        @RequestParam String qty,
+                                        @RequestParam Float qty,
                                         @RequestParam String unit,
-                                        @RequestParam String price,
+                                        @RequestParam Float price,
                                         @RequestParam Long adminId) {
 
         adminService.findById(adminId);
@@ -53,9 +53,9 @@ public class ProductController {
             ProductId productId = new ProductId(storeId,sku);
             Product product = null;
             if (brand == null) {
-                product = new Product(productId, name, desc, image_url, unit, Long.valueOf(price),Long.valueOf(qty));
+                product = new Product(productId, name, desc, image_url, unit, Float.valueOf(price),Float.valueOf(qty));
             } else {
-                product = new Product(productId, name, desc, image_url, brand, unit, Long.valueOf(price),Long.valueOf(qty));
+                product = new Product(productId, name, desc, image_url, brand, unit, Float.valueOf(price),Float.valueOf(qty));
             }
             Product newProduct = productService.createProduct(product);
             products.add(newProduct);
@@ -86,8 +86,8 @@ public class ProductController {
                                                  @RequestParam(required = false) String image_url,
                                                  @RequestParam(required = false) String brand,
                                                  @RequestParam(required = false) String unit,
-                                                 @RequestParam(required = false) String price,
-                                                @RequestParam(required = false) String qty
+                                                 @RequestParam(required = false) Float price,
+                                                @RequestParam(required = false) Float qty
     ) {
         adminService.findById(adminId);
         List<Product> products = productService.searchProductBySKU(sku);
@@ -107,12 +107,12 @@ public class ProductController {
             if (unit != null  && !unit.isEmpty()) {
                 product.setUnit(unit);
             }
-            if (price != null && !price.isEmpty()) {
-                product.setPrice(Long.valueOf(price));
+            if (price != null) {
+                product.setPrice(Float.valueOf(price));
             }
 
-            if (qty != null && !qty.isEmpty()) {
-                product.setPrice(Long.valueOf(qty));
+            if (qty != null) {
+                product.setPrice(Float.valueOf(qty));
             }
         }
         productService.updateProduct(products);
