@@ -31,7 +31,12 @@ class EditItem extends Component {
         };
         this.onFileChange = this.onFileChange.bind(this);
     }
-    
+    componentDidMount(){
+           this.setState({
+               editProfile:true
+           })
+    }
+
     onSelect=(selectedList, selectedItem) =>{
         this.state.selectedValues = selectedList;
         console.log(this.state.selectedValues);
@@ -106,10 +111,10 @@ class EditItem extends Component {
             name: data.name ? data.name : "",
             desc: data.desc ? data.name : "",
             brand: data.brand ? data.brand : "",
-            unit: data.unit ? data.name : "",
-            qty: data.qty ? data.name : "",
-            price:data.price ? data.name : "",
-            imageUrl :this.state.imageFlag===true?this.state.imageUrl:""
+            unit: data.unit ? data.unit : "",
+            qty: data.qty ? data.qty : "",
+            price:data.price ? data.price : "",
+            image_url :this.state.imageFlag===true?this.state.imageUrl:""
         }
 
         console.log("edit item",updatedData);
@@ -120,6 +125,9 @@ class EditItem extends Component {
         }).catch(err => {
             console.error(err);
         });
+
+        this.cancelEdit();
+        alert("Product edited succesfully")
     }
 
     render() {
