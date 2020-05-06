@@ -10,7 +10,7 @@ class AddItem extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            editProfile: true, //for modal
+            editProfile: this.props.modal, //for modal
             selectedCoverPic: null,
             selectedProfilePic: null,
             openFollower: false,
@@ -72,6 +72,7 @@ class AddItem extends Component {
       }
 
     editProfile = () => {
+        this.props.cancelEdit();
         this.setState({ editProfile: true });
     };
 
@@ -85,7 +86,9 @@ class AddItem extends Component {
     }
 
     cancelEdit = () => {
-        this.setState({ editProfile: false });
+        this.setState({
+            editProfile :false
+        })
     };
     onCoverPicUploadHandler = (event) => {
         this.setState({
@@ -139,16 +142,21 @@ class AddItem extends Component {
             unit: data.unit,
             qty: data.qty,
             price:data.price,
-            image:this.state.image,
+            image_url:this.state.imageUrl,
             adminId:1
         }
-
+        console.log("updated image",updatedData);
         axios.post(`http://localhost:8080/product/create`, null, {params: updatedData})
         .then((response) => {
            console.log("create data res",response)
         }).catch(err => {
             console.error(err);
         });
+       
+
+        this.props.cancelEdit();
+        this.props.getAll();
+        alert("Product created succesfully")
     }
     render() {
         console.log("checking props", JSON.stringify(this.props));
@@ -161,8 +169,8 @@ class AddItem extends Component {
                 </div>
                 
                 <Modal
-                    show={this.state.editProfile}
-                    onHide={this.cancelEdit}
+                    show={this.props.modal}
+                    onHide={this.props.cancelEdit}
                     animation={false}
                     scrollable={true}
                 >
@@ -196,6 +204,7 @@ class AddItem extends Component {
               displayValue="key"
               onSelect={this.onSelect} // Function will trigger on select event
               selectedValues={this.state.selectedValues}
+              placeholder="Select Stores"
             />
                                 <Form.Group controlId="name">
                                     <Form.Label>Name</Form.Label>
@@ -203,14 +212,14 @@ class AddItem extends Component {
                                     type="text"
                                         // onChange={e => this.setState({ last_name: e.target.value })}
                                         placeholder={usrDetails.firstName ? usrDetails.firstName : ""}
-                                        // required
+                                        required
                                         // value={this.props.firstName + " " + this.props.lastName}
                                     />
                                 </Form.Group>
                                 <Form.Group controlId="brand">
                                     <Form.Label>Brand</Form.Label>
                                     <Form.Control
-                                        // required
+                                        required
                                         type="text"
                                         // onChange={e => this.setState({ last_name: e.target.value })}
                                         placeholder={usrDetails.lastName ? usrDetails.lastName : ""}
@@ -220,7 +229,7 @@ class AddItem extends Component {
                                 <Form.Group controlId="desc">
                                     <Form.Label>Description</Form.Label>
                                     <Form.Control
-                                        // required 
+                                        required 
                                         type="text"
                                         as="textarea"
                                         rows="3"
@@ -231,7 +240,7 @@ class AddItem extends Component {
                                 <Form.Group controlId="qty">
                                     <Form.Label>Quantity</Form.Label>
                                     <Form.Control 
-                                    // required   
+                                    required   
                                     type="text"
                                         // onChange={e => this.setState({ last_name: e.target.value })}
                                     // value={this.props.firstName + " " + this.props.lastName}
@@ -252,7 +261,8 @@ class AddItem extends Component {
                                 </Form.Group>
                                 <Form.Group controlId="price">
                                     <Form.Label>Price( in Dollars ) </Form.Label>
-                                    <Form.Control   type="text" required placeholder={userData.website ? userData.website : "$" } />
+                                    <Form.Control   type="text" required 
+                                    placeholder={userData.website ? userData.website : "$" } />
                                 </Form.Group>
                                 <Button variant="primary" type="submit">
                                 Submit

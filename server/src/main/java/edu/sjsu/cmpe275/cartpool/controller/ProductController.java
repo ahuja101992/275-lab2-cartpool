@@ -39,8 +39,9 @@ public class ProductController {
     ResponseEntity<List<Product>> createStore(@RequestParam List<Long> stores,
                                         @RequestParam String name,
                                         @RequestParam String desc,
-                                        @RequestParam(required = false) String image_url,
+                                        @RequestParam String image_url,
                                         @RequestParam(required = false) String brand,
+                                        @RequestParam Long qty,
                                         @RequestParam String unit,
                                         @RequestParam Long price,
                                         @RequestParam Long adminId) {
@@ -52,9 +53,9 @@ public class ProductController {
             ProductId productId = new ProductId(storeId,sku);
             Product product = null;
             if (brand == null) {
-                product = new Product(productId, name, desc, image_url, unit, price);
+                product = new Product(productId, name, desc, image_url, unit, price,qty);
             } else {
-                product = new Product(productId, name, desc, image_url, brand, unit, price);
+                product = new Product(productId, name, desc, image_url, brand, unit, price,qty);
             }
             Product newProduct = productService.createProduct(product);
             products.add(newProduct);
@@ -85,29 +86,33 @@ public class ProductController {
                                                  @RequestParam(required = false) String image_url,
                                                  @RequestParam(required = false) String brand,
                                                  @RequestParam(required = false) String unit,
-                                                 @RequestParam(required = false) Long price
+                                                 @RequestParam(required = false) String price,
+                                                @RequestParam(required = false) String qty
     ) {
         adminService.findById(adminId);
-
         List<Product> products = productService.searchProductBySKU(sku);
         for(Product product : products) {
-            if (name != null) {
+            if (name != null && !name.isEmpty()) {
                 product.setName(name);
             }
-            if (desc != null) {
+            if (desc != null && !desc.isEmpty()) {
                 product.setDescription(desc);
             }
-            if (image_url != null) {
+            if (image_url != null && !image_url.isEmpty()) {
                 product.setImageURL(image_url);
             }
-            if (brand != null) {
+            if (brand != null && !brand.isEmpty()) {
                 product.setBrandName(brand);
             }
-            if (unit != null) {
+            if (unit != null  && !unit.isEmpty()) {
                 product.setUnit(unit);
             }
-            if (price != null) {
-                product.setPrice(price);
+            if (price != null && !price.isEmpty()) {
+                product.setPrice(Long.valueOf(price));
+            }
+
+            if (qty != null && !qty.isEmpty()) {
+                product.setPrice(Long.valueOf(qty));
             }
         }
         productService.updateProduct(products);

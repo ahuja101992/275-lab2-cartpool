@@ -5,6 +5,7 @@ import EmptyCart from "./EmptyCart";
 import CSSTransitionGroup from "react-transition-group/CSSTransitionGroup";
 import { findDOMNode } from "react-dom";
 import {Link} from 'react-router-dom';
+import AddItem from "../AdminPages/AddItem";
 
 class Header extends Component {
   constructor(props) {
@@ -13,10 +14,13 @@ class Header extends Component {
     this.state = {
       showCart: false,
       cart: this.props.cartItems,
-      mobileSearch: false
+      mobileSearch: false,
+      modal:false
     };
       this.increment = this.increment.bind(this);
       this.decrement = this.decrement.bind(this);
+      this.handleUpdate= this.handleUpdate.bind(this);
+      this.cancelEdit = this.cancelEdit.bind(this);
   }
 
 
@@ -24,6 +28,12 @@ class Header extends Component {
     console.log("product increment",product.qty)
     this.props.addOne(product);
   }
+
+  cancelEdit(){
+    this.setState({
+      modal : false
+    })
+ };
 
   decrement(product) {
     console.log("product")
@@ -43,6 +53,11 @@ class Header extends Component {
     e.preventDefault();
   }
 
+  handleUpdate(e){
+    this.setState({
+      modal : true
+    })
+  }
 
   handleMobileSearch(e) {
     e.preventDefault();
@@ -105,7 +120,11 @@ let searchByStoreId=<input
     className="search-keyword"
     onChange={this.props.handleSearchByStoreId}
   />
-
+ let create=<AddItem  
+ cancelEdit={this.cancelEdit}
+ getAll={this.props.getAll}
+ {...this.state}></AddItem>
+ let showModal = !this.state.modal ? "" : create;
   let showSearchBySku = localStorage.getItem('type') === "admin" ? searchBySku : "";
   let showSearchByStoreId = localStorage.getItem('type') === "admin" ? searchByStoreId : "";
 
@@ -242,13 +261,15 @@ let searchByStoreId=<input
   let showCart = localStorage.getItem('type') === "pooler" ? bag : "";
     return (
       <header>
+        {showModal}
         <div className="container">
           <div className="brand">
-            <img
-              className="logo"
-              src=""
-              alt="CartPool"
-            />
+          <button 
+    variant="primary"
+      type="button"
+      onClick={this.handleUpdate.bind(this
+      )}>NEW ITEM
+    </button>
           </div>
 
           <div className="search">
