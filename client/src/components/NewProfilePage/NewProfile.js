@@ -19,7 +19,15 @@ class NewProfile extends Component {
 
     componentDidMount() {
         //let poolerId = localStorage.getItem('id');
-        let poolerId = 3;
+        let _pool = {
+            id: "",
+            poolId: "",
+            name: "",
+            neighborhoodName: "",
+            description: "",
+            zip: ""
+        }
+        let poolerId = 20;
         axios.get(`http://${HOSTNAME}:8080/pooler/profile/getById/${poolerId}`)
             .then(response => {
                 console.log(response.data.pool);
@@ -31,7 +39,7 @@ class NewProfile extends Component {
                     imageUrl: response.data.img ? response.data.img : "https://bootdey.com/img/Content/avatar/avatar1.png",
                     screenName: response.data.screenname,
                     credits: response.data.contribution,
-                    pool: response.data.pool,
+                    pool: response.data.pool ? response.data.pool : _pool,
                     display: true
 
                 });
