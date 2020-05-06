@@ -67,7 +67,6 @@ public class PoolController {
             return new ResponseEntity<>("{\"message\": \"validation failed!!\"}", HttpStatus.OK);
         }
         return new ResponseEntity<>("{\"message\": \"created pool successfully!!\" , \"id\":" + pool.getId() + "}", HttpStatus.OK);
-        //return ResponseEntity.status(HttpStatus.OK).body();
     }
 
     @RequestMapping(value = "/pool/delete/{id}",
@@ -103,7 +102,6 @@ public class PoolController {
             return new ResponseEntity<>("{\"message\": \"you are already a member of other pool\"}", HttpStatus.OK);
         }
         return new ResponseEntity<>( poolService.joinPool(poolId, poolerId, screenName), HttpStatus.OK);
-        //"{\"success\": \"Deleted pool successfully\"}"
     }
 
 
@@ -124,7 +122,6 @@ public class PoolController {
     ResponseEntity<Object> reject(@PathVariable Long poolerId,
                                 @PathVariable Long poolId) {
 
-        //return ResponseEntity.status(HttpStatus.OK).body(poolService.verify(poolerId, poolId));
         return new ResponseEntity<>(poolService.reject(poolerId, poolId), HttpStatus.OK);
     }
 
@@ -146,6 +143,5 @@ public class PoolController {
                                     @RequestParam String description) {
 
         return ResponseEntity.status(HttpStatus.OK).body(poolService.updatePool(poolId, name, neighborhoodName, description));
-        //return new ResponseEntity<>(poolService.updatePool(poolId, name, neighborhoodName, description), HttpStatus.OK);
     }
 }
