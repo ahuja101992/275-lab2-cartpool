@@ -66,7 +66,7 @@ public class PoolController {
         }catch (ConstraintViolationException e){
             return new ResponseEntity<>("{\"message\": \"validation failed!!\"}", HttpStatus.OK);
         }
-        return new ResponseEntity<>("{\"message\": \"created pool successfully!!\"}", HttpStatus.OK);
+        return new ResponseEntity<>("{\"message\": \"created pool successfully!!\" , \"id\":" + pool.getId() + "}", HttpStatus.OK);
         //return ResponseEntity.status(HttpStatus.OK).body();
     }
 

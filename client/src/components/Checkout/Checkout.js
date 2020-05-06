@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Form, Modal } from "react-bootstrap";
+import { Button, Form, Modal, Card, Accordion } from "react-bootstrap";
 import { HOSTNAME } from "../../constants/appConstants";
 import { Redirect } from "react-router";
 import axios from "axios";
@@ -123,28 +123,65 @@ class Checkout extends Component {
     if (this.state.pickupOrders === "" || this.state.pickupOrders === null)
       return <div>Yuppie ........ No orders for pickup</div>;
     else {
-      return this.state.pickupOrders.map((order) => {
-        return (
-          <div className="list-group" key={order.id}>
-            <div
-              className="list-group-item list-group-item-action order-list row"
-              id={"orderList-" + order.id}
-            >
-              <div className="order-row row">
-                <div className="quantity-col col-sm-4">
-                  Order Id : {order.id}
-                </div>
-                <div className="quantity-col col-sm-4">
-                  Quantity : {order.qty}
-                </div>
-                <div className="price-col col-sm-4">
-                  Total Price : {order.price}
-                </div>
-              </div>
-            </div>
-          </div>
-        );
-      });
+      console.log("orders : ", this.state.pickupOrders);
+      return (
+        <Accordion>
+          {this.state.pickupOrders.map((order) => {
+            return (
+              <Card key={order.id}>
+                <Accordion.Toggle as={Card.Header} key={order.id} eventKey="0">
+                  <div className="order-row row">
+                    <div className="quantity-col col-sm-6">
+                      Order Id : {order.id}
+                    </div>
+                    <div className="price-col col-sm-6">
+                      Total Price : {order.price}
+                    </div>
+                  </div>
+                </Accordion.Toggle>
+                <Accordion.Collapse eventKey="0">
+                  <Card.Body>
+                    {order.orderDetails.map((details) => {
+                      return (
+                        <div className="item-row row">
+                          <div className="name-col col-sm-8">
+                            Name : {details.name}
+                          </div>
+                          <div className="qty-col col-sm-4">
+                            Qty : {details.qty}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </Card.Body>
+                </Accordion.Collapse>
+              </Card>
+            );
+          })}
+        </Accordion>
+      );
+      // return this.state.pickupOrders.map((order) => {
+      //   return (
+      //     <div className="list-group" key={order.id}>
+      //       <div
+      //         className="list-group-item list-group-item-action order-list row"
+      //         id={"orderList-" + order.id}
+      //       >
+      //         <div className="order-row row">
+      //           <div className="quantity-col col-sm-4">
+      //             Order Id : {order.id}
+      //           </div>
+      //           <div className="quantity-col col-sm-4">
+      //             Quantity : {order.qty}
+      //           </div>
+      //           <div className="price-col col-sm-4">
+      //             Total Price : {order.price}
+      //           </div>
+      //         </div>
+      //       </div>
+      //     </div>
+      //   );
+      // });
     }
   };
   getPlaceOrderBtnClass = () => {
