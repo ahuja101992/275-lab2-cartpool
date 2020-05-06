@@ -19,7 +19,7 @@ class PoolInfo extends Component {
     componentDidMount() {
         let poolerId = 20;
         //let poolId = this.state.id;
-        let poolId = 12;
+        let poolId = 14;
         //console.log(this.state.pool);
         //let poolerId = localStorage.getItem('id');
         if (this.state.id && this.state.id !== "") {
@@ -141,7 +141,7 @@ class PoolInfo extends Component {
 
                 <Button variant="danger" size="lg"
                     className="profile-btn"
-                    onClick={this.handleShow}>Delete Pool
+                    onClick={this.handleDelete}>Delete Pool
                 </Button>
             </React.Fragment>
         )
