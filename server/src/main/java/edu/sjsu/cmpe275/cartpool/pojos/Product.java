@@ -24,8 +24,15 @@ public class Product {
     @Column(name = "brandName")
     private String brandName;
 
+    @Column(name = "qty")
+    private Long qty;
+
     @Column(name = "unit")
     private String unit;
+
+    public void setPrice(Long price) {
+        this.price = price;
+    }
 
     @Column(name = "price")
     private Long price;
@@ -39,16 +46,17 @@ public class Product {
 
     }
     
-    public Product(ProductId id, String name, String description, String imageURL, String unit, long price) {
+    public Product(ProductId id, String name, String description, String imageURL, String unit, long price,Long qty) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.imageURL = imageURL;
         this.unit = unit;
         this.price = price;
+        this.qty=qty;
     }
 
-    public Product(ProductId id, String name, String description, String imageURL, String brandName, String unit, long price) {
+    public Product(ProductId id, String name, String description, String imageURL, String brandName, String unit, long price,Long qty) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -56,6 +64,7 @@ public class Product {
         this.brandName = brandName;
         this.unit = unit;
         this.price = price;
+        this.qty=qty;
     }
 
     public Product(ProductId id) {
@@ -123,6 +132,14 @@ public class Product {
 
     public void setStore(Store store) {
         this.store = store;
+    }
+
+    public Long getQty() {
+        return qty;
+    }
+
+    public void setQty(Long qty) {
+        this.qty = qty;
     }
 
     @Override
