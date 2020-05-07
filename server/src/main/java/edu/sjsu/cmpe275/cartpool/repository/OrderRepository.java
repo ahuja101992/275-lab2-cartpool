@@ -20,4 +20,6 @@ public interface OrderRepository<T> extends CrudRepository<Orders, Long> {
     List<Orders> findByOrderOwner(Pooler owner); // for all orders
 
     List<Orders> findByPoolAndStoreAndAvailableAndForDeliveryOrderByDateAsc(Pool pool, Store store, Boolean available, Boolean delivery);
+
+    List<Orders> findByPoolAndStatus(Pool pool, String status);
 }
