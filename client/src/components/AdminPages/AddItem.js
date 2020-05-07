@@ -27,7 +27,8 @@ class AddItem extends Component {
      this.setState({ editProfile: true });
         var  plainArray = [];
         var  objectArray = [];
-        axios.get(`http://localhost:8080/inventory/store/getByAdmin/1`)
+        let adminId=localStorage.getItem("id")
+        axios.get(`http://localhost:8080/inventory/store/getByAdmin/${adminId}`)
         .then(response => {
             console.log("store response",response);
             if(response.data){
