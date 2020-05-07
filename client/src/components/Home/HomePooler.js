@@ -1,7 +1,7 @@
-import React, {Component} from "react";
-import {Redirect, Switch} from "react-router";
-import {Link, NavLink, Route} from "react-router-dom";
-import {Nav, Navbar} from "react-bootstrap";
+import React, { Component } from "react";
+import { Redirect, Switch } from "react-router";
+import { Link, NavLink, Route } from "react-router-dom";
+import { Nav, Navbar } from "react-bootstrap";
 import Pickup from "../PoolerPages/Pickup";
 import Delivery from "../PoolerPages/Delivery";
 import Orders from "../PoolerPages/Orders";
@@ -40,7 +40,7 @@ class HomePooler extends Component {
     render() {
         const redirectVar =
             localStorage.getItem("userType") === null ? (
-                <Redirect to="/home"/>
+                <Redirect to="/home" />
             ) : null;
 
         return (
@@ -49,7 +49,7 @@ class HomePooler extends Component {
                 <div style={styles.container}>
                     <div className='rowC'>
                         <div>
-                            <img style={styles.logo} src={logo} alt="Quora"/>
+                            <img style={styles.logo} src={logo} alt="Quora" />
                         </div>
                         <div>
                             <h3 style={styles.message}>&nbsp;&nbsp;CartPool</h3>
@@ -64,10 +64,13 @@ class HomePooler extends Component {
                             <Nav.Link as={NavLink} to="/homePooler/">
                                 HomePooler
                             </Nav.Link>
+                            <Nav.Link as={NavLink} to="/NewProfile/">
+                                Profile
+                            </Nav.Link>
                         </Nav>
 
                         <Nav className="ml-auto">
-                        <Nav.Link as={NavLink} to='/homePooler/viewStore/'>Stores</Nav.Link>
+                            <Nav.Link as={NavLink} to='/homePooler/viewStore/'>Stores</Nav.Link>
                             <Nav.Link as={NavLink} to="/homePooler/pickup/">
                                 Pickup
                             </Nav.Link>
@@ -89,15 +92,15 @@ class HomePooler extends Component {
 
                 <div>
                     <Switch>
-                    <Route exact path='/homePooler/viewStore/' component={ViewStore}/>
-                    <Route exact path='/homePooler/item/' component={Items}/>
-                    <Route exact path="/homePooler/" component={SearchPool}/>
-                        <Route exact path="/homePooler/orders/" component={Orders}/>
-                        <Route exact path="/homePooler/pickup/" component={Pickup}/>
-                        <Route exact path="/homePooler/delivery/" component={Delivery}/>
-                        <Route exact path="/homePooler/checkout/" component={Checkout}/>
-                        <Route exact path="/homePooler/messaging/" component={Messaging}/>
-                        <Route exact path='/logout/' component={Logout}/>
+                        <Route exact path='/homePooler/viewStore/' component={ViewStore} />
+                        <Route exact path='/homePooler/item/' component={Items} />
+                        <Route exact path="/homePooler/" component={SearchPool} />
+                        <Route exact path="/homePooler/orders/" component={Orders} />
+                        <Route exact path="/homePooler/pickup/" component={Pickup} />
+                        <Route exact path="/homePooler/delivery/" component={Delivery} />
+                        <Route exact path="/homePooler/checkout/" component={Checkout} />
+                        <Route exact path="/homePooler/messaging/" component={Messaging} />
+                        <Route exact path='/logout/' component={Logout} />
                     </Switch>
                 </div>
             </div>
