@@ -210,7 +210,7 @@ class Checkout extends Component {
       let poolerId = localStorage.getItem("id");
       const requestParams = {};
       requestParams.poolerId = poolerId;
-      requestParams.count = storeId;
+      requestParams.count = this.state.orderList.length;
       axios.defaults.withCredential = true;
       try {
         let a = await axios.post(
