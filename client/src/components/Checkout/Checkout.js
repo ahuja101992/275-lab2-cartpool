@@ -30,9 +30,11 @@ class Checkout extends Component {
   componentDidMount() {
     let poolerId = localStorage.getItem("id");
     if (this.props.location.state && this.props.location.state.price !== "") {
+      let finalPriceTemp = this.props.location.state.price * 1.0975;
+      let finalPr = parseFloat(finalPriceTemp).toFixed(2);
       this.setState({
         price: this.props.location.state.price,
-        finalPrice: this.props.location.state.price * 1.0975,
+        finalPrice: finalPr,
         storeId: this.props.location.state.store,
       });
     }
@@ -328,19 +330,19 @@ class Checkout extends Component {
           <div class="order-service-tax row">
             <div class="col-sm-9 service-tax">Universal Tax</div>
             <div class="col-sm-3 service-tax">
-              $ {this.state.price * 0.0925}
+              $ {parseFloat(this.state.price * 0.0925).toFixed(2)}
             </div>
           </div>
           <div class="order-convenience-fee row">
             <div class="col-sm-9 convenience-fee">Convenience-Fee</div>
             <div class="col-sm-3 convenience-fee">
-              $ {this.state.price * 0.005}
+              $ {parseFloat(this.state.price * 0.005).toFixed(2)}
             </div>
           </div>
           <div class="order-final-price row">
             <div class="col-sm-9 order-total-title">Amount Payable</div>
             <div class="col-sm-3 order-total">
-              $ {this.state.price * 1.0975}
+              $ {parseFloat(this.state.price * 1.0975).toFixed(2)}
             </div>
           </div>
           <div class="delivery-row row">
