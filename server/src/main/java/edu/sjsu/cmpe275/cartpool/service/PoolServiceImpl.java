@@ -114,7 +114,7 @@ public class PoolServiceImpl implements PoolService {
                 try {
                     String protocol = "http";
                     String host = Constants.HOSTNAME;
-                    int port = 3000;
+                    int port = 8080;
                     String verifyPath = "/pool/verify/" + poolerId + "/" + poolId;
                     String rejectPath = "/pool/reject/" + poolerId + "/" + poolId;
                     uri = new URI(protocol, null, host, port, verifyPath, null, null);
