@@ -26,7 +26,7 @@ public class Admin extends User {
     @JoinColumn(name = "product_id")
     @JsonIgnoreProperties({"products"})
     @XmlTransient
-    private List<Product> products = new ArrayList<>();
+    private List<Product> products;
 
     public Admin() {
     }
