@@ -150,7 +150,7 @@ class Items extends Component {
         let productQty = selectedProducts.qty;
         if(cartItem.length>0){
           console.log("storedif",storeId);
-          if(storeId!==localStorage.getItem("cart-storeId")){
+          if(storeId!=localStorage.getItem("cart-storeId")){
                 this.setState({
                   erroModal:true
                 })
@@ -340,7 +340,7 @@ class Items extends Component {
 
         <Form onSubmit={this.refreshCartState}>
         <div className="text-muted text-center join-pool-modal-text">Your cart contains 
-                            items from other store. Would you like to reset your cart for adding items from this restaurant?
+                            items from other store. Would you like to reset your cart for adding items from this store?
                                 </div>
             <Modal.Footer>
                 <Button variant="secondary" onClick={this.handleCartState}>
