@@ -65,13 +65,6 @@ public class Product {
         this.admin= admin;
     }
 
-    public Admin getAdmin() {
-		return admin;
-	}
-
-	public void setAdmin(Admin admin) {
-		this.admin = admin;
-	}
 
 	public Product(ProductId id, String name, String description, String imageURL, String brandName, String unit, Float price,Float qty, Admin admin) {
         this.id = id;
