@@ -16,34 +16,34 @@ class Products extends Component {
     let x;
 
     function searchingFor(term) {
-      return function(x) {
+      return function (x) {
         return x.name.toLowerCase().includes(term.toLowerCase()) || !term;
       };
     }
 
     function searchingForId(term) {
-      console.log("storeid",term);
-      return function(x) {
+      console.log("storeid", term);
+      return function (x) {
         return x.id.storeId == term || !term;
       };
     }
 
     function searchingForSku(term) {
-      console.log("sku",term);
-      return function(x) {
+      console.log("sku", term);
+      return function (x) {
         return x.id.sku.toLowerCase().includes(term.toLowerCase()) || !term;
       };
     }
 
-    console.log("search",this.props.flag);
-    let func=searchingFor(term)
-    
-    if(this.props.flag===1){
-    func=searchingForSku(term)
+    console.log("search", this.props.flag);
+    let func = searchingFor(term)
+
+    if (this.props.flag === 1) {
+      func = searchingForSku(term)
     }
 
-    if(this.props.flag===2){
-      func=searchingForId(term)
+    if (this.props.flag === 2) {
+      func = searchingForId(term)
     }
 
     productsData = this.props.productsList
@@ -73,8 +73,9 @@ class Products extends Component {
     // Empty and Loading States
     let view;
     if (productsData.length <= 0 && !term) {
-      view = <LoadingProducts />;
-    } else if (productsData.length <= 0 && term) {
+      view = <div><h2>No products in the store</h2>
+      </div>
+    } else if (productsData.length <= 0 && term.length > 0) {
       view = <NoResults />;
     } else {
       view = (
