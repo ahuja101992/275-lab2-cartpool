@@ -70,7 +70,7 @@ public class ProductController {
     public ResponseEntity<List<Product>> deleteProduct(@PathVariable String sku,
                                                     @PathVariable Long adminId) {
         adminService.findById(adminId);
-        List<Product> products = productService.deleteProduct(sku);
+        List<Product> products = productService.deleteProduct(sku,adminId);
         return ResponseEntity.status(HttpStatus.OK).body(products);
     }
 
@@ -115,7 +115,7 @@ public class ProductController {
                 product.setPrice(Float.valueOf(qty));
             }
         }
-        productService.updateProduct(products);
+        productService.updateProduct(products,adminId);
         return ResponseEntity.status(HttpStatus.OK).body(products);
     }
 
@@ -161,12 +161,13 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.OK).body(productService.searchProductBySKU(sku));
     }
 
-    @RequestMapping(value = "/products",
+    @RequestMapping(value = "/products/admin/{adminId}",
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<List<Product>> getProducts() {
-        return ResponseEntity.status(HttpStatus.OK).body(productService.searchProducts());
+    public ResponseEntity<List<Product>> getProducts(@PathVariable Long adminId) {
+        adminService.findById(adminId);
+        return ResponseEntity.status(HttpStatus.OK).body(productService.searchProductsByAdminId(adminId));
     }
 
 }

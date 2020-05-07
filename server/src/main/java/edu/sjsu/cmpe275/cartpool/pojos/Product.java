@@ -3,6 +3,7 @@ package edu.sjsu.cmpe275.cartpool.pojos;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlTransient;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -32,6 +33,11 @@ public class Product {
 
     @Column(name = "price")
     private Float price;
+
+    @MapsId("AdminId")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "adminId", referencedColumnName = "id")
+    private Admin admin;
 
     @MapsId("StoreId")
     @ManyToOne

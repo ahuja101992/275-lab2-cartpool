@@ -19,6 +19,8 @@ public interface ProductRepository extends CrudRepository<Product, ProductId> {
 
     List<Product> findByNameAndStoreId(String name,Long storeId);
 
+    List<Product> findByAdmin_Id(Long adminId);
+
     @Query(value="select p.* from product p ,items i,orders o where i.sku=p.sku and o.id= i.order_id and i.sku= :sku and o.status in (\"placed\")",nativeQuery =true)
     List<Product> findProductsByOrderId(@Param("sku") String sku);
 

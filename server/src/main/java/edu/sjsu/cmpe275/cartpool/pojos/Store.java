@@ -33,7 +33,7 @@ public class Store {
     private Set<Orders> orders = new HashSet<>();
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
-    @JsonIgnoreProperties({"stores"})
+    @JsonIgnoreProperties({"products"})
     @XmlTransient
     private Set<Product> products = new HashSet<>();
 

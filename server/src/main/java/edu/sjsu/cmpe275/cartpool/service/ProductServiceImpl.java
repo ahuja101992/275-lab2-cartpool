@@ -40,23 +40,23 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public List<Product> deleteProduct(String sku) {
+    public List<Product> deleteProduct(String sku,Long adminId) {
         System.out.println("Deleting product: ");
         List<Product> products = productRepository.findProductsByOrderId(sku);
         if(products!=null && products.size()>0) {
             productRepository.deleteAll(products);
         }
-        return searchProducts();
+        return searchProductsByAdminId(adminId);
     }
 
     @Override
     @Transactional
-    public List<Product> updateProduct(List<Product> products) {
+    public List<Product> updateProduct(List<Product> products,Long adminId) {
         for(Product product : products){
             List<Product> stored = searchProductBySKU(product.getId().getSku());
             productRepository.save(product);
         }
-        return searchProducts();
+        return searchProductsByAdminId(adminId);
 
     }
 
@@ -89,8 +89,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public List<Product> searchProducts(){
-        return (List<Product>) productRepository.findAll();
+    public List<Product> searchProductsByAdminId(Long adminId){
+        return productRepository.findByAdmin_Id(adminId);
     }
 
 
