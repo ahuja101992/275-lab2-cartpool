@@ -10,4 +10,5 @@ public interface StoreRepository<T> extends CrudRepository<Store, Long> {
     List<Store> findByIdAndAdmin_id(Long email, Long password);
 
     Optional<Store> findById(Long storeId);
+    List<Store> findAll();
 }

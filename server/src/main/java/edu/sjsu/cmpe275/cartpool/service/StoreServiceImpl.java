@@ -53,4 +53,9 @@ public class StoreServiceImpl implements StoreService {
 
         throw new UserNotFoundException();
     }
+
+	@Override
+	public List<Store> getAllStores() {
+		return storeRepository.findAll();
+	}
 }
