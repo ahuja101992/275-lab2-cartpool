@@ -43,8 +43,14 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> deleteProduct(String sku,Long adminId) {
         System.out.println("Deleting product: ");
         List<Product> products = productRepository.findProductsByOrderId(sku);
-        if(products!=null && products.size()>0) {
-            productRepository.deleteAll(products);
+        HashSet<Product> set1= new HashSet<>(products);
+        List<Product> productsku = productRepository.findProductsBySku(sku);
+        HashSet<Product> set2= new HashSet<>(productsku);
+        set2.removeAll(set1);
+        if(set2!=null && set2.size()>0) {
+            productRepository.deleteAll(set2);
+        }else{
+
         }
         return searchProductsByAdminId(adminId);
     }
