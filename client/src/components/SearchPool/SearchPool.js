@@ -21,7 +21,7 @@ class SearchPool extends Component {
                 this.setState({
                     poolList: response.data,
                     searchParam: ""
-                })
+                }, () => { if (this.state.poolList.length === 0) alert(`No pools found with ${this.state.searchParam} keyword`) })
             })
             .catch(error => {
                 console.log(error);
