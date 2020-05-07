@@ -1,6 +1,7 @@
 package edu.sjsu.cmpe275.cartpool.controller;
 
 
+import edu.sjsu.cmpe275.cartpool.pojos.Admin;
 import edu.sjsu.cmpe275.cartpool.pojos.Product;
 import edu.sjsu.cmpe275.cartpool.pojos.ProductId;
 import edu.sjsu.cmpe275.cartpool.service.AdminService;
@@ -46,16 +47,16 @@ public class ProductController {
                                         @RequestParam Float price,
                                         @RequestParam Long adminId) {
 
-        adminService.findById(adminId);
+        Admin admin = adminService.findById(adminId);
         List<Product> products= new ArrayList<>();
         String sku= UUID.randomUUID().toString()+name+price;
         for(Long storeId : stores) {
             ProductId productId = new ProductId(storeId,sku);
             Product product = null;
             if (brand == null) {
-                product = new Product(productId, name, desc, image_url, unit, Float.valueOf(price),Float.valueOf(qty));
+                product = new Product(productId, name, desc, image_url, unit, Float.valueOf(price),Float.valueOf(qty), admin);
             } else {
-                product = new Product(productId, name, desc, image_url, brand, unit, Float.valueOf(price),Float.valueOf(qty));
+                product = new Product(productId, name, desc, image_url, brand, unit, Float.valueOf(price),Float.valueOf(qty), admin);
             }
             Product newProduct = productService.createProduct(product);
             products.add(newProduct);
