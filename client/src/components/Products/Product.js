@@ -11,12 +11,12 @@ class Product extends Component {
       selectedProduct: {},
       quickViewProduct: {},
       isAdded: false,
-      modal:false
+      modal: false
     };
-    this.handleUpdate= this.handleUpdate.bind(this);
+    this.handleUpdate = this.handleUpdate.bind(this);
   }
-  addToCart(image,name,price,id,weight,quantity,unit,sku,storeId) {
-    console.log("add to cart in  props",quantity);
+  addToCart(image, name, price, id, weight, quantity, unit, sku, storeId) {
+    console.log("add to cart in  props", quantity);
     this.setState(
       {
         selectedProduct: {
@@ -24,25 +24,25 @@ class Product extends Component {
           name: name,
           price: price,
           id: id,
-          weight:weight,
+          weight: weight,
           qty: quantity,
-          unit : unit,
+          unit: unit,
           sku: sku,
           storeId: storeId
         }
       },
-      function() {
-        if(this.state.selectedProduct.qty>0){
-          console.log("item added",this.state.selectedProduct)
-        this.props.addToCart(this.state.selectedProduct);
+      function () {
+        if (this.state.selectedProduct.qty > 0) {
+          console.log("item added", this.state.selectedProduct)
+          this.props.addToCart(this.state.selectedProduct);
         }
       }
     );
     this.setState(
       {
-        isAdded: this.state.selectedProduct.qty>0 ? true :false
+        isAdded: this.state.selectedProduct.qty > 0 ? true : false
       },
-      function() {
+      function () {
         setTimeout(() => {
           this.setState({
             isAdded: false,
@@ -53,7 +53,7 @@ class Product extends Component {
     );
   }
 
-  handleUpdate(image,name,price,id,weight,quantity,unit,sku,storeId,brand,flag) {
+  handleUpdate(image, name, price, id, weight, quantity, unit, sku, storeId, brand, flag) {
     console.log("add to cart in  props");
     this.setState(
       {
@@ -62,35 +62,36 @@ class Product extends Component {
           name: name,
           price: price,
           id: id,
-          weight:weight,
+          weight: weight,
           quantity: quantity,
-          unit : unit,
+          unit: unit,
           sku: sku,
           storeId: storeId,
-          flag:flag,
-          brand:brand
+          flag: flag,
+          brand: brand
         }
       },
-      function() {
-        let adminId=localStorage.getItem("id")
-        if(this.state.selectedProduct.flag===0){
+      function () {
+        let adminId = localStorage.getItem("id")
+        if (this.state.selectedProduct.flag === 0) {
           this.setState({
-            modal : true
+            modal: true
           })
-          console.log("handleupdate",this.state.selectedProduct)
+          console.log("handleupdate", this.state.selectedProduct)
           this.props.getAll();
-        }else{
+        } else {
+          alert('going')
           axios.delete(`http://localhost:8080/product/${id}/${adminId}`, null)
-          .then((response) => {
-             console.log("create data res",response)
-          }).catch(err => {
+            .then((response) => {
+              console.log("create data res", response)
+            }).catch(err => {
               console.error(err);
-          });
-          console.log("handleDelete",this.state.selectedProduct)
+            });
+          console.log("handleDelete", this.state.selectedProduct)
         }
       }
     );
-   
+
   }
 
 
@@ -104,7 +105,7 @@ class Product extends Component {
           id: id
         }
       },
-      function() {
+      function () {
         this.props.openModal(this.state.quickViewProdcut);
       }
     );
@@ -121,56 +122,56 @@ class Product extends Component {
     let quantity = this.props.productQuantity;
     let brand = this.props.brand;
     let counter = <Counter
-    productQuantity={quantity}
-    updateQuantity={this.props.updateQuantity}
-    resetQuantity={this.resetQuantity}
-  />
-  
-  let cart = <div className="product-action">
-          <button
-            className={!this.state.isAdded ? "" : "added"}
-            type="button"
-            onClick={this.addToCart.bind(
-              this,
-              image,
-              name,
-              price,
-              id,
-              weight,
-              quantity,
-              unit,
-              sku,
-              storeId
-            )}
-          >
-            {!this.state.isAdded ? "ADD TO CART" : "✔ ADDED"}
-          </button>
-        </div>
+      productQuantity={quantity}
+      updateQuantity={this.props.updateQuantity}
+      resetQuantity={this.resetQuantity}
+    />
 
-    let edit=<div className="product-action">
-    <button 
-    variant="primary"
-      type="button"
-      onClick={this.handleUpdate.bind(this,
-        image,name,price,id,weight,quantity,unit,sku,storeId,brand,0
-      )}>EDIT
+    let cart = <div className="product-action">
+      <button
+        className={!this.state.isAdded ? "" : "added"}
+        type="button"
+        onClick={this.addToCart.bind(
+          this,
+          image,
+          name,
+          price,
+          id,
+          weight,
+          quantity,
+          unit,
+          sku,
+          storeId
+        )}
+      >
+        {!this.state.isAdded ? "ADD TO CART" : "✔ ADDED"}
+      </button>
+    </div>
+
+    let edit = <div className="product-action">
+      <button
+        variant="primary"
+        type="button"
+        onClick={this.handleUpdate.bind(this,
+          image, name, price, id, weight, quantity, unit, sku, storeId, brand, 0
+        )}>EDIT
     </button>
-  </div>
+    </div>
 
-let editModel=<EditItem  
-cancelEdit={this.state.cancelEdit}
-{...this.state}></EditItem>
+    let editModel = <EditItem
+      cancelEdit={this.state.cancelEdit}
+      {...this.state}></EditItem>
 
 
-let del=<div className="product-action">
-  <button
-variant="primary"
-  type="button"
-  onClick={this.handleUpdate.bind(  this,
-    image,name,price,id,weight,quantity,unit,sku,storeId,brand,1
-  )}>DELETE
+    let del = <div className="product-action">
+      <button
+        variant="primary"
+        type="button"
+        onClick={this.handleUpdate.bind(this,
+          image, name, price, id, weight, quantity, unit, sku, storeId, brand, 1
+        )}>DELETE
 </button>
-</div>
+    </div>
 
     let editQty = localStorage.getItem('type') === "pooler" ? counter : "";
     let cartEle = localStorage.getItem('type') === "pooler" ? cart : "";
@@ -197,9 +198,9 @@ variant="primary"
             )}
           />
         </div>
-            <h4 className="product-name">{this.props.name},{this.props.weight} {this.props.unit}</h4>
+        <h4 className="product-name">{this.props.name},{this.props.weight} {this.props.unit}</h4>
         <p className="product-price">{this.props.price}</p>
-        
+
         {editQty}
         {cartEle}
         {showEdit}
