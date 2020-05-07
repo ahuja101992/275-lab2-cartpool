@@ -18,13 +18,13 @@ public class Admin extends User {
     private long id;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "admin")
-    @JsonIgnoreProperties({"orderOwner"})
+    @JsonIgnoreProperties({"orderOwner", "admin","products"})
     @XmlTransient
     private List<Store> stores;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy ="admin")
 //    @JoinColumn(name = "product_id")
-    @JsonIgnoreProperties({"products"})
+    @JsonIgnoreProperties({"products","admin","store" })
     @XmlTransient
     private List<Product> products;
 
