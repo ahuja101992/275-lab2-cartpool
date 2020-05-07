@@ -10,7 +10,7 @@
       "name": "Error",
       "message": "No package.json (or package.yaml, or package.json5) was found in \"/Users/vijendra4/projects/spring-2020/275/275-cartpool\".",
       "code": "ERR_PNPM_NO_IMPORTER_MANIFEST_FOUND",
-      "stack": "Error: No package.json (or package.yaml, or package.json5) was found in \"/Users/vijendra4/projects/spring-2020/275/275-cartpool\".\n    at readProjectManifest (/usr/local/lib/node_modules/pnpm/lib/node_modules/@pnpm/read-project-manifest/lib/index.js:20:11)\n    at async Object.readProjectManifestOnly (/usr/local/lib/node_modules/pnpm/lib/node_modules/@pnpm/read-project-manifest/lib/index.js:24:26)\n    at async Object.readProjectManifestOnly (/usr/local/lib/node_modules/pnpm/lib/node_modules/@pnpm/cli-utils/lib/readProjectManifest.js:12:22)\n    at async Object.handler [as outdated] (/usr/local/lib/node_modules/pnpm/lib/node_modules/@pnpm/plugin-commands-outdated/lib/outdated.js:119:23)"
+      "stack": "Error: No package.json (or package.yaml, or package.json5) was found in \"/Users/vijendra4/projects/spring-2020/275/275-cartpool\".\n    at readProjectManifest (/usr/local/lib/node_modules/pnpm/lib/node_modules/@pnpm/read-project-manifest/lib/index.js:20:11)\n    at async Object.readProjectManifestOnly (/usr/local/lib/node_modules/pnpm/lib/node_modules/@pnpm/read-project-manifest/lib/index.js:24:26)\n    at async Object.readProjectManifestOnly (/usr/local/lib/node_modules/pnpm/lib/node_modules/@pnpm/cli-utils/lib/readProjectManifest.js:12:22)\n    at async Object.handler (/usr/local/lib/node_modules/pnpm/lib/node_modules/@pnpm/plugin-commands-script-runners/lib/run.js:90:22)"
     }
   }
 }
