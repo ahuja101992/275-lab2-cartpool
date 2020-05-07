@@ -53,7 +53,7 @@ class Product extends Component {
     );
   }
 
-  handleUpdate(image,name,price,id,weight,quantity,unit,sku,storeId,flag) {
+  handleUpdate(image,name,price,id,weight,quantity,unit,sku,storeId,brand,flag) {
     console.log("add to cart in  props");
     this.setState(
       {
@@ -67,7 +67,8 @@ class Product extends Component {
           unit : unit,
           sku: sku,
           storeId: storeId,
-          flag:flag
+          flag:flag,
+          brand:brand
         }
       },
       function() {
@@ -118,6 +119,7 @@ class Product extends Component {
     let storeId = this.props.storeId;
     let weight = this.props.weight;
     let quantity = this.props.productQuantity;
+    let brand = this.props.brand;
     let counter = <Counter
     productQuantity={quantity}
     updateQuantity={this.props.updateQuantity}
@@ -150,7 +152,7 @@ class Product extends Component {
     variant="primary"
       type="button"
       onClick={this.handleUpdate.bind(this,
-        image,name,price,id,weight,quantity,unit,sku,storeId,0
+        image,name,price,id,weight,quantity,unit,sku,storeId,brand,0
       )}>EDIT
     </button>
   </div>
@@ -165,7 +167,7 @@ let del=<div className="product-action">
 variant="primary"
   type="button"
   onClick={this.handleUpdate.bind(  this,
-    image,name,price,id,weight,quantity,unit,sku,storeId,1
+    image,name,price,id,weight,quantity,unit,sku,storeId,brand,1
   )}>DELETE
 </button>
 </div>

@@ -60,6 +60,7 @@ class Products extends Component {
             id={product.id.sku}
             storeId={product.id.storeId}
             sku={product.id.sku}
+            brand={product.brand}
             addToCart={this.props.addToCart}
             productQuantity={this.props.productQuantity}
             updateQuantity={this.props.updateQuantity}
