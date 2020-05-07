@@ -35,7 +35,7 @@ public class Product {
     private Float price;
 
 //    @MapsId("AdminId")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "admin_id", referencedColumnName = "id")
     private Admin admin;
 
@@ -45,10 +45,16 @@ public class Product {
     private Store store;
 
     public Product() {
-
     }
     
     public Product(ProductId id, String name, String description, String imageURL, String unit, Float price,Float qty, Admin admin) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.imageURL = imageURL;
+        this.unit = unit;
+        this.price = price;
+        this.qty=qty;
         this.id = id;
         this.name = name;
         this.description = description;
@@ -134,6 +140,7 @@ public class Product {
     public Float getPrice() {
         return price;
     }
+
     public void setPrice(Float price) {
         this.price = price;
     }
@@ -152,6 +159,14 @@ public class Product {
 
     public void setQty(Float qty) {
         this.qty = qty;
+    }
+
+    public Admin getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(Admin admin) {
+        this.admin = admin;
     }
 
     @Override

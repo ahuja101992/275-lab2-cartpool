@@ -73,7 +73,8 @@ class AdminItems extends Component {
       }
 
       getAll(){
-      axios.get(`http://localhost:8080/products`)
+        let adminId=localStorage.getItem("id");
+      axios.get(`http://localhost:8080/products/admin/${adminId}`)
       .then((response) => {
          console.log("create data res",response)
          this.setState({

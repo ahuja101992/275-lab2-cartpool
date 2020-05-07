@@ -49,7 +49,7 @@ public class ProductController {
 
         Admin admin = adminService.findById(adminId);
         List<Product> products= new ArrayList<>();
-        String sku= UUID.randomUUID().toString()+name+price;
+        String sku= UUID.randomUUID().toString()+name+price+qty+unit;
         for(Long storeId : stores) {
             ProductId productId = new ProductId(storeId,sku);
             Product product = null;
