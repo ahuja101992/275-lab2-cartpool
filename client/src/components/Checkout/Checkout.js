@@ -233,6 +233,7 @@ class Checkout extends Component {
         this.setState({
           orderPlacedSuccess: true,
         });
+        localStorage.setItem("cart", "");
       })
       .catch((error) => {
         console.log(error);
@@ -297,7 +298,7 @@ class Checkout extends Component {
         </Modal>
         <Modal show={this.state.warning} animation={false}>
           <Modal.Body>
-            Number of orders selected for pickup is greater than prders present.
+            Number of orders selected for pickup is greater than orders present.
             So no orders will be assigned fo you to pick up.{" "}
           </Modal.Body>
           <Modal.Footer>
