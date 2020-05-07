@@ -6,6 +6,7 @@ class Logout extends Component {
         console.log("Deleted cookie");
         localStorage.removeItem('id');
         localStorage.removeItem('email');
+        localStorage.removeItem('cart');
 
         return (
             <Redirect to="/login/"/>
