@@ -22,11 +22,11 @@ public class Admin extends User {
     @XmlTransient
     private List<Store> stores;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_id")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy ="admin")
+//    @JoinColumn(name = "product_id")
     @JsonIgnoreProperties({"products"})
     @XmlTransient
-    private List<Product> products = new ArrayList<>();
+    private List<Product> products;
 
     public Admin() {
     }
