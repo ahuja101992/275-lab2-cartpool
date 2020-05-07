@@ -101,6 +101,10 @@ public class InventoryController {
 
         return ResponseEntity.status(HttpStatus.OK).body(storeService.updateStore(store, adminId));
     }
-
-
+    @RequestMapping(value = "/inventory/store/allstores",
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+            method = RequestMethod.GET)
+    public ResponseEntity<List<Store>> getAllStores() {
+        return ResponseEntity.status(HttpStatus.OK).body(storeService.getAllStores()) ;
+    }
 }
