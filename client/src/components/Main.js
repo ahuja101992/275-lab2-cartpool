@@ -4,6 +4,7 @@ import NavPage from "./NavPage/NavPage";
 import SignUp from "./Account/SignUp";
 import Login from "./Account/Login";
 import Logout from "./Account/Logout";
+import PoolVerificationPage from "./PoolerPages/PoolVerificationPage";
 
 import AdminLayout from "./Layout/AdminLayout";
 import PoolerLayout from "./Layout/PoolerLayout";
@@ -16,11 +17,13 @@ class Main extends Component {
     render() {
         return (
             <div>
+
                 <Route path="/homeAdmin" component={AdminLayout} />
                 <Route path="/homePooler" component={PoolerLayout} />
                 <Route exact path="/" component={NavPage} />
                 <Route exact path="/signup" component={SignUp} />
                 <Route exact path="/login/:email?" component={Login} />
+                <Route exact path="/PoolVerificationPage/:email?" component={PoolVerificationPage} />
                 <Route exact path="/logout" component={Logout} />
                 <Route exact path="/searchPool" component={SearchPool} />
                 {/* <Route exact path="/PoolInfo" component={PoolInfo} /> */}
