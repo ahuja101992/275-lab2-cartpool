@@ -234,6 +234,7 @@ class Checkout extends Component {
           orderPlacedSuccess: true,
         });
         localStorage.setItem("cart", "");
+        localStorage.setItem("cart-storeId", "");
       })
       .catch((error) => {
         console.log(error);
