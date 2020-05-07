@@ -3,8 +3,10 @@ package edu.sjsu.cmpe275.cartpool.service;
 import edu.sjsu.cmpe275.cartpool.exceptions.MembershipException;
 import edu.sjsu.cmpe275.cartpool.exceptions.PoolNotFoundException;
 import edu.sjsu.cmpe275.cartpool.exceptions.UserNotFoundException;
+import edu.sjsu.cmpe275.cartpool.pojos.Orders;
 import edu.sjsu.cmpe275.cartpool.pojos.Pool;
 import edu.sjsu.cmpe275.cartpool.pojos.Pooler;
+import edu.sjsu.cmpe275.cartpool.repository.OrderRepository;
 import edu.sjsu.cmpe275.cartpool.repository.PoolRepository;
 import edu.sjsu.cmpe275.cartpool.repository.PoolerRepository;
 import edu.sjsu.cmpe275.cartpool.util.Constants;
@@ -28,6 +30,9 @@ public class PoolServiceImpl implements PoolService {
     @Autowired
     private EmailService emailService;
 
+    @Autowired
+    private OrderRepository<Orders> orderRepository;
+
     @Transactional
     @Override
     public Pool save(Pool pool) {
@@ -39,6 +44,12 @@ public class PoolServiceImpl implements PoolService {
     public String delete(Long poolId) {
         Pool pool = poolRepository.findById(poolId).orElseThrow(() -> new PoolNotFoundException());
         Pooler poolLeader = pool.getPoolLeader();
+
+        List<Orders> activeOrders = orderRepository.findByPoolAndStatus(pool, "Placed");
+        if(activeOrders.size() > 0){
+            return "Unable to delete pool!! :: Active Orders in pool exists";
+        }
+
         if (pool.getMembers().size() == 1 && pool.getMembers().contains(poolLeader)) {
             poolLeader.setPool(null);
             poolRepository.delete(pool);
