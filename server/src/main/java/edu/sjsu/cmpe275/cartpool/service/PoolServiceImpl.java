@@ -36,14 +36,17 @@ public class PoolServiceImpl implements PoolService {
 
     @Transactional
     @Override
-    public void delete(Long poolId) {
+    public String delete(Long poolId) {
         Pool pool = poolRepository.findById(poolId).orElseThrow(() -> new PoolNotFoundException());
         Pooler poolLeader = pool.getPoolLeader();
         if (pool.getMembers().size() == 1 && pool.getMembers().contains(poolLeader)) {
             poolLeader.setPool(null);
             poolRepository.delete(pool);
-        } else
-            throw new MembershipException("Unable to delete pool!! :: Members exist in pool");
+            return "Deleted pool successfully";
+        } else {
+            return "Unable to delete pool!! :: Members exist in pool";
+            //throw new MembershipException("Unable to delete pool!! :: Members exist in pool");
+        }
     }
 
     @Transactional
@@ -100,7 +103,7 @@ public class PoolServiceImpl implements PoolService {
                 try {
                     String protocol = "http";
                     String host = Constants.HOSTNAME;
-                    int port = 8080;
+                    int port = 3000;
                     String verifyPath = "/pool/verify/" + poolerId + "/" + poolId;
                     String rejectPath = "/pool/reject/" + poolerId + "/" + poolId;
                     uri = new URI(protocol, null, host, port, verifyPath, null, null);
@@ -108,9 +111,9 @@ public class PoolServiceImpl implements PoolService {
 
                     rejectPathUri = new URI(protocol, null, host, port, rejectPath, null, null);
                     rejectPathUrl = rejectPathUri.toURL();
-                    messageBody = "<h3>Take the action to accept or reject the membership request</h3>\n" +
-                            " <a target='_blank' href=" + url + "><button style=\"background-color:#4CAF50\">Accept</button></a>\n" +
-                            "<a target='_blank' href=" + rejectPathUrl + "><button style=\"background-color:#f44336\">Reject</button></a>";
+                    messageBody = "<script>console.log('hello')</script><h3>Take the action to accept or reject the membership request</h3>\n" +
+                            " <a href=" + url + "><button style=\"background-color:#4CAF50\">Accept</button></a>\n" +
+                            "<a href=" + rejectPathUrl + "><button style=\"background-color:#f44336\">Reject</button></a>";
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -134,19 +137,24 @@ public class PoolServiceImpl implements PoolService {
         pool.addPooler(pooler);
         pooler.setPool(pool);
         poolerRepository.save(pooler);
+
+        String messageBody = "Reference Pooler has accepted your join request for pool: " + pool.getName();
+        emailService.sendEmailForPoolMembership(pooler.getEmail(),
+                "pool membership request accepted", messageBody);
+
         return poolRepository.save(pool);
     }
 
     @Transactional
     @Override
-    public String reject(Long poolerId, Long poolId) {
+    public void reject(Long poolerId, Long poolId) {
         Pooler pooler = poolerRepository.findById(poolerId).orElseThrow(() -> new UserNotFoundException());
         Pool pool = poolRepository.findById(poolId).orElseThrow(() -> new PoolNotFoundException());
 
         String messageBody = "Reference Pooler has rejected your join request for pool: " + pool.getName();
         emailService.sendEmailForPoolMembership(pooler.getEmail(),
                 "Rejection for pool membership", messageBody);
-        return pooler.getFirstName() + "'s " + "join request is rejected!";
+        //return pooler.getFirstName() + "'s " + "join request is rejected!";
     }
 
     @Transactional

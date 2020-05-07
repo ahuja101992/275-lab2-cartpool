@@ -7,7 +7,7 @@ import java.util.List;
 public interface PoolService {
     Pool save(Pool pool);
 
-    void delete(Long id);
+    String delete(Long id);
 
     boolean chceckMembership(Long poolerId);
 
@@ -17,7 +17,7 @@ public interface PoolService {
 
     Pool verify(Long poolerId, Long poolId);
 
-    String reject(Long poolId, Long poolerId);
+    void reject(Long poolId, Long poolerId);
 
     Long getLeader(Long poolId);
 

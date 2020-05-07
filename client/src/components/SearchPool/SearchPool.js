@@ -21,7 +21,7 @@ class SearchPool extends Component {
                 this.setState({
                     poolList: response.data,
                     searchParam: ""
-                })
+                }, () => { if (this.state.poolList.length === 0) alert(`No pools found with ${this.state.searchParam} keyword`) })
             })
             .catch(error => {
                 console.log(error);
@@ -68,8 +68,8 @@ class SearchPool extends Component {
     submitJoinHandler = () => {
         let reference = this.state.checked ? 'pool_leader_reference' : this.state.screenName;
         let poolId = this.state.poolId;
-        //let poolerId = localStorage.getItem('id');
-        let poolerId = 21;
+        let poolerId = localStorage.getItem('id');
+        //let poolerId = 21;
 
         let payload = {
             screenName: reference,

@@ -12,9 +12,10 @@ class Profile extends Component {
         this.state = Object.assign({}, { firstName: this.props.firstName }, { lastName: this.props.lastName }, { email: this.props.email }, { imageUrl: this.props.imageUrl },
             { street: this.props.street }, { city: this.props.city }, { state: this.props.state }, { zip: this.props.zip }, { screenName: this.props.screenName },
             { credits: this.props.credits }, { setShow: false }, { tempFirstName: this.props.firstName }, { tempLastName: this.props.lastName }, { tempEmail: this.props.email },
-            { tempStreet: this.props.street }, { tempCity: this.props.city }, { tempState: this.props.state }, { tempZip: this.props.zip });
+            { tempStreet: this.props.street }, { tempCity: this.props.city }, { tempState: this.props.state }, { tempZip: this.props.zip },
+            { temp_imageUrl: this.props.imageUrl });
 
-        this.onFileChange = this.onFileChange.bind(this);
+        //this.onFileChange = this.onFileChange.bind(this);
     }
 
     changeHandeler = (e) => {
@@ -35,31 +36,14 @@ class Profile extends Component {
         });
     }
 
-    onFileChange(files) {
-        if (files == null || files.length == 0) return;
-        let file = files[0];
-
-        const data = new FormData();
-        data.append("file", file, file.name);
-
-        let user_id = localStorage.getItem('user_id');
-        axios.post(`http://localhost:8080/storage/uploadFile`, data)
-            .then(res => {
-                if (res.status === 200) {
-                    this.setState({ imageUrl: res.data });
-                }
-            })
-            .catch(err => console.error(err));
-    }
-
     submitChangeProfile = () => {
-        //let poolerId = localStorage.getItem('id');
-        let poolerId = 3;
+        let poolerId = localStorage.getItem('id');
+        //let poolerId = 3;
         let payload = {
             firstName: this.state.tempFirstName,
             lastName: this.state.tempLastName,
             email: this.state.tempEmail,
-            imageUrl: this.state.imageUrl,
+            imageUrl: this.props.imageUrl,
             street: this.state.tempStreet,
             city: this.state.tempCity,
             state: this.state.tempState,
@@ -71,7 +55,7 @@ class Profile extends Component {
                     firstName: this.state.tempFirstName,
                     lastName: this.state.tempLastName,
                     email: this.state.tempEmail,
-                    imageUrl: this.state.imageUrl,
+                    imageUrl: this.props.imageUrl,
                     street: this.state.tempStreet,
                     city: this.state.tempCity,
                     state: this.state.tempState,
@@ -84,6 +68,7 @@ class Profile extends Component {
     }
 
     render() {
+        console.log(this.props.imageUrl)
         return (
             <React.Fragment>
                 <h2 className="title">Credits<span
@@ -182,14 +167,12 @@ class Profile extends Component {
                             <div className="form-group avatar">
                                 <figure className="figure col-md-2 col-sm-3 col-xs-12">
                                     <img className="modal-img-profile img-circle img-responsive center-block"
-                                        src={this.state.imageUrl} alt="" />
+                                        src={this.props.imageUrl} alt="" />
                                 </figure>
                                 <div className="form-inline col-md-10 col-sm-9 col-xs-12">
-                                    <input type="file" className="file-uploader pull-left" onChange={(e) => this.onFileChange(e.target.files)} />
-                                    <button type="submit"
-                                        className="btn btn-sm btn-default-alt pull-left">Update
-                                    Image
-                                                    </button>
+                                    <input type="file" className="file-uploader pull-left" onChange={
+                                        (e) => this.props.onFileChange(e.target.files)
+                                    } />
                                 </div>
                             </div>
                             <Form.Group controlId="formGroupItemName">
@@ -200,10 +183,6 @@ class Profile extends Component {
                                 <Form.Label>Last Name:</Form.Label>
                                 <Form.Control type="text" name="tempLastName"
                                     value={this.state.tempLastName} className="join-pool-modal-text" onChange={this.changeHandeler} />
-
-                                <Form.Label>Email:</Form.Label>
-                                <Form.Control type="text" name="tempEmail"
-                                    value={this.state.tempEmail} className="join-pool-modal-text" onChange={this.changeHandeler} />
 
                                 <Form.Label className="text-muted">Adddress:</Form.Label><hr />
                                 <Form.Label>Street:</Form.Label>
