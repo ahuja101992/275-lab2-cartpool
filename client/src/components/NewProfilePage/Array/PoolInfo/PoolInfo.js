@@ -12,7 +12,7 @@ class PoolInfo extends Component {
             { poolName: this.props.pool.name }, { poolNeighborhoodName: this.props.pool.neighborhoodName }, { poolDescription: this.props.pool.description },
             { tempPoolName: this.props.pool.name },
             { tempPoolNeighborhoodName: this.props.pool.neighborhoodName }, { tempPoolDescription: this.props.pool.description },
-            { isPoolLeader: null }, { setShowUpdateModal: false });
+            { isPoolLeader: false }, { setShowUpdateModal: false });
 
     }
 
@@ -27,7 +27,7 @@ class PoolInfo extends Component {
                 .then(response => {
                     console.log(response.data);
                     this.setState({
-                        isPoolLeader: response.data === poolerId
+                        isPoolLeader: response.data == poolerId
                     })
 
                 })
@@ -76,8 +76,8 @@ class PoolInfo extends Component {
             neighborhoodName: this.state.poolNeighborhoodName,
             description: this.state.poolDescription,
             zip: this.state.zip,
-            //poolerId: localStorage.getItem('id')
-            poolerId: 20
+            poolerId: localStorage.getItem('id')
+            //poolerId: 20
         }
 
         axios.post(`http://${HOSTNAME}:8080/pool/create`, null, { params: payload })
@@ -96,12 +96,14 @@ class PoolInfo extends Component {
     };
 
     handleDelete = () => {
-        console.log('inside pool handleDelete')
         let poolId = this.state.id;
 
         axios.delete(`http://${HOSTNAME}:8080/pool/delete/${poolId}`)
             .then(response => {
-                console.log(response);
+                this.setState({
+                    id: "",
+                    isPoolLeader: false
+                }, () => alert(response.data))
             })
             .catch(error => {
                 console.log(error);

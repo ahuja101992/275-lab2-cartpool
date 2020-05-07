@@ -74,9 +74,9 @@ public class PoolController {
             method = RequestMethod.DELETE)
     public @ResponseBody
     ResponseEntity<Object> deletePool(@PathVariable Long id) {
-        poolService.delete(id);
-        //return ResponseEntity.status(HttpStatus.OK).body(poolService.delete(id));
-        return new ResponseEntity<>("{\"message\": \"Deleted pool successfully\"}", HttpStatus.OK);
+        //poolService.delete(id);
+        return ResponseEntity.status(HttpStatus.OK).body(poolService.delete(id));
+        //return new ResponseEntity<>("{\"message\": \"Deleted pool successfully\"}", HttpStatus.OK);
     }
 
     @RequestMapping(value = "/pool/search/{searchParam}",

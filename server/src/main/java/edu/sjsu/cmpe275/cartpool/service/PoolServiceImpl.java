@@ -36,14 +36,17 @@ public class PoolServiceImpl implements PoolService {
 
     @Transactional
     @Override
-    public void delete(Long poolId) {
+    public String delete(Long poolId) {
         Pool pool = poolRepository.findById(poolId).orElseThrow(() -> new PoolNotFoundException());
         Pooler poolLeader = pool.getPoolLeader();
         if (pool.getMembers().size() == 1 && pool.getMembers().contains(poolLeader)) {
             poolLeader.setPool(null);
             poolRepository.delete(pool);
-        } else
-            throw new MembershipException("Unable to delete pool!! :: Members exist in pool");
+            return "Deleted pool successfully";
+        } else {
+            return "Unable to delete pool!! :: Members exist in pool";
+            //throw new MembershipException("Unable to delete pool!! :: Members exist in pool");
+        }
     }
 
     @Transactional

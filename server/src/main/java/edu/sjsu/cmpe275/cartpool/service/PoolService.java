@@ -7,7 +7,7 @@ import java.util.List;
 public interface PoolService {
     Pool save(Pool pool);
 
-    void delete(Long id);
+    String delete(Long id);
 
     boolean chceckMembership(Long poolerId);
 
