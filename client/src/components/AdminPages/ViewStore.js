@@ -17,7 +17,8 @@ class ViewStore extends Component {
     componentWillMount = () => {
         let searchParam = this.state.searchParam;
         axios.defaults.withCredential = true;
-        axios.get(`http://localhost:8080/inventory/store/getByAdmin/1`)
+        let adminId=localStorage.getItem("id")
+        axios.get(`http://localhost:8080/inventory/store/getByAdmin/${adminId}`)
             .then(response => {
                 console.log("stores",response)
                 this.setState({

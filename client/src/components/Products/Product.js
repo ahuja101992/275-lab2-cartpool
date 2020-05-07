@@ -71,6 +71,7 @@ class Product extends Component {
         }
       },
       function() {
+        let adminId=localStorage.getItem("id")
         if(this.state.selectedProduct.flag===0){
           this.setState({
             modal : true
@@ -78,7 +79,7 @@ class Product extends Component {
           console.log("handleupdate",this.state.selectedProduct)
           this.props.getAll();
         }else{
-          axios.delete(`http://localhost:8080/product/${id}/1`, null)
+          axios.delete(`http://localhost:8080/product/${id}/${adminId}`, null)
           .then((response) => {
              console.log("create data res",response)
           }).catch(err => {
