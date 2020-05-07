@@ -17,7 +17,7 @@ public interface PoolService {
 
     Pool verify(Long poolerId, Long poolId);
 
-    String reject(Long poolId, Long poolerId);
+    void reject(Long poolId, Long poolerId);
 
     Long getLeader(Long poolId);
 

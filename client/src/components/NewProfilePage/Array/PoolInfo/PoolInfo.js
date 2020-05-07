@@ -102,7 +102,12 @@ class PoolInfo extends Component {
             .then(response => {
                 this.setState({
                     id: "",
-                    isPoolLeader: false
+                    isPoolLeader: false,
+                    poolId: "",
+                    zip: "",
+                    poolName: "",
+                    poolNeighborhoodName: "",
+                    poolDescription: ""
                 }, () => alert(response.data))
             })
             .catch(error => {

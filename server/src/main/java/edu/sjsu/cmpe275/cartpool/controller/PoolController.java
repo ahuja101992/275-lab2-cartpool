@@ -119,10 +119,11 @@ public class PoolController {
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             method = RequestMethod.GET)
     public @ResponseBody
-    ResponseEntity<Object> reject(@PathVariable Long poolerId,
+   void reject(@PathVariable Long poolerId,
                                 @PathVariable Long poolId) {
+        poolService.reject(poolerId, poolId);
 
-        return new ResponseEntity<>(poolService.reject(poolerId, poolId), HttpStatus.OK);
+        //return new ResponseEntity<>(poolService.reject(poolerId, poolId), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/pool/getLeader/{poolId}",
