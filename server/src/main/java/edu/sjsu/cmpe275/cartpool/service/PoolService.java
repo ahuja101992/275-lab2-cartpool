@@ -22,4 +22,6 @@ public interface PoolService {
     Long getLeader(Long poolId);
 
     Pool updatePool(Long poolId, String name,String neighborhoodName, String description);
+    public void rejectByPooler(Long poolerId, Long poolId);
+    public void verifyByPooler(Long poolerId, Long poolId);
 }

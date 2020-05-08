@@ -105,23 +105,45 @@ public class PoolController {
     }
 
 
-    @RequestMapping(value = "/pool/verify/{poolerId}/{poolId}",
+    @RequestMapping(value = "/pool/verify/byPoolLeader/{poolerId}/{poolId}",
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             method = RequestMethod.GET)
     public @ResponseBody
-    ResponseEntity<Pool> verify(@PathVariable Long poolerId,
+    ResponseEntity<Pool> verifyByPoolLeader(@PathVariable Long poolerId,
                                 @PathVariable Long poolId) {
 
         return ResponseEntity.status(HttpStatus.OK).body(poolService.verify(poolerId, poolId));
     }
 
-    @RequestMapping(value = "/pool/reject/{poolerId}/{poolId}",
+    @RequestMapping(value = "/pool/reject/byPoolLeader/{poolerId}/{poolId}",
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             method = RequestMethod.GET)
     public @ResponseBody
-   void reject(@PathVariable Long poolerId,
+   void rejectByPoolLeader(@PathVariable Long poolerId,
                                 @PathVariable Long poolId) {
         poolService.reject(poolerId, poolId);
+
+        //return new ResponseEntity<>(poolService.reject(poolerId, poolId), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/pool/support/byPooler/{poolerId}/{poolId}",
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+            method = RequestMethod.GET)
+    public @ResponseBody
+    void verifyByPooler(@PathVariable Long poolerId,
+                                @PathVariable Long poolId) {
+
+        poolService.verifyByPooler(poolerId, poolId);
+        //return ResponseEntity.status(HttpStatus.OK).body(poolService.verifyByPooler(poolerId, poolId));
+    }
+
+    @RequestMapping(value = "/pool/reject/byPooler/{poolerId}/{poolId}",
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+            method = RequestMethod.GET)
+    public @ResponseBody
+    void rejectByPooler(@PathVariable Long poolerId,
+                @PathVariable Long poolId) {
+        poolService.rejectByPooler(poolerId, poolId);
 
         //return new ResponseEntity<>(poolService.reject(poolerId, poolId), HttpStatus.OK);
     }

@@ -6,11 +6,11 @@ class Temp extends Component {
     state = {}
 
     componentDidMount() {
-        if (this.props.match.path === "/pool/verify/:poolerId?/:poolId?") {
+        if (this.props.match.path === "/pool/verify/byPoolLeader/:poolerId?/:poolId?") {
             if (this.props.match.params.poolerId !== undefined && this.props.match.params.poolId !== undefined) {
                 let poolerId = this.props.match.params.poolerId;
                 let poolId = this.props.match.params.poolId;
-                axios.get(`http://${HOSTNAME}:8080/pool/verify/${poolerId}/${poolId}`)
+                axios.get(`http://${HOSTNAME}:8080/pool/verify/byPoolLeader/${poolerId}/${poolId}`)
                     .then(response =>
                         console.log("in then")
                     )
@@ -19,11 +19,37 @@ class Temp extends Component {
                     })
             }
 
-        } else if (this.props.match.path === "/pool/reject/:poolerId?/:poolId?") {
+        } else if (this.props.match.path === "/pool/reject/byPoolLeader/:poolerId?/:poolId?") {
             if (this.props.match.params.poolerId !== undefined && this.props.match.params.poolId !== undefined) {
                 let poolerId = this.props.match.params.poolerId;
                 let poolId = this.props.match.params.poolId;
-                axios.get(`http://${HOSTNAME}:8080/pool/reject/${poolerId}/${poolId}`)
+                axios.get(`http://${HOSTNAME}:8080/pool/reject/byPoolLeader/${poolerId}/${poolId}`)
+                    .then(response =>
+                        console.log("in then")
+                    )
+                    .catch(error => {
+                        console.log(error);
+                    })
+            }
+        }
+        else if (this.props.match.path === "/pool/support/byPooler/:poolerId?/:poolId?") {
+            if (this.props.match.params.poolerId !== undefined && this.props.match.params.poolId !== undefined) {
+                let poolerId = this.props.match.params.poolerId;
+                let poolId = this.props.match.params.poolId;
+                axios.get(`http://${HOSTNAME}:8080/pool/support/byPooler/${poolerId}/${poolId}`)
+                    .then(response =>
+                        console.log("in then")
+                    )
+                    .catch(error => {
+                        console.log(error);
+                    })
+            }
+        }
+        else if (this.props.match.path === "/pool/reject/byPooler/:poolerId?/:poolId?") {
+            if (this.props.match.params.poolerId !== undefined && this.props.match.params.poolId !== undefined) {
+                let poolerId = this.props.match.params.poolerId;
+                let poolId = this.props.match.params.poolId;
+                axios.get(`http://${HOSTNAME}:8080/pool/reject/byPooler/${poolerId}/${poolId}`)
                     .then(response =>
                         console.log("in then")
                     )

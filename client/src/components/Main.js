@@ -30,8 +30,10 @@ class Main extends Component {
                 <Route exact path="/ProfilePage" component={ProfilePage} />
                 <Route exact path="/NewProfile" component={NewProfile} />
                 {/* <Route path="/pool/" component={Temp} /> */}
-                <Route exact path="/pool/reject/:poolerId?/:poolId?" component={Temp} />
-                <Route exact path="/pool/verify/:poolerId?/:poolId?" component={Temp} />
+                <Route exact path="/pool/reject/byPoolLeader/:poolerId?/:poolId?" component={Temp} />
+                <Route exact path="/pool/verify/byPoolLeader/:poolerId?/:poolId?" component={Temp} />
+                <Route exact path="/pool/reject/byPooler/:poolerId?/:poolId?" component={Temp} />
+                <Route exact path="/pool/support/byPooler/:poolerId?/:poolId?" component={Temp} />
                 {/* <Route exact path="/store" component={Stores} /> */}
             </div>
         );

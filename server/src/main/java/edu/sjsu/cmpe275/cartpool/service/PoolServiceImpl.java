@@ -79,13 +79,6 @@ public class PoolServiceImpl implements PoolService {
     public String joinPool(Long poolId, Long poolerId, String screenName) {
         Pool pool = poolRepository.findById(poolId).orElseThrow(() -> new PoolNotFoundException());
 
-        Pooler referencePooler;
-        if (screenName.equals("pool_leader_reference")) {
-            referencePooler = pool.getPoolLeader();
-            screenName = referencePooler.getScreenname();
-        } else
-            referencePooler = poolerRepository.findByScreenname(screenName);
-
         Pooler pooler = poolerRepository.findById(poolerId).orElseThrow(() -> new PoolNotFoundException());
         if(pool.getMembers().contains(pooler)){
             return "{\"message\": \"You are already a member of this pool\"}";
@@ -96,46 +89,78 @@ public class PoolServiceImpl implements PoolService {
             //throw new MembershipException("Pool is full!! Only 4 members allowed in one pool");
         }
 
-        if (referencePooler == null)
-            throw new UserNotFoundException();
 
-        for (Pooler member : pool.getMembers()) {
-            if (member.getScreenname().equals(screenName)) {
+        Pooler referencePooler;
+        if (screenName.equals("pool_leader_reference")) {
+            referencePooler = pool.getPoolLeader();
+            //// send mail to pool leader
+            String messageBody = "";
+            URI uri = null;
+            URL url = null;
 
-                /////// send email to the reference pooler /////////
+            URI rejectPathUri = null;
+            URL rejectPathUrl = null;
+            try {
+                String protocol = "http";
+                String host = Constants.HOSTNAME;
+                int port = 3000;
+                String verifyPath = "/pool/verify/byPoolLeader/" + poolerId + "/" + poolId;
+                String rejectPath = "/pool/reject/byPoolLeader/" + poolerId + "/" + poolId;
+                uri = new URI(protocol, null, host, port, verifyPath, null, null);
+                url = uri.toURL();
 
-                String messageBody = "";
-                URI uri = null;
-                URL url = null;
+                rejectPathUri = new URI(protocol, null, host, port, rejectPath, null, null);
+                rejectPathUrl = rejectPathUri.toURL();
+                messageBody = "<script>console.log('hello')</script><h3>Take the action to accept or reject the membership request</h3>\n" +
+                        " <a href=" + url + "><button style=\"background-color:#4CAF50\">Accept</button></a>\n" +
+                        "<a href=" + rejectPathUrl + "><button style=\"background-color:#f44336\">Reject</button></a>";
 
-                URI rejectPathUri = null;
-                URL rejectPathUrl = null;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
-                try {
-                    String protocol = "http";
-                    String host = Constants.HOSTNAME;
-                    int port = 3000;
-                    String verifyPath = "/pool/verify/" + poolerId + "/" + poolId;
-                    String rejectPath = "/pool/reject/" + poolerId + "/" + poolId;
-                    uri = new URI(protocol, null, host, port, verifyPath, null, null);
-                    url = uri.toURL();
+            emailService.sendEmailForPoolMembership(referencePooler.getEmail(),
+                    "verification for pool membership", messageBody);
+            //screenName = referencePooler.getScreenname();
 
-                    rejectPathUri = new URI(protocol, null, host, port, rejectPath, null, null);
-                    rejectPathUrl = rejectPathUri.toURL();
-                    messageBody = "<script>console.log('hello')</script><h3>Take the action to accept or reject the membership request</h3>\n" +
-                            " <a href=" + url + "><button style=\"background-color:#4CAF50\">Accept</button></a>\n" +
-                            "<a href=" + rejectPathUrl + "><button style=\"background-color:#f44336\">Reject</button></a>";
+            return "{\"message\": \"verification email has been sent to pooler leader\"}";
+        }
+        else{
+            referencePooler = poolerRepository.findByScreenname(screenName);
+            if (referencePooler == null)
+                throw new UserNotFoundException();
 
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+            String messageBody = "";
+            URI uri = null;
+            URL url = null;
+
+            URI rejectPathUri = null;
+            URL rejectPathUrl = null;
+
+            try {
+                String protocol = "http";
+                String host = Constants.HOSTNAME;
+                int port = 3000;
+                String verifyPath = "/pool/support/byPooler/" + poolerId + "/" + poolId;
+                String rejectPath = "/pool/reject/byPooler/" + poolerId + "/" + poolId;
+                uri = new URI(protocol, null, host, port, verifyPath, null, null);
+                url = uri.toURL();
+
+                rejectPathUri = new URI(protocol, null, host, port, rejectPath, null, null);
+                rejectPathUrl = rejectPathUri.toURL();
+                messageBody = "<script>console.log('hello')</script><h3>Take the action to support or reject the membership request</h3>\n" +
+                        " <a href=" + url + "><button style=\"background-color:#4CAF50\">Support</button></a>\n" +
+                        "<a href=" + rejectPathUrl + "><button style=\"background-color:#f44336\">Reject</button></a>";
 
                 emailService.sendEmailForPoolMembership(referencePooler.getEmail(),
                         "verification for pool membership", messageBody);
 
+            } catch (Exception e) {
+                e.printStackTrace();
             }
+
+            return "{\"message\": \"verification email has been sent to reference pooler\"}";
         }
-        return "{\"message\": \"verification email has been sent to reference pooler\"}";
     }
 
     @Transactional
@@ -149,9 +174,9 @@ public class PoolServiceImpl implements PoolService {
         pooler.setPool(pool);
         poolerRepository.save(pooler);
 
-        String messageBody = "Reference Pooler has accepted your join request for pool: " + pool.getName();
+        String messageBody = "Pool Leader has accepted your join request for pool: " + pool.getName();
         emailService.sendEmailForPoolMembership(pooler.getEmail(),
-                "pool membership request accepted", messageBody);
+                "pool membership request accepted by pool leader", messageBody);
 
         return poolRepository.save(pool);
     }
@@ -162,12 +187,77 @@ public class PoolServiceImpl implements PoolService {
         Pooler pooler = poolerRepository.findById(poolerId).orElseThrow(() -> new UserNotFoundException());
         Pool pool = poolRepository.findById(poolId).orElseThrow(() -> new PoolNotFoundException());
 
-        String messageBody = "Reference Pooler has rejected your join request for pool: " + pool.getName();
+        String messageBody = "Pool Leader has rejected your join request for pool: " + pool.getName();
         emailService.sendEmailForPoolMembership(pooler.getEmail(),
                 "Rejection for pool membership", messageBody);
         //return pooler.getFirstName() + "'s " + "join request is rejected!";
     }
 
+    @Transactional
+    @Override
+    public void verifyByPooler(Long poolerId, Long poolId) {
+        Pooler pooler = poolerRepository.findById(poolerId).orElseThrow(() -> new UserNotFoundException());
+        Pool pool = poolRepository.findById(poolId).orElseThrow(() -> new PoolNotFoundException());
+
+//        pooler.setVerifiedForPoolMembership(true);
+//        pool.addPooler(pooler);
+//        pooler.setPool(pool);
+
+        String messageBody = "Reference Pooler has supported your join request for pool: " + pool.getName() + "\n";
+        messageBody += "Verification mail has been sent to pool leader now";
+        emailService.sendEmailForPoolMembership(pooler.getEmail(),
+                "pool membership request verified by reference pooler", messageBody);
+
+        //////     send mail to leader now  /////
+       // String messageBody = "";
+        URI uri = null;
+        URL url = null;
+
+        URI rejectPathUri = null;
+        URL rejectPathUrl = null;
+        try {
+            String protocol = "http";
+            String host = Constants.HOSTNAME;
+            int port = 3000;
+            String verifyPath = "/pool/verify/byPoolLeader/" + poolerId + "/" + poolId;
+            String rejectPath = "/pool/reject/byPoolLeader/" + poolerId + "/" + poolId;
+            uri = new URI(protocol, null, host, port, verifyPath, null, null);
+            url = uri.toURL();
+
+            rejectPathUri = new URI(protocol, null, host, port, rejectPath, null, null);
+            rejectPathUrl = rejectPathUri.toURL();
+            messageBody = "Reference Pooler has supported your join request for pool: " + pool.getName() + "\n";
+            messageBody += "<script>console.log('hello')</script><h3>Take the action to accept or reject the membership request</h3>\n" +
+                    " <a href=" + url + "><button style=\"background-color:#4CAF50\">Accept</button></a>\n" +
+                    "<a href=" + rejectPathUrl + "><button style=\"background-color:#f44336\">Reject</button></a>";
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        emailService.sendEmailForPoolMembership(pool.getPoolLeader().getEmail(),
+                "verification for pool membership", messageBody);
+        //screenName = referencePooler.getScreenname();
+
+//        String message = "Reference Pooler has supported your join request for pool: " + pool.getName() + "\n";
+//        emailService.sendEmailForPoolMembership(pool.getPoolLeader().getEmail(),
+//                "membership request verification", message);
+
+        //return poolRepository.save(pool);
+    }
+
+
+    @Transactional
+    @Override
+    public void rejectByPooler(Long poolerId, Long poolId) {
+        Pooler pooler = poolerRepository.findById(poolerId).orElseThrow(() -> new UserNotFoundException());
+        Pool pool = poolRepository.findById(poolId).orElseThrow(() -> new PoolNotFoundException());
+
+        String messageBody = "Reference Pooler has rejected your join request for pool: " + pool.getName();
+        emailService.sendEmailForPoolMembership(pooler.getEmail(),
+                "Rejection for pool membership", messageBody);
+        //return pooler.getFirstName() + "'s " + "join request is rejected!";
+    }
     @Transactional
     @Override
     public Long getLeader(Long poolId) {
