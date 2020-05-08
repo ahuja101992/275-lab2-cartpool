@@ -1,18 +1,36 @@
 import React, { Component } from 'react';
-
+import axios from "axios";
+import { HOSTNAME } from '../../constants/appConstants';
 
 class Temp extends Component {
     state = {}
 
     componentDidMount() {
-        console.log(this.props)
-        if (this.props.match.params.obj1 !== undefined) {
-            console.log(
-                "this.props.match.params.obj1: " + this.props.match.params.obj1
-            );
+        if (this.props.match.path === "/pool/verify/:poolerId?/:poolId?") {
+            if (this.props.match.params.poolerId !== undefined && this.props.match.params.poolId !== undefined) {
+                let poolerId = this.props.match.params.poolerId;
+                let poolId = this.props.match.params.poolId;
+                axios.get(`http://${HOSTNAME}:8080/pool/verify/${poolerId}/${poolId}`)
+                    .then(response =>
+                        console.log("in then")
+                    )
+                    .catch(error => {
+                        console.log(error);
+                    })
+            }
 
-        } else {
-            console.log("undefined");
+        } else if (this.props.match.path === "/pool/reject/:poolerId?/:poolId?") {
+            if (this.props.match.params.poolerId !== undefined && this.props.match.params.poolId !== undefined) {
+                let poolerId = this.props.match.params.poolerId;
+                let poolId = this.props.match.params.poolId;
+                axios.get(`http://${HOSTNAME}:8080/pool/reject/${poolerId}/${poolId}`)
+                    .then(response =>
+                        console.log("in then")
+                    )
+                    .catch(error => {
+                        console.log(error);
+                    })
+            }
         }
     }
     render() {

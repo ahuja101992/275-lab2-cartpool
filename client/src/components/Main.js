@@ -29,9 +29,10 @@ class Main extends Component {
                 {/* <Route exact path="/PoolInfo" component={PoolInfo} /> */}
                 <Route exact path="/ProfilePage" component={ProfilePage} />
                 <Route exact path="/NewProfile" component={NewProfile} />
-                <Route path="/pool/" component={Temp} />
-                {/* <Route exact path="/pool/reject/:obj1?/:obj2?" component={Temp} /> */}
-                {/*<Route exact path="/store" component={Stores} />*/}
+                {/* <Route path="/pool/" component={Temp} /> */}
+                <Route exact path="/pool/reject/:poolerId?/:poolId?" component={Temp} />
+                <Route exact path="/pool/verify/:poolerId?/:poolId?" component={Temp} />
+                {/* <Route exact path="/store" component={Stores} /> */}
             </div>
         );
     }
