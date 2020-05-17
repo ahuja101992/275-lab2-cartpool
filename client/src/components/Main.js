@@ -26,10 +26,8 @@ class Main extends Component {
                 <Route exact path="/PoolVerificationPage/:email?" component={PoolVerificationPage} />
                 <Route exact path="/logout" component={Logout} />
                 <Route exact path="/searchPool" component={SearchPool} />
-                {/* <Route exact path="/PoolInfo" component={PoolInfo} /> */}
                 <Route exact path="/ProfilePage" component={ProfilePage} />
                 <Route exact path="/NewProfile" component={NewProfile} />
-                {/* <Route path="/pool/" component={Temp} /> */}
                 <Route exact path="/pool/reject/byPoolLeader/:poolerId?/:poolId?" component={Temp} />
                 <Route exact path="/pool/verify/byPoolLeader/:poolerId?/:poolId?" component={Temp} />
                 <Route exact path="/pool/reject/byPooler/:poolerId?/:poolId?" component={Temp} />
