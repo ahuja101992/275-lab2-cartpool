@@ -47,7 +47,7 @@ public class AccountVerificationAspect {
         }
 
         emailService.sendVerificationEmail(email,
-                "CartPoll account verification ",
+                "CartPool account verification ",
                 String.format("Please verify your account by" +
                         " clicking on the following link - %s", url));
     }

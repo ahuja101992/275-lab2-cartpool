@@ -111,7 +111,8 @@ public class PoolServiceImpl implements PoolService {
 
                 rejectPathUri = new URI(protocol, null, host, port, rejectPath, null, null);
                 rejectPathUrl = rejectPathUri.toURL();
-                messageBody = "<script>console.log('hello')</script><h3>Take the action to accept or reject the membership request</h3>\n" +
+                messageBody = "<script>console.log('hello')</script><h3>Take the action to accept or reject the membership request for pooler:  "+
+                        pooler.getFirstName() + " " + pooler.getLastName()+"</h3>\n" +
                         " <a href=" + url + "><button style=\"background-color:#4CAF50\">Accept</button></a>\n" +
                         "<a href=" + rejectPathUrl + "><button style=\"background-color:#f44336\">Reject</button></a>";
 
@@ -148,7 +149,8 @@ public class PoolServiceImpl implements PoolService {
 
                 rejectPathUri = new URI(protocol, null, host, port, rejectPath, null, null);
                 rejectPathUrl = rejectPathUri.toURL();
-                messageBody = "<script>console.log('hello')</script><h3>Take the action to support or reject the membership request</h3>\n" +
+                messageBody = "<h3>Take the action to support or reject the membership request for pooler: " + pooler.getFirstName() + " " + pooler.getLastName()
+                        + "</h3>\n" +
                         " <a href=" + url + "><button style=\"background-color:#4CAF50\">Support</button></a>\n" +
                         "<a href=" + rejectPathUrl + "><button style=\"background-color:#f44336\">Reject</button></a>";
 
@@ -174,7 +176,7 @@ public class PoolServiceImpl implements PoolService {
         pooler.setPool(pool);
         poolerRepository.save(pooler);
 
-        String messageBody = "Pool Leader has accepted your join request for pool: " + pool.getName();
+        String messageBody = "Pool Leader has accepted your join request for pool:  " + pool.getName();
         emailService.sendEmailForPoolMembership(pooler.getEmail(),
                 "pool membership request accepted by pool leader", messageBody);
 
@@ -226,8 +228,8 @@ public class PoolServiceImpl implements PoolService {
 
             rejectPathUri = new URI(protocol, null, host, port, rejectPath, null, null);
             rejectPathUrl = rejectPathUri.toURL();
-            messageBody = "Reference Pooler has supported your join request for pool: " + pool.getName() + "\n";
-            messageBody += "<script>console.log('hello')</script><h3>Take the action to accept or reject the membership request</h3>\n" +
+            messageBody = "Reference Pooler has supported join request of " + pooler.getFirstName() + " " + pooler.getLastName() + " for pool: " + pool.getName() + "\n";
+            messageBody += "<h3>Take the action to accept or reject the membership request</h3>\n" +
                     " <a href=" + url + "><button style=\"background-color:#4CAF50\">Accept</button></a>\n" +
                     "<a href=" + rejectPathUrl + "><button style=\"background-color:#f44336\">Reject</button></a>";
 
