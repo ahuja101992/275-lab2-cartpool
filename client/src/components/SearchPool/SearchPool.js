@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { HOSTNAME } from "../../constants/appConstants";
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.css'
-import { Button, Card, Col, Form, InputGroup, Modal, Row, Table } from 'react-bootstrap'
+import { Button, Card, Col, Form, Badge, InputGroup, Modal, Row, Table } from 'react-bootstrap'
 import './SearchPool.css';
 
 class SearchPool extends Component {
@@ -127,6 +127,9 @@ class SearchPool extends Component {
                                 </tbody>
                             </Table>
                         </Card.Body>
+                        <Card.Footer>
+                            pool size : <Badge pill variant="secondary">{pool.members.length}</Badge>
+                        </Card.Footer>
                     </Card>
                 </Col>
             </Row>
