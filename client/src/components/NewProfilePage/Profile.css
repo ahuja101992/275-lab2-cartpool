@@ -7,6 +7,12 @@ body {
     margin-top: 20px;
 }
 
+.cotributionBadge{
+    margin-left: 10px;
+    width: 50px;
+    height: 20px;
+}
+
 .view-account .pro-label {
     font-size: 13px;
     padding: 4px 5px;
@@ -616,4 +622,6 @@ body {
         height: 120px;
         margin-bottom: 15px
     }
+
+
 }

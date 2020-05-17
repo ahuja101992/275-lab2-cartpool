@@ -18,6 +18,15 @@ class Profile extends Component {
         //this.onFileChange = this.onFileChange.bind(this);
     }
 
+
+    getCotributionStyle = () => {
+        let style = "cotributionBadge badge badge-";
+        const contributionCount = this.state.credits;
+        if (contributionCount > -4) style += "success";
+        else if (contributionCount <= -4 && contributionCount > -6) style += "warning";
+        else style += "danger";
+        return style;
+    };
     changeHandeler = (e) => {
         this.setState({
             [e.target.name]: e.target.value
@@ -72,7 +81,7 @@ class Profile extends Component {
         return (
             <React.Fragment>
                 <h2 className="title">Credits<span
-                    className="pro-label label label-warning">{this.state.credits}</span></h2>
+                    className={this.getCotributionStyle()}>{this.state.credits}</span></h2>
                 <form className="form-horizontal">
                     <fieldset className="fieldset">
                         <h3 className="fieldset-title text-muted">Personal Info</h3>
