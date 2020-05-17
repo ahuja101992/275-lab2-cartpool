@@ -224,27 +224,27 @@ class PoolInfo extends Component {
                                 <Form.Label>Pool Id:</Form.Label>
                                 <Form.Control type="text" name="poolId"
                                     value={this.state.poolId} onChange={this.changeHandeler}
-                                    className="join-pool-modal-text" />
+                                    className="join-pool-modal-text" required />
 
                                 <Form.Label>Pool Name:</Form.Label>
                                 <Form.Control type="text" name="poolName"
                                     value={this.state.poolName} onChange={this.changeHandeler}
-                                    className="join-pool-modal-text" />
+                                    className="join-pool-modal-text" required />
 
                                 <Form.Label>Pool NeighborhoodName:</Form.Label>
                                 <Form.Control type="text" name="poolNeighborhoodName"
                                     value={this.state.poolNeighborhoodName} onChange={this.changeHandeler}
-                                    className="join-pool-modal-text" />
+                                    className="join-pool-modal-text" required />
 
                                 <Form.Label>Pool Description:</Form.Label>
                                 <Form.Control type="text" name="poolDescription"
                                     value={this.state.poolDescription} onChange={this.changeHandeler}
-                                    className="join-pool-modal-text" />
+                                    className="join-pool-modal-text" required />
 
                                 <Form.Label>ZipCode:</Form.Label>
                                 <Form.Control type="text" name="zip"
                                     value={this.state.zip} onChange={this.changeHandeler}
-                                    className="join-pool-modal-text" />
+                                    className="join-pool-modal-text" required />
                             </Form.Group>
 
                         </Form>
