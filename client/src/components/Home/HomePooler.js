@@ -8,6 +8,7 @@ import Orders from "../PoolerPages/Orders";
 import Messaging from "../PoolerPages/Messaging";
 import ViewStore from '../AdminPages/ViewStore';
 import SearchPool from "../SearchPool/SearchPool";
+import Profile from "../NewProfilePage/NewProfile";
 import Checkout from "../Checkout/Checkout";
 import Logout from "../Account/Logout";
 import logo from "../../images/cart.png";
@@ -64,7 +65,7 @@ class HomePooler extends Component {
                             <Nav.Link as={NavLink} to="/homePooler/">
                                 HomePooler
                             </Nav.Link>
-                            <Nav.Link as={NavLink} to="/NewProfile/">
+                            <Nav.Link as={NavLink} to="/homePooler/NewProfile/">
                                 Profile
                             </Nav.Link>
                         </Nav>
@@ -101,6 +102,7 @@ class HomePooler extends Component {
                         <Route exact path="/homePooler/checkout/" component={Checkout} />
                         <Route exact path="/homePooler/messaging/" component={Messaging} />
                         <Route exact path='/logout/' component={Logout} />
+                        <Route exact path='/homePooler/NewProfile/' component={Profile} />
                     </Switch>
                 </div>
             </div>
