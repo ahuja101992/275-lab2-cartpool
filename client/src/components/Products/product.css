@@ -1,0 +1,24 @@
+.add-to-cart-button {
+    height: 36px;
+   border-radius: 2px;
+   text-align: center;
+   color: white;
+   background: #077915 ;
+   border: 0;
+   font-weight: 400;
+   padding: 0 16px;
+   font-family: inherit;
+   font-size: inherit;
+   cursor: pointer;
+
+
+ }
+ .add-to-cart-button:hover {
+   background: lighten(#077915, 10%);
+ }
+.add-to-cart-button:focus {
+   outline: none;
+ }
+.add-to-cart-button:active {
+   background: lighten(#077915, 15%);
+ }
