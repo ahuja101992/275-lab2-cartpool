@@ -221,16 +221,19 @@ class Checkout extends Component {
           }
         );
       } catch (error) {
-        console.log("lklkd", error);
+        console.log("Error", error);
       }
       this.setState({
         pickUpSelectionSuccess: true,
       });
     }
     console.log(reqOrder);
+    let contributionCount = 0;
+    if (this.state.deliverySelection && this.state.orderList.length > 0)
+      contributionCount = this.state.orderList.length;
     axios.defaults.withCredential = true;
     axios
-      .post(`http://${HOSTNAME}:8080/order/submitorder`, reqOrder)
+      .post(`http://${HOSTNAME}:8080/order/submitorder/${contributionCount}/`, reqOrder)
       .then((response) => {
         this.setState({
           orderPlacedSuccess: true,
