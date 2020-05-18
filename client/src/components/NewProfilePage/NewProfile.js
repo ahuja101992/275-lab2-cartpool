@@ -52,22 +52,31 @@ class NewProfile extends Component {
     }
 
     onFileChange(files) {
+        let fileTypes = ["jpeg", "jpg", "png"];
         if (files == null || files.length == 0) return;
         let file = files[0];
 
-        const data = new FormData();
-        data.append("file", file, file.name);
+        console.log(file);
+        if (!fileTypes.includes(file.type))
+            alert('Only jpeg/ jpg/ png file types are allowed!!');
 
-        let user_id = localStorage.getItem('user_id');
-        axios.post(`http://localhost:8080/storage/uploadFile`, data)
-            .then(res => {
-                if (res.status == 200) {
-                    this.setState({
-                        imageUrl: res.data
-                    });
-                }
-            })
-            .catch(err => console.error(err));
+        else if (file.size >= 1048576) {
+            alert('Max file size allowed is 1MB!!');
+        }
+        else {
+            const data = new FormData();
+            data.append("file", file, file.name);
+            axios.post(`http://localhost:8080/storage/uploadFile`, data)
+                .then(res => {
+                    if (res.status == 200) {
+                        this.setState({
+                            imageUrl: res.data
+                        });
+                    }
+                })
+                .catch(err => console.error(err));
+        }
+
     }
 
     renderSelectedComponent(selectedComponent) {
