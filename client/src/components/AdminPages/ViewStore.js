@@ -97,7 +97,8 @@ class ViewStore extends Component {
                 </Row>
                 <Card.Body>
                   <Card.Subtitle>
-                    {pool.address.street} {pool.address.city},
+                    <div><h5>Store Address</h5></div>
+                    {pool.address.street}, {pool.address.city},
                     {pool.address.state} {pool.address.zip}
                   </Card.Subtitle>
                 </Card.Body>
