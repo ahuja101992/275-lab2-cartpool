@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {Redirect} from 'react-router';
+import React, { Component } from 'react';
+import { Redirect } from 'react-router';
 
 class Logout extends Component {
     render() {
@@ -7,9 +7,11 @@ class Logout extends Component {
         localStorage.removeItem('id');
         localStorage.removeItem('email');
         localStorage.removeItem('cart');
+        localStorage.removeItem('type');
+        localStorage.removeItem('screenname');
 
         return (
-            <Redirect to="/login/"/>
+            <Redirect to="/login/" />
         )
     }
 }
