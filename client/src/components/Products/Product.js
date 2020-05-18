@@ -247,7 +247,12 @@ class Product extends Component {
           />
         </div>
         <h4 className="product-name">
-          {this.props.name},{this.props.weight} {this.props.unit}
+          <div>
+            {this.props.name}
+          </div>
+          <div>
+            {this.props.weight}  {this.props.unit}
+          </div>
         </h4>
         <p className="product-price">{this.props.price}</p>
 
