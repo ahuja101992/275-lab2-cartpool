@@ -115,6 +115,7 @@ public class OrderServiceImpl implements OrderService {
     public void markOrderDelivered(long orderId) {
         Orders order = orderRepository.findById(orderId).orElseThrow(() -> new OrderNotFoundException());
         order.setStatus(Constants.DELIVERED);
+        order.setDeliveryByPrev(order.getDeliveryBy());
         order.setDeliveryBy(null);
         //To-do
 
