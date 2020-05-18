@@ -60,6 +60,8 @@ class SignUp extends Component {
       updatedData.name = this.props.location.props.name;
       updatedData.provider = this.props.location.props.provider;
       updatedData.provider_id = this.props.location.props.provider_id;
+      updatedData.firstName = this.props.location.props.firstName;
+      updatedData.lastName = this.props.location.props.lastName;
     } else {
       updatedData.email = data.email;
       updatedData.password = data.password;
@@ -299,7 +301,7 @@ class SignUp extends Component {
               <Form.Control
                 defaultValue={
                   this.props.location.props &&
-                  this.props.location.props.firstName !== ""
+                    this.props.location.props.firstName !== ""
                     ? this.props.location.props.firstName
                     : ""
                 }
@@ -313,7 +315,7 @@ class SignUp extends Component {
               <Form.Control
                 defaultValue={
                   this.props.location.props &&
-                  this.props.location.props.lastName !== ""
+                    this.props.location.props.lastName !== ""
                     ? this.props.location.props.lastName
                     : ""
                 }
@@ -352,13 +354,13 @@ class SignUp extends Component {
               }
               defaultValue={
                 this.props.location.props &&
-                this.props.location.props.provider !== ""
+                  this.props.location.props.provider !== ""
                   ? this.props.location.props.email
                   : ""
               }
               placeholder={
                 this.props.location.props &&
-                this.props.location.props.provider !== ""
+                  this.props.location.props.provider !== ""
                   ? this.props.location.props.email
                   : "What's your email?"
               }
@@ -371,7 +373,7 @@ class SignUp extends Component {
             controlId="password"
             className={
               this.props.location.props &&
-              this.props.location.props.provider !== ""
+                this.props.location.props.provider !== ""
                 ? "d-none"
                 : ""
             }
