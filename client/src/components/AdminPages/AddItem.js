@@ -19,58 +19,58 @@ class AddItem extends Component {
             plainArray: [],
             objectArray: [],
             selectedValues: [],
-            imageUrl: "https://res.cloudinary.com/sivadass/image/upload/v1493620045/dummy-products/strawberry.jpg" 
+            imageUrl: "https://res.cloudinary.com/sivadass/image/upload/v1493620045/dummy-products/strawberry.jpg"
         };
         this.onFileChange = this.onFileChange.bind(this);
     }
     componentWillMount = () => {
-     this.setState({ editProfile: true });
-        var  plainArray = [];
-        var  objectArray = [];
-        let adminId=localStorage.getItem("id")
+        this.setState({ editProfile: true });
+        var plainArray = [];
+        var objectArray = [];
+        let adminId = localStorage.getItem("id")
         axios.get(`http://localhost:8080/inventory/store/getByAdmin/${adminId}`)
-        .then(response => {
-            console.log("store response",response);
-            if(response.data){
-                let arr = response.data;
-                let text =[]
-                let obj =[];
-                arr.forEach(item => {
-                    console.log("item",item);
-                    let container = {
-                        key : item.name,
-                        value : item.id
-                    };
-                   text.push(item.name);
-                   obj.push(container);
-                });
+            .then(response => {
+                console.log("store response", response);
+                if (response.data) {
+                    let arr = response.data;
+                    let text = []
+                    let obj = [];
+                    arr.forEach(item => {
+                        console.log("item", item);
+                        let container = {
+                            key: item.name,
+                            value: item.id
+                        };
+                        text.push(item.name);
+                        obj.push(container);
+                    });
 
-                console.log("text::",text);
-                console.log("obj::",obj);
-                this.setState({
-                    plainArray : text,
-                    objectArray : obj
-                })
-            }
-        })
-        .catch(err => {
-            console.error(err);
-        });
+                    console.log("text::", text);
+                    console.log("obj::", obj);
+                    this.setState({
+                        plainArray: text,
+                        objectArray: obj
+                    })
+                }
+            })
+            .catch(err => {
+                console.error(err);
+            });
     }
 
-    onSelect=(selectedList, selectedItem) =>{
+    onSelect = (selectedList, selectedItem) => {
         this.state.selectedValues = selectedList;
         console.log(this.state.selectedValues);
     }
-     
 
-    addItem= (val) =>{
-        console.log("val",val);
+
+    addItem = (val) => {
+        console.log("val", val);
         this.setState({
-            selectedValues : this.state.selectedValues.push(val)
+            selectedValues: this.state.selectedValues.push(val)
         })
-        console.log("Selected val",this.state.selectedValues);
-      }
+        console.log("Selected val", this.state.selectedValues);
+    }
 
     editProfile = () => {
         this.props.cancelEdit();
@@ -88,7 +88,7 @@ class AddItem extends Component {
 
     cancelEdit = () => {
         this.setState({
-            editProfile :false
+            editProfile: false
         })
     };
     onCoverPicUploadHandler = (event) => {
@@ -120,7 +120,7 @@ class AddItem extends Component {
     saveProfile = (e) => {
         // save profile code
         e.preventDefault();
-        console.log("Inside createStore",e.target.length)
+        console.log("Inside createStore", e.target.length)
         const data = new FormData();
         for (let i = 0; i < e.target.length; i++) {
             if (e.target[i].id !== "") {
@@ -129,12 +129,12 @@ class AddItem extends Component {
                 data[e.target[i].id] = e.target[i].value;
             }
         }
-        let store_arr=[];
-        this.state.selectedValues.forEach(ele=>{
+        let store_arr = [];
+        this.state.selectedValues.forEach(ele => {
             store_arr.push(ele.value);
         });
 
-        console.log("store_arr",store_arr);
+        console.log("store_arr", store_arr);
         let updatedData = {
             stores: store_arr.toString(),
             name: data.name,
@@ -142,18 +142,18 @@ class AddItem extends Component {
             brand: data.brand ? data.brand : "",
             unit: data.unit,
             qty: data.qty,
-            price:data.price,
-            image_url:this.state.imageUrl,
-            adminId:localStorage.getItem("id")
+            price: data.price,
+            image_url: this.state.imageUrl,
+            adminId: localStorage.getItem("id")
         }
-        console.log("updated image",updatedData);
-        axios.post(`http://localhost:8080/product/create`, null, {params: updatedData})
-        .then((response) => {
-           console.log("create data res",response)
-        }).catch(err => {
-            console.error(err);
-        });
-       
+        console.log("updated image", updatedData);
+        axios.post(`http://localhost:8080/product/create`, null, { params: updatedData })
+            .then((response) => {
+                console.log("create data res", response)
+            }).catch(err => {
+                console.error(err);
+            });
+
 
         this.props.cancelEdit();
         this.props.getAll();
@@ -168,7 +168,7 @@ class AddItem extends Component {
             <div class="profile-container col-sm-12">
                 <div class="profile-pic-btn-container row">
                 </div>
-                
+
                 <Modal
                     show={this.props.modal}
                     onHide={this.props.cancelEdit}
@@ -199,80 +199,80 @@ class AddItem extends Component {
                             </div>
                         </div>
                         <div class="edit-details-form">
-                        <Form onSubmit={this.saveProfile}>
+                            <Form onSubmit={this.saveProfile}>
                                 <Multiselect
-              options={this.state.objectArray}
-              displayValue="key"
-              onSelect={this.onSelect} // Function will trigger on select event
-              selectedValues={this.state.selectedValues}
-              placeholder="Select Stores"
-            />
+                                    options={this.state.objectArray}
+                                    displayValue="key"
+                                    onSelect={this.onSelect} // Function will trigger on select event
+                                    selectedValues={this.state.selectedValues}
+                                    placeholder="Select Stores"
+                                />
                                 <Form.Group controlId="name">
-                                    <Form.Label>Name</Form.Label>
+                                    <Form.Label>Product Name</Form.Label>
                                     <Form.Control
-                                    type="text"
+                                        type="text"
                                         // onChange={e => this.setState({ last_name: e.target.value })}
-                                        placeholder={usrDetails.firstName ? usrDetails.firstName : ""}
+                                        placeholder={usrDetails.firstName ? usrDetails.firstName : "Add Product Name"}
                                         required
-                                        // value={this.props.firstName + " " + this.props.lastName}
+                                    // value={this.props.firstName + " " + this.props.lastName}
                                     />
                                 </Form.Group>
                                 <Form.Group controlId="brand">
-                                    <Form.Label>Brand</Form.Label>
+                                    <Form.Label>Brand Name</Form.Label>
                                     <Form.Control
                                         required
                                         type="text"
                                         // onChange={e => this.setState({ last_name: e.target.value })}
-                                        placeholder={usrDetails.lastName ? usrDetails.lastName : ""}
+                                        placeholder={usrDetails.lastName ? usrDetails.lastName : "Add Brand Name"}
                                     // value={this.props.firstName + " " + this.props.lastName}
                                     />
                                 </Form.Group>
                                 <Form.Group controlId="desc">
                                     <Form.Label>Description</Form.Label>
                                     <Form.Control
-                                        required 
+                                        required
                                         type="text"
                                         as="textarea"
                                         rows="3"
-                                        placeholder={userData.bio ? userData.bio : "Add your Bio"}
+                                        placeholder={userData.bio ? userData.bio : "Add Description"}
                                     />
                                 </Form.Group>
 
                                 <Form.Group controlId="qty">
                                     <Form.Label>Quantity</Form.Label>
-                                    <Form.Control 
-                                    min="0.00"
-                                    required   
-                                    type="number"
-                                        // onChange={e => this.setState({ last_name: e.target.value })}
+                                    <Form.Control
+                                        min="0.00"
+                                        required
+                                        type="number"
+                                    // onChange={e => this.setState({ last_name: e.target.value })}
                                     // value={this.props.firstName + " " + this.props.lastName}
                                     />
                                 </Form.Group>
 
                                 <Form.Group controlId="unit">
-                                <Form.Label>Unit</Form.Label>
-                                 <Form.Control as="select" required>
-                                <option>gram</option>
-                                 <option>ounze</option>
-                                 <option>piece</option>
-                                 <option>gallon</option>
-                                 <option>litres</option>
-                                 <option>mili Litres</option>
-                                 <option>kilo-gram</option>
-                                 </Form.Control>
+                                    <Form.Label>Unit</Form.Label>
+                                    <Form.Control as="select" required>
+                                        <option>gram</option>
+                                        <option>ounze</option>
+                                        <option>piece</option>
+                                        <option>gallon</option>
+                                        <option>litres</option>
+                                        <option>mili Litres</option>
+                                        <option>kilo-gram</option>
+                                    </Form.Control>
                                 </Form.Group>
                                 <Form.Group controlId="price">
                                     <Form.Label>Price( in Dollars ) </Form.Label>
                                     <Form.Control type="number"
-                                    min="0.00"
-                                    max="100.00"
-                                     required 
-                                    placeholder={userData.website ? userData.website : "$" } />
+                                        min="0.00"
+                                        max="100.00"
+                                        required
+                                        placeholder={userData.website ? userData.website : "$"} />
                                 </Form.Group>
                                 <Button variant="primary" type="submit">
-                                Submit
+                                    Submit
                             </Button>
-                              </Form>
+                            </Form>
                         </div>
                     </Modal.Body>
                 </Modal>
