@@ -56,6 +56,10 @@ public class Orders {
     @JsonIgnoreProperties({"pool", "orders","store"})///// to be done 
     private Pooler deliveryBy;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JsonIgnoreProperties({"pool", "orders","store"})///// to be done
+    private Pooler deliveryByPrev;
+
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "order")
 //    @JoinColumn(name = "order_id", referencedColumnName = "id")
     @JsonIgnoreProperties({"order"})
@@ -180,6 +184,13 @@ public class Orders {
 		this.orderDetails = orderDetails;
 	}
 
+    public Pooler getDeliveryByPrev() {
+        return deliveryByPrev;
+    }
+
+    public void setDeliveryByPrev(Pooler deliveryByPrev) {
+        this.deliveryByPrev = deliveryByPrev;
+    }
 
 	public static class OrderBuilder {
         private long store_id;
