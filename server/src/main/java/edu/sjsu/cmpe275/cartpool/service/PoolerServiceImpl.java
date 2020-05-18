@@ -57,10 +57,10 @@ public class PoolerServiceImpl implements PoolerService {
         return poolerRepository.save(pooler);
     }
 
-    public void addContribution(String email) {
+    public void addContribution(String email, int contributionCount) {
         Pooler users = poolerRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException());
         if (users != null)
-            users.setContribution(users.getContribution() + 1);
+            users.setContribution(users.getContribution() + contributionCount);
         else
             throw new UserNotFoundException();
     }

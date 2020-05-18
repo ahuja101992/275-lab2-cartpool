@@ -17,7 +17,7 @@ public interface PoolerService {
 
     Pooler loginOAuth(String email, String provider_id);
 
-    void addContribution(String email);
+    void addContribution(String email, int contributionCount);
 
     void subtractContribution(String email);
 
