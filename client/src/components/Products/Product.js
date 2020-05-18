@@ -64,7 +64,8 @@ class Product extends Component {
     sku,
     storeId,
     brand,
-    flag
+    flag,
+    description
   ) {
     console.log("add to cart in  props");
     this.setState(
@@ -81,6 +82,7 @@ class Product extends Component {
           storeId: storeId,
           flag: flag,
           brand: brand,
+          description: description
         },
       },
       function () {
@@ -132,6 +134,7 @@ class Product extends Component {
     let weight = this.props.weight;
     let quantity = this.props.productQuantity;
     let brand = this.props.brand;
+    let description = this.props.description;
     let counter = (
       <Counter
         productQuantity={quantity}
@@ -180,7 +183,8 @@ class Product extends Component {
             sku,
             storeId,
             brand,
-            0
+            0,
+            description,
           )}
         >
           EDIT
