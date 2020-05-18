@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Product from "./Product";
 import LoadingProducts from "./loaders/Products";
 import NoResults from "./NoResults";
+import NoProducts from "./NoProducts";
 import CSSTransitionGroup from "react-transition-group/CSSTransitionGroup";
 
 class Products extends Component {
@@ -73,8 +74,9 @@ class Products extends Component {
     // Empty and Loading States
     let view;
     if (productsData.length <= 0 && !term) {
-      view = <div><h2>No products in the store</h2>
-      </div>
+      view = <NoProducts />
+      // <div><h2>No products in the store</h2>
+      // </div>
     } else if (productsData.length <= 0 && term.length > 0) {
       view = <NoResults />;
     } else {

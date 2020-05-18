@@ -42,35 +42,45 @@ class SignUp extends Component {
     }
 
     let updatedData = {};
-    updatedData.screenName = data.screenName
-    updatedData.nickName = data.nickName
-    updatedData.screenName = data.screenName
-    updatedData.street = data.street
-    updatedData.city = data.city
-    updatedData.state = data.state
-    updatedData.zip = data.zip
+    updatedData.screenName = data.screenName;
+    updatedData.nickName = data.nickName;
+    updatedData.screenName = data.screenName;
+    updatedData.street = data.street;
+    updatedData.city = data.city;
+    updatedData.state = data.state;
+    updatedData.zip = data.zip;
 
-
-    if (this.props.location.props && this.props.location.props.provider !== "") {
-      updatedData.email = data.email
-      updatedData.accessToken = this.props.location.props.accessToken
-      updatedData.img_url = this.props.location.props.img_url
-      updatedData.name = this.props.location.props.name
-      updatedData.provider = this.props.location.props.provider
-      updatedData.provider_id = this.props.location.props.provider_id
+    if (
+      this.props.location.props &&
+      this.props.location.props.provider !== ""
+    ) {
+      updatedData.email = data.email;
+      updatedData.accessToken = this.props.location.props.accessToken;
+      updatedData.img_url = this.props.location.props.img_url;
+      updatedData.name = this.props.location.props.name;
+      updatedData.provider = this.props.location.props.provider;
+      updatedData.provider_id = this.props.location.props.provider_id;
     } else {
-      updatedData.email = data.email
-      updatedData.password = data.password
-      updatedData.firstName = data.firstName
-      updatedData.lastName = data.lastName
+      updatedData.email = data.email;
+      updatedData.password = data.password;
+      updatedData.firstName = data.firstName;
+      updatedData.lastName = data.lastName;
     }
 
     if (!this.checkValidState(updatedData.state)) {
-      this.setState({ isAddressCorrect: false, isAddressCorrectMessage: "Invalid state in address" })
+      this.setState({
+        isAddressCorrect: false,
+        isAddressCorrectMessage: "Invalid state in address",
+      });
     } else if (!this.checkValidZipcode(updatedData.zip)) {
-      this.setState({ isAddressCorrect: false, isAddressCorrectMessage: "Invalid zipcode in address" })
+      this.setState({
+        isAddressCorrect: false,
+        isAddressCorrectMessage: "Invalid zipcode in address",
+      });
     } else {
-      this.setState({ isAddressCorrect: true }, () => this.props.signUp(updatedData));
+      this.setState({ isAddressCorrect: true }, () =>
+        this.props.signUp(updatedData)
+      );
     }
 
     this.props.signUp(updatedData);
@@ -80,20 +90,140 @@ class SignUp extends Component {
     this.setState({ redirectVar: val });
   };
 
-  statesNamesArray = ["Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "District of Columbia", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"]
-  statesNames = new Set(this.statesNamesArray.map((state) => { return state.toLowerCase() }))
-  stateCodesArray = ["AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "DC", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "MD", "MA", "MI", "MN", "MS", "MO", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"];
-  stateCodes = new Set(this.stateCodesArray.map((state) => { return state.toLowerCase() }))
+  statesNamesArray = [
+    "Alabama",
+    "Alaska",
+    "Arizona",
+    "Arkansas",
+    "California",
+    "Colorado",
+    "Connecticut",
+    "Delaware",
+    "District of Columbia",
+    "Florida",
+    "Georgia",
+    "Hawaii",
+    "Idaho",
+    "Illinois",
+    "Indiana",
+    "Iowa",
+    "Kansas",
+    "Kentucky",
+    "Louisiana",
+    "Maine",
+    "Montana",
+    "Nebraska",
+    "Nevada",
+    "New Hampshire",
+    "New Jersey",
+    "New Mexico",
+    "New York",
+    "North Carolina",
+    "North Dakota",
+    "Ohio",
+    "Oklahoma",
+    "Oregon",
+    "Maryland",
+    "Massachusetts",
+    "Michigan",
+    "Minnesota",
+    "Mississippi",
+    "Missouri",
+    "Pennsylvania",
+    "Rhode Island",
+    "South Carolina",
+    "South Dakota",
+    "Tennessee",
+    "Texas",
+    "Utah",
+    "Vermont",
+    "Virginia",
+    "Washington",
+    "West Virginia",
+    "Wisconsin",
+    "Wyoming",
+  ];
+  statesNames = new Set(
+    this.statesNamesArray.map((state) => {
+      return state.toLowerCase();
+    })
+  );
+  stateCodesArray = [
+    "AL",
+    "AK",
+    "AZ",
+    "AR",
+    "CA",
+    "CO",
+    "CT",
+    "DE",
+    "DC",
+    "FL",
+    "GA",
+    "HI",
+    "ID",
+    "IL",
+    "IN",
+    "IA",
+    "KS",
+    "KY",
+    "LA",
+    "ME",
+    "MT",
+    "NE",
+    "NV",
+    "NH",
+    "NJ",
+    "NM",
+    "NY",
+    "NC",
+    "ND",
+    "OH",
+    "OK",
+    "OR",
+    "MD",
+    "MA",
+    "MI",
+    "MN",
+    "MS",
+    "MO",
+    "PA",
+    "RI",
+    "SC",
+    "SD",
+    "TN",
+    "TX",
+    "UT",
+    "VT",
+    "VA",
+    "WA",
+    "WV",
+    "WI",
+    "WY",
+  ];
+  stateCodes = new Set(
+    this.stateCodesArray.map((state) => {
+      return state.toLowerCase();
+    })
+  );
 
   checkValidState = (state) => {
-    return (this.statesNames.has(state.trim().toLowerCase()) || this.stateCodes.has(state.trim().toLowerCase()))
-  }
+    return (
+      this.statesNames.has(state.trim().toLowerCase()) ||
+      this.stateCodes.has(state.trim().toLowerCase())
+    );
+  };
 
   checkValidZipcode = (zipcode) => {
-    const regexFiveDigit = RegExp('^[0-9][0-9][0-9][0-9][0-9]$');
-    const regexNineDigit = RegExp('^[0-9][0-9][0-9][0-9][0-9]\-[0-9][0-9][0-9][0-9]$');
-    return (regexFiveDigit.test(zipcode.trim().toLowerCase()) || regexNineDigit.test(zipcode.trim().toLowerCase()))
-  }
+    const regexFiveDigit = RegExp("^[0-9][0-9][0-9][0-9][0-9]$");
+    const regexNineDigit = RegExp(
+      "^[0-9][0-9][0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]$"
+    );
+    return (
+      regexFiveDigit.test(zipcode.trim().toLowerCase()) ||
+      regexNineDigit.test(zipcode.trim().toLowerCase())
+    );
+  };
 
   render() {
     let OAuthRedirect = false;
@@ -169,7 +299,7 @@ class SignUp extends Component {
               <Form.Control
                 defaultValue={
                   this.props.location.props &&
-                    this.props.location.props.firstName !== ""
+                  this.props.location.props.firstName !== ""
                     ? this.props.location.props.firstName
                     : ""
                 }
@@ -183,7 +313,7 @@ class SignUp extends Component {
               <Form.Control
                 defaultValue={
                   this.props.location.props &&
-                    this.props.location.props.lastName !== ""
+                  this.props.location.props.lastName !== ""
                     ? this.props.location.props.lastName
                     : ""
                 }
@@ -195,7 +325,7 @@ class SignUp extends Component {
 
           <Form.Group controlId="street">
             <Form.Label>Street</Form.Label>
-            <Form.Control placeholder="City name" required />
+            <Form.Control placeholder="Street Address" required />
           </Form.Group>
 
           <Form.Row>
@@ -222,13 +352,13 @@ class SignUp extends Component {
               }
               defaultValue={
                 this.props.location.props &&
-                  this.props.location.props.provider !== ""
+                this.props.location.props.provider !== ""
                   ? this.props.location.props.email
                   : ""
               }
               placeholder={
                 this.props.location.props &&
-                  this.props.location.props.provider !== ""
+                this.props.location.props.provider !== ""
                   ? this.props.location.props.email
                   : "What's your email?"
               }
@@ -241,7 +371,7 @@ class SignUp extends Component {
             controlId="password"
             className={
               this.props.location.props &&
-                this.props.location.props.provider !== ""
+              this.props.location.props.provider !== ""
                 ? "d-none"
                 : ""
             }
