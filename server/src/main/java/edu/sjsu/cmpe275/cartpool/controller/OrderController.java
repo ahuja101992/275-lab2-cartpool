@@ -55,7 +55,7 @@ public class OrderController {
         if (forDelivery)
             poolerService.subtractContribution(ownerId);
         else
-            poolerService.addContribution(ownerId);
+            poolerService.addContribution(ownerId, 1);
         Orders order = new Orders.OrderBuilder()
                 .available(true)
                 .qty(qty)
@@ -159,17 +159,17 @@ public class OrderController {
      * @param cart
      * @return
      */
-    @RequestMapping(value = "/order/submitorder",
+    @RequestMapping(value = "/order/submitorder/{contributionCount}/",
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             method = RequestMethod.POST)
     public @ResponseBody
-    ResponseEntity<Orders> submitOrder(@RequestBody Cart cart) {
+    ResponseEntity<Orders> submitOrder(@RequestBody Cart cart, @PathVariable int contributionCount) {
 //        long finalPrice = (long) (cart.getPrice()*1.0975);
         String orderOwner = cart.getOrderOwner();
         if (cart.getForDelivery())
             poolerService.subtractContribution(orderOwner);
         else
-            poolerService.addContribution(orderOwner);
+            poolerService.addContribution(orderOwner,contributionCount );
         Orders order = new Orders.OrderBuilder()
                 .available(true)
                 .qty(cart.getQty())
