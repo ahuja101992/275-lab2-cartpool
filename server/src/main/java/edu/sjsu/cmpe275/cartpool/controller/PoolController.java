@@ -109,10 +109,15 @@ public class PoolController {
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             method = RequestMethod.GET)
     public @ResponseBody
-    ResponseEntity<Pool> verifyByPoolLeader(@PathVariable Long poolerId,
+    ResponseEntity<Object> verifyByPoolLeader(@PathVariable Long poolerId,
                                 @PathVariable Long poolId) {
 
-        return ResponseEntity.status(HttpStatus.OK).body(poolService.verify(poolerId, poolId));
+        if (!poolService.chceckMembership(poolerId)) {
+            //// pooler is already a member of other pool
+            return new ResponseEntity<>("{\"message\": \"you are already a member of other pool\"}", HttpStatus.OK);
+        }
+        return new ResponseEntity<>("{\"message\": \"successfully joined the pool\"}", HttpStatus.OK);
+        //return ResponseEntity.status(HttpStatus.OK).body(poolService.verify(poolerId, poolId));
     }
 
     @RequestMapping(value = "/pool/reject/byPoolLeader/{poolerId}/{poolId}",
