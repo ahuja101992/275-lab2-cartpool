@@ -1,7 +1,10 @@
 package edu.sjsu.cmpe275.cartpool.aspect;
 
+import edu.sjsu.cmpe275.cartpool.exceptions.UserNotFoundException;
 import edu.sjsu.cmpe275.cartpool.pojos.OrderDetails;
 import edu.sjsu.cmpe275.cartpool.pojos.Orders;
+import edu.sjsu.cmpe275.cartpool.pojos.Pooler;
+import edu.sjsu.cmpe275.cartpool.repository.PoolerRepository;
 import edu.sjsu.cmpe275.cartpool.service.EmailService;
 import edu.sjsu.cmpe275.cartpool.service.OrderService;
 import org.aspectj.lang.JoinPoint;
@@ -21,6 +24,9 @@ public class OrderAspect {
 
     @Autowired
     public OrderService orderService;
+    
+    @Autowired
+    PoolerRepository<Pooler> poolerRepository;
 
     @AfterReturning(pointcut = "execution(public * edu.sjsu.cmpe275.cartpool.controller.OrderController.checkout(..))", returning = "result")
     public void sendCheckoutSuccessEmail(JoinPoint joinPoint, Object result) {
@@ -55,8 +61,11 @@ public class OrderAspect {
 
         System.out.println("sendDeliveryNotReceivedEmail");
         Orders order = (Orders) result;
-
-        String to = order.getDeliveryBy().getEmail();
+        
+//        String to = order.getDeliveryByPrev();
+        long ownerId = order.getDeliveryByPrev().getId();
+        Pooler toPooler = poolerRepository.findById(ownerId).orElseThrow(() -> new UserNotFoundException());
+        String to = toPooler.getEmail();
         String subject = "[CartPool]: Delivery not received for OrderId: " + order.getId();
 
         StringBuilder str = new StringBuilder();
