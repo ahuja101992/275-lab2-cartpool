@@ -46,7 +46,6 @@ class Products extends Component {
     if (this.props.flag === 2) {
       func = searchingForId(term)
     }
-
     productsData = this.props.productsList
       .filter(func)
       .map(product => {
@@ -61,12 +60,13 @@ class Products extends Component {
             id={product.id.sku}
             storeId={product.id.storeId}
             sku={product.id.sku}
-            brand={product.brand}
+            brand={product.brandName}
             addToCart={this.props.addToCart}
             productQuantity={this.props.productQuantity}
             updateQuantity={this.props.updateQuantity}
             openModal={this.props.openModal}
             getAll={this.props.getAll}
+            description={product.description}
           />
         );
       });
