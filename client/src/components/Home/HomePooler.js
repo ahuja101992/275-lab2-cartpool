@@ -63,7 +63,7 @@ class HomePooler extends Component {
                         <Navbar.Brand as={Link} to="/"></Navbar.Brand>
                         <Nav>
                             <Nav.Link as={NavLink} to="/homePooler/">
-                                HomePooler
+                                Home
                             </Nav.Link>
                             <Nav.Link as={NavLink} to="/homePooler/NewProfile/">
                                 Profile
