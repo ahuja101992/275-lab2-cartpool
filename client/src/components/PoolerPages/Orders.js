@@ -1,8 +1,8 @@
-import React, {Component} from "react";
-import {Badge, Button, Card} from "react-bootstrap";
-import {connect} from "react-redux";
-import {getOrdersByUserId, markDeliveryNotReceived} from "../../redux/actions/orderActions";
-import {DELIVERED, DELIVERED_NOT_RECEIVED, PICKED_UP, PICKED_UP_BY_SELF, PLACED, CANCELED} from "../../constants/appConstants";
+import React, { Component } from "react";
+import { Badge, Button, Card } from "react-bootstrap";
+import { connect } from "react-redux";
+import { getOrdersByUserId, markDeliveryNotReceived } from "../../redux/actions/orderActions";
+import { DELIVERED, DELIVERED_NOT_RECEIVED, PICKED_UP, PICKED_UP_BY_SELF, PLACED, CANCELED } from "../../constants/appConstants";
 
 function mapStateToProps(store) {
     return {
@@ -38,27 +38,27 @@ class Orders extends Component {
 
         switch (status) {
             case PLACED:
-                badge = <Badge style={{fontSize: fontSize}} variant="primary">{PLACED}</Badge>;
+                badge = <Badge style={{ fontSize: fontSize }} variant="primary">{PLACED}</Badge>;
                 break;
 
             case PICKED_UP_BY_SELF:
-                badge = <Badge style={{fontSize: fontSize}} variant="info">{PICKED_UP_BY_SELF}</Badge>;
+                badge = <Badge style={{ fontSize: fontSize }} variant="info">{PICKED_UP_BY_SELF}</Badge>;
                 break;
 
             case PICKED_UP:
-                badge = <Badge style={{fontSize: fontSize}} variant="dark">{PICKED_UP}</Badge>;
+                badge = <Badge style={{ fontSize: fontSize }} variant="dark">{PICKED_UP}</Badge>;
                 break;
 
             case DELIVERED:
-                badge = <Badge style={{fontSize: fontSize}} variant="success">{DELIVERED}</Badge>;
+                badge = <Badge style={{ fontSize: fontSize }} variant="success">{DELIVERED}</Badge>;
                 break;
 
             case DELIVERED_NOT_RECEIVED:
-                badge = <Badge style={{fontSize: fontSize}} variant="danger">{DELIVERED_NOT_RECEIVED}</Badge>;
+                badge = <Badge style={{ fontSize: fontSize }} variant="danger">{DELIVERED_NOT_RECEIVED}</Badge>;
                 break;
 
             case CANCELED:
-                badge = <Badge style={{fontSize: fontSize}} variant="warning">{CANCELED}</Badge>;
+                badge = <Badge style={{ fontSize: fontSize }} variant="warning">{CANCELED}</Badge>;
                 break;
         }
 
@@ -76,7 +76,7 @@ class Orders extends Component {
     markDeliveryNotReceived = (order) => {
         console.log("markDeliveryNotReceived")
         console.log(order)
-        this.props.markDeliveryNotReceived({orderId: order.id, orderOwnerId: localStorage.getItem("id")})
+        this.props.markDeliveryNotReceived({ orderId: order.id, orderOwnerId: localStorage.getItem("id") })
     }
 
     extractAddress = (address) => {
@@ -90,31 +90,29 @@ class Orders extends Component {
             console.log("order")
             console.log(order)
 
-            return <ul key={index}>
-                <Card style={{width: '22rem'}}>
-                    <Card.Img variant="top" src={require("../../images/restaurant-logo.png")}/>
-                    <Card.Body>
-                        <Card.Title><b>Store</b> - {order.store.name}</Card.Title>
-                        <Card.Text>
-                            <b>Order Id</b> - {order.id}
-                            <br/>
-                            <b>Customer Address</b> - {this.extractAddress(order.orderOwner.address)}
-                            <br/>
-                            <b>Price</b> - ${order.finalPrice}
-                            <br/>
-                            <b>Order Status</b> - {this.getOrderStatusBadge(order.status)}
-                            <br/><br/>
-                            {order.status === DELIVERED &&
+            return <Card style={{ width: '22rem' }} className="col-sm-4 p-0 mx-4 my-4">
+                <Card.Img variant="top" src={require("../../images/restaurant-logo.png")} />
+                <Card.Body>
+                    <Card.Title><b>Store</b> - {order.store.name}</Card.Title>
+                    <Card.Text>
+                        <b>Order Id</b> - {order.id}
+                        <br />
+                        <b>Customer Address</b> - {this.extractAddress(order.orderOwner.address)}
+                        <br />
+                        <b>Price</b> - ${order.finalPrice}
+                        <br />
+                        <b>Order Status</b> - {this.getOrderStatusBadge(order.status)}
+                        <br /><br />
+                        {order.status === DELIVERED &&
                             <Button onClick={() => this.markDeliveryNotReceived(order)} type="button" variant="danger">Mark
                                 Delivery Not Received</Button>}
-                        </Card.Text>
-                    </Card.Body>
-                </Card>
-            </ul>
+                    </Card.Text>
+                </Card.Body>
+            </Card>
         });
 
         return <div>
-            <ul className="ul li">{renderTodos}</ul>
+            <ul className="ul li d-flex flex-row row">{renderTodos}</ul>
         </div>
     }
 
