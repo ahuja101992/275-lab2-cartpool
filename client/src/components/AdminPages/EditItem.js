@@ -19,37 +19,37 @@ class EditItem extends Component {
             plainArray: [],
             objectArray: [],
             selectedValues: [],
-            selectedProduct:this.props.selectedProduct,
-            sku:this.props.selectedProduct.sku,
-            name:this.props.selectedProduct.name,
-            brand:this.props.selectedProduct.brand,
-            desc:this.props.selectedProduct.desc,
-            qty:this.props.selectedProduct.weight,
-            unit:this.props.selectedProduct.unit,
-            price:this.props.selectedProduct.price,
+            selectedProduct: this.props.selectedProduct,
+            sku: this.props.selectedProduct.sku,
+            name: this.props.selectedProduct.name,
+            brand: this.props.selectedProduct.brand,
+            desc: this.props.selectedProduct.description,
+            qty: this.props.selectedProduct.weight,
+            unit: this.props.selectedProduct.unit,
+            price: this.props.selectedProduct.price,
             imageUrl: this.props.selectedProduct.imageUrl,
-            imageFlag:false 
+            imageFlag: false
         };
         this.onFileChange = this.onFileChange.bind(this);
     }
-    componentDidMount(){
-           this.setState({
-               editProfile:true
-           })
+    componentDidMount() {
+        this.setState({
+            editProfile: true
+        })
     }
 
-    onSelect=(selectedList, selectedItem) =>{
+    onSelect = (selectedList, selectedItem) => {
         this.state.selectedValues = selectedList;
         console.log(this.state.selectedValues);
     }
-     
-    addItem= (val) =>{
-        console.log("val",val);
+
+    addItem = (val) => {
+        console.log("val", val);
         this.setState({
-            selectedValues : this.state.selectedValues.push(val)
+            selectedValues: this.state.selectedValues.push(val)
         })
-        console.log("Selected val",this.state.selectedValues);
-      }
+        console.log("Selected val", this.state.selectedValues);
+    }
 
     editProfile = () => {
         this.setState({ editProfile: true });
@@ -59,7 +59,7 @@ class EditItem extends Component {
     cancelEdit = () => {
         this.setState({ editProfile: false });
     };
-    
+
     onCoverPicUploadHandler = (event) => {
         this.setState({
             selectedCoverPic: event.target.files[0]
@@ -73,7 +73,7 @@ class EditItem extends Component {
 
     onFileChange(files) {
         this.setState({
-            imageFlag:true
+            imageFlag: true
         })
         if (files == null || files.length == 0) return;
         let file = files[0];
@@ -94,7 +94,7 @@ class EditItem extends Component {
     saveProfile = (e) => {
         // save profile code
         e.preventDefault();
-        console.log("Inside createStore",e.target.length)
+        console.log("Inside createStore", e.target.length)
         const data = new FormData();
         for (let i = 0; i < e.target.length; i++) {
             if (e.target[i].id !== "") {
@@ -103,31 +103,31 @@ class EditItem extends Component {
                 data[e.target[i].id] = e.target[i].value;
             }
         }
-        let store_arr=[];
-        this.state.selectedValues.forEach(ele=>{
+        let store_arr = [];
+        this.state.selectedValues.forEach(ele => {
             store_arr.push(ele.value);
         });
 
-        console.log("store_arr",store_arr);
+        console.log("store_arr", store_arr);
         let updatedData = {
             name: data.name ? data.name : "",
             desc: data.desc ? data.name : "",
             brand: data.brand ? data.brand : "",
             unit: data.unit ? data.unit : "",
             qty: data.qty ? data.qty : "",
-            price:data.price ? data.price : "",
-            image_url :this.state.imageFlag===true?this.state.imageUrl:""
+            price: data.price ? data.price : "",
+            image_url: this.state.imageFlag === true ? this.state.imageUrl : ""
         }
 
-        console.log("edit item",updatedData);
-        console.log("sku item",this.state.sku);
-        let adminId=localStorage.getItem("id")
-        axios.put(`http://localhost:8080/product/${this.state.sku}/${adminId}`, null, {params: updatedData})
-        .then((response) => {
-           console.log("create data res",response)
-        }).catch(err => {
-            console.error(err);
-        });
+        console.log("edit item", updatedData);
+        console.log("sku item", this.state.sku);
+        let adminId = localStorage.getItem("id")
+        axios.put(`http://localhost:8080/product/${this.state.sku}/${adminId}`, null, { params: updatedData })
+            .then((response) => {
+                console.log("create data res", response)
+            }).catch(err => {
+                console.error(err);
+            });
 
         this.cancelEdit();
         alert("Product edited succesfully")
@@ -143,7 +143,7 @@ class EditItem extends Component {
             <div class="profile-container col-sm-12">
                 <div class="profile-pic-btn-container row">
                 </div>
-                
+
                 <Modal
                     show={this.state.editProfile}
                     onHide={this.cancelEdit}
@@ -156,7 +156,7 @@ class EditItem extends Component {
                     <Modal.Body>
                         <div class="edit-profile-continer">
                             <div class="cover-pic-container row">
-                            <input
+                                <input
                                     class="profile-pic-btn"
                                     type="file"
                                     accept="image/*"
@@ -174,11 +174,11 @@ class EditItem extends Component {
                             </div>
                         </div>
                         <div class="edit-details-form">
-                        <Form onSubmit={this.saveProfile}>
+                            <Form onSubmit={this.saveProfile}>
                                 <Form.Group controlId="name">
                                     <Form.Label>Name</Form.Label>
                                     <Form.Control
-                                    type="text"
+                                        type="text"
                                         onChange={e => this.setState({ name: e.target.value })}
                                         placeholder={this.state.name}
                                         // required
@@ -210,43 +210,43 @@ class EditItem extends Component {
 
                                 <Form.Group controlId="qty">
                                     <Form.Label>Quantity</Form.Label>
-                                    <Form.Control 
-                                    // required   
-                                    type="number"
-                                    min="0.00"
-                                    onChange={e => this.setState({ qty: e.target.value })}
-                                    placeholder={this.state.qty}
-                                    value={this.state.qty}
+                                    <Form.Control
+                                        // required   
+                                        type="number"
+                                        min="0.00"
+                                        onChange={e => this.setState({ qty: e.target.value })}
+                                        placeholder={this.state.qty}
+                                        value={this.state.qty}
                                     />
                                 </Form.Group>
 
                                 <Form.Group controlId="unit">
-                                <Form.Label>Unit</Form.Label>
-                                 <Form.Control as="select" required>
-                                <option>gram</option>
-                                 <option>ounze</option>
-                                 <option>piece</option>
-                                 <option>gallon</option>
-                                 <option>litres</option>
-                                 <option>mili Litres</option>
-                                 <option>kilo-gram</option>
-                                 </Form.Control>
+                                    <Form.Label>Unit</Form.Label>
+                                    <Form.Control as="select" required>
+                                        <option>gram</option>
+                                        <option>ounze</option>
+                                        <option>piece</option>
+                                        <option>gallon</option>
+                                        <option>litres</option>
+                                        <option>mili Litres</option>
+                                        <option>kilo-gram</option>
+                                    </Form.Control>
                                 </Form.Group>
                                 <Form.Group controlId="price">
                                     <Form.Label>Price( in Dollars ) </Form.Label>
-                                    <Form.Control   type="number"
-                                    min="0.00"
-                                    max="100.00"
-                                     required 
-                                    placeholder={this.state.price} 
-                                    onChange={e => this.setState({ price: e.target.value })}
-                                    value={this.state.price}
+                                    <Form.Control type="number"
+                                        min="0.00"
+                                        max="100.00"
+                                        required
+                                        placeholder={this.state.price}
+                                        onChange={e => this.setState({ price: e.target.value })}
+                                        value={this.state.price}
                                     />
                                 </Form.Group>
                                 <Button variant="primary" type="submit">
-                                Submit
+                                    Submit
                             </Button>
-                              </Form>
+                            </Form>
                         </div>
                     </Modal.Body>
                 </Modal>
