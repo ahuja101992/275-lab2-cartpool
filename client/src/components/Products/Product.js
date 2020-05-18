@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Counter from "./Counter";
 import EditItem from "../AdminPages/EditItem";
 import axios from "axios";
+import "./product.css";
 
 class Product extends Component {
   constructor(props) {
@@ -146,7 +147,7 @@ class Product extends Component {
     let cart = (
       <div className="product-action">
         <button
-          className={!this.state.isAdded ? "" : "added"}
+          className={!this.state.isAdded ? "add-to-cart-button" : "added"}
           type="button"
           onClick={this.addToCart.bind(
             this,
@@ -247,7 +248,7 @@ class Product extends Component {
           />
         </div>
         <h4 className="product-name">
-          <div>
+          <div >
             {this.props.name}
           </div>
           <div>
