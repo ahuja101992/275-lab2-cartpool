@@ -58,28 +58,28 @@ p {
 ul {
   list-style: none;
 }
-// button {
-//   // height: 36px;
-//   border-radius: 2px;
-//   text-align: center;
-//   color: $white;
-//   background: $primary-green;
-//   border: 0;
-//   font-weight: 400;
-//   padding: 0 16px;
-//   font-family: inherit;
-//   font-size: inherit;
-//   cursor: pointer;
-//   &:hover {
-//     background: lighten($primary-green, 10%);
-//   }
-//   &:focus {
-//     outline: none;
-//   }
-//   &:active {
-//     background: lighten($primary-green, 15%);
-//   }
-// }
+button {
+  // height: 36px;
+  border-radius: 2px;
+  text-align: center;
+  color: $white;
+  background: $primary-green;
+  border: 0;
+  font-weight: 400;
+  padding: 0 16px;
+  font-family: inherit;
+  font-size: inherit;
+  cursor: pointer;
+  &:hover {
+    background: lighten($primary-green, 10%);
+  }
+  &:focus {
+    outline: none;
+  }
+  &:active {
+    background: lighten($primary-green, 15%);
+  }
+}
 
 input,
 select {
