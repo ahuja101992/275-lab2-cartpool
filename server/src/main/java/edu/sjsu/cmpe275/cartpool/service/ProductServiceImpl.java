@@ -10,7 +10,6 @@ import edu.sjsu.cmpe275.cartpool.repository.AdminRepository;
 import edu.sjsu.cmpe275.cartpool.repository.ProductRepository;
 import edu.sjsu.cmpe275.cartpool.repository.StoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,7 +30,6 @@ public class ProductServiceImpl implements ProductService {
     StoreRepository<Store> storeRepository;
 
 
-
     @Override
     @Transactional
     public Product createProduct(Product product) {
@@ -40,14 +38,14 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public List<Product> deleteProduct(String sku,Long adminId) {
+    public List<Product> deleteProduct(String sku, Long adminId) {
         System.out.println("Deleting product: ");
         List<Product> products = productRepository.findProductsByOrderId(sku);
-        HashSet<Product> set1= new HashSet<>(products);
+        HashSet<Product> set1 = new HashSet<>(products);
         List<Product> productsku = productRepository.findProductsBySku(sku);
-        HashSet<Product> set2= new HashSet<>(productsku);
+        HashSet<Product> set2 = new HashSet<>(productsku);
         set2.removeAll(set1);
-        if(set2!=null && set2.size()>0) {
+        if (set2 != null && set2.size() > 0) {
             productRepository.deleteAll(set2);
             return searchProductsByAdminId(adminId);
         }
@@ -56,8 +54,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public List<Product> updateProduct(List<Product> products,Long adminId) {
-        for(Product product : products){
+    public List<Product> updateProduct(List<Product> products, Long adminId) {
+        for (Product product : products) {
             List<Product> stored = searchProductBySKU(product.getId().getSku());
             productRepository.save(product);
         }
@@ -75,15 +73,15 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public Product ffindByStoreId_SKU(Long storeId,String sku) {
-        Product product = productRepository.findById(new ProductId(sku)).orElseThrow(()->new UserNotFoundException());
+    public Product ffindByStoreId_SKU(Long storeId, String sku) {
+        Product product = productRepository.findById(new ProductId(sku)).orElseThrow(() -> new UserNotFoundException());
         return product;
     }
 
     @Override
     @Transactional
     public List<Product> searchProductBySKU(String sku) {
-         return productRepository.findProductsBySku(sku);
+        return productRepository.findProductsBySku(sku);
     }
 
     @Override
@@ -94,14 +92,14 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public List<Product> searchProductsByAdminId(Long adminId){
+    public List<Product> searchProductsByAdminId(Long adminId) {
         return productRepository.findByAdmin_Id(adminId);
     }
 
 
     @Override
     @Transactional
-    public List<Product> getProductsGroupByName(){
+    public List<Product> getProductsGroupByName() {
         return productRepository.findProductsGroupByName();
     }
 

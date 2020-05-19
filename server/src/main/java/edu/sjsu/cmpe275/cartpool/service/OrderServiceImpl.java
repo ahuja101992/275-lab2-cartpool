@@ -30,8 +30,8 @@ public class OrderServiceImpl implements OrderService {
 
     public Orders createOrder(Orders order, String deliveryPersonId, String ownerId, long storeId) {
         Pooler deliveryPerson = null;
-    	if(deliveryPersonId!=null && deliveryPersonId!="")
-        	deliveryPerson = poolerRepository.findByEmail(deliveryPersonId).orElseThrow(() -> new UserNotFoundException()); //.orElseThrow(() -> new UserNotFoundException());
+        if (deliveryPersonId != null && deliveryPersonId != "")
+            deliveryPerson = poolerRepository.findByEmail(deliveryPersonId).orElseThrow(() -> new UserNotFoundException()); //.orElseThrow(() -> new UserNotFoundException());
         Pooler owner = poolerRepository.findByEmail(ownerId).orElseThrow(() -> new UserNotFoundException());//.orElseThrow(() -> new UserNotFoundException());
         Store store = storeRepository.findById(storeId).orElseThrow(() -> new StoreNotFoundException());
         Pool ownerPool = owner.getPool();
@@ -163,10 +163,10 @@ public class OrderServiceImpl implements OrderService {
         emailService.sendEmailForOrderConfirmation(to, subject, msg);
     }
 
-	@Override
-	public List<Orders> getActiveOrders(long storeId) {
-		Store store = storeRepository.findById(storeId).orElseThrow(() -> new StoreNotFoundException());
-		return orderRepository.findByStoreAndStatus(store, "Placed");
-		
-	}
+    @Override
+    public List<Orders> getActiveOrders(long storeId) {
+        Store store = storeRepository.findById(storeId).orElseThrow(() -> new StoreNotFoundException());
+        return orderRepository.findByStoreAndStatus(store, "Placed");
+
+    }
 }

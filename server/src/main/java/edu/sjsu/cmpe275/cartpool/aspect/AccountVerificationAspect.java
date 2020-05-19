@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 
 import java.net.URI;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.util.Arrays;
 
 @Component

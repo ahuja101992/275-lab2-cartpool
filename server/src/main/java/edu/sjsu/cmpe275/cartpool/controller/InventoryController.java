@@ -24,7 +24,7 @@ public class InventoryController {
 
     @Autowired
     AdminService adminService;
-    
+
     @Autowired
     OrderService orderService;
 
@@ -110,12 +110,14 @@ public class InventoryController {
 
         return ResponseEntity.status(HttpStatus.OK).body(storeService.updateStore(store, adminId));
     }
+
     @RequestMapping(value = "/inventory/store/allstores",
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             method = RequestMethod.GET)
     public ResponseEntity<List<Store>> getAllStores() {
-        return ResponseEntity.status(HttpStatus.OK).body(storeService.getAllStores()) ;
+        return ResponseEntity.status(HttpStatus.OK).body(storeService.getAllStores());
     }
+
     @RequestMapping(value = "/inventory/store/getactiveorders/{storeId}",
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             method = RequestMethod.GET)

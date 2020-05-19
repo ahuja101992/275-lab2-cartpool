@@ -7,9 +7,9 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import edu.sjsu.cmpe275.cartpool.util.Constants;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import edu.sjsu.cmpe275.cartpool.util.Constants;
 
 import javax.annotation.PostConstruct;
 import java.io.File;
@@ -22,13 +22,14 @@ public class AmazonClient {
 
     private AmazonS3 s3client;
 
-    private String endpointUrl = Constants.endpointUrl;
+    private final String endpointUrl = Constants.endpointUrl;
 
-    private String bucketName = Constants.bucketName;
+    private final String bucketName = Constants.bucketName;
 
-    private String accessKey = Constants.accessKey;
+    private final String accessKey = Constants.accessKey;
 
-    private String secretKey = Constants.secretKey;
+    private final String secretKey = Constants.secretKey;
+
     @PostConstruct
     private void initializeAmazon() {
         AWSCredentials credentials = new BasicAWSCredentials(this.accessKey, this.secretKey);

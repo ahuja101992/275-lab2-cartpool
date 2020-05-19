@@ -2,8 +2,6 @@ package edu.sjsu.cmpe275.cartpool.service;
 
 import edu.sjsu.cmpe275.cartpool.pojos.Pooler;
 
-import java.util.List;
-
 public interface PoolerService {
     Pooler findById(Long id);
 

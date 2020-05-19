@@ -4,10 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlTransient;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -18,13 +15,13 @@ public class Admin extends User {
     private long id;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "admin")
-    @JsonIgnoreProperties({"orderOwner", "admin","products"})
+    @JsonIgnoreProperties({"orderOwner", "admin", "products"})
     @XmlTransient
     private List<Store> stores;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy ="admin")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "admin")
 //    @JoinColumn(name = "product_id")
-    @JsonIgnoreProperties({"products","admin","store" })
+    @JsonIgnoreProperties({"products", "admin", "store"})
     @XmlTransient
     private List<Product> products;
 

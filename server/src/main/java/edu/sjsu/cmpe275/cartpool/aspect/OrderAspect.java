@@ -24,7 +24,7 @@ public class OrderAspect {
 
     @Autowired
     public OrderService orderService;
-    
+
     @Autowired
     PoolerRepository<Pooler> poolerRepository;
 
@@ -61,7 +61,7 @@ public class OrderAspect {
 
         System.out.println("sendDeliveryNotReceivedEmail");
         Orders order = (Orders) result;
-        
+
 //        String to = order.getDeliveryByPrev();
         long ownerId = order.getDeliveryByPrev().getId();
         Pooler toPooler = poolerRepository.findById(ownerId).orElseThrow(() -> new UserNotFoundException());
@@ -76,7 +76,7 @@ public class OrderAspect {
             }
         }
 
-        String msg = "Delivery not received for OrderId: " + order.getId() + " with items - \n\n"+str;
+        String msg = "Delivery not received for OrderId: " + order.getId() + " with items - \n\n" + str;
 
         emailService.sendEmailForOrderConfirmation(to, subject, msg);
 

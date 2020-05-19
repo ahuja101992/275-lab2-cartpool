@@ -1,6 +1,5 @@
 package edu.sjsu.cmpe275.cartpool.controller;
 
-import edu.sjsu.cmpe275.cartpool.exceptions.MembershipException;
 import edu.sjsu.cmpe275.cartpool.pojos.Pool;
 import edu.sjsu.cmpe275.cartpool.pojos.Pooler;
 import edu.sjsu.cmpe275.cartpool.service.PoolService;
@@ -9,11 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.PersistenceException;
 import javax.validation.ConstraintViolationException;
 import java.util.List;
 
@@ -38,11 +35,11 @@ public class PoolController {
             method = RequestMethod.POST)
     public @ResponseBody
     ResponseEntity<Object> createPool(@RequestParam String poolId,
-                                    @RequestParam String name,
-                                    @RequestParam String neighborhoodName,
-                                    @RequestParam String description,
-                                    @RequestParam String zip,
-                                    @RequestParam Long poolerId) {
+                                      @RequestParam String name,
+                                      @RequestParam String neighborhoodName,
+                                      @RequestParam String description,
+                                      @RequestParam String zip,
+                                      @RequestParam Long poolerId) {
 
         //// check if pooler creating pool is member of other pool or not /////
         if (!poolService.chceckMembership(poolerId)) {
@@ -50,10 +47,10 @@ public class PoolController {
             return new ResponseEntity<>("{\"message\": \"you are already a member of other pool!!\"}", HttpStatus.OK);
         }
 
-        if(!poolService.findPoolByName(name)){
+        if (!poolService.findPoolByName(name)) {
             return new ResponseEntity<>("{\"message\": \"Pool with same pool name already exists!!\"}", HttpStatus.CONFLICT);
         }
-        if(!poolService.findPoolByPoolId(poolId)){
+        if (!poolService.findPoolByPoolId(poolId)) {
             return new ResponseEntity<>("{\"message\": \"Pool with same PoolId already exists!!\"}", HttpStatus.CONFLICT);
         }
         Pool pool = new Pool.PoolBuilder()
@@ -69,11 +66,11 @@ public class PoolController {
         pool.addPooler(poolLeader);
         poolLeader.setPool(pool);
 
-        try{
+        try {
             poolService.save(pool);
-        }catch (ConstraintViolationException e){
+        } catch (ConstraintViolationException e) {
             return new ResponseEntity<>("{\"message\": \"zip code should be 5 digit valid area code!!\"}", HttpStatus.NOT_ACCEPTABLE);
-        } catch(Exception e){
+        } catch (Exception e) {
             return new ResponseEntity<>("{\"message\": \"Server not responding!!!\"}", HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity<>("{\"message\": \"created pool successfully!!\" , \"id\":" + pool.getId() + "}", HttpStatus.OK);
@@ -103,15 +100,15 @@ public class PoolController {
             method = RequestMethod.PUT)
     public @ResponseBody
     ResponseEntity<Object> joinPool(@PathVariable Long poolId,
-                  @RequestParam Long poolerId,
-                  @RequestParam String screenName) {
+                                    @RequestParam Long poolerId,
+                                    @RequestParam String screenName) {
 
 
         if (!poolService.chceckMembership(poolerId)) {
             //// pooler is already a member of other pool
             return new ResponseEntity<>("{\"message\": \"you are already a member of other pool\"}", HttpStatus.OK);
         }
-        return new ResponseEntity<>( poolService.joinPool(poolId, poolerId, screenName), HttpStatus.OK);
+        return new ResponseEntity<>(poolService.joinPool(poolId, poolerId, screenName), HttpStatus.OK);
     }
 
 
@@ -120,7 +117,7 @@ public class PoolController {
             method = RequestMethod.GET)
     public @ResponseBody
     ResponseEntity<Object> verifyByPoolLeader(@PathVariable Long poolerId,
-                                @PathVariable Long poolId) {
+                                              @PathVariable Long poolId) {
 
         if (!poolService.chceckMembership(poolerId)) {
             //// pooler is already a member of other pool
@@ -134,8 +131,8 @@ public class PoolController {
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             method = RequestMethod.GET)
     public @ResponseBody
-   void rejectByPoolLeader(@PathVariable Long poolerId,
-                                @PathVariable Long poolId) {
+    void rejectByPoolLeader(@PathVariable Long poolerId,
+                            @PathVariable Long poolId) {
         poolService.reject(poolerId, poolId);
 
         //return new ResponseEntity<>(poolService.reject(poolerId, poolId), HttpStatus.OK);
@@ -146,7 +143,7 @@ public class PoolController {
             method = RequestMethod.GET)
     public @ResponseBody
     void verifyByPooler(@PathVariable Long poolerId,
-                                @PathVariable Long poolId) {
+                        @PathVariable Long poolId) {
 
         poolService.verifyByPooler(poolerId, poolId);
         //return ResponseEntity.status(HttpStatus.OK).body(poolService.verifyByPooler(poolerId, poolId));
@@ -157,7 +154,7 @@ public class PoolController {
             method = RequestMethod.GET)
     public @ResponseBody
     void rejectByPooler(@PathVariable Long poolerId,
-                @PathVariable Long poolId) {
+                        @PathVariable Long poolId) {
         poolService.rejectByPooler(poolerId, poolId);
 
         //return new ResponseEntity<>(poolService.reject(poolerId, poolId), HttpStatus.OK);

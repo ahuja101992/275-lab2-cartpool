@@ -9,24 +9,21 @@ import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.concurrent.TimeUnit;
 
 @Component
 public class ScheduledTasksServiceImpl implements ScheduledTasksService {
 
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy 'at' HH:mm:ss z");
+    private static final long numOfMsInTwoDays = 2 * 24 * 60 * 60 * 1000;
     @Autowired
     OrderRepository<Orders> orderRepository;
-
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy 'at' HH:mm:ss z");
-
-    private static final long numOfMsInTwoDays =  2 * 24 * 60 * 60 * 1000;
 
     @Scheduled(fixedRate = 1200000)
     public void cancelOrderOlderThanTwoDays() {
         Date currentDate = new Date(System.currentTimeMillis());
 
         Iterable<Orders> orders = orderRepository.findAll();
-        for (Orders order: orders) {
+        for (Orders order : orders) {
             Date orderDate = order.getDate();
 
             long diffInMillies = Math.abs(currentDate.getTime() - orderDate.getTime());

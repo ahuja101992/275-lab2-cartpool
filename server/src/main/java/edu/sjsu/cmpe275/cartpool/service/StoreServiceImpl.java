@@ -58,8 +58,8 @@ public class StoreServiceImpl implements StoreService {
         return storeRepository.findByName(name).orElse(null);
     }
 
-	@Override
-	public List<Store> getAllStores() {
-		return storeRepository.findAll();
-	}
+    @Override
+    public List<Store> getAllStores() {
+        return storeRepository.findAll();
+    }
 }
