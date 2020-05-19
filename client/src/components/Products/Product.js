@@ -100,8 +100,15 @@ class Product extends Component {
             .then((response) => {
               console.log("create data res", response);
             })
-            .catch((err) => {
-              console.error(err);
+            .catch((error) => {
+              if (error.response===406) {
+                alert("Products part of active orders cannot be deleted")
+            } else if (error.request) {
+                console.log(error.request);
+                alert("Products part of active orders cannot be deleted")
+            } else {
+                console.log('Error', error.message);
+            }
             });
           console.log("handleDelete", this.state.selectedProduct);
         }
@@ -138,7 +145,7 @@ class Product extends Component {
     let description = this.props.description;
     let counter = (
       <Counter
-        productQuantity={quantity}
+        productQuantity={this.props.productQuantity}
         updateQuantity={this.props.updateQuantity}
         resetQuantity={this.resetQuantity}
       />

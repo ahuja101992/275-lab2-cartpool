@@ -9,7 +9,6 @@ import {
 import axios from "axios";
 import Header from "./Header";
 import Products from "./Products";
-import Footer from "./Footer";
 import QuickView from "./QuickView";
 import "./scss/style.scss";
 
@@ -94,7 +93,13 @@ class Items extends Component {
       .catch((err) => {
         console.error(err);
       });
+      this.setState({
+        cart: JSON.parse(localStorage.getItem("cart") || "[]")
+      })
+      this.sumTotalItems(this.state.cart);
+      this.sumTotalAmount(this.state.cart);
   }
+
   componentWillMount() {
     this.getAll();
   }
@@ -180,17 +185,12 @@ class Items extends Component {
     });
 
     localStorage.setItem("cart", JSON.stringify(cartItem));
-    setTimeout(
-      function () {
         this.setState({
           cartBounce: false,
           quantity: 0,
         });
-        console.log(this.state.quantity);
-        console.log(this.state.cart);
-      }.bind(this),
-      1000
-    );
+    console.log(this.state.quantity);
+    console.log(this.state.cart);
     this.sumTotalItems(this.state.cart);
     this.sumTotalAmount(this.state.cart);
   }

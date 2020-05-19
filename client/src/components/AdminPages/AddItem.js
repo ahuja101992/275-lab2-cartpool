@@ -241,9 +241,9 @@ class AddItem extends Component {
                                 <Form.Group controlId="qty">
                                     <Form.Label>Quantity</Form.Label>
                                     <Form.Control
-                                        min="0.00"
                                         required
                                         type="number"
+                                        placeholder="0.1" step="0.01" min="0"
                                     // onChange={e => this.setState({ last_name: e.target.value })}
                                     // value={this.props.firstName + " " + this.props.lastName}
                                     />
@@ -264,8 +264,7 @@ class AddItem extends Component {
                                 <Form.Group controlId="price">
                                     <Form.Label>Price( in Dollars ) </Form.Label>
                                     <Form.Control type="number"
-                                        min="0.00"
-                                        max="100.00"
+                                        placeholder="0.1" step="0.01" min="0"
                                         required
                                         placeholder={userData.website ? userData.website : "$"} />
                                 </Form.Group>

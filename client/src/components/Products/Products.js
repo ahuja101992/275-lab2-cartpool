@@ -6,8 +6,8 @@ import NoProducts from "./NoProducts";
 import CSSTransitionGroup from "react-transition-group/CSSTransitionGroup";
 
 class Products extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
   }
   render() {
     let productsData;

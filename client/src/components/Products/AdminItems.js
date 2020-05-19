@@ -5,7 +5,6 @@ import {createStore, deleteStore, getStoresByAdmin} from "../../redux/actions/in
 import axios from "axios";
 import Header from "./Header";
 import Products from "./Products";
-import Footer from "./Footer";
 import QuickView from "./QuickView";
 import "./scss/style.scss";
 import { findDOMNode } from "react-dom";
