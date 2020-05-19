@@ -205,6 +205,7 @@ class AddItem extends Component {
                                     displayValue="key"
                                     onSelect={this.onSelect} // Function will trigger on select event
                                     selectedValues={this.state.selectedValues}
+                                    avoidHighlightFirstOption={true}
                                     placeholder="Select Stores"
                                 />
                                 <Form.Group controlId="name">
