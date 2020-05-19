@@ -12,4 +12,7 @@ public interface PoolRepository<T> extends CrudRepository<Pool, Long> {
 
     @Query("SELECT p FROM Pool p WHERE p.name LIKE %?1% OR p.neighborhoodName LIKE %?2% OR p.zip LIKE %?3%")
     List<Pool> findByNameOrNeighborhoodNameOrZipAllIgnoreCase(String searchParam1, String searchParam2, String searchParam3);
+
+    Pool findByName(String name);
+    Pool findByPoolId(String poolId);
 }

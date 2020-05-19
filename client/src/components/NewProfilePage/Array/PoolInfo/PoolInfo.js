@@ -59,7 +59,7 @@ class PoolInfo extends Component {
     }
 
     handleShow = () => {
-        console.log('aaya');
+        //console.log('aaya');
         this.setState({
             setShow: true
         });
@@ -82,16 +82,14 @@ class PoolInfo extends Component {
 
         axios.post(`http://${HOSTNAME}:8080/pool/create`, null, { params: payload })
             .then(response => {
-                console.log(response.data)
                 alert(response.data.message);
                 this.setState({
                     id: response.data.id,
                     isPoolLeader: true
                 }, () => this.handleClose())
-
             })
             .catch(error => {
-                console.log(error);
+                alert(error.response.data.message);
             })
     };
 

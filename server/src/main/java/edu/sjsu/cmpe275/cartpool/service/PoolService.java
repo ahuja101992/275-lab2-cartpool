@@ -24,4 +24,7 @@ public interface PoolService {
     Pool updatePool(Long poolId, String name,String neighborhoodName, String description);
     public void rejectByPooler(Long poolerId, Long poolId);
     public void verifyByPooler(Long poolerId, Long poolId);
+
+    public boolean findPoolByName(String name);
+    public boolean findPoolByPoolId(String poolId);
 }

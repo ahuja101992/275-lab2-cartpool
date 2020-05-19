@@ -9,9 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.PersistenceException;
 import javax.validation.ConstraintViolationException;
 import java.util.List;
 
@@ -48,6 +50,12 @@ public class PoolController {
             return new ResponseEntity<>("{\"message\": \"you are already a member of other pool!!\"}", HttpStatus.OK);
         }
 
+        if(!poolService.findPoolByName(name)){
+            return new ResponseEntity<>("{\"message\": \"Pool with same pool name already exists!!\"}", HttpStatus.CONFLICT);
+        }
+        if(!poolService.findPoolByPoolId(poolId)){
+            return new ResponseEntity<>("{\"message\": \"Pool with same PoolId already exists!!\"}", HttpStatus.CONFLICT);
+        }
         Pool pool = new Pool.PoolBuilder()
                 .poolId(poolId)
                 .name(name)
@@ -65,6 +73,8 @@ public class PoolController {
             poolService.save(pool);
         }catch (ConstraintViolationException e){
             return new ResponseEntity<>("{\"message\": \"validation failed!!\"}", HttpStatus.OK);
+        }catch(Exception e){
+            return new ResponseEntity<>("{\"message\": \"Server not responding!!!\"}", HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity<>("{\"message\": \"created pool successfully!!\" , \"id\":" + pool.getId() + "}", HttpStatus.OK);
     }

@@ -278,4 +278,18 @@ public class PoolServiceImpl implements PoolService {
 
         return poolRepository.save(pool);
     }
+    @Transactional
+    @Override
+    public boolean findPoolByName(String name) {
+        Pool pool = poolRepository.findByName(name);
+        return pool == null;
+    }
+
+    @Transactional
+    @Override
+    public boolean findPoolByPoolId(String poolId) {
+        Pool pool = poolRepository.findByPoolId(poolId);
+        return pool == null;
+    }
+
 }
