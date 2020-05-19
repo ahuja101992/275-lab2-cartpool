@@ -222,7 +222,7 @@ class EditItem extends Component {
 
                                 <Form.Group controlId="unit">
                                     <Form.Label>Unit</Form.Label>
-                                    <Form.Control as="select" required>
+                                    <Form.Control as="select" value={this.state.unit} required>
                                         <option>gram</option>
                                         <option>ounze</option>
                                         <option>piece</option>

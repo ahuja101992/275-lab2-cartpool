@@ -22,3 +22,7 @@
 .add-to-cart-button:active {
    background: lighten(#077915, 15%);
  }
+ .product-btn{
+   height: 35px !important;
+ }
+
