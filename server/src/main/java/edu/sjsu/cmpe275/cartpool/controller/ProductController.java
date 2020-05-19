@@ -111,9 +111,8 @@ public class ProductController {
             if (price != null) {
                 product.setPrice(Float.valueOf(price));
             }
-
             if (qty != null) {
-                product.setPrice(Float.valueOf(qty));
+                product.setQty(Float.valueOf(qty));
             }
         }
         productService.updateProduct(products,adminId);
