@@ -162,4 +162,11 @@ public class OrderServiceImpl implements OrderService {
 
         emailService.sendEmailForOrderConfirmation(to, subject, msg);
     }
+
+	@Override
+	public List<Orders> getActiveOrders(long storeId) {
+		Store store = storeRepository.findById(storeId).orElseThrow(() -> new StoreNotFoundException());
+		return orderRepository.findByStoreAndStatus(store, "Placed");
+		
+	}
 }
