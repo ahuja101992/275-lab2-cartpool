@@ -264,6 +264,22 @@ class SignUp extends Component {
                     </Expire>
                 )}
 
+                {this.props.signupSuccess === false && (
+                    <Toast>
+                        <Toast.Header>
+                            <img
+                                src="holder.js/20x20?text=%20"
+                                className="rounded mr-2"
+                                alt=""
+                            />
+                            <strong className="mr-auto">Error</strong>
+                        </Toast.Header>
+                        <Toast.Body>
+                            {this.props.signupMessage}
+                        </Toast.Body>
+                    </Toast>
+                )}
+
                 {this.state.isAddressCorrect !== null &&
                 this.state.isAddressCorrect === false && (
                     <Toast>

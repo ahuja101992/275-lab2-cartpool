@@ -2,6 +2,8 @@ package edu.sjsu.cmpe275.cartpool.service;
 
 import edu.sjsu.cmpe275.cartpool.pojos.Pooler;
 
+import java.util.List;
+
 public interface PoolerService {
     Pooler findById(Long id);
 
@@ -20,4 +22,6 @@ public interface PoolerService {
     void subtractContribution(String email);
 
     int getContribution(long id);
+
+    List<Pooler> findByScreennameOrNicknameOrEmail(String screenname, String nickname, String email);
 }

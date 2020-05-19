@@ -15,6 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Component
 @RestController
 public class AccountController {
@@ -60,6 +62,10 @@ public class AccountController {
 
         if (UtilFunctions.isAdmin(email)) {
             //Create admin
+
+            if (adminService.findByScreennameOrNicknameOrEmail(screenName, nickName, email).size() > 0) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            }
             Admin admin = new Admin.Builder()
                     .screenname(screenName)
                     .nickname(nickName)
@@ -71,6 +77,10 @@ public class AccountController {
                     .build();
             return ResponseEntity.status(HttpStatus.OK).body(adminService.save(admin));
         } else {
+            if (poolerService.findByScreennameOrNicknameOrEmail(screenName, nickName, email).size() > 0) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            }
+
             //Create pooler
             Pooler pooler = null;
             if (provider != "" && provider != null) {

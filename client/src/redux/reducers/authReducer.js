@@ -1,4 +1,4 @@
-import {SIGN_IN, SIGN_IN_ERROR, SIGN_UP, VERIFY_EMAIL, VERIFY_EMAIL_ERROR} from "../../redux/constants/actionTypes";
+import {SIGN_IN, SIGN_IN_ERROR, SIGN_UP, SIGN_UP_ERROR, VERIFY_EMAIL, VERIFY_EMAIL_ERROR} from "../../redux/constants/actionTypes";
 
 const initialState = {
     signupSuccess: null,
@@ -39,6 +39,11 @@ export default function authReducer(state = initialState, action) {
         return Object.assign({}, state, {
             signupSuccess: action.payload.id !== null ? true : false,
             signupMessage: "",
+        });
+    } else if (action.type === SIGN_UP_ERROR) {
+        return Object.assign({}, state, {
+            signupSuccess: false,
+            signupMessage: "Cannot create user. Screenname, nickname and email should be unique.",
         });
     } else if (action.type === VERIFY_EMAIL) {
         return Object.assign({}, state, {
