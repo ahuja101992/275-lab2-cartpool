@@ -96,4 +96,16 @@ public class PoolerServiceImpl implements PoolerService {
     public Iterable<Pooler> findAll() {
         return poolerRepository.findAll();
     }
+
+    @Transactional
+    @Override
+    public boolean findByNickName(String nickName, Long id) {
+        Pooler pooler = poolerRepository.findByNickname(nickName);
+         if(pooler == null)
+             return false;
+         else if(pooler.getId() == id)
+                 return true;
+
+         return false;
+    }
 }

@@ -24,4 +24,5 @@ public interface PoolerService {
     int getContribution(long id);
 
     List<Pooler> findByScreennameOrNicknameOrEmail(String screenname, String nickname, String email);
+    boolean findByNickName(String nickName, Long id);
 }
