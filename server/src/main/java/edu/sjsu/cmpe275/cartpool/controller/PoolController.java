@@ -73,7 +73,7 @@ public class PoolController {
             poolService.save(pool);
         }catch (ConstraintViolationException e){
             return new ResponseEntity<>("{\"message\": \"zip code should be 5 digit valid area code!!\"}", HttpStatus.NOT_ACCEPTABLE);
-        }catch(Exception e){
+        } catch(Exception e){
             return new ResponseEntity<>("{\"message\": \"Server not responding!!!\"}", HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity<>("{\"message\": \"created pool successfully!!\" , \"id\":" + pool.getId() + "}", HttpStatus.OK);

@@ -24,16 +24,23 @@
     <properties>
         <java.version>1.8</java.version>
         <spring.version>5.2.6.RELEASE</spring.version>
-        <spring.boot.version>2.2.6.RELEASE</spring.boot.version>
+        <spring.boot.version>2.3.0.RELEASE</spring.boot.version>
         <jackson.version>2.11.0</jackson.version>
     </properties>
 
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.3.0.RELEASE</version>
+    </parent>
+
     <dependencies>
+
         <!-- Spring framework -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <version>2.2.6.RELEASE</version>
+            <version>${spring.boot.version}</version>
         </dependency>
 
         <dependency>
@@ -172,8 +179,26 @@
             <artifactId>awaitility</artifactId>
             <version>4.0.2</version>
         </dependency>
+
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>2.0.1.Final</version>
+        </dependency>
+
     </dependencies>
 
-
+    <repositories>
+        <repository>
+            <id>spring-releases</id>
+            <url>https://repo.spring.io/libs-release</url>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>spring-releases</id>
+            <url>https://repo.spring.io/libs-release</url>
+        </pluginRepository>
+    </pluginRepositories>
     
 </project>
