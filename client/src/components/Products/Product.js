@@ -234,8 +234,8 @@ class Product extends Component {
             </div>
         );
 
-        let editQty = localStorage.getItem("type") === "pooler" ? counter : "";
-        let cartEle = localStorage.getItem("type") === "pooler" ? cart : "";
+        let editQty = localStorage.getItem("type") === "pooler" && localStorage.getItem("pooler") === "yes" ? counter : "";
+        let cartEle = localStorage.getItem("type") === "pooler" && localStorage.getItem("pooler") === "yes" ? cart : "";
         let showEdit = localStorage.getItem("type") === "admin" ? edit : "";
         let showDel = localStorage.getItem("type") === "admin" ? del : "";
         let showModal = !this.state.modal ? "" : editModel;
