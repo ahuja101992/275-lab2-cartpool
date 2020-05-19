@@ -1,17 +1,20 @@
-import React, { Component } from 'react';
-import { Form, Modal, Button } from "react-bootstrap";
+import React, {Component} from 'react';
+import {Modal} from "react-bootstrap";
 import UserList from '../Search/User/UserList';
+
 class userlist extends Component {
     constructor(props) {
         super(props);
-        this.state = { showModal: true }
+        this.state = {showModal: true}
         console.log("props from parent :", this.props);
     }
+
     closeModal = () => {
 
-        this.setState({ showModal: false })
+        this.setState({showModal: false})
         this.props.closeList();
     }
+
     render() {
         return (<Modal
             show={this.state.showModal}

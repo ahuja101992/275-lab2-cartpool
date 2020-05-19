@@ -3,8 +3,8 @@ import {
     GET_ORDERS_BY_USER_ID,
     GET_ORDERS_READY_FOR_DELIVERY,
     GET_ORDERS_READY_FOR_PICKUP,
-    PICKUP_ORDER,
-    MARK_DELIVERED
+    MARK_DELIVERED,
+    PICKUP_ORDER
 } from "../../redux/constants/actionTypes";
 import {HOSTNAME} from "../../constants/appConstants";
 

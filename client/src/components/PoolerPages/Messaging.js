@@ -1,9 +1,7 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import {Badge, Button, Card, Col, Form, ListGroup, Modal} from "react-bootstrap";
-import BootstrapTable from "react-bootstrap-table-next";
-import {sendMessage, getAllPollers} from "../../redux/actions/messagingActions";
-import {DELIVERED} from "../../constants/appConstants";
+import {Button, Form, ListGroup, Modal} from "react-bootstrap";
+import {getAllPollers, sendMessage} from "../../redux/actions/messagingActions";
 
 function mapStateToProps(store) {
     return {
@@ -71,7 +69,8 @@ class Messaging extends Component {
             console.log("pooler")
             console.log(pooler)
 
-            return <ListGroup.Item style={{margin: "1px", width: "10rem"}} action onClick={() => this.userClicked(pooler)}>
+            return <ListGroup.Item style={{margin: "1px", width: "10rem"}} action
+                                   onClick={() => this.userClicked(pooler)}>
                 {pooler.screenname}
             </ListGroup.Item>
         });
@@ -125,7 +124,7 @@ const styles = {
         marginLeft: "45%"
     },
     emailBox: {
-      marginLeft: "5rem",
+        marginLeft: "5rem",
         width: "30%"
     },
     storeList: {

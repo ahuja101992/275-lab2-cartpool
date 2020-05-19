@@ -7,6 +7,7 @@
   height: 100%;
   width: 100%;
   overflow-y: hidden;
+
   &.active {
     display: flex;
     display: -webkit-flex;
@@ -15,6 +16,7 @@
     -webkit-align-items: center;
     -webkit-justify-content: center;
   }
+
   .modal {
     width: 100%;
     max-width: 532px;
@@ -23,6 +25,7 @@
     position: relative;
     border-radius: 4px;
   }
+
   .close {
     position: absolute;
     top: 0px;
@@ -32,28 +35,34 @@
     border-radius: 0 4px 0 0;
     background: transparent;
     color: $gray-medium;
+
     &:hover {
       background: $gray-dark-bg;
     }
   }
 }
+
 .quick-view-details {
   padding: 24px;
   background: $gray-medium-bg;
   border-radius: 0 0 4px 4px;
+
   .product-price {
     font-size: 18px;
   }
+
   .product-price {
     color: $primary-green;
     font-weight: bold;
     font-size: 24px;
     float: right;
+
     &:before {
       content: "₹ ";
     }
   }
 }
+
 .quick-view-image {
   img {
     width: 100%;

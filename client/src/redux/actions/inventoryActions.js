@@ -1,4 +1,4 @@
-import {CREATE_STORE, DELETE_STORE, GET_STORES_BY_ADMIN, CREATE_STORE_ERROR} from "../../redux/constants/actionTypes";
+import {CREATE_STORE, CREATE_STORE_ERROR, DELETE_STORE, GET_STORES_BY_ADMIN} from "../../redux/constants/actionTypes";
 import {HOSTNAME} from "../../constants/appConstants";
 
 import axios from 'axios';

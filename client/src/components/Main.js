@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { Route } from "react-router-dom";
+import React, {Component} from "react";
+import {Route} from "react-router-dom";
 import NavPage from "./NavPage/NavPage";
 import SignUp from "./Account/SignUp";
 import Login from "./Account/Login";
@@ -13,25 +13,26 @@ import SearchPool from "./SearchPool/SearchPool";
 import NewProfile from "./NewProfilePage/NewProfile"
 import ProfilePage from "./ProfilePage/ProfilePage";
 import Temp from "./TempPage/Temp";
+
 class Main extends Component {
     render() {
         return (
             <div>
 
-                <Route path="/homeAdmin" component={AdminLayout} />
-                <Route path="/homePooler" component={PoolerLayout} />
-                <Route exact path="/" component={NavPage} />
-                <Route exact path="/signup" component={SignUp} />
-                <Route exact path="/login/:email?" component={Login} />
-                <Route exact path="/PoolVerificationPage/:email?" component={PoolVerificationPage} />
-                <Route exact path="/logout" component={Logout} />
-                <Route exact path="/searchPool" component={SearchPool} />
-                <Route exact path="/ProfilePage" component={ProfilePage} />
-                <Route exact path="/NewProfile" component={NewProfile} />
-                <Route exact path="/pool/reject/byPoolLeader/:poolerId?/:poolId?" component={Temp} />
-                <Route exact path="/pool/verify/byPoolLeader/:poolerId?/:poolId?" component={Temp} />
-                <Route exact path="/pool/reject/byPooler/:poolerId?/:poolId?" component={Temp} />
-                <Route exact path="/pool/support/byPooler/:poolerId?/:poolId?" component={Temp} />
+                <Route path="/homeAdmin" component={AdminLayout}/>
+                <Route path="/homePooler" component={PoolerLayout}/>
+                <Route exact path="/" component={NavPage}/>
+                <Route exact path="/signup" component={SignUp}/>
+                <Route exact path="/login/:email?" component={Login}/>
+                <Route exact path="/PoolVerificationPage/:email?" component={PoolVerificationPage}/>
+                <Route exact path="/logout" component={Logout}/>
+                <Route exact path="/searchPool" component={SearchPool}/>
+                <Route exact path="/ProfilePage" component={ProfilePage}/>
+                <Route exact path="/NewProfile" component={NewProfile}/>
+                <Route exact path="/pool/reject/byPoolLeader/:poolerId?/:poolId?" component={Temp}/>
+                <Route exact path="/pool/verify/byPoolLeader/:poolerId?/:poolId?" component={Temp}/>
+                <Route exact path="/pool/reject/byPooler/:poolerId?/:poolId?" component={Temp}/>
+                <Route exact path="/pool/support/byPooler/:poolerId?/:poolId?" component={Temp}/>
                 {/* <Route exact path="/store" component={Stores} /> */}
             </div>
         );

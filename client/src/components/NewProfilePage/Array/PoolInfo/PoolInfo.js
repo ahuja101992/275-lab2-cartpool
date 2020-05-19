@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import { Button, Form, Modal, Table } from 'react-bootstrap'
-import { HOSTNAME } from "../../../../constants/appConstants";
+import React, {Component} from 'react';
+import {Button, Form, Modal, Table} from 'react-bootstrap'
+import {HOSTNAME} from "../../../../constants/appConstants";
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.css'
 
@@ -8,11 +8,11 @@ class PoolInfo extends Component {
     constructor(props) {
         super(props);
         console.log(this.props);
-        this.state = Object.assign({}, { setShow: false }, { id: this.props.pool.id }, { poolId: this.props.pool.poolId }, { zip: this.props.pool.zip },
-            { poolName: this.props.pool.name }, { poolNeighborhoodName: this.props.pool.neighborhoodName }, { poolDescription: this.props.pool.description },
-            { tempPoolName: this.props.pool.name },
-            { tempPoolNeighborhoodName: this.props.pool.neighborhoodName }, { tempPoolDescription: this.props.pool.description },
-            { isPoolLeader: false }, { setShowUpdateModal: false });
+        this.state = Object.assign({}, {setShow: false}, {id: this.props.pool.id}, {poolId: this.props.pool.poolId}, {zip: this.props.pool.zip},
+            {poolName: this.props.pool.name}, {poolNeighborhoodName: this.props.pool.neighborhoodName}, {poolDescription: this.props.pool.description},
+            {tempPoolName: this.props.pool.name},
+            {tempPoolNeighborhoodName: this.props.pool.neighborhoodName}, {tempPoolDescription: this.props.pool.description},
+            {isPoolLeader: false}, {setShowUpdateModal: false});
 
     }
 
@@ -80,7 +80,7 @@ class PoolInfo extends Component {
             //poolerId: 20
         }
 
-        axios.post(`http://${HOSTNAME}:8080/pool/create`, null, { params: payload })
+        axios.post(`http://${HOSTNAME}:8080/pool/create`, null, {params: payload})
             .then(response => {
                 alert(response.data.message);
                 this.setState({
@@ -121,7 +121,7 @@ class PoolInfo extends Component {
             neighborhoodName: this.state.tempPoolNeighborhoodName,
             description: this.state.tempPoolDescription
         }
-        axios.put(`http://${HOSTNAME}:8080/pool/update/${poolId}`, null, { params: payload })
+        axios.put(`http://${HOSTNAME}:8080/pool/update/${poolId}`, null, {params: payload})
             .then(response => {
                 console.log(response.data);
                 this.setState({
@@ -140,13 +140,13 @@ class PoolInfo extends Component {
             <React.Fragment>
 
                 <Button variant="primary" size="lg"
-                    className="profile-btn"
-                    onClick={this.setShowUpdateModal}>Update Pool
+                        className="profile-btn"
+                        onClick={this.setShowUpdateModal}>Update Pool
                 </Button>
 
                 <Button variant="danger" size="lg"
-                    className="profile-btn"
-                    onClick={this.handleDelete}>Delete Pool
+                        className="profile-btn"
+                        onClick={this.handleDelete}>Delete Pool
                 </Button>
             </React.Fragment>
         )
@@ -157,39 +157,37 @@ class PoolInfo extends Component {
             return (<React.Fragment>
                 <Table responsive>
                     <tbody>
-                        <tr>
-                            <th>Pool Id</th>
-                            <td>{this.state.poolId}</td>
-                        </tr>
-                        <tr>
-                            <th>Pool Name</th>
-                            <td>{this.state.poolName}</td>
-                        </tr>
-                        <tr>
-                            <th>NeighborHood Name</th>
-                            <td>{this.state.poolNeighborhoodName}</td>
-                        </tr>
-                        <tr>
-                            <th>Description</th>
-                            <td>{this.state.poolDescription}</td>
-                        </tr>
-                        <tr>
-                            <th>Zip</th>
-                            <td>{this.state.zip}</td>
-                        </tr>
+                    <tr>
+                        <th>Pool Id</th>
+                        <td>{this.state.poolId}</td>
+                    </tr>
+                    <tr>
+                        <th>Pool Name</th>
+                        <td>{this.state.poolName}</td>
+                    </tr>
+                    <tr>
+                        <th>NeighborHood Name</th>
+                        <td>{this.state.poolNeighborhoodName}</td>
+                    </tr>
+                    <tr>
+                        <th>Description</th>
+                        <td>{this.state.poolDescription}</td>
+                    </tr>
+                    <tr>
+                        <th>Zip</th>
+                        <td>{this.state.zip}</td>
+                    </tr>
                     </tbody>
                 </Table>
             </React.Fragment>);
-        }
-
-        else {
+        } else {
             return (
                 <React.Fragment>
                     <h2>create new pool</h2>
                     <Button variant="success" size="lg"
-                        className="profile-btn"
-                        onClick={this.handleShow}>Create Pool
-                </Button>
+                            className="profile-btn"
+                            onClick={this.handleShow}>Create Pool
+                    </Button>
                 </React.Fragment>
             )
         }
@@ -221,28 +219,28 @@ class PoolInfo extends Component {
                             <Form.Group controlId="formGroupItemName">
                                 <Form.Label>Pool Id:</Form.Label>
                                 <Form.Control type="text" name="poolId"
-                                    value={this.state.poolId} onChange={this.changeHandeler}
-                                    className="join-pool-modal-text" required />
+                                              value={this.state.poolId} onChange={this.changeHandeler}
+                                              className="join-pool-modal-text" required/>
 
                                 <Form.Label>Pool Name:</Form.Label>
                                 <Form.Control type="text" name="poolName"
-                                    value={this.state.poolName} onChange={this.changeHandeler}
-                                    className="join-pool-modal-text" required />
+                                              value={this.state.poolName} onChange={this.changeHandeler}
+                                              className="join-pool-modal-text" required/>
 
                                 <Form.Label>Pool NeighborhoodName:</Form.Label>
                                 <Form.Control type="text" name="poolNeighborhoodName"
-                                    value={this.state.poolNeighborhoodName} onChange={this.changeHandeler}
-                                    className="join-pool-modal-text" required />
+                                              value={this.state.poolNeighborhoodName} onChange={this.changeHandeler}
+                                              className="join-pool-modal-text" required/>
 
                                 <Form.Label>Pool Description:</Form.Label>
                                 <Form.Control type="text" name="poolDescription"
-                                    value={this.state.poolDescription} onChange={this.changeHandeler}
-                                    className="join-pool-modal-text" required />
+                                              value={this.state.poolDescription} onChange={this.changeHandeler}
+                                              className="join-pool-modal-text" required/>
 
                                 <Form.Label>ZipCode:</Form.Label>
                                 <Form.Control type="text" name="zip"
-                                    value={this.state.zip} onChange={this.changeHandeler}
-                                    className="join-pool-modal-text" required />
+                                              value={this.state.zip} onChange={this.changeHandeler}
+                                              className="join-pool-modal-text" required/>
                             </Form.Group>
 
                         </Form>
@@ -272,18 +270,18 @@ class PoolInfo extends Component {
                             <Form.Group controlId="formGroupItemName">
                                 <Form.Label>Pool Name:</Form.Label>
                                 <Form.Control type="text" name="tempPoolName"
-                                    value={this.state.tempPoolName} onChange={this.changeHandeler}
-                                    className="join-pool-modal-text" />
+                                              value={this.state.tempPoolName} onChange={this.changeHandeler}
+                                              className="join-pool-modal-text"/>
 
                                 <Form.Label>Pool NeighborhoodName:</Form.Label>
                                 <Form.Control type="text" name="tempPoolNeighborhoodName"
-                                    value={this.state.tempPoolNeighborhoodName} onChange={this.changeHandeler}
-                                    className="join-pool-modal-text" />
+                                              value={this.state.tempPoolNeighborhoodName} onChange={this.changeHandeler}
+                                              className="join-pool-modal-text"/>
 
                                 <Form.Label>Pool Description:</Form.Label>
                                 <Form.Control type="text" name="tempPoolDescription"
-                                    value={this.state.tempPoolDescription} onChange={this.changeHandeler}
-                                    className="join-pool-modal-text" />
+                                              value={this.state.tempPoolDescription} onChange={this.changeHandeler}
+                                              className="join-pool-modal-text"/>
                             </Form.Group>
 
                         </Form>

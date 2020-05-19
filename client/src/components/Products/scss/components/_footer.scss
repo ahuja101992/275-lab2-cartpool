@@ -4,11 +4,14 @@ footer {
   text-align: center;
   padding: 32px;
   background: $gray-dark-bg;
+
   strong {
     color: $gray-medium;
   }
+
   .footer-links {
     margin-bottom: 24px;
+
     a {
       margin: 0 8px;
       color: $gray-medium;

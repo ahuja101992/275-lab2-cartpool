@@ -1,10 +1,8 @@
-import React, { Component } from 'react';
-import { Redirect, Switch } from 'react-router';
-import { Link, NavLink, Route } from "react-router-dom";
-import { Nav, Navbar } from "react-bootstrap";
+import React, {Component} from 'react';
+import {Redirect, Switch} from 'react-router';
+import {Link, NavLink, Route} from "react-router-dom";
+import {Nav, Navbar} from "react-bootstrap";
 import Stores from '../AdminPages/Stores';
-import Items from '../Products/Items';
-import AddItem from '../AdminPages/AddItem';
 import Logout from "../Account/Logout";
 import logo from "../../images/cart.png";
 import '../../css/Account.css'
@@ -34,7 +32,7 @@ class HomeAdmin extends Component {
     }
 
     render() {
-        const redirectVar = (localStorage.getItem('userType') === null) ? <Redirect to="/home" /> : null;
+        const redirectVar = (localStorage.getItem('userType') === null) ? <Redirect to="/home"/> : null;
 
         return (
             <div>
@@ -43,7 +41,7 @@ class HomeAdmin extends Component {
                 <div style={styles.container}>
                     <div className='rowC'>
                         <div>
-                            <img style={styles.logo} src={logo} alt="Quora" />
+                            <img style={styles.logo} src={logo} alt="Quora"/>
                         </div>
                         <div>
                             <h3 style={styles.message}>&nbsp;&nbsp;CartPool</h3>
@@ -71,11 +69,11 @@ class HomeAdmin extends Component {
 
                 <div>
                     <Switch>
-                        <Route exact path='/homeAdmin/viewStore/' component={ViewStore} />
-                        <Route exact path='/homeAdmin/viewProduct/' component={AdminItems} />
+                        <Route exact path='/homeAdmin/viewStore/' component={ViewStore}/>
+                        <Route exact path='/homeAdmin/viewProduct/' component={AdminItems}/>
                         {/* <Route exact path='/homeAdmin/addItem/' component={AddItem}/> */}
-                        <Route exact path='/homeAdmin/' component={Stores} />
-                        <Route exact path='/homeAdmin/logout/' component={Logout} />
+                        <Route exact path='/homeAdmin/' component={Stores}/>
+                        <Route exact path='/homeAdmin/logout/' component={Logout}/>
                     </Switch>
                 </div>
             </div>
