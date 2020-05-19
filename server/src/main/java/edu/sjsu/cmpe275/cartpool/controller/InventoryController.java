@@ -78,6 +78,15 @@ public class InventoryController {
     @ResponseBody
     public ResponseEntity<List<Store>> deleteStore(@PathVariable Long storeId,
                                                    @PathVariable Long adminId) {
+        try {
+            List<Orders> orders = orderService.getActiveOrders(storeId);
+            if (orders.size() > 0) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            }
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+
         List<Store> stores = storeService.deleteStore(storeId, adminId);
         System.out.println(stores.size());
         System.out.println(stores);
