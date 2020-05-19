@@ -76,7 +76,7 @@ public class OrderAspect {
             }
         }
 
-        String msg = "Delivery not received for OrderId: " + order.getId() + " with items - \n\n";
+        String msg = "Delivery not received for OrderId: " + order.getId() + " with items - \n\n"+str;
 
         emailService.sendEmailForOrderConfirmation(to, subject, msg);
 
