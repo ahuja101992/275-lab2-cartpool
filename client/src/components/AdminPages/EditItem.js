@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import {Button, Form, Modal} from "react-bootstrap";
 import "./profile.css";
 import axios from 'axios';
+import {HOSTNAME} from "../../constants/appConstants";
 
 // import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 
@@ -82,7 +83,7 @@ class EditItem extends Component {
         data.append("file", file, file.name);
 
         let user_id = localStorage.getItem('user_id');
-        axios.post(`http://localhost:8080/storage/uploadFile`, data)
+        axios.post(`http://${HOSTNAME}:8080/storage/uploadFile`, data)
             .then(res => {
                 if (res.status === 200) {
                     this.setState({imageUrl: res.data});
@@ -122,7 +123,7 @@ class EditItem extends Component {
         console.log("edit item", updatedData);
         console.log("sku item", this.state.sku);
         let adminId = localStorage.getItem("id")
-        axios.put(`http://localhost:8080/product/${this.state.sku}/${adminId}`, null, {params: updatedData})
+        axios.put(`http://${HOSTNAME}:8080/product/${this.state.sku}/${adminId}`, null, {params: updatedData})
             .then((response) => {
                 console.log("create data res", response)
             }).catch(err => {

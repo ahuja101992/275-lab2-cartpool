@@ -4,6 +4,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import {Button, Card, Col, Row} from "react-bootstrap";
 import "./SearchPool.css";
 import {Link} from "react-router-dom";
+import {HOSTNAME} from "../../constants/appConstants";
 
 class ViewStore extends Component {
     constructor(props) {
@@ -27,7 +28,7 @@ class ViewStore extends Component {
         if (localStorage.getItem("type") === "pooler") {
             axios.defaults.withCredential = true;
             axios
-                .get(`http://localhost:8080/inventory/store/allstores`)
+                .get(`http://${HOSTNAME}:8080/inventory/store/allstores`)
                 .then((response) => {
                     console.log("stores", response);
                     this.setState({
@@ -42,7 +43,7 @@ class ViewStore extends Component {
             let adminId = localStorage.getItem("id");
             axios.defaults.withCredential = true;
             axios
-                .get(`http://localhost:8080/inventory/store/getByAdmin/${adminId}`)
+                .get(`http://${HOSTNAME}:8080/inventory/store/getByAdmin/${adminId}`)
                 .then((response) => {
                     console.log("stores", response);
                     this.setState({

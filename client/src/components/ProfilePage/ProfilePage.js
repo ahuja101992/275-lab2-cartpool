@@ -71,7 +71,7 @@ class ProfilePage extends Component {
         data.append("file", file, file.name);
 
         let user_id = localStorage.getItem('user_id');
-        axios.post(`http://localhost:8080/storage/uploadFile`, data)
+        axios.post(`http://${HOSTNAME}:8080/storage/uploadFile`, data)
             .then(res => {
                 if (res.status === 200) {
                     this.setState({imageUrl: res.data});

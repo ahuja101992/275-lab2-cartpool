@@ -6,6 +6,7 @@ import axios from "axios";
 import Header from "./Header";
 import Products from "./Products";
 import "./scss/style.scss";
+import {HOSTNAME} from "../../constants/appConstants";
 
 function mapStateToProps(store) {
     return {
@@ -79,7 +80,7 @@ class Items extends Component {
 
     getAll() {
         axios
-            .get(`http://localhost:8080/products/${this.state.storeid}`)
+            .get(`http://${HOSTNAME}:8080/products/${this.state.storeid}`)
             .then((response) => {
                 console.log("create data res", response);
                 this.setState({

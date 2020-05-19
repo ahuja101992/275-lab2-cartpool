@@ -3,6 +3,7 @@ import {Button, Form, Modal} from "react-bootstrap";
 import "./profile.css";
 import axios from 'axios';
 import {Multiselect} from "multiselect-react-dropdown";
+import {HOSTNAME} from "../../constants/appConstants";
 
 // import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 
@@ -29,7 +30,7 @@ class AddItem extends Component {
         var plainArray = [];
         var objectArray = [];
         let adminId = localStorage.getItem("id")
-        axios.get(`http://localhost:8080/inventory/store/getByAdmin/${adminId}`)
+        axios.get(`http://${HOSTNAME}:8080/inventory/store/getByAdmin/${adminId}`)
             .then(response => {
                 console.log("store response", response);
                 if (response.data) {
@@ -111,7 +112,7 @@ class AddItem extends Component {
         data.append("file", file, file.name);
 
         let user_id = localStorage.getItem('user_id');
-        axios.post(`http://localhost:8080/storage/uploadFile`, data)
+        axios.post(`http://${HOSTNAME}:8080/storage/uploadFile`, data)
             .then(res => {
                 if (res.status === 200) {
                     this.setState({imageUrl: res.data});
@@ -150,7 +151,7 @@ class AddItem extends Component {
             adminId: localStorage.getItem("id")
         }
         console.log("updated image", updatedData);
-        axios.post(`http://localhost:8080/product/create`, null, {params: updatedData})
+        axios.post(`http://${HOSTNAME}:8080/product/create`, null, {params: updatedData})
             .then((response) => {
                 console.log("create data res", response)
             }).catch(err => {
@@ -269,7 +270,7 @@ class AddItem extends Component {
                                 <Form.Group controlId="price">
                                     <Form.Label>Price( in Dollars ) </Form.Label>
                                     <Form.Control type="number"
-                                                  placeholder="0.1" step="0.01" min="0"
+                                                  // placeholder="0.1" step="0.01" min="0"
                                                   required
                                                   placeholder={userData.website ? userData.website : "$"}/>
                                 </Form.Group>

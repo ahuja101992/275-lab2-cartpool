@@ -71,7 +71,7 @@ class NewProfile extends Component {
         } else {
             const data = new FormData();
             data.append("file", file, file.name);
-            axios.post(`http://localhost:8080/storage/uploadFile`, data)
+            axios.post(`http://${HOSTNAME}:8080/storage/uploadFile`, data)
                 .then(res => {
                     if (res.status == 200) {
                         this.setState({

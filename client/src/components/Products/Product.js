@@ -3,6 +3,7 @@ import Counter from "./Counter";
 import EditItem from "../AdminPages/EditItem";
 import axios from "axios";
 import "./product.css";
+import {HOSTNAME} from "../../constants/appConstants";
 
 class Product extends Component {
     constructor(props) {
@@ -97,7 +98,7 @@ class Product extends Component {
                     this.props.getAll();
                 } else {
                     axios
-                        .delete(`http://localhost:8080/product/${id}/${adminId}`, null)
+                        .delete(`http://${HOSTNAME}:8080/product/${id}/${adminId}`, null)
                         .then((response) => {
                             console.log("create data res", response);
                         })

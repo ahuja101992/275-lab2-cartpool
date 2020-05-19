@@ -5,6 +5,7 @@ import axios from "axios";
 import Header from "./Header";
 import Products from "./Products";
 import "./scss/style.scss";
+import {HOSTNAME} from "../../constants/appConstants";
 
 function mapStateToProps(store) {
     return {
@@ -71,7 +72,7 @@ class AdminItems extends Component {
 
     getAll() {
         let adminId = localStorage.getItem("id");
-        axios.get(`http://localhost:8080/products/admin/${adminId}`)
+        axios.get(`http://${HOSTNAME}:8080/products/admin/${adminId}`)
             .then((response) => {
                 console.log("create data res", response)
                 this.setState({
