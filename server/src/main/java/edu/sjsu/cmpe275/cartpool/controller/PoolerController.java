@@ -75,7 +75,8 @@ public class PoolerController {
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             method = RequestMethod.PUT)
     public @ResponseBody
-    ResponseEntity<Pooler> updateProfile(@PathVariable long poolerId,
+    ResponseEntity<Object> updateProfile(@PathVariable long poolerId,
+                                         @RequestParam String nickName,
                                          @RequestParam String firstName,
                                          @RequestParam String lastName,
                                          @RequestParam String email,
@@ -85,6 +86,7 @@ public class PoolerController {
                                          @RequestParam String state,
                                          @RequestParam String zip) {
 
+        if (nickName != null) nickName = nickName.trim();
         if (firstName != null) firstName = firstName.trim();
         if (lastName != null) lastName = lastName.trim();
         if (email != null) email = email.trim();
@@ -92,6 +94,11 @@ public class PoolerController {
         if (city != null) city = city.trim();
         if (state != null) state = state.trim();
         if (zip != null) zip = zip.trim();
+
+        /////  check for unique pooler nick name //////////
+        if(!poolerService.findByNickName(nickName, poolerId)){
+            return new ResponseEntity<>("{\"message\": \"Nick name already taken!! Please try other nick name\"}", HttpStatus.CONFLICT);
+        }
 
         Address address = new Address.AddressBuilder()
                 .street(street)
@@ -107,7 +114,9 @@ public class PoolerController {
         pooler.setImg(imageUrl);
         pooler.setAddress(address);
 
-        return ResponseEntity.status(HttpStatus.OK).body(poolerService.save(pooler));
+        //return ResponseEntity.status(HttpStatus.OK).body(poolerService.save(pooler));
+        poolerService.save(pooler);
+        return new ResponseEntity<>("{\"message\": \"Details updated successfully\"}", HttpStatus.OK);
     }
 
 //    @RequestMapping(value = "/inventory/store/getByAdmin/{adminId}",

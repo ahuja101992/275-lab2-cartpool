@@ -30,4 +30,5 @@ public interface PoolService {
     boolean findPoolByName(String name);
 
     boolean findPoolByPoolId(String poolId);
+
 }

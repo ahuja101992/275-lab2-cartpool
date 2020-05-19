@@ -20,4 +20,6 @@ public interface PoolerService {
     void subtractContribution(String email);
 
     int getContribution(long id);
+
+    boolean findByNickName(String nickName, Long id);
 }
