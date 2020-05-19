@@ -97,7 +97,7 @@ class Items extends Component {
                 if(response.data!=null && response.data.pool!=null){
                   localStorage.setItem("pooler","yes");
                 }else{
-                  alert("To add items , please join some pool and Refresh this page!!")
+                  alert("To add item to cart, please join some pool and Refresh this page!!")
                   localStorage.setItem("pooler","no");
                 }
             })
