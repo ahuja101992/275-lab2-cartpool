@@ -2,8 +2,10 @@ package edu.sjsu.cmpe275.cartpool.controller;
 
 import edu.sjsu.cmpe275.cartpool.pojos.Address;
 import edu.sjsu.cmpe275.cartpool.pojos.Admin;
+import edu.sjsu.cmpe275.cartpool.pojos.Orders;
 import edu.sjsu.cmpe275.cartpool.pojos.Store;
 import edu.sjsu.cmpe275.cartpool.service.AdminService;
+import edu.sjsu.cmpe275.cartpool.service.OrderService;
 import edu.sjsu.cmpe275.cartpool.service.StoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,6 +24,9 @@ public class InventoryController {
 
     @Autowired
     AdminService adminService;
+    
+    @Autowired
+    OrderService orderService;
 
     @RequestMapping(value = "/inventory/store",
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
@@ -106,5 +111,12 @@ public class InventoryController {
             method = RequestMethod.GET)
     public ResponseEntity<List<Store>> getAllStores() {
         return ResponseEntity.status(HttpStatus.OK).body(storeService.getAllStores()) ;
+    }
+    @RequestMapping(value = "/inventory/store/getactiveorders/{storeId}",
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+            method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<List<Orders>> getActiveOrders(@PathVariable Long storeId) {
+        return ResponseEntity.status(HttpStatus.OK).body(orderService.getActiveOrders(storeId));
     }
 }
