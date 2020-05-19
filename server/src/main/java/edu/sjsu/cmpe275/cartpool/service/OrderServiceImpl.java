@@ -166,7 +166,10 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public List<Orders> getActiveOrders(long storeId) {
 		Store store = storeRepository.findById(storeId).orElseThrow(() -> new StoreNotFoundException());
-		return orderRepository.findByStoreAndStatus(store, "Placed");
-		
+		List<Orders> allOrders = orderRepository.findByStoreAndStatus(store, "Placed");
+		allOrders.addAll(orderRepository.findByStoreAndStatus(store, "Delivered Not Received"));
+		allOrders.addAll(orderRepository.findByStoreAndStatus(store, "Picked-up"));
+		allOrders.addAll(orderRepository.findByStoreAndStatus(store, "Picked-up by self"));
+		return allOrders;
 	}
 }
