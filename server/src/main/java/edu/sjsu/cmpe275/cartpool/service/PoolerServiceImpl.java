@@ -25,7 +25,7 @@ public class PoolerServiceImpl implements PoolerService {
     public Pooler login(String email, String password) {
         List<Pooler> result = poolerRepository.findByEmailAndPassword(email, password);
         if (result.size() >= 1) {
-        	if (!result.get(0).getIs_verified())
+            if (!result.get(0).getIs_verified())
                 throw new UserNotVerifiedException();
             return result.get(0);
         }

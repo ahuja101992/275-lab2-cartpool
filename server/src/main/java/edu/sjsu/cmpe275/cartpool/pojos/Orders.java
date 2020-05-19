@@ -32,10 +32,10 @@ public class Orders {
     @Column
     private long qty;
 
-    @Column(precision=10, scale=2)
+    @Column(precision = 10, scale = 2)
     private double price;
 
-    @Column(precision=10, scale=2)
+    @Column(precision = 10, scale = 2)
     private double finalPrice;
 
     @Column
@@ -48,19 +48,19 @@ public class Orders {
     private String status;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties({"pool", "orders","password","is_verified","accessToken","provider","provider_id","verifiedForPoolMembership"})
+    @JsonIgnoreProperties({"pool", "orders", "password", "is_verified", "accessToken", "provider", "provider_id", "verifiedForPoolMembership"})
     private Pooler orderOwner;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pooler_id", referencedColumnName = "id")
-    @JsonIgnoreProperties({"pool", "orders","store"})///// to be done 
+    @JsonIgnoreProperties({"pool", "orders", "store"})///// to be done
     private Pooler deliveryBy;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties({"pool", "orders","store"})///// to be done
+    @JsonIgnoreProperties({"pool", "orders", "store"})///// to be done
     private Pooler deliveryByPrev;
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "order")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "order")
 //    @JoinColumn(name = "order_id", referencedColumnName = "id")
     @JsonIgnoreProperties({"order"})
     private List<OrderDetails> orderDetails;
@@ -177,12 +177,12 @@ public class Orders {
     }
 
     public List<OrderDetails> getOrderDetails() {
-		return orderDetails;
-	}
+        return orderDetails;
+    }
 
-	public void setOrderDetails(List<OrderDetails> orderDetails) {
-		this.orderDetails = orderDetails;
-	}
+    public void setOrderDetails(List<OrderDetails> orderDetails) {
+        this.orderDetails = orderDetails;
+    }
 
     public Pooler getDeliveryByPrev() {
         return deliveryByPrev;
@@ -192,7 +192,7 @@ public class Orders {
         this.deliveryByPrev = deliveryByPrev;
     }
 
-	public static class OrderBuilder {
+    public static class OrderBuilder {
         private long store_id;
         private int qty;
         private double price;

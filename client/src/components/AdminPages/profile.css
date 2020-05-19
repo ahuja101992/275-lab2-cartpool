@@ -87,20 +87,23 @@
 .cover-pic-btn {
     display: none;
 }
-.tweets-heading{
+
+.tweets-heading {
     text-align: center;
-    margin-bottom:1px;
+    margin-bottom: 1px;
     border-bottom: solid;
-    border-color:#0069d9;
+    border-color: #0069d9;
     margin-top: 10px;
     font-weight: lighter;
     font-family: sans-serif;
     color: rgb(101, 119, 134);
 }
-.tweets-list{
+
+.tweets-list {
     margin: -15px;
     margin-top: 0px;
 }
-.link-color{
+
+.link-color {
     color: rgb(101, 119, 134);
 }

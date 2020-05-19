@@ -17,10 +17,10 @@ public class User {
 
     @Column(name = "nickname")
     private String nickname;
-    
+
     @Column(name = "firstname")
     private String firstName;
-    
+
     @Column(name = "lastname")
     private String lastName;
 
@@ -140,22 +140,22 @@ public class User {
     }
 
     public String getFirstName() {
-		return firstName;
-	}
+        return firstName;
+    }
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
 
-	public String getLastName() {
-		return lastName;
-	}
+    public String getLastName() {
+        return lastName;
+    }
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 
-	public static class Builder<T extends Builder<T>> {
+    public static class Builder<T extends Builder<T>> {
         private String email;
         private String password;
         private String screenname;
@@ -174,12 +174,12 @@ public class User {
 //            this.contribution = contribution;
 //            return (T) this;
 //        }
-        
+
         public T firstName(String firstName) {
             this.firstName = firstName;
             return (T) this;
         }
-        
+
         public T lastName(String lastName) {
             this.lastName = lastName;
             return (T) this;

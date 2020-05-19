@@ -1,9 +1,10 @@
-import React, { Component } from "react";
-import { Form, Modal, Button } from "react-bootstrap";
+import React, {Component} from "react";
+import {Button, Form, Modal} from "react-bootstrap";
 import "./profile.css";
 import axios from 'axios';
-import { Link } from "react-router-dom";
-import { Multiselect } from "multiselect-react-dropdown";
+import {Multiselect} from "multiselect-react-dropdown";
+import {HOSTNAME} from "../../constants/appConstants";
+
 // import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 
 class AddItem extends Component {
@@ -23,12 +24,13 @@ class AddItem extends Component {
         };
         this.onFileChange = this.onFileChange.bind(this);
     }
+
     componentWillMount = () => {
-        this.setState({ editProfile: true });
+        this.setState({editProfile: true});
         var plainArray = [];
         var objectArray = [];
         let adminId = localStorage.getItem("id")
-        axios.get(`http://localhost:8080/inventory/store/getByAdmin/${adminId}`)
+        axios.get(`http://${HOSTNAME}:8080/inventory/store/getByAdmin/${adminId}`)
             .then(response => {
                 console.log("store response", response);
                 if (response.data) {
@@ -74,11 +76,11 @@ class AddItem extends Component {
 
     editProfile = () => {
         this.props.cancelEdit();
-        this.setState({ editProfile: true });
+        this.setState({editProfile: true});
     };
 
     componentDidMount() {
-        this.setState({ editProfile: true });
+        this.setState({editProfile: true});
         // const email = localStorage.getItem("email_id");
         // const data = {
         //     user_id: 100
@@ -101,6 +103,7 @@ class AddItem extends Component {
             selectedProfilePic: event.target.files[0]
         });
     };
+
     onFileChange(files) {
         if (files == null || files.length == 0) return;
         let file = files[0];
@@ -109,14 +112,15 @@ class AddItem extends Component {
         data.append("file", file, file.name);
 
         let user_id = localStorage.getItem('user_id');
-        axios.post(`http://localhost:8080/storage/uploadFile`, data)
+        axios.post(`http://${HOSTNAME}:8080/storage/uploadFile`, data)
             .then(res => {
                 if (res.status === 200) {
-                    this.setState({ imageUrl: res.data });
+                    this.setState({imageUrl: res.data});
                 }
             })
             .catch(err => console.error(err));
     };
+
     saveProfile = (e) => {
         // save profile code
         e.preventDefault();
@@ -147,18 +151,19 @@ class AddItem extends Component {
             adminId: localStorage.getItem("id")
         }
         console.log("updated image", updatedData);
-        axios.post(`http://localhost:8080/product/create`, null, { params: updatedData })
+        axios.post(`http://${HOSTNAME}:8080/product/create`, null, {params: updatedData})
             .then((response) => {
                 console.log("create data res", response)
             }).catch(err => {
-                console.error(err);
-            });
+            console.error(err);
+        });
 
 
         this.props.cancelEdit();
         this.props.getAll();
         alert("Product created succesfully")
     }
+
     render() {
         console.log("checking props", JSON.stringify(this.props));
         let usrDetails = this.props.userDetails ? this.props.userDetails : [];
@@ -215,7 +220,7 @@ class AddItem extends Component {
                                         // onChange={e => this.setState({ last_name: e.target.value })}
                                         placeholder={usrDetails.firstName ? usrDetails.firstName : "Add Product Name"}
                                         required
-                                    // value={this.props.firstName + " " + this.props.lastName}
+                                        // value={this.props.firstName + " " + this.props.lastName}
                                     />
                                 </Form.Group>
                                 <Form.Group controlId="brand">
@@ -225,7 +230,7 @@ class AddItem extends Component {
                                         type="text"
                                         // onChange={e => this.setState({ last_name: e.target.value })}
                                         placeholder={usrDetails.lastName ? usrDetails.lastName : "Add Brand Name"}
-                                    // value={this.props.firstName + " " + this.props.lastName}
+                                        // value={this.props.firstName + " " + this.props.lastName}
                                     />
                                 </Form.Group>
                                 <Form.Group controlId="desc">
@@ -245,8 +250,8 @@ class AddItem extends Component {
                                         required
                                         type="number"
                                         placeholder="0.1" step="0.01" min="0"
-                                    // onChange={e => this.setState({ last_name: e.target.value })}
-                                    // value={this.props.firstName + " " + this.props.lastName}
+                                        // onChange={e => this.setState({ last_name: e.target.value })}
+                                        // value={this.props.firstName + " " + this.props.lastName}
                                     />
                                 </Form.Group>
 
@@ -265,13 +270,13 @@ class AddItem extends Component {
                                 <Form.Group controlId="price">
                                     <Form.Label>Price( in Dollars ) </Form.Label>
                                     <Form.Control type="number"
-                                        placeholder="0.1" step="0.01" min="0"
-                                        required
-                                        placeholder={userData.website ? userData.website : "$"} />
+                                                  // placeholder="0.1" step="0.01" min="0"
+                                                  required
+                                                  placeholder={userData.website ? userData.website : "$"}/>
                                 </Form.Group>
                                 <Button variant="primary" type="submit">
                                     Submit
-                            </Button>
+                                </Button>
                             </Form>
                         </div>
                     </Modal.Body>
@@ -280,4 +285,5 @@ class AddItem extends Component {
         );
     }
 }
+
 export default AddItem;

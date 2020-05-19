@@ -82,7 +82,7 @@ public class OrderController {
             method = RequestMethod.POST)
     public @ResponseBody
     ResponseEntity<List<Orders>> deliveryCheckout(@RequestParam(required = false) long deliveryPersonId,
-                                            @RequestParam long orderId) {
+                                                  @RequestParam long orderId) {
         orderService.pickUpOrderForDelivery(deliveryPersonId, orderId);
         return ResponseEntity.status(HttpStatus.OK).body(orderService.getAllOrdersForPickup(deliveryPersonId));
     }
@@ -169,7 +169,7 @@ public class OrderController {
         if (cart.getForDelivery())
             poolerService.subtractContribution(orderOwner);
         else
-            poolerService.addContribution(orderOwner,contributionCount );
+            poolerService.addContribution(orderOwner, contributionCount);
         Orders order = new Orders.OrderBuilder()
                 .available(true)
                 .qty(cart.getQty())
@@ -180,8 +180,8 @@ public class OrderController {
                 .build();
         List<Item> itemList = cart.getItems();
         List<OrderDetails> orderList = new ArrayList<>();
-        for(Item item : itemList){
-            OrderDetails orderDetails=new OrderDetails(item.getQty(),item.getPrice(),item.getSku(),item.getName());
+        for (Item item : itemList) {
+            OrderDetails orderDetails = new OrderDetails(item.getQty(), item.getPrice(), item.getSku(), item.getName());
             orderDetails.setOrder(order);
             orderList.add(orderDetails);
         }
@@ -236,7 +236,8 @@ public class OrderController {
                                                    @RequestParam int count,
                                                    @RequestBody List<Long> orderList) {
         System.out.println(orderList);
-        if (orderList.size() != count) return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(null);/// error to be sent
+        if (orderList.size() != count)
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(null);/// error to be sent
         if (!orderService.selectOrders(poolerId, count, orderList))
             return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
         return ResponseEntity.status(HttpStatus.OK).body(null);

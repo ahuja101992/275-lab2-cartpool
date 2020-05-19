@@ -23,12 +23,12 @@ public class ProductId implements Serializable {
         this.storeId = storeId;
     }
 
-    public ProductId(Long storeId){
-        this.storeId=storeId;
+    public ProductId(Long storeId) {
+        this.storeId = storeId;
     }
 
-    public ProductId(String sku){
-        this.sku=sku;
+    public ProductId(String sku) {
+        this.sku = sku;
     }
 
     @Override

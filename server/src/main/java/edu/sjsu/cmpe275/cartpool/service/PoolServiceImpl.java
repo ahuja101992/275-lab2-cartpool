@@ -1,6 +1,5 @@
 package edu.sjsu.cmpe275.cartpool.service;
 
-import edu.sjsu.cmpe275.cartpool.exceptions.MembershipException;
 import edu.sjsu.cmpe275.cartpool.exceptions.PoolNotFoundException;
 import edu.sjsu.cmpe275.cartpool.exceptions.UserNotFoundException;
 import edu.sjsu.cmpe275.cartpool.pojos.Orders;
@@ -46,7 +45,7 @@ public class PoolServiceImpl implements PoolService {
         Pooler poolLeader = pool.getPoolLeader();
 
         List<Orders> activeOrders = orderRepository.findByPoolAndStatus(pool, "Placed");
-        if(activeOrders.size() > 0){
+        if (activeOrders.size() > 0) {
             return "Unable to delete pool!! :: Active Orders in pool exists";
         }
 
@@ -80,11 +79,11 @@ public class PoolServiceImpl implements PoolService {
         Pool pool = poolRepository.findById(poolId).orElseThrow(() -> new PoolNotFoundException());
 
         Pooler pooler = poolerRepository.findById(poolerId).orElseThrow(() -> new PoolNotFoundException());
-        if(pool.getMembers().contains(pooler)){
+        if (pool.getMembers().contains(pooler)) {
             return "{\"message\": \"You are already a member of this pool\"}";
         }
 
-        if(pool.getMembers().size() >= 4){
+        if (pool.getMembers().size() >= 4) {
             return "{\"message\": \"Pool is full!! Only 4 members allowed in one pool\"}";
             //throw new MembershipException("Pool is full!! Only 4 members allowed in one pool");
         }
@@ -111,8 +110,8 @@ public class PoolServiceImpl implements PoolService {
 
                 rejectPathUri = new URI(protocol, null, host, port, rejectPath, null, null);
                 rejectPathUrl = rejectPathUri.toURL();
-                messageBody = "<script>console.log('hello')</script><h3>Take the action to accept or reject the membership request for pooler:  "+
-                        pooler.getFirstName() + " " + pooler.getLastName()+"</h3>\n" +
+                messageBody = "<script>console.log('hello')</script><h3>Take the action to accept or reject the membership request for pooler:  " +
+                        pooler.getFirstName() + " " + pooler.getLastName() + "</h3>\n" +
                         " <a href=" + url + "><button style=\"background-color:#4CAF50\">Accept</button></a>\n" +
                         "<a href=" + rejectPathUrl + "><button style=\"background-color:#f44336\">Reject</button></a>";
 
@@ -125,8 +124,7 @@ public class PoolServiceImpl implements PoolService {
             //screenName = referencePooler.getScreenname();
 
             return "{\"message\": \"verification email has been sent to pooler leader\"}";
-        }
-        else{
+        } else {
             referencePooler = poolerRepository.findByScreenname(screenName);
             if (referencePooler == null)
                 throw new UserNotFoundException();
@@ -211,7 +209,7 @@ public class PoolServiceImpl implements PoolService {
                 "pool membership request verified by reference pooler", messageBody);
 
         //////     send mail to leader now  /////
-       // String messageBody = "";
+        // String messageBody = "";
         URI uri = null;
         URL url = null;
 
@@ -260,6 +258,7 @@ public class PoolServiceImpl implements PoolService {
                 "Rejection for pool membership", messageBody);
         //return pooler.getFirstName() + "'s " + "join request is rejected!";
     }
+
     @Transactional
     @Override
     public Long getLeader(Long poolId) {
@@ -270,7 +269,7 @@ public class PoolServiceImpl implements PoolService {
 
     @Transactional
     @Override
-    public Pool updatePool(Long poolId, String name, String neighborhoodName, String description){
+    public Pool updatePool(Long poolId, String name, String neighborhoodName, String description) {
         Pool pool = poolRepository.findById(poolId).orElseThrow(() -> new PoolNotFoundException());
         pool.setName(name);
         pool.setNeighborhoodName(neighborhoodName);
@@ -278,6 +277,7 @@ public class PoolServiceImpl implements PoolService {
 
         return poolRepository.save(pool);
     }
+
     @Transactional
     @Override
     public boolean findPoolByName(String name) {

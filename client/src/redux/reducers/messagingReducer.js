@@ -1,4 +1,4 @@
-import {GET_ALL_POOLERS, DELETE_STORE, GET_STORES_BY_ADMIN} from "../../redux/constants/actionTypes";
+import {DELETE_STORE, GET_ALL_POOLERS, GET_STORES_BY_ADMIN} from "../../redux/constants/actionTypes";
 
 
 const initialState = {

@@ -15,9 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-
 @Component
 @RestController
 public class AccountController {
@@ -47,7 +44,7 @@ public class AccountController {
                                 @RequestParam(required = false) String accessToken,
                                 @RequestParam(required = false) String provider,
                                 @RequestParam(required = false) String provider_id) throws Exception {
-    
+
         if (screenName != null) screenName = screenName.trim();
         if (nickName != null) nickName = nickName.trim();
         if (email != null) email = email.trim();

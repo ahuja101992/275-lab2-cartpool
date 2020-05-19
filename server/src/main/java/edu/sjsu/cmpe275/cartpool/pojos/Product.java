@@ -3,7 +3,6 @@ package edu.sjsu.cmpe275.cartpool.pojos;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
-import javax.xml.bind.annotation.XmlTransient;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -34,7 +33,7 @@ public class Product {
     @Column(name = "price")
     private Float price;
 
-//    @MapsId("AdminId")
+    //    @MapsId("AdminId")
     @ManyToOne
     @JoinColumn(name = "admin_id", referencedColumnName = "id")
     private Admin admin;
@@ -46,27 +45,27 @@ public class Product {
 
     public Product() {
     }
-    
-    public Product(ProductId id, String name, String description, String imageURL, String unit, Float price,Float qty, Admin admin) {
+
+    public Product(ProductId id, String name, String description, String imageURL, String unit, Float price, Float qty, Admin admin) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.imageURL = imageURL;
         this.unit = unit;
         this.price = price;
-        this.qty=qty;
+        this.qty = qty;
         this.id = id;
         this.name = name;
         this.description = description;
         this.imageURL = imageURL;
         this.unit = unit;
         this.price = price;
-        this.qty=qty;
-        this.admin= admin;
+        this.qty = qty;
+        this.admin = admin;
     }
 
 
-	public Product(ProductId id, String name, String description, String imageURL, String brandName, String unit, Float price,Float qty, Admin admin) {
+    public Product(ProductId id, String name, String description, String imageURL, String brandName, String unit, Float price, Float qty, Admin admin) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -74,8 +73,8 @@ public class Product {
         this.brandName = brandName;
         this.unit = unit;
         this.price = price;
-        this.qty=qty;
-        this.admin= admin;
+        this.qty = qty;
+        this.admin = admin;
     }
 
     public Product(ProductId id) {

@@ -29,6 +29,6 @@ public interface OrderService {
     Orders markDeliveryNotReceived(long orderId);
 
     void sendOrderConfirmationEmail(Orders order);
-    
+
     List<Orders> getActiveOrders(long storeId);
 }

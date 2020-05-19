@@ -24,7 +24,7 @@ public class InventoryController {
 
     @Autowired
     AdminService adminService;
-    
+
     @Autowired
     OrderService orderService;
 
@@ -78,6 +78,15 @@ public class InventoryController {
     @ResponseBody
     public ResponseEntity<List<Store>> deleteStore(@PathVariable Long storeId,
                                                    @PathVariable Long adminId) {
+        try {
+            List<Orders> orders = orderService.getActiveOrders(storeId);
+            if (orders.size() > 0) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            }
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+
         List<Store> stores = storeService.deleteStore(storeId, adminId);
         System.out.println(stores.size());
         System.out.println(stores);
@@ -110,12 +119,14 @@ public class InventoryController {
 
         return ResponseEntity.status(HttpStatus.OK).body(storeService.updateStore(store, adminId));
     }
+
     @RequestMapping(value = "/inventory/store/allstores",
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             method = RequestMethod.GET)
     public ResponseEntity<List<Store>> getAllStores() {
-        return ResponseEntity.status(HttpStatus.OK).body(storeService.getAllStores()) ;
+        return ResponseEntity.status(HttpStatus.OK).body(storeService.getAllStores());
     }
+
     @RequestMapping(value = "/inventory/store/getactiveorders/{storeId}",
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             method = RequestMethod.GET)

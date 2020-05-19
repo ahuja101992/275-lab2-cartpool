@@ -22,6 +22,6 @@ public interface OrderRepository<T> extends CrudRepository<Orders, Long> {
     List<Orders> findByPoolAndStoreAndAvailableAndForDeliveryOrderByDateAsc(Pool pool, Store store, Boolean available, Boolean delivery);
 
     List<Orders> findByPoolAndStatus(Pool pool, String status);
-    
+
     List<Orders> findByStoreAndStatus(Store store, String status);
 }

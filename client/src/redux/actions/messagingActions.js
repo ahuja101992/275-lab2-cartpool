@@ -1,4 +1,4 @@
-import {GET_ALL_POOLERS, DELETE_STORE, GET_STORES_BY_ADMIN} from "../../redux/constants/actionTypes";
+import {GET_ALL_POOLERS} from "../../redux/constants/actionTypes";
 import {HOSTNAME} from "../../constants/appConstants";
 
 import axios from 'axios';

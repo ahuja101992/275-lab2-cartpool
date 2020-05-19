@@ -34,11 +34,12 @@ public class OrderDetails {
     public OrderDetails() {
 
     }
+
     public OrderDetails(long qty, long price, String sku, String name) {
         this.qty = qty;
         this.price = price;
         this.sku = sku;
-        this.name=name;
+        this.name = name;
     }
 
     public long getId() {

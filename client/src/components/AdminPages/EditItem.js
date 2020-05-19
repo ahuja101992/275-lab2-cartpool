@@ -1,9 +1,9 @@
-import React, { Component } from "react";
-import { Form, Modal, Button } from "react-bootstrap";
+import React, {Component} from "react";
+import {Button, Form, Modal} from "react-bootstrap";
 import "./profile.css";
 import axios from 'axios';
-import { Link } from "react-router-dom";
-import { Multiselect } from "multiselect-react-dropdown";
+import {HOSTNAME} from "../../constants/appConstants";
+
 // import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 
 class EditItem extends Component {
@@ -32,6 +32,7 @@ class EditItem extends Component {
         };
         this.onFileChange = this.onFileChange.bind(this);
     }
+
     componentDidMount() {
         this.setState({
             editProfile: true
@@ -52,12 +53,12 @@ class EditItem extends Component {
     }
 
     editProfile = () => {
-        this.setState({ editProfile: true });
+        this.setState({editProfile: true});
     };
 
 
     cancelEdit = () => {
-        this.setState({ editProfile: false });
+        this.setState({editProfile: false});
     };
 
     onCoverPicUploadHandler = (event) => {
@@ -82,10 +83,10 @@ class EditItem extends Component {
         data.append("file", file, file.name);
 
         let user_id = localStorage.getItem('user_id');
-        axios.post(`http://localhost:8080/storage/uploadFile`, data)
+        axios.post(`http://${HOSTNAME}:8080/storage/uploadFile`, data)
             .then(res => {
                 if (res.status === 200) {
-                    this.setState({ imageUrl: res.data });
+                    this.setState({imageUrl: res.data});
                 }
             })
             .catch(err => console.error(err));
@@ -122,12 +123,12 @@ class EditItem extends Component {
         console.log("edit item", updatedData);
         console.log("sku item", this.state.sku);
         let adminId = localStorage.getItem("id")
-        axios.put(`http://localhost:8080/product/${this.state.sku}/${adminId}`, null, { params: updatedData })
+        axios.put(`http://${HOSTNAME}:8080/product/${this.state.sku}/${adminId}`, null, {params: updatedData})
             .then((response) => {
                 console.log("create data res", response)
             }).catch(err => {
-                console.error(err);
-            });
+            console.error(err);
+        });
 
         this.cancelEdit();
         alert("Product edited succesfully")
@@ -179,7 +180,7 @@ class EditItem extends Component {
                                     <Form.Label>Name</Form.Label>
                                     <Form.Control
                                         type="text"
-                                        onChange={e => this.setState({ name: e.target.value })}
+                                        onChange={e => this.setState({name: e.target.value})}
                                         placeholder={this.state.name}
                                         // required
                                         value={this.state.name}
@@ -190,7 +191,7 @@ class EditItem extends Component {
                                     <Form.Control
                                         // required
                                         type="text"
-                                        onChange={e => this.setState({ brand: e.target.value })}
+                                        onChange={e => this.setState({brand: e.target.value})}
                                         placeholder={this.state.brand}
                                         value={this.state.brand}
                                     />
@@ -202,7 +203,7 @@ class EditItem extends Component {
                                         type="text"
                                         as="textarea"
                                         rows="3"
-                                        onChange={e => this.setState({ desc: e.target.value })}
+                                        onChange={e => this.setState({desc: e.target.value})}
                                         placeholder={this.state.desc}
                                         value={this.state.desc}
                                     />
@@ -214,7 +215,7 @@ class EditItem extends Component {
                                         // required   
                                         type="number"
                                         min="0.00"
-                                        onChange={e => this.setState({ qty: e.target.value })}
+                                        onChange={e => this.setState({qty: e.target.value})}
                                         placeholder={this.state.qty}
                                         value={this.state.qty}
                                     />
@@ -235,17 +236,17 @@ class EditItem extends Component {
                                 <Form.Group controlId="price">
                                     <Form.Label>Price( in Dollars ) </Form.Label>
                                     <Form.Control type="number"
-                                        min="0.00"
-                                        max="100.00"
-                                        required
-                                        placeholder={this.state.price}
-                                        onChange={e => this.setState({ price: e.target.value })}
-                                        value={this.state.price}
+                                                  min="0.00"
+                                                  max="100.00"
+                                                  required
+                                                  placeholder={this.state.price}
+                                                  onChange={e => this.setState({price: e.target.value})}
+                                                  value={this.state.price}
                                     />
                                 </Form.Group>
                                 <Button variant="primary" type="submit">
                                     Submit
-                            </Button>
+                                </Button>
                             </Form>
                         </div>
                     </Modal.Body>
@@ -254,4 +255,5 @@ class EditItem extends Component {
         );
     }
 }
+
 export default EditItem;

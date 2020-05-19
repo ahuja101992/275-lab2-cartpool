@@ -14,5 +14,6 @@ public interface PoolRepository<T> extends CrudRepository<Pool, Long> {
     List<Pool> findByNameOrNeighborhoodNameOrZipAllIgnoreCase(String searchParam1, String searchParam2, String searchParam3);
 
     Pool findByName(String name);
+
     Pool findByPoolId(String poolId);
 }

@@ -1,6 +1,5 @@
 package edu.sjsu.cmpe275.cartpool.service;
 
-import edu.sjsu.cmpe275.cartpool.pojos.Product;
 import edu.sjsu.cmpe275.cartpool.pojos.Store;
 
 import java.util.List;
@@ -16,6 +15,6 @@ public interface StoreService {
     Store findStore(Long storeId, Long adminId);
 
     Store findByName(String name);
-    
+
     List<Store> getAllStores();
 }

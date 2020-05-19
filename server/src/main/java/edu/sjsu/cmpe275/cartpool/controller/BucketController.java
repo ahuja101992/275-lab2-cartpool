@@ -1,4 +1,5 @@
 package edu.sjsu.cmpe275.cartpool.controller;
+
 import edu.sjsu.cmpe275.cartpool.service.AmazonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -9,7 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/storage/")
 public class BucketController {
 
-    private AmazonClient amazonClient;
+    private final AmazonClient amazonClient;
 
     @Autowired
     BucketController(AmazonClient amazonClient) {

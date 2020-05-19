@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import axios from "axios";
-import { HOSTNAME } from '../../constants/appConstants';
+import {HOSTNAME} from '../../constants/appConstants';
 
 class Temp extends Component {
     state = {}
@@ -31,8 +31,7 @@ class Temp extends Component {
                         console.log(error);
                     })
             }
-        }
-        else if (this.props.match.path === "/pool/support/byPooler/:poolerId?/:poolId?") {
+        } else if (this.props.match.path === "/pool/support/byPooler/:poolerId?/:poolId?") {
             if (this.props.match.params.poolerId !== undefined && this.props.match.params.poolId !== undefined) {
                 let poolerId = this.props.match.params.poolerId;
                 let poolId = this.props.match.params.poolId;
@@ -44,8 +43,7 @@ class Temp extends Component {
                         console.log(error);
                     })
             }
-        }
-        else if (this.props.match.path === "/pool/reject/byPooler/:poolerId?/:poolId?") {
+        } else if (this.props.match.path === "/pool/reject/byPooler/:poolerId?/:poolId?") {
             if (this.props.match.params.poolerId !== undefined && this.props.match.params.poolId !== undefined) {
                 let poolerId = this.props.match.params.poolerId;
                 let poolId = this.props.match.params.poolId;
@@ -59,6 +57,7 @@ class Temp extends Component {
             }
         }
     }
+
     render() {
         window.open("about:blank", "_self");
         window.close();

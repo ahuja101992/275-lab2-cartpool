@@ -2,7 +2,9 @@ import {
     DELIVERY_NOT_RECEIVED,
     GET_ORDERS_BY_USER_ID,
     GET_ORDERS_READY_FOR_DELIVERY,
-    GET_ORDERS_READY_FOR_PICKUP, MARK_DELIVERED, PICKUP_ORDER
+    GET_ORDERS_READY_FOR_PICKUP,
+    MARK_DELIVERED,
+    PICKUP_ORDER
 } from "../../redux/constants/actionTypes";
 import {PICKED_UP, PLACED} from "../../constants/appConstants";
 
@@ -60,7 +62,6 @@ const getOrdersBasedOnStatus = (response, applyFilter, status) => {
 export default function orderReducer(state = initialState, action) {
     console.log("orderReducer:");
     console.log(action.payload);
-
 
 
     if (action.type === PICKUP_ORDER) {
