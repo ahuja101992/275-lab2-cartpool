@@ -104,9 +104,31 @@ public class OrderServiceImpl implements OrderService {
             String status = order.getOrderOwner().getId() == deliveryPersonId ? Constants.PICKED_UP_BY_SELF : Constants.PICKED_UP;
             order.setStatus(status);
             order.setAvailable(false);
-            //To-do
-
             orderRepository.save(order);
+
+            //To-do
+            String to = order.getOrderOwner().getEmail();
+            String subject = "[CartPool] - You order has been picked up";
+            String messageBody = "You order has been picked up";
+            emailService.sendEmailForOrderConfirmation(to, subject, messageBody);
+
+            Address address = order.getOrderOwner().getAddress();
+            String addressInPlainText = address.getStreet() + " " + address.getCity() + " " + address.getState() + " " + address.getZip();
+
+            StringBuilder str = new StringBuilder();
+            List<OrderDetails> items = order.getOrderDetails();
+            if (items.size() > 0) {
+                for (OrderDetails item : items) {
+                    str.append("------>" + item.getId() + "   " + item.getQty() + "   " + item.getPrice() + "\n");
+                }
+            }
+            subject = "[CartPool] - Order delivery instructions";
+            messageBody = "Delivery has been assigned to you." +
+                    "\n\nOrder id -" + order.getId() +
+                    "\n\nAddress - " + addressInPlainText +
+                    "\n\n with items - \n\n" + str;
+
+            emailService.sendEmailForOrderConfirmation(to, subject, messageBody);
         } else {
             throw new UserNotFoundException();
         }
