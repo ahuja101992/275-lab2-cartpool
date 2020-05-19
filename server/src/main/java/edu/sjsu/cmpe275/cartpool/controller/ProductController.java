@@ -72,6 +72,8 @@ public class ProductController {
                                                     @PathVariable Long adminId) {
         adminService.findById(adminId);
         List<Product> products = productService.deleteProduct(sku,adminId);
+        if(products==null)
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(products);
         return ResponseEntity.status(HttpStatus.OK).body(products);
     }
 

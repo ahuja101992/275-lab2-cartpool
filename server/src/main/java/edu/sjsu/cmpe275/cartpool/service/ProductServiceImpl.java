@@ -49,10 +49,9 @@ public class ProductServiceImpl implements ProductService {
         set2.removeAll(set1);
         if(set2!=null && set2.size()>0) {
             productRepository.deleteAll(set2);
-        }else{
-
+            return searchProductsByAdminId(adminId);
         }
-        return searchProductsByAdminId(adminId);
+        return null;
     }
 
     @Override
