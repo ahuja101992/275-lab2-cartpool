@@ -170,6 +170,7 @@ class Product extends Component {
     let edit = (
       <div className="product-action">
         <button
+          className="product-btn"
           variant="primary"
           type="button"
           onClick={this.handleUpdate.bind(
@@ -200,6 +201,7 @@ class Product extends Component {
     let del = (
       <div className="product-action">
         <button
+          className="product-btn"
           variant="primary"
           type="button"
           onClick={this.handleUpdate.bind(
