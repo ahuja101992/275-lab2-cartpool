@@ -126,8 +126,9 @@ public class PoolController {
             //// pooler is already a member of other pool
             return new ResponseEntity<>("{\"message\": \"you are already a member of other pool\"}", HttpStatus.OK);
         }
+
+        poolService.verify(poolerId, poolId);
         return new ResponseEntity<>("{\"message\": \"successfully joined the pool\"}", HttpStatus.OK);
-        //return ResponseEntity.status(HttpStatus.OK).body(poolService.verify(poolerId, poolId));
     }
 
     @RequestMapping(value = "/pool/reject/byPoolLeader/{poolerId}/{poolId}",
