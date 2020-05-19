@@ -1,4 +1,4 @@
-import {CREATE_STORE, DELETE_STORE, GET_STORES_BY_ADMIN} from "../../redux/constants/actionTypes";
+import {CREATE_STORE, DELETE_STORE, GET_STORES_BY_ADMIN, CREATE_STORE_ERROR} from "../../redux/constants/actionTypes";
 import {HOSTNAME} from "../../constants/appConstants";
 
 import axios from 'axios';
@@ -28,7 +28,7 @@ export function createStore(payload) {
     return (dispatch) => {
         axios.post(`http://${HOSTNAME}:8080/inventory/store`, null, {params: payload})
             .then((response) => dispatch(createStoreDispatch(response.data)))
-            .catch((err) => console.log(err));
+            .catch((err) => dispatch(createStoreErrorDispatch(err)));
     }
 }
 
@@ -37,6 +37,13 @@ export const createStoreDispatch = (returnData) => {
     console.log(returnData);
 
     return {type: CREATE_STORE, payload: returnData}
+};
+
+export const createStoreErrorDispatch = (returnData) => {
+    console.log("createStoreErrorDispatch returnData");
+    console.log(returnData);
+
+    return {type: CREATE_STORE_ERROR, payload: returnData}
 };
 
 export function deleteStore(payload) {

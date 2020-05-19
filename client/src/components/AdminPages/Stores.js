@@ -1,11 +1,14 @@
 import React, { Component } from "react";
-import { Button, Card, Col, Form, Modal } from "react-bootstrap";
+import {Button, Card, Col, Form, Modal, Toast} from "react-bootstrap";
 import { connect } from "react-redux";
 import { createStore, deleteStore, getStoresByAdmin } from "../../redux/actions/inventoryActions";
+import Expire from "../Account/Expire";
 
 function mapStateToProps(store) {
     return {
         stores: store.inventory.stores,
+        createStoreSuccess: store.inventory.createStoreSuccess,
+        createStoreMessage: store.inventory.createStoreMessage,
     }
 }
 
@@ -23,6 +26,7 @@ class Stores extends Component {
         this.state = {
             redirectVar: null,
             selectedOrder: null,
+            showCreateStoreErrorToast: false,
             currentStoreEditIndex: null,
             show: false,
             allOrders: [{ _id: 1, name: "foo", street: "1SM", city: "SJ", state: "CA", zip: "95113" },
@@ -33,7 +37,7 @@ class Stores extends Component {
     handleClose = () => this.setState({ show: false });
     handleShow = (index) => {
         console.log("handleShow index: " + index);
-        this.setState({ show: true, currentStoreEditIndex: index })
+        this.setState({ show: true, currentStoreEditIndex: index})
     };
 
     getStoresByAdmin = (order) => {
@@ -84,6 +88,18 @@ class Stores extends Component {
         this.props.getStoresByAdmin(payload)
     }
 
+    componentWillReceiveProps(nextProps) {
+        // You don't have to do this check first, but it can help prevent an unneeded render
+        const { createStoreSuccess } = this.props
+        if (createStoreSuccess !== null && nextProps.createStoreSuccess === true) {
+            console.log("In if")
+            this.setState({ showCreateStoreErrorToast: false })
+        } else {
+            console.log("In else")
+            this.setState({ showCreateStoreErrorToast: true })
+        }
+    }
+
     populateSection = () => {
         console.log("populateSection");
 
@@ -99,9 +115,9 @@ class Stores extends Component {
                                 Address</b> - {store.address.street + " " + store.address.city + " " + store.address.state + " " + store.address.zip}
 
                     </Card.Text>
-                    <div className="d-flex justify-content-around"><Button onClick={() => this.handleShow(index)} type="button" variant="primary">Edit</Button>
+                    <div className="d-flex justify-content-around">
+                        <Button onClick={() => this.handleShow(index)} type="button" variant="primary">Edit</Button>
                         <Button onClick={() => this.deleteStore(store)} type="button" variant="primary">Delete</Button></div>
-
                 </Card.Body>
             </Card>
 
@@ -115,6 +131,22 @@ class Stores extends Component {
     render() {
         return (
             <div style={styles.container}>
+                {this.props.createStoreSuccess !== null && !this.props.createStoreSuccess && (
+                    <Toast show={this.state.showCreateStoreErrorToast} onClose={() => this.setState({showCreateStoreErrorToast: false})}>
+                        <Toast.Header>
+                            <img
+                                src="holder.js/20x20?text=%20"
+                                className="rounded mr-2"
+                                alt=""
+                            />
+                            <strong className="mr-auto">Notification</strong>
+                        </Toast.Header>
+                        <Toast.Body>
+                            {this.props.createStoreMessage}
+                        </Toast.Body>
+                    </Toast>
+                )}
+
                 <Button variant="primary" style={styles.button} onClick={() => this.handleShow(null)}>
                     Create new store
                 </Button>

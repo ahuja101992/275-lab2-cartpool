@@ -1,8 +1,10 @@
-import {CREATE_STORE, DELETE_STORE, GET_STORES_BY_ADMIN} from "../../redux/constants/actionTypes";
+import {CREATE_STORE, DELETE_STORE, GET_STORES_BY_ADMIN, CREATE_STORE_ERROR} from "../../redux/constants/actionTypes";
 
 
 const initialState = {
-    stores: []
+    stores: [],
+    createStoreSuccess: null,
+    createStoreMessage: ""
 };
 
 export default function inventoryReducer(state = initialState, action) {
@@ -11,7 +13,13 @@ export default function inventoryReducer(state = initialState, action) {
 
     if (action.type === CREATE_STORE) {
         return Object.assign({}, state, {
+            createStoreSuccess: true,
             stores: action.payload
+        });
+    } else if (action.type === CREATE_STORE_ERROR) {
+        return Object.assign({}, state, {
+            createStoreSuccess: false,
+            createStoreMessage: "Error - please make sure name is unique"
         });
     } else if (action.type === GET_STORES_BY_ADMIN) {
         return Object.assign({}, state, {

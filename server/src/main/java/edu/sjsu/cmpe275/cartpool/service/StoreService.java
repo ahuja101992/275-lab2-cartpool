@@ -14,6 +14,8 @@ public interface StoreService {
     List<Store> updateStore(Store store, Long adminId);
 
     Store findStore(Long storeId, Long adminId);
+
+    Store findByName(String name);
     
     List<Store> getAllStores();
 }

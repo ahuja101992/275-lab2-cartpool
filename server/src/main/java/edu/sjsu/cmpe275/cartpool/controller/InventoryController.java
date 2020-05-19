@@ -53,6 +53,10 @@ public class InventoryController {
 
         if (storeId != null) store.setId(storeId.longValue());
 
+        if (storeId == null && storeService.findByName(name) != null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+
         storeService.createStore(store, adminId);
 
         Admin admin = adminService.findById(adminId);

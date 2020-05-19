@@ -54,6 +54,10 @@ public class StoreServiceImpl implements StoreService {
         throw new UserNotFoundException();
     }
 
+    public Store findByName(String name) {
+        return storeRepository.findByName(name).orElse(null);
+    }
+
 	@Override
 	public List<Store> getAllStores() {
 		return storeRepository.findAll();

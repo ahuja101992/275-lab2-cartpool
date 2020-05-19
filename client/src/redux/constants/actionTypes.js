@@ -4,6 +4,7 @@ export const SIGN_IN = "SIGN_IN";
 export const SIGN_IN_ERROR = "SIGN_IN_ERROR";
 export const GET_STORES_BY_ADMIN = "GET_STORES_BY_ADMIN";
 export const CREATE_STORE = "CREATE_STORE";
+export const CREATE_STORE_ERROR = "CREATE_STORE_ERROR";
 export const DELETE_STORE = "DELETE_STORE";
 export const PICKUP_ORDER = "PICKUP_ORDER";
 export const MARK_DELIVERED = "MARK_DELIVERED";
