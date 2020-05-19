@@ -59,15 +59,15 @@ class NewProfile extends Component {
     }
 
     onFileChange(files) {
-        let fileTypes = ["jpeg", "jpg", "png"];
+        //let fileTypes = ["jpeg", "jpg", "png"];
         if (files == null || files.length == 0) return;
         let file = files[0];
 
         console.log(file);
-        if (!fileTypes.includes(file.type))
-            alert('Only jpeg/ jpg/ png file types are allowed!!');
+        // if (!fileTypes.includes(file.type))
+        //     alert('Only jpeg/ jpg/ png file types are allowed!!');
 
-        else if (file.size >= 1048576) {
+        if (file.size >= 1048576) {
             alert('Max file size allowed is 1MB!!');
         } else {
             const data = new FormData();
