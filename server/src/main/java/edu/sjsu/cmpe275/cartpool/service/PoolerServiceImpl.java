@@ -2,6 +2,7 @@ package edu.sjsu.cmpe275.cartpool.service;
 
 import edu.sjsu.cmpe275.cartpool.exceptions.UserNotFoundException;
 import edu.sjsu.cmpe275.cartpool.exceptions.UserNotVerifiedException;
+import edu.sjsu.cmpe275.cartpool.pojos.Admin;
 import edu.sjsu.cmpe275.cartpool.pojos.Pooler;
 import edu.sjsu.cmpe275.cartpool.repository.PoolerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,6 +86,12 @@ public class PoolerServiceImpl implements PoolerService {
         }
         return contribution;
     }
+
+    @Transactional
+    public List<Pooler> findByScreennameOrNicknameOrEmail(String screenname, String nickname, String email) {
+        return poolerRepository.findByScreennameOrNicknameOrEmail(screenname, nickname, email);
+    }
+
 
     public Iterable<Pooler> findAll() {
         return poolerRepository.findAll();

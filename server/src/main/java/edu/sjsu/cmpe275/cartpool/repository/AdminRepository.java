@@ -10,4 +10,6 @@ public interface AdminRepository<T> extends CrudRepository<Admin, Long> {
     Optional<Admin> findByEmail(String email);
 
     List<Admin> findByEmailAndPassword(String email, String password);
+
+    List<Admin> findByScreennameOrNicknameOrEmail(String screenname, String nickname, String email);
 }

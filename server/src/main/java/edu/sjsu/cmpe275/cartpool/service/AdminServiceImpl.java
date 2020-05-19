@@ -40,4 +40,9 @@ public class AdminServiceImpl implements AdminService {
         admin.setIs_verified(true);
         return adminRepository.save(admin);
     }
+
+    @Transactional
+    public List<Admin> findByScreennameOrNicknameOrEmail(String screenname, String nickname, String email) {
+        return adminRepository.findByScreennameOrNicknameOrEmail(screenname, nickname, email);
+    }
 }
