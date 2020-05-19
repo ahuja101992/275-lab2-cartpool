@@ -26,6 +26,7 @@ class Items extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            poolerid : localStorage.getItem("id"),
             storeid:
                 this.props.location.state == null ? 1 : this.props.location.state.id,
             products: [],
@@ -78,8 +79,8 @@ class Items extends Component {
         });
     }
 
-    getAll() {
-        axios
+    async getAll() {
+       await axios
             .get(`http://${HOSTNAME}:8080/products/${this.state.storeid}`)
             .then((response) => {
                 console.log("create data res", response);
@@ -90,6 +91,20 @@ class Items extends Component {
             .catch((err) => {
                 console.error(err);
             });
+       await axios
+            .get(`http://${HOSTNAME}:8080/pooler/profile/getById/${this.state.poolerid}`)
+            .then((response) => {
+                if(response.data!=null && response.data.pool!=null){
+                  localStorage.setItem("pooler","yes");
+                }else{
+                  alert("To add item to cart, please join some pool and Refresh this page!!")
+                  localStorage.setItem("pooler","no");
+                }
+            })
+            .catch((err) => {
+                console.error(err);
+            });
+
         this.setState({
             cart: JSON.parse(localStorage.getItem("cart") || "[]")
         })
