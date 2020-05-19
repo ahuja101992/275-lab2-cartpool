@@ -214,7 +214,7 @@ class EditItem extends Component {
                                     <Form.Control
                                         // required   
                                         type="number"
-                                        min="0.00"
+                                        step="0.01" min="0"
                                         onChange={e => this.setState({qty: e.target.value})}
                                         placeholder={this.state.qty}
                                         value={this.state.qty}
@@ -236,8 +236,7 @@ class EditItem extends Component {
                                 <Form.Group controlId="price">
                                     <Form.Label>Price( in Dollars ) </Form.Label>
                                     <Form.Control type="number"
-                                                  min="0.00"
-                                                  max="100.00"
+                                                 step="0.01" min="0"
                                                   required
                                                   placeholder={this.state.price}
                                                   onChange={e => this.setState({price: e.target.value})}

@@ -270,7 +270,7 @@ class AddItem extends Component {
                                 <Form.Group controlId="price">
                                     <Form.Label>Price( in Dollars ) </Form.Label>
                                     <Form.Control type="number"
-                                                  // placeholder="0.1" step="0.01" min="0"
+                                                  placeholder="1" step="0.01" min="0"
                                                   required
                                                   placeholder={userData.website ? userData.website : "$"}/>
                                 </Form.Group>
