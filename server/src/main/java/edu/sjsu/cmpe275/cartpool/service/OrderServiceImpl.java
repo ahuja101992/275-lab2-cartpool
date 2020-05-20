@@ -150,6 +150,11 @@ public class OrderServiceImpl implements OrderService {
         //To-do
 
         orderRepository.save(order);
+
+        String to = order.getOrderOwner().getEmail();
+        String subject = "[CartPool] - You order has been delivered";
+        String messageBody = "You order with id - " + orderId + " has been delivered";
+        emailService.sendEmailForOrderConfirmation(to, subject, messageBody);
     }
 
     public Orders markDeliveryNotReceived(long orderId) {
