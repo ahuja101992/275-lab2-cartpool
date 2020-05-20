@@ -1,9 +1,9 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import CartScrollBar from "./CartScrollBar";
 import EmptyCart from "./EmptyCart";
 import CSSTransitionGroup from "react-transition-group/CSSTransitionGroup";
-import {findDOMNode} from "react-dom";
-import {Link} from "react-router-dom";
+import { findDOMNode } from "react-dom";
+import { Link } from "react-router-dom";
 import AddItem from "../AdminPages/AddItem";
 import "./css/item.css";
 
@@ -57,9 +57,9 @@ class Header extends Component {
     }
 
     handleSubmit(e) {
+        e.preventDefault();
         const searchStoreId = findDOMNode(this.refs.searchStoreId);
         console.log("dom::", searchStoreId);
-        e.preventDefault();
     }
 
     handleUpdate(e) {
@@ -166,7 +166,7 @@ class Header extends Component {
         cartItems = this.state.cart.map((product) => {
             return (
                 <li className="cart-item" key={product.name}>
-                    <img className="product-image" src={product.image}/>
+                    <img className="product-image" src={product.image} />
                     <div className="product-info">
                         <p className="product-name">{product.name}</p>
                         <p className="product-price">{product.price}</p>
@@ -202,7 +202,7 @@ class Header extends Component {
         });
         let view;
         if (cartItems.length <= 0) {
-            view = <EmptyCart/>;
+            view = <EmptyCart />;
         } else {
             view = (
                 <CSSTransitionGroup
@@ -221,20 +221,20 @@ class Header extends Component {
                 <div className="cart-info">
                     <table>
                         <tbody>
-                        <tr>
-                            <td>No. of items</td>
-                            <td>:</td>
-                            <td>
-                                <strong>{this.props.totalItems}</strong>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Sub Total</td>
-                            <td>:</td>
-                            <td>
-                                <strong>{this.props.total}</strong>
-                            </td>
-                        </tr>
+                            <tr>
+                                <td>No. of items</td>
+                                <td>:</td>
+                                <td>
+                                    <strong>{this.props.totalItems}</strong>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Sub Total</td>
+                                <td>:</td>
+                                <td>
+                                    <strong>{this.props.total}</strong>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -252,8 +252,8 @@ class Header extends Component {
                     {this.props.totalItems ? (
                         <span className="cart-count">{this.props.totalItems}</span>
                     ) : (
-                        ""
-                    )}
+                            ""
+                        )}
                 </a>
                 <div
                     className={
