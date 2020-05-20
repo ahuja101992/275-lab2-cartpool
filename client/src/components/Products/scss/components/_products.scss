@@ -148,10 +148,12 @@
   }
 
   .product-button {
+
     position: absolute;
     bottom: 8px;
     width: 168px;
     height: 36px;
+    
     @media (max-width: 768px) {
       width: auto;
     }
