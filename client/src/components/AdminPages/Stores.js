@@ -8,6 +8,7 @@ function mapStateToProps(store) {
         stores: store.inventory.stores,
         createStoreSuccess: store.inventory.createStoreSuccess,
         createStoreMessage: store.inventory.createStoreMessage,
+        deleteStoreSuccess: store.inventory.deleteStoreSuccess
     }
 }
 
@@ -26,6 +27,7 @@ class Stores extends Component {
             redirectVar: null,
             selectedOrder: null,
             showCreateStoreErrorToast: false,
+            showDeleteStoreErrorToast: false,
             currentStoreEditIndex: null,
             show: false,
             allOrders: [{_id: 1, name: "foo", street: "1SM", city: "SJ", state: "CA", zip: "95113"},
@@ -89,13 +91,21 @@ class Stores extends Component {
 
     componentWillReceiveProps(nextProps) {
         // You don't have to do this check first, but it can help prevent an unneeded render
-        const {createStoreSuccess} = this.props
+        const {createStoreSuccess, deleteStoreSuccess} = this.props
         if (createStoreSuccess !== null && nextProps.createStoreSuccess === true) {
             console.log("In if")
             this.setState({showCreateStoreErrorToast: false})
         } else {
             console.log("In else")
             this.setState({showCreateStoreErrorToast: true})
+        }
+
+        if (deleteStoreSuccess !== null && nextProps.deleteStoreSuccess === true) {
+            console.log("In deleteStoreSuccess if")
+            this.setState({showDeleteStoreErrorToast: false})
+        } else {
+            console.log("In deleteStoreSuccess else")
+            this.setState({showDeleteStoreErrorToast: true})
         }
     }
 
@@ -140,13 +150,32 @@ class Stores extends Component {
                                 className="rounded mr-2"
                                 alt=""
                             />
-                            <strong className="mr-auto">Notification</strong>
+                            <strong className="mr-auto">Error</strong>
                         </Toast.Header>
                         <Toast.Body>
                             {this.props.createStoreMessage}
                         </Toast.Body>
                     </Toast>
                 )}
+
+                {this.props.deleteStoreSuccess !== null && !this.props.deleteStoreSuccess && (
+                    <Toast show={this.state.showDeleteStoreErrorToast}
+                           onClose={() => this.setState({showDeleteStoreErrorToast: false})}>
+                        <Toast.Header>
+                            <img
+                                src="holder.js/20x20?text=%20"
+                                className="rounded mr-2"
+                                alt=""
+                            />
+                            <strong className="mr-auto">Error</strong>
+                        </Toast.Header>
+                        <Toast.Body>
+                            Could not delete store due to pending orders
+                        </Toast.Body>
+                    </Toast>
+                )}
+
+
 
                 <Button variant="primary" style={styles.button} onClick={() => this.handleShow(null)}>
                     Create new store

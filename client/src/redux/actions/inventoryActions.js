@@ -1,4 +1,4 @@
-import {CREATE_STORE, CREATE_STORE_ERROR, DELETE_STORE, GET_STORES_BY_ADMIN} from "../../redux/constants/actionTypes";
+import {CREATE_STORE, CREATE_STORE_ERROR, DELETE_STORE, GET_STORES_BY_ADMIN, DELETE_STORE_ERROR} from "../../redux/constants/actionTypes";
 import {HOSTNAME} from "../../constants/appConstants";
 
 import axios from 'axios';
@@ -53,7 +53,7 @@ export function deleteStore(payload) {
     return (dispatch) => {
         axios.delete(`http://${HOSTNAME}:8080/inventory/store/${payload.storeId}/${payload.adminId}`, null,)
             .then((response) => dispatch(deleteStoreDispatch(response.data)))
-            .catch((err) => console.log(err));
+            .catch((err) => dispatch(deleteStoreErrorDispatch(err)));
     }
 }
 
@@ -62,6 +62,13 @@ export const deleteStoreDispatch = (returnData) => {
     console.log(returnData);
 
     return {type: DELETE_STORE, payload: returnData}
+};
+
+export const deleteStoreErrorDispatch = (err) => {
+    console.log("deleteStoreErrorDispatch returnData");
+    console.log(err);
+
+    return {type: DELETE_STORE_ERROR, payload: err}
 };
 
 

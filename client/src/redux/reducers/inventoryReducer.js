@@ -1,10 +1,17 @@
-import {CREATE_STORE, CREATE_STORE_ERROR, DELETE_STORE, GET_STORES_BY_ADMIN} from "../../redux/constants/actionTypes";
+import {
+    CREATE_STORE,
+    CREATE_STORE_ERROR,
+    DELETE_STORE,
+    DELETE_STORE_ERROR,
+    GET_STORES_BY_ADMIN
+} from "../../redux/constants/actionTypes";
 
 
 const initialState = {
     stores: [],
     createStoreSuccess: null,
-    createStoreMessage: ""
+    createStoreMessage: "",
+    deleteStoreSuccess: null
 };
 
 export default function inventoryReducer(state = initialState, action) {
@@ -29,6 +36,13 @@ export default function inventoryReducer(state = initialState, action) {
         return Object.assign({}, state, {
             stores: action.payload
         });
+    } else if (action.type === DELETE_STORE_ERROR) {
+        return Object.assign({}, state, {
+            deleteStoreSuccess: false
+        });
     }
+
+
+
     return state;
 }
