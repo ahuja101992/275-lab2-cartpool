@@ -72,7 +72,7 @@ public class OrderAspect {
         List<OrderDetails> items = order.getOrderDetails();
         if (items.size() > 0) {
             for (OrderDetails item : items) {
-                str.append("------> Id - " + item.getId() +  "  Name - " + item.getName() + "  Quantity " + item.getQty() + "   Price" + item.getPrice() + "\n");
+                str.append("------> Id - " + item.getId() +  "  Name - " + item.getName() + "  Quantity - " + item.getQty() + "   Price - " + item.getPrice() + "\n");
             }
         }
 
