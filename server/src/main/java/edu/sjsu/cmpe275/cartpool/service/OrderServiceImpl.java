@@ -183,24 +183,16 @@ public class OrderServiceImpl implements OrderService {
         String subject = "";
         String msg = "";
         if (order.isForDelivery()) {
-            subject = "Order places Successfully with Order Id :" + order.getId();
+            subject = "[CartPool] - Order places Successfully with Order Id :" + order.getId();
             msg = "Hello " + owner.getNickname() + ",\n\nYour order has been successfully placed. It will be delivered by some fellow pooler shortly.\n\n Thanks for using CartPool.";
         } else {
-            subject = "Order details for all orders for pickup";
+            subject = "[CartPool] - Order details for all orders for pickup";
             msg = generateOrderEmail(owner.getId());
         }
 
         emailService.sendEmailForOrderConfirmation(to, subject, msg);
     }
 
-//<<<<<<< HEAD
-//    @Override
-//    public List<Orders> getActiveOrders(long storeId) {
-//        Store store = storeRepository.findById(storeId).orElseThrow(() -> new StoreNotFoundException());
-//        return orderRepository.findByStoreAndStatus(store, "Placed");
-//
-//    }
-//=======
 	@Override
 	public List<Orders> getActiveOrders(long storeId) {
 		Store store = storeRepository.findById(storeId).orElseThrow(() -> new StoreNotFoundException());
