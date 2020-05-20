@@ -163,7 +163,7 @@ class Header extends Component {
             localStorage.getItem("type") === "admin" ? searchByStoreId : "";
         let showAddItem = localStorage.getItem("type") === "admin" ? adItem : "";
 
-        cartItems = this.state.cart.map((product) => {
+        cartItems = this.props.cartItems.map((product) => {
             return (
                 <li className="cart-item" key={product.name}>
                     <img className="product-image" src={product.image}/>
@@ -284,7 +284,7 @@ class Header extends Component {
                         >
                             <button
                                 type="button"
-                                className={this.state.cart.length > 0 ? " " : "disabled"}
+                                className={this.props.cartItems.length > 0 ? " " : "disabled"}
                             >
                                 PROCEED TO CHECKOUT
                             </button>

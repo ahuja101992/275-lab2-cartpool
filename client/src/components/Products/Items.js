@@ -174,7 +174,7 @@ class Items extends Component {
         let storeId = selectedProducts.storeId;
         let productQty = selectedProducts.qty;
         if (cartItem.length > 0) {
-            console.log("storedif", storeId);
+            console.log("storedid", storeId);
             if (storeId != localStorage.getItem("cart-storeId")) {
                 this.setState({
                     erroModal: true,
@@ -204,8 +204,6 @@ class Items extends Component {
             cartBounce: false,
             quantity: 0,
         });
-        console.log(this.state.quantity);
-        console.log(this.state.cart);
         this.sumTotalItems(this.state.cart);
         this.sumTotalAmount(this.state.cart);
     }
