@@ -173,11 +173,17 @@ public class PoolController {
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             method = RequestMethod.PUT)
     public @ResponseBody
-    ResponseEntity<Pool> updatePool(@PathVariable Long poolId,
+    ResponseEntity<Object> updatePool(@PathVariable Long poolId,
                                     @RequestParam String name,
                                     @RequestParam String neighborhoodName,
                                     @RequestParam String description) {
 
-        return ResponseEntity.status(HttpStatus.OK).body(poolService.updatePool(poolId, name, neighborhoodName, description));
+        if (!poolService.findPoolByName(name)) {
+            return new ResponseEntity<>("{\"message\": \"Pool with same pool name already exists!!\"}", HttpStatus.CONFLICT);
+        }
+
+        //return ResponseEntity.status(HttpStatus.OK).body(poolService.updatePool(poolId, name, neighborhoodName, description));
+        poolService.updatePool(poolId, name, neighborhoodName, description);
+        return new ResponseEntity<>("{\"message\": \"Updated Pool Request successfully\"}", HttpStatus.OK);
     }
 }
