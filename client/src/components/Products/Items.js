@@ -1,12 +1,12 @@
-import React, {Component} from "react";
-import {Button, Form, Modal} from "react-bootstrap";
-import {connect} from "react-redux";
-import {createStore, deleteStore, getStoresByAdmin,} from "../../redux/actions/inventoryActions";
+import React, { Component } from "react";
+import { Button, Form, Modal } from "react-bootstrap";
+import { connect } from "react-redux";
+import { createStore, deleteStore, getStoresByAdmin, } from "../../redux/actions/inventoryActions";
 import axios from "axios";
 import Header from "./Header";
 import Products from "./Products";
 import "./scss/style.scss";
-import {HOSTNAME} from "../../constants/appConstants";
+import { HOSTNAME } from "../../constants/appConstants";
 
 function mapStateToProps(store) {
     return {
@@ -26,7 +26,7 @@ class Items extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            poolerid : localStorage.getItem("id"),
+            poolerid: localStorage.getItem("id"),
             storeid:
                 this.props.location.state == null ? 1 : this.props.location.state.id,
             products: [],
@@ -80,7 +80,7 @@ class Items extends Component {
     }
 
     async getAll() {
-       await axios
+        await axios
             .get(`http://${HOSTNAME}:8080/products/${this.state.storeid}`)
             .then((response) => {
                 console.log("create data res", response);
@@ -91,14 +91,14 @@ class Items extends Component {
             .catch((err) => {
                 console.error(err);
             });
-       await axios
+        await axios
             .get(`http://${HOSTNAME}:8080/pooler/profile/getById/${this.state.poolerid}`)
             .then((response) => {
-                if(response.data!=null && response.data.pool!=null){
-                  localStorage.setItem("pooler","yes");
-                }else{
-                  alert("To add item to cart, please join some pool and Refresh this page!!")
-                  localStorage.setItem("pooler","no");
+                if (response.data != null && response.data.pool != null) {
+                    localStorage.setItem("pooler", "yes");
+                } else {
+                    alert("To add item to cart, please join some pool and Refresh this page!!")
+                    localStorage.setItem("pooler", "no");
                 }
             })
             .catch((err) => {
@@ -118,29 +118,29 @@ class Items extends Component {
 
     // Search by Keyword
     handleSearch(event) {
-        this.setState({term: event.target.value, flag: 0});
+        this.setState({ term: event.target.value, flag: 0 });
     }
 
     // Search by sKU
     handleSearchBySku(event) {
         console.log("sku parent page");
-        this.setState({term: event.target.value, flag: 1});
+        this.setState({ term: event.target.value, flag: 1 });
     }
 
     // Search by StoreId
     handleSearchByStoreId(event) {
         console.log("store parent page");
-        this.setState({term: event.target.value, flag: 2});
+        this.setState({ term: event.target.value, flag: 2 });
     }
 
     // Mobile Search Reset
     handleMobileSearch() {
-        this.setState({term: ""});
+        this.setState({ term: "" });
     }
 
     // Filter by Category
     handleCategory(event) {
-        this.setState({category: event.target.value});
+        this.setState({ category: event.target.value });
         console.log(this.state.category);
     }
 
@@ -164,6 +164,7 @@ class Items extends Component {
         });
         localStorage.removeItem("cart");
         localStorage.removeItem("cart-storeId");
+        window.location.reload();
     }
 
     // Add to Cart
