@@ -9,7 +9,7 @@ class Logout extends Component {
         localStorage.removeItem('cart');
         localStorage.removeItem('type');
         localStorage.removeItem('screenname');
-
+        localStorage.removeItem('pooler');
         return (
             <Redirect to="/login/"/>
         )
